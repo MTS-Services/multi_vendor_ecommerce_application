@@ -58,6 +58,23 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item  @if ($page_slug == 'user' || $page_slug == 'user_package') active submenu @endif">
+                    <a data-bs-toggle="collapse" href="#user_management"
+                        @if ($page_slug == 'user') aria-expanded="true" @endif>
+                        <i class="icon-people"></i>
+                        <p>{{ __('User Management') }}</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse @if ($page_slug == 'user' || $page_slug == 'user_package') show @endif" id="user_management">
+                        <ul class="nav nav-collapse">
+                            <li class="@if ($page_slug == 'user') active @endif">
+                                <a href="{{ route('um.user.index') }}">
+                                    <span class="sub-item">{{ __('User') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
                 <li class="nav-item  @if ($page_slug == 'audits') active @endif">
                     <a href="{{ route('audit.index') }}">

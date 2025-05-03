@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\Admin\UserManagement\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Admin\AdminManagement\AdminController;
 use App\Http\Controllers\Backend\Admin\AdminManagement\PermissionController;
@@ -42,6 +43,12 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     Route::resource('permission', PermissionController::class);
     Route::get('permission/status/{permission}', [PermissionController::class, 'status'])->name('permission.status');
   });
+
+     // User Management
+     Route::group(['as' => 'um.', 'prefix' => 'user-management'], function () {
+        Route::resource('user', UserController::class);
+        Route::get('user/status/{user}', [UserController::class, 'status'])->name('user.status');
+    });
 
   // Documentation
   Route::resource('documentation', DocumentationController::class);
