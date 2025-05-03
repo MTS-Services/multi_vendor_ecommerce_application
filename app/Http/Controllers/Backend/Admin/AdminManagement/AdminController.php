@@ -105,7 +105,7 @@ class AdminController extends Controller
         $admin = new Admin();
 
         if (isset($req->image)) {
-            $this->handleFilepondFileUpload($admin, $req->image);
+            $this->handleFilepondFileUpload($admin, $req->image, admin(), 'admins/');
         }
         $admin->role_id = $req->role;
         $admin->name = $req->name;
