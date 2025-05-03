@@ -98,6 +98,7 @@ class SiteSettingController extends Controller
 
     public function et_update(EmailTemplateRequest $req, int $id): JsonResponse
     {
+        dd($req->template);
         try {
             $data = EmailTemplate::findOrFail($id);
             $data->subject = $req->subject;
