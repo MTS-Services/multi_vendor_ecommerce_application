@@ -21,10 +21,10 @@ Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')-
 });
 
 
-Route::get('/admin/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
 
 Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
-
+  
+  Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
   //Developer Routes
   Route::get('/export-permissions', function () {
     $filename = 'permissions.csv';
