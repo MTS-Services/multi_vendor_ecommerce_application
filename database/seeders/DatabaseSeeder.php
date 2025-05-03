@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             EmailTemplateSeeder::class,
             ApplicationSettingSeeder::class,
             
-            UserSeeder::class
+            UserSeeder::class,
+            SellerSeeder::class
         ]);
     }
 }
