@@ -13,43 +13,44 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
 
+    use AuthenticatesUsers;
+
+    protected function redirectTo()
+    {
+        return route("admin.dashboard");
+    }
+
+
     public function __construct()
     {
-        $this->middleware('guest:admin')->except('logout');
         $this->middleware('auth:admin')->only('logout');
     }
 
-    public function adminLogin()
+    /**
+     * Show the admin login form.
+     */
+    public function showLoginForm()
     {
-        if (Auth::guard('admin')->check()) {
+        if ($this->guard()->check()) {
             return redirect()->route('admin.dashboard');
         }
-        return view('backend.admin.login');
+        return view('backend.admin.auth.login');
     }
 
-    public function adminLoginCheck(Request $request): RedirectResponse
+    /**
+     * Guard for admin authentication.
+     */
+    protected function guard()
     {
-        $credentials = $request->only('email', 'password');
-        $check = Admin::where('email', $request->email)->first();
-        if ($check) {
-            if ($check->status == 1) {
-                if (Auth::guard('admin')->attempt($credentials)) {
-                    session()->flash('success', 'Welcome');
-                    return redirect()->route('admin.dashboard');
-                }
-                session()->flash('error', 'Invalid credentials');
-            } else {
-                session()->flash('warning', 'Your account has been disabled. Please contact support.');
-            }
-        } else {
-            session()->flash('error', 'Record not found');
-        }
-        return redirect()->route('admin.login');
+        return Auth::guard('admin');
     }
 
-    public function logout()
+    /**
+     * Log the admin out and redirect to login page.
+     */
+    public function logout(Request $request)
     {
-        Auth::guard('admin')->logout();
+        $this->guard()->logout();
         return redirect()->route('admin.login');
     }
 }

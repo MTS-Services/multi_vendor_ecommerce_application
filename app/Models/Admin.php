@@ -22,6 +22,7 @@ class Admin extends AuthBaseModel implements Auditable
         'password',
     ];
     protected $guard_name = 'admin';
+    protected $guard = 'admin';
 
     /**
      * The attributes that should be hidden for serialization.

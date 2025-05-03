@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             RoleHasPermissionSeeder::class,
             EmailTemplateSeeder::class,
             ApplicationSettingSeeder::class,
+            
+            UserSeeder::class
         ]);
     }
 }
