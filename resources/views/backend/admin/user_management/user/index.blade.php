@@ -1,5 +1,5 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'admin'])
-@section('title', 'Admin List')
+@extends('backend.admin.layouts.master', ['page_slug' => 'user'])
+@section('title', 'User List')
 @push('css')
     <link rel="stylesheet" href="{{ asset('custom_litebox/litebox.css') }}">
 @endpush
@@ -8,11 +8,11 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('Admin List') }}</h4>
+                    <h4 class="cart-title">{{ __('User List') }}</h4>
                     <x-backend.admin.button :datas="[
-                        'routeName' => 'am.admin.create',
+                        'routeName' => 'um.user.create',
                         'label' => 'Add New',
-                        'permissions' => ['admin-create'],
+                        'permissions' => ['user-create'],
                     ]" />
                 </div>
                 <div class="card-body">
@@ -21,7 +21,7 @@
                             <tr>
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Name') }}</th>
-                                <th>{{ __('Role') }}</th>
+                                <th>{{ __('Username') }}</th>
                                 <th>{{ __('Email') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Verify Status') }}</th>
@@ -38,7 +38,7 @@
         </div>
     </div>
     {{-- Admin Details Modal  --}}
-    <x-backend.admin.details-modal :datas="['modal_title' => 'Admin Details']" />
+    <x-backend.admin.details-modal :datas="['modal_title' => 'User Details']" />
 @endsection
 @push('js')
     <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
@@ -49,25 +49,23 @@
             let table_columns = [
                 //name and data, orderable, searchable
                 ['name', true, true],
-                ['role_id', true, true],
+                ['username', true, true],
                 ['email', true, true],
                 ['status', true, true],
                 ['is_verify', true, true],
                 ['created_by', true, true],
-                ['created_at', true, true],
+                ['created_at', false, false],
                 ['action', false, false],
             ];
             const details = {
                 table_columns: table_columns,
                 main_class: '.datatable',
                 displayLength: 10,
-                main_route: "{{ route('am.admin.index') }}",
+                main_route: "{{ route('um.user.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
                 export_columns: [0, 1, 2, 3, 4, 5, 6, 7],
-                model: 'Admin',
+                model: 'User',
             };
-            // initializeDataTable(details);
-
             initializeDataTable(details);
         })
     </script>
@@ -79,11 +77,15 @@
         // Event listener for viewing details
         $(document).on("click", ".view", function() {
             let id = $(this).data("id");
-            let route = "{{ route('am.admin.show', ['id']) }}";
+            let route = "{{ route('um.user.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
             const headers = [{
                     label: "Name",
                     key: "name"
+                },
+                {
+                    label: "Username",
+                    key: "username"
                 },
                 {
                     label: "Image",

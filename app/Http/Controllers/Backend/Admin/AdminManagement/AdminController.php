@@ -43,6 +43,9 @@ class AdminController extends Controller
                 ->editColumn('status', function ($admin) {
                     return "<span class='badge " . $admin->status_color . "'>$admin->status_label</span>";
                 })
+                ->editColumn('is_verify', function ($user) {
+                    return "<span class='badge " . $user->verify_color . "'>" . $user->verify_label . "</span>";
+                })
                 ->editColumn('created_by', function ($admin) {
                     return $admin->creater_name;
                 })
@@ -53,7 +56,7 @@ class AdminController extends Controller
                     $menuItems = $this->menuItems($admin);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['role_id', 'status', 'created_by', 'created_at', 'action'])
+                ->rawColumns(['role_id', 'status', 'is_verify', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.admin_management.admin.index');
