@@ -13,52 +13,91 @@ class Role extends SpatieRole implements Auditable
 
     public function creater_admin()
     {
-        return $this->belongsTo(Admin::class, 'created_by');
+        return $this->belongsTo(Admin::class, 'created_by')->select(['id', 'name']);
     }
+
     public function updater_admin()
     {
-        return $this->belongsTo(Admin::class, 'updated_by');
+        return $this->belongsTo(Admin::class, 'updated_by')->select(['id', 'name']);
     }
+
     public function deleter_admin()
     {
-        return $this->belongsTo(Admin::class, 'deleted_by');
+        return $this->belongsTo(Admin::class, 'deleted_by')->select(['id', 'name']);
     }
 
-    public function getStatusBadgeTitle()
+    protected $appends = [
+        'creater_name',
+        'updater_name',
+        'deleter_name',
+
+        'created_at_human',
+        'updated_at_human',
+        'deleted_at_human',
+
+        'created_at_formatted',
+        'updated_at_formatted',
+        'deleted_at_formatted',
+    ];
+
+    // Accessor for creater
+    public function getCreaterNameAttribute()
     {
-        if ($this->status == 1) {
-            return 'Active';
-        } else {
-            return 'Deactive';
-        }
-    }
-    public function getStatusBtnTitle()
-    {
-        if ($this->status == 1) {
-            return 'Deactive';
-        } else {
-            return 'Active';
-        }
+        return optional($this->creater_admin)->name
+            ?? optional($this->creater)->name
+            ?? "System Generate";
     }
 
-    public function getStatusBtnBg()
+    // Accessor for updater
+    public function getUpdaterNameAttribute()
     {
-        if ($this->status == 1) {
-            return 'btn-success';
-        } else {
-            return 'btn-danger';
-        }
+        return optional($this->updater_admin)->name
+            ?? optional($this->updater)->name
+            ?? "Null";
     }
-    public function getStatusBadgeBg()
+
+    // Accessor for deleter
+    public function getDeleterNameAttribute()
     {
-        if ($this->status == 1) {
-            return 'badge badge-success';
-        } else {
-            return 'badge badge-warning';
-        }
+        return optional($this->deleter_admin)->name
+            ?? optional($this->deleter)->name
+            ?? "Null";
     }
-    public function scopeActive($query)
+
+
+    // Accessor for created time
+    public function getCreatedAtFormattedAttribute()
     {
-        return $query->where('status', 1);
+        return timeFormat($this->created_at);
+    }
+
+    // Accessor for updated time
+    public function getUpdatedAtFormattedAttribute()
+    {
+        return $this->created_at != $this->updated_at ? timeFormat($this->updated_at) : 'Null';
+    }
+
+    // Accessor for deleted time
+    public function getDeletedAtFormattedAttribute()
+    {
+        return $this->deleted_at ? timeFormat($this->deleted_at) : 'Null';
+    }
+
+    // Accessor for created time human readable
+    public function getCreatedAtHumanAttribute()
+    {
+        return timeFormatHuman($this->created_at);
+    }
+
+    // Accessor for updated time human readable
+    public function getUpdatedAtHumanAttribute()
+    {
+        return $this->created_at != $this->updated_at ? timeFormatHuman($this->updated_at) : 'Null';
+    }
+
+    // Accessor for deleted time human readable
+    public function getDeletedAtHumanAttribute()
+    {
+        return $this->deleted_at ? timeFormatHuman($this->deleted_at) : 'Null';
     }
 }

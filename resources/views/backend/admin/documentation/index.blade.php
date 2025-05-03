@@ -20,8 +20,8 @@
                                 <th>{{ __('Title') }}</th>
                                 <th>{{ __('Module Key') }}</th>
                                 <th>{{ __('Type') }}</th>
-                                <th>{{ __('Created Date') }}</th>
                                 <th>{{ __('Created By') }}</th>
+                                <th>{{ __('Created Date') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -45,8 +45,8 @@
                 ['title', true, true],
                 ['key', true, true],
                 ['type', true, true],
-                ['created_at', false, false],
                 ['created_by', true, true],
+                ['created_at', false, false],
                 ['action', false, false],
             ];
             const details = {

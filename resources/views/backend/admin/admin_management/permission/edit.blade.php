@@ -20,13 +20,13 @@
                             <label>{{ __('Name') }}</label>
                             <input type="text" name="name" class="form-control" placeholder="Enter permission name"
                                 value="{{ $permission->name }}">
-                            <x-feedback-alert :datas="['errors' => $errors, 'field' => 'name']" />
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Prefix') }}</label>
                             <input type="text" name="prefix" class="form-control" placeholder="Enter permission prefix"
                                 value="{{ $permission->prefix }}">
-                            <x-feedback-alert :datas="['errors' => $errors, 'field' => 'prefix']" />
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'prefix']" />
                         </div>
                     </div>
                     <div class="card-footer text-end">

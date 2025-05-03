@@ -16,13 +16,13 @@
                     <form action="{{ route('am.admin.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label>{{ __('Name') }}</label>
+                            <label>{{ __('Name') }}  <span class="text-danger">*</span></label>
                             <input type="text" value="{{ old('name') }}" name="name" class="form-control"
                                 placeholder="Enter name">
-                            <x-feedback-alert :datas="['errors' => $errors, 'field' => 'name']" />
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
                         </div>
                         <div class="form-group">
-                            <label>{{ __('Role') }}</label>
+                            <label>{{ __('Role') }} <span class="text-danger">*</span></label>
                             <select name="role" class="form-control">
                                 <option value="" selected hidden>{{ __('Select Role') }}</option>
                                 @foreach ($roles as $role)
@@ -30,26 +30,26 @@
                                         {{ $role->name }}</option>
                                 @endforeach
                             </select>
-                            <x-feedback-alert :datas="['errors' => $errors, 'field' => 'role']" />
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'role']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Image') }}</label>
                             <input type="file" name="uploadImage" data-actualName="image" class="form-control filepond"
                                 id="image" accept="image/*">
-                            <x-feedback-alert :datas="['errors' => $errors, 'field' => 'image']" />
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />
                         </div>
                         <div class="form-group">
-                            <label>{{ __('Email') }}</label>
+                            <label>{{ __('Email') }} <span class="text-danger">*</span></label>
                             <input type="text" name="email" class="form-control" placeholder="Enter email">
-                            <x-feedback-alert :datas="['errors' => $errors, 'field' => 'email']" />
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
                         </div>
                         <div class="form-group">
-                            <label>{{ __('Password') }}</label>
+                            <label>{{ __('Password') }} <span class="text-danger">*</span></label>
                             <input type="password" name="password" class="form-control" placeholder="Enter password">
-                            <x-feedback-alert :datas="['errors' => $errors, 'field' => 'password']" />
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'password']" />
                         </div>
                         <div class="form-group">
-                            <label>{{ __('Confirm Password') }}</label>
+                            <label>{{ __('Confirm Password') }} <span class="text-danger">*</span></label>
                             <input type="password" name="password_confirmation" class="form-control"
                                 placeholder="Enter confirm password">
                         </div>

@@ -19,13 +19,13 @@
                             <label>{{ __('Title') }}</label>
                             <input type="text" value="{{ old('title') }}" name="title" class="form-control"
                                 placeholder="Enter title">
-                            <x-feedback-alert :datas="['errors' => $errors, 'field' => 'title']" />
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'title']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Module Key') }}</label>
                             <input type="text" value="{{ old('key') }}" name="key" class="form-control"
                                 placeholder="Enter module key">
-                            <x-feedback-alert :datas="['errors' => $errors, 'field' => 'key']" />
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'key']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Type') }}</label>
@@ -36,12 +36,12 @@
                                 <option value="update" {{ old('key') == 'update' ? 'selected' : '' }}>{{ __('Update') }}
                                 </option>
                             </select>
-                            <x-feedback-alert :datas="['errors' => $errors, 'field' => 'type']" />
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'type']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Documentation') }}</label>
                             <textarea name="documentation" class="form-control" placeholder="Enter documentation"></textarea>
-                            <x-feedback-alert :datas="['errors' => $errors, 'field' => 'documentation']" />
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'documentation']" />
                         </div>
                         <div class="form-group float-end">
                             <input type="submit" class="btn btn-primary" value="Create">

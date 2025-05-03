@@ -32,59 +32,65 @@ class AdminController extends Controller
      */
     public function index(Request $request)
     {
-        $admins = Admin::with(['creater_admin'])->get();
+        $query = Admin::with(['creater_admin', 'role'])
+            ->orderBy('sort_order', 'asc')
+            ->latest();
         if ($request->ajax()) {
-            $admins = $admins->sortBy('sort_order');
-            return DataTables::of($admins)
+            return DataTables::eloquent($query)
                 ->editColumn('role_id', function ($admin) {
-                    return $admin->role->name;
+                    return optional($admin->role)->name;
                 })
                 ->editColumn('status', function ($admin) {
-                    return "<span class='" . $admin->getStatusBadgeBg() . "'>" . $admin->getStatusBadgeTitle() . "</span>";
-                })
-                ->editColumn('created_at', function ($admin) {
-                    return timeFormat($admin->created_at);
+                    return "<span class='badge " . $admin->status_color . "'>$admin->status_label</span>";
                 })
                 ->editColumn('created_by', function ($admin) {
-                    return creater_name($admin->creater_admin);
+                    return $admin->creater_name;
+                })
+                ->editColumn('created_at', function ($admin) {
+                    return $admin->created_at_formatted;
                 })
                 ->editColumn('action', function ($admin) {
-                    $menuItems = [
-                        [
-                            'routeName' => 'javascript:void(0)',
-                            'data-id' => encrypt($admin->id),
-                            'className' => 'view',
-                            'label' => 'Details',
-                            'permissions' => ['admin-list', 'admin-delete', 'admin-status']
-                        ],
-                        [
-                            'routeName' => 'am.admin.status',
-                            'params' => [encrypt($admin->id)],
-                            'label' => $admin->getStatusBtnTitle(),
-                            'permissions' => ['admin-status']
-                        ],
-                        [
-                            'routeName' => 'am.admin.edit',
-                            'params' => [encrypt($admin->id)],
-                            'label' => 'Edit',
-                            'permissions' => ['admin-edit']
-                        ],
-
-                        [
-                            'routeName' => 'am.admin.destroy',
-                            'params' => [encrypt($admin->id)],
-                            'label' => 'Delete',
-                            'delete' => true,
-                            'permissions' => ['admin-delete']
-                        ]
-
-                    ];
+                    $menuItems = $this->menuItems($admin);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['role_id', 'status', 'created_at', 'created_by', 'action'])
+                ->rawColumns(['role_id', 'status', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
-        return view('backend.admin.admin_management.admin.index', compact('admins'));
+        return view('backend.admin.admin_management.admin.index');
+    }
+
+    protected function menuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'javascript:void(0)',
+                'data-id' => encrypt($model->id),
+                'className' => 'view',
+                'label' => 'Details',
+                'permissions' => ['admin-list', 'admin-delete', 'admin-status']
+            ],
+            [
+                'routeName' => 'am.admin.status',
+                'params' => [encrypt($model->id)],
+                'label' => $model->status_btn_label,
+                'permissions' => ['admin-status']
+            ],
+            [
+                'routeName' => 'am.admin.edit',
+                'params' => [encrypt($model->id)],
+                'label' => 'Edit',
+                'permissions' => ['admin-edit']
+            ],
+
+            [
+                'routeName' => 'am.admin.destroy',
+                'params' => [encrypt($model->id)],
+                'label' => 'Delete',
+                'delete' => true,
+                'permissions' => ['admin-delete']
+            ]
+
+        ];
     }
 
     /**
@@ -92,7 +98,7 @@ class AdminController extends Controller
      */
     public function create(): View
     {
-        $data['roles'] = Role::latest()->get();
+        $data['roles'] = Role::select(['id', 'name'])->latest()->get();
         return view('backend.admin.admin_management.admin.create', $data);
     }
 
@@ -123,10 +129,8 @@ class AdminController extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        $data = Admin::with(['creater_admin', 'updater_admin'])->findOrFail(decrypt($id));
-        $this->AdminAuditColumnsData($data);
-        $this->statusColumnData($data);
-        $data->image = auth_storage_url($data->image);
+        $data = Admin::with(['creater_admin', 'updater_admin', 'role'])->findOrFail(decrypt($id));
+        $data->append(['modified_image', 'status_label', 'status_color', 'verify_label', 'verify_color', 'gender_label', 'gender_color', 'creater_name', 'updater_name']);
         return response()->json($data);
     }
 
@@ -136,7 +140,7 @@ class AdminController extends Controller
     public function edit(string $id): View
     {
         $data['admin'] = Admin::findOrFail(decrypt($id));
-        $data['roles'] = Role::latest()->get();
+        $data['roles'] = Role::select(['id', 'name'])->latest()->get();
         return view('backend.admin.admin_management.admin.edit', $data);
     }
 
@@ -145,17 +149,16 @@ class AdminController extends Controller
      */
     public function update(AdminRequest $req, string $id): RedirectResponse
     {
+        // HHi
         $admin = Admin::findOrFail(decrypt($id));
 
         if (isset($req->image)) {
-            $this->handleFilepondFileUpload($admin, $req->image, $admin->image);
+            $this->handleFilepondFileUpload($admin, $req->image, admin(), 'admins/');
         }
         $admin->role_id = $req->role;
         $admin->name = $req->name;
         $admin->email = $req->email;
-        if ($req->password) {
-            $admin->password = $req->password;
-        }
+        $admin->password = $req->password ? $req->password : $admin->password;
         $admin->updated_by = admin()->id;
         $admin->update();
         $admin->syncRoles($admin->role->name);

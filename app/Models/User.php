@@ -2,13 +2,21 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 
-class User extends AuthBaseModel
+class User extends AuthBaseModel implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->appends = array_merge(parent::getAppends(), [
+            'modified_image',
+        ]);
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -16,11 +24,21 @@ class User extends AuthBaseModel
      * @var array<int, string>
      */
     protected $fillable = [
+        'sort_order',
         'name',
         'email',
         'password',
+        'creater_id',
+        'updater_id',
+        'deleter_id',
+        'creater_type',
+        'updater_type',
+        'deleted_type',
+        'status',
+        'image',
+        'is_verify',
+        'gender',
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -36,11 +54,18 @@ class User extends AuthBaseModel
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'creater_id' => 'integer',
+        'updater_id' => 'integer',
+        'deleter_id' => 'integer',
+        'status' => 'integer',
+        'is_verify' => 'integer',
+        'gender' => 'integer',
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
 }

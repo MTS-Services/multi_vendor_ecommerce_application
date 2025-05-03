@@ -31,47 +31,53 @@ class DocumentationController extends Controller
      */
     public function index(Request $request)
     {
-        $docs = Documentation::with(['creater_admin'])->get();
+        $query = Documentation::with(['creater_admin'])
+            ->orderBy('sort_order', 'asc')
+            ->latest();
         if ($request->ajax()) {
-            $docs = $docs->sortBy('sort_order');
-            return DataTables::of($docs)
+            return DataTables::eloquent($query)
                 ->editColumn('created_at', function ($doc) {
-                    return timeFormat($doc->created_at);
+                    return $doc->created_at_formatted;
                 })
                 ->editColumn('created_by', function ($doc) {
-                    return creater_name($doc->creater_admin);
+                    return $doc->creater_name;
                 })
                 ->editColumn('action', function ($doc) {
-                    $menuItems = [
-                        [
-                            'routeName' => 'javascript:void(0)',
-                            'data-id' => encrypt($doc->id),
-                            'className' => 'view',
-                            'label' => 'Details',
-                            'permissions' => ['documentation-details']
-                        ],
-                        [
-                            'routeName' => 'documentation.edit',
-                            'params' => [encrypt($doc->id)],
-                            'label' => 'Edit',
-                            'permissions' => ['documentation-edit']
-                        ],
-
-                        [
-                            'routeName' => 'documentation.destroy',
-                            'params' => [encrypt($doc->id)],
-                            'label' => 'Delete',
-                            'delete' => true,
-                            'permissions' => ['documentation-delete']
-                        ]
-
-                    ];
+                    $menuItems = $this->menuItems($doc);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
                 ->rawColumns(['created_at', 'created_by', 'action'])
                 ->make(true);
         }
-        return view('backend.admin.documentation.index', compact('docs'));
+        return view('backend.admin.documentation.index');
+    }
+
+    protected function menuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'javascript:void(0)',
+                'data-id' => encrypt($model->id),
+                'className' => 'view',
+                'label' => 'Details',
+                'permissions' => ['documentation-details']
+            ],
+            [
+                'routeName' => 'documentation.edit',
+                'params' => [encrypt($model->id)],
+                'label' => 'Edit',
+                'permissions' => ['documentation-edit']
+            ],
+
+            [
+                'routeName' => 'documentation.destroy',
+                'params' => [encrypt($model->id)],
+                'label' => 'Delete',
+                'delete' => true,
+                'permissions' => ['documentation-delete']
+            ]
+
+        ];
     }
 
     /**
@@ -105,7 +111,6 @@ class DocumentationController extends Controller
     {
         $data = Documentation::with(['creater_admin', 'updater_admin'])->findOrFail(decrypt($id));
         $data->documenatation = html_entity_decode($data->documentation);
-        $this->AdminAuditColumnsData($data);
         return response()->json($data);
     }
 
@@ -141,6 +146,7 @@ class DocumentationController extends Controller
     {
         $doc = Documentation::findOrFail(decrypt($id));
         $doc->deleted_by = admin()->id;
+        $doc->save();
         $doc->delete();
         session()->flash('success', 'Documentation deleted successfully!');
         return redirect()->route('documentation.index');

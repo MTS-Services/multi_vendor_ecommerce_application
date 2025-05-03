@@ -49,7 +49,7 @@
                             <input type="text" name="name"
                                 class="form-control  {{ $errors->has('name') ? ' is-invalid' : '' }}"
                                 placeholder="Enter role name" value="{{ old('name') }}">
-                            <x-feedback-alert :datas="['errors' => $errors, 'field' => 'name']" />
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
                         </div>
 
                         <div class="card">

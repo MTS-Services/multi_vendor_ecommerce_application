@@ -28,8 +28,8 @@
                                     <th>{{ __('SL') }}</th>
                                     <th>{{ __('Prefix') }}</th>
                                     <th>{{ __('Permisson') }}</th>
-                                    <th>{{ __('Created Date') }}</th>
                                     <th>{{ __('Creadted By') }}</th>
+                                    <th>{{ __('Created Date') }}</th>
                                     <th class="text-center">{{ __('Action') }}</th>
                                 </tr>
                             </thead>
@@ -57,8 +57,8 @@
                 //name and data, orderable, searchable
                 ['prefix', true, true],
                 ['name', true, true],
-                ['created_at', false, false],
                 ['created_by', true, true],
+                ['created_at', false, false],
                 ['action', false, false],
             ];
             const details = {
