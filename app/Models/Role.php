@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Permission\Models\Role as SpatieRole;
+use OwenIt\Auditing\Contracts\Auditable;
+
+class Role extends SpatieRole implements Auditable
+{
+    use HasFactory, \OwenIt\Auditing\Auditable;
+
+    public function creater_admin()
+    {
+        return $this->belongsTo(Admin::class, 'created_by');
+    }
+    public function updater_admin()
+    {
+        return $this->belongsTo(Admin::class, 'updated_by');
+    }
+    public function deleter_admin()
+    {
+        return $this->belongsTo(Admin::class, 'deleted_by');
+    }
+
+    public function getStatusBadgeTitle()
+    {
+        if ($this->status == 1) {
+            return 'Active';
+        } else {
+            return 'Deactive';
+        }
+    }
+    public function getStatusBtnTitle()
+    {
+        if ($this->status == 1) {
+            return 'Deactive';
+        } else {
+            return 'Active';
+        }
+    }
+
+    public function getStatusBtnBg()
+    {
+        if ($this->status == 1) {
+            return 'btn-success';
+        } else {
+            return 'btn-danger';
+        }
+    }
+    public function getStatusBadgeBg()
+    {
+        if ($this->status == 1) {
+            return 'badge badge-success';
+        } else {
+            return 'badge badge-warning';
+        }
+    }
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+}
