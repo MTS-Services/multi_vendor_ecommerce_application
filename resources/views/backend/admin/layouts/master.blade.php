@@ -64,12 +64,12 @@
 <body>
     <div class="wrapper">
         <!-- Sidebar -->
-        @include('backend.admin.partials.sidebar')
+        @include('backend.admin.layouts.partials.sidebar')
         <!-- End Sidebar -->
 
         <div class="main-panel">
             <!-- Header -->
-            @include('backend.admin.partials.header')
+            @include('backend.admin.layouts.partials.header')
             <!-- End Header -->
 
             <div class="container">
@@ -79,7 +79,7 @@
             </div>
 
             <!-- Footer -->
-            @include('backend.admin.partials.footer')
+            @include('backend.admin.layouts.partials.footer')
             <!-- End Footer -->
         </div>
     </div>

@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Backend\Seller\Auth\LoginController as SellerLoginController;
 use App\Http\Controllers\Backend\Seller\Auth\RegisterController as SellerRegisterController;
+use App\Http\Controllers\Backend\Seller\Auth\LoginController as SellerLoginController;
 use App\Http\Controllers\Backend\Seller\DashboardController as SellerDashboardController;
 
 
