@@ -19,6 +19,8 @@ jobs:
           username: ${{ secrets.LIVE_USERNAME }}
           password: ${{ secrets.LIVE_PASSWORD }}
           script: |
-            cd /domains/seagreen-hawk-196686.hostingersite.com/public_html
+            cd domains
+            cd seagreen-hawk-196686.hostingersite.com
+            cd public_html
             git fetch --all
             git reset --hard origin/main
