@@ -5,7 +5,6 @@ use App\Http\Controllers\Backend\Seller\Auth\RegisterController as SellerRegiste
 use App\Http\Controllers\Backend\Seller\Auth\LoginController as SellerLoginController;
 use App\Http\Controllers\Backend\Seller\DashboardController as SellerDashboardController;
 
-
 // Vendor Auth Routes
 Route::group(['prefix' => 'seller', 'as' => 'seller.'], function () {
   Route::controller(SellerLoginController::class)->group(function () {
