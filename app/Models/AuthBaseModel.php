@@ -11,15 +11,17 @@ class AuthBaseModel extends Authenticatable
     use HasFactory, SoftDeletes;
     public function creater_admin()
     {
-        return $this->belongsTo(Admin::class, 'created_by');
+        return $this->belongsTo(Admin::class, 'created_by')->select(['id', 'name']);
     }
+
     public function updater_admin()
     {
-        return $this->belongsTo(Admin::class, 'updated_by');
+        return $this->belongsTo(Admin::class, 'updated_by')->select(['id', 'name']);
     }
+
     public function deleter_admin()
     {
-        return $this->belongsTo(Admin::class, 'deleted_by');
+        return $this->belongsTo(Admin::class, 'deleted_by')->select(['id', 'name']);
     }
 
     public function creater()
@@ -35,41 +37,284 @@ class AuthBaseModel extends Authenticatable
         return $this->morphTo();
     }
 
-    public function getStatusBadgeTitle()
+    public const STATUS_ACTIVE = 1;
+    public const STATUS_DEACTIVE = 0;
+
+    public const VERIFIED = 1;
+    public const UNVERIFIED = 0;
+
+    // Gender constants
+    public const GENDER_MALE = 1;
+    public const GENDER_FEMALE = 2;
+    public const GENDER_OTHERS = 3;
+
+    protected $appends = [
+        'status_label',
+        'status_color',
+        'status_btn_label',
+        'status_btn_color',
+        'status_labels',
+
+        'verify_label',
+        'verify_color',
+
+        'gender_label',
+        'gender_color',
+        'gender_labels',
+
+        'creater_name',
+        'updater_name',
+        'deleter_name',
+
+        'created_at_human',
+        'updated_at_human',
+        'deleted_at_human',
+
+        'created_at_formatted',
+        'updated_at_formatted',
+        'deleted_at_formatted',
+    ];
+
+    // Status labels
+    public static function getStatusLabels(): array
     {
-        if ($this->status == 1) {
-            return 'Active';
-        } else {
-            return 'Deactive';
-        }
-    }
-    public function getStatusBtnTitle()
-    {
-        if ($this->status == 1) {
-            return 'Deactive';
-        } else {
-            return 'Active';
-        }
+        return [
+            self::STATUS_ACTIVE => 'Active',
+            self::STATUS_DEACTIVE => 'Deactive',
+        ];
     }
 
-    public function getStatusBtnBg()
+    // Status colors
+    public static function getStatusColors(): array
     {
-        if ($this->status == 1) {
-            return 'btn btn-danger';
-        } else {
-            return 'btn btn-success';
-        }
+        return [
+            self::STATUS_ACTIVE => 'bg-success', // Green for active
+            self::STATUS_DEACTIVE => 'bg-warning', // Red for deactive
+        ];
     }
-    public function getStatusBadgeBg()
+
+    // Status btn labels
+    public static function getStatusBtnLabels(): array
     {
-        if ($this->status == 1) {
-            return 'badge badge-success';
-        } else {
-            return 'badge badge-warning';
-        }
+        return [
+            self::STATUS_ACTIVE => 'Deactive',
+            self::STATUS_DEACTIVE => 'Active',
+        ];
     }
+
+    // Status btn colors
+    public static function getStatusBtnColors(): array
+    {
+        return [
+            self::STATUS_ACTIVE => 'btn btn-warning', // Green for active
+            self::STATUS_DEACTIVE => 'btn btn-success', // Red for deactive
+        ];
+    }
+
+    // Accessor for status labels
+    public function getStatusLabelsAttribute(): array
+    {
+        return self::getStatusLabels();
+    }
+
+    // Accessor for status label
+    public function getStatusLabelAttribute(): string
+    {
+        return self::getStatusLabels()[$this->status] ?? 'Unknown';
+    }
+    // Accessor for status color
+    public function getStatusColorAttribute(): string
+    {
+        return self::getStatusColors()[$this->status] ?? 'bg-secondary';
+    }
+
+    // Accessor for status label
+    public function getStatusBtnLabelAttribute(): string
+    {
+        return self::getStatusBtnLabels()[$this->status] ?? 'Unknown';
+    }
+
+    // Accessor for status btn color
+    public function getStatusBtnColorAttribute(): string
+    {
+        return self::getStatusBtnColors()[$this->status] ?? 'btn btn-secondary';
+    }
+
+
+
+    //======================================================================
+
+    // Varify labels
+    public static function getVerifyLabels(): array
+    {
+        return [
+            self::VERIFIED => 'Verified',
+            self::UNVERIFIED => 'Unverified',
+        ];
+    }
+
+    // Varify colors
+    public static function getVerifyColors(): array
+    {
+        return [
+            self::VERIFIED => 'bg-success', // Green for verified
+            self::UNVERIFIED => 'bg-danger', // Red for unverified
+        ];
+    }
+    // Accessor for Varify label
+    public function getVerifyLabelAttribute(): string
+    {
+        return self::getVerifyLabels()[$this->is_verify] ?? 'Unknown';
+    }
+    // Accessor for Varify color
+    public function getVerifyColorAttribute(): string
+    {
+        return self::getVerifyColors()[$this->is_verify] ?? 'bg-secondary';
+    }
+    // =======================================================================
+
+    // Gender labels
+    public static function getGenderLabels(): array
+    {
+        return [
+            self::GENDER_MALE => 'Male',
+            self::GENDER_FEMALE => 'Female',
+            self::GENDER_OTHERS => 'Others',
+        ];
+    }
+
+    // Gender colors
+    public static function getGenderColors(): array
+    {
+        return [
+            self::GENDER_MALE => 'badge bg-primary',   // Blue for male
+            self::GENDER_FEMALE => 'badge bg-warning', // Yellow for female
+            self::GENDER_OTHERS => 'badge bg-info',    // Light blue for others
+        ];
+    }
+
+    // Accessor for gender labels
+
+    public function getGenderLabelsAttribute(): array
+    {
+        return self::getGenderLabels();
+    }
+
+
+    // Accessor for gender label
+    public function getGenderLabelAttribute(): string
+    {
+        return self::getGenderLabels()[$this->gender] ?? 'Unknown';
+    }
+
+    // Accessor for gender color
+    public function getGenderColorAttribute(): string
+    {
+        return self::getGenderColors()[$this->gender] ?? 'bg-secondary';
+    }
+
+    // Active scope
     public function scopeActive($query)
     {
-        return $query->where('status', 1);
+        return $query->where('status', self::STATUS_ACTIVE);
     }
+
+    public function scopeDeactive($query)
+    {
+        return $query->where('status', self::STATUS_DEACTIVE);
+    }
+
+    // Verified scope
+    public function scopeVerified($query)
+    {
+        return $query->where('verified', self::VERIFIED);
+    }
+    public function scopeUnverified($query)
+    {
+        return $query->where('verified', self::UNVERIFIED);
+    }
+
+    // Gender scope
+    public function scopeGender($query, $gender)
+    {
+        return $query->where('gender', $gender);
+    }
+
+    // Accessor for creater
+    public function getCreaterNameAttribute()
+    {
+        return optional($this->creater_admin)->name
+            ?? optional($this->creater)->name
+            ?? "System Generate";
+    }
+
+    // Accessor for updater
+    public function getUpdaterNameAttribute()
+    {
+        return optional($this->updater_admin)->name
+            ?? optional($this->updater)->name
+            ?? "Null";
+    }
+
+    // Accessor for deleter
+    public function getDeleterNameAttribute()
+    {
+        return optional($this->deleter_admin)->name
+            ?? optional($this->deleter)->name
+            ?? "Null";
+    }
+
+    // Accessor for created time
+    public function getCreatedAtFormattedAttribute()
+    {
+        return timeFormat($this->created_at);
+    }
+
+    // Accessor for updated time
+    public function getUpdatedAtFormattedAttribute()
+    {
+        return $this->created_at != $this->updated_at ? timeFormat($this->updated_at) : 'Null';
+    }
+
+    // Accessor for deleted time
+    public function getDeletedAtFormattedAttribute()
+    {
+        return $this->deleted_at ? timeFormat($this->deleted_at) : 'Null';
+    }
+
+    // Accessor for created time human readable
+    public function getCreatedAtHumanAttribute()
+    {
+        return timeFormatHuman($this->created_at);
+    }
+
+    // Accessor for updated time human readable
+    public function getUpdatedAtHumanAttribute()
+    {
+        return $this->created_at != $this->updated_at ? timeFormatHuman($this->updated_at) : 'Null';
+    }
+
+    // Accessor for deleted time human readable
+    public function getDeletedAtHumanAttribute()
+    {
+        return $this->deleted_at ? timeFormatHuman($this->deleted_at) : 'Null';
+    }
+
+    // Accessor for modified image
+    public function getModifiedImageAttribute()
+    {
+        return auth_storage_url($this->image);
+    }
+
+
+    // Custom attributes loader
+    // public function loadAttributes(array $attributes)
+    // {
+    //     foreach ($attributes as $attribute) {
+    //         if (property_exists($this, $attribute)) {
+    //             $this->setAttribute($attribute, $this->{$attribute});
+    //         }
+    //     }
+    //     return $this;
+    // }
 }

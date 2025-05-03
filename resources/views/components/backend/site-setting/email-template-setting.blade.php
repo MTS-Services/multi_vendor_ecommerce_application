@@ -43,11 +43,11 @@
 </div>
 
 <!-- Template Edit Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="emailTemplateModal" tabindex="-1" aria-labelledby="emailTemplateModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ __('Email Template') }}</h5>
+                <h5 class="modal-title" id="emailTemplateModalLabel">{{ __('Email Template') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -74,12 +74,12 @@
                                 <label>{{ __('Subject') }}</label>
                                 <input type="text" name="subject" id="subject" class="form-control"
                                     placeholder="Enter subject" value="">
-                                <x-feedback-alert :datas="['errors' => $errors, 'field' => 'subject']" />
+                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'subject']" />
                             </div>
                             <div class="form-group">
                                 <label>{{ __('Template') }}</label>
-                                <textarea name="template" id="template" value="" class="form-control no-ckeditor5"></textarea>
-                                <x-feedback-alert :datas="['errors' => $errors, 'field' => 'template']" />
+                                <textarea name="template" id="template" class="form-control no-ckeditor5" required></textarea>
+                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'template']" />
                             </div>
                             <div class="form-group">
                                 <span type="submit" id="updateEmailTemplate"
@@ -98,6 +98,6 @@
             edit_url: "{{ route('site_setting.email_template', ['id']) }}",
         }
     </script>
-    <script src="{{ asset('backend/admin/js/email_template.js') }}"></script>
     <script src="{{ asset('ckEditor5/main.js') }}"></script>
+    <script src="{{ asset('backend/admin/js/email_template.js') }}"></script>
 @endpush

@@ -24,10 +24,12 @@ class SiteSettingController extends Controller
         // $this->middleware('permission:admin-edit', ['only' => ['edit', 'update']]);
         // $this->middleware('permission:admin-delete', ['only' => ['destroy']]);
         // $this->middleware('permission:admin-status', ['only' => ['status']]);
+
+        $this->middleware('permission:application-settings', ['only' => ['index', 'update', 'et_edit', 'et_update', 'notification']]);
     }
     public function index(): View
     {
-        return view('backend.site_settings.index');
+        return view('backend.admin.site_settings.index');
     }
 
     public function update(SiteSettingRequest $request): RedirectResponse

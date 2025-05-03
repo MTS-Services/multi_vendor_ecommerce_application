@@ -18,10 +18,11 @@ class AuditController extends Controller
     }
     public function index(Request $request)
     {
-        $audits = Audit::latest()->get();
+        $query = Audit::with(['user'])
+            ->orderBy('sort_order', 'asc')
+            ->latest();
         if ($request->ajax()) {
-            $audits = $audits->sortBy('sort_order');
-            return DataTables::of($audits)
+            return DataTables::eloquent($query)
                 ->editColumn('event', function ($audit) {
                     return ucfirst($audit->event);
                 })
@@ -32,7 +33,7 @@ class AuditController extends Controller
                     return $audit->user ? $audit->user->name : 'System';
                 })
                 ->editColumn('created_at', function ($audit) {
-                    return timeFormat($audit->created_at);
+                    return $audit->created_at_formatted;
                 })
                 ->editColumn('action', function ($audit) {
                     $menuItems = [
@@ -49,12 +50,12 @@ class AuditController extends Controller
                 ->rawColumns(['event', 'auditable_type', 'user_id', 'created_at', 'action'])
                 ->make(true);
         }
-        return view('backend.admin.audits.index', compact('audits'));
+        return view('backend.admin.audits.index');
     }
 
     public function details(string $id): View
     {
-        $audit = Audit::findOrFail(decrypt($id));
+        $audit = Audit::with('user')->findOrFail(decrypt($id));
         return view('backend.admin.audits.details', compact('audit'));
     }
 }

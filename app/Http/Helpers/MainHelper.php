@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Permission;
+use Carbon\Carbon;
 use League\Csv\Writer;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -8,6 +9,10 @@ use Illuminate\Support\Str;
 function timeFormat($time)
 {
     return date(('d M, Y H:i A'), strtotime($time));
+}
+function timeFormatHuman($time)
+{
+    return Carbon::parse($time)->diffForHumans();
 }
 function admin()
 {

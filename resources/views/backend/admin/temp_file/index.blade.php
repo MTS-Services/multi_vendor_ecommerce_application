@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Temporary File List') }}</h4>
-                    @if (count($temps) > 1)
+                    @if ($temps > 1)
                         <x-backend.admin.button :datas="[
                             'routeName' => 'temp.destroy',
                             'label' => 'Delete All',

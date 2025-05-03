@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('documentations', function (Blueprint $table) {
             $table->id();
-            $table->integer("sort_order")->default(0);
+            $table->bigInteger("sort_order")->default(0);
             $table->string('title')->unique();
             $table->string('key');
             $table->enum('type', ['create', 'update'])->nullable();
@@ -24,6 +24,13 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
             $this->addAdminAuditColumns($table);
+
+            $table->index('sort_order');
+            $table->index('key');
+            $table->index('type');
+            $table->index('created_at'); // Index for soft deletes
+            $table->index('updated_at'); // Index for soft deletes
+            $table->index('deleted_at'); // Index for soft deletes
         });
     }
 

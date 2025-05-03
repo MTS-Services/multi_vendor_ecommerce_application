@@ -18,10 +18,15 @@ return new class extends Migration
             $table->id();
             $table->text("path");
             $table->text("filename");
-            $table->integer("sort_order")->default(0);
+            $table->bigInteger("sort_order")->default(0);
             $table->timestamps();
             $table->softDeletes();
             $this->addMorphedAuditColumns($table);
+
+            $table->index('sort_order');
+            $table->index('created_at');
+            $table->index('updated_at');
+            $table->index('deleted_at');
         });
     }
 

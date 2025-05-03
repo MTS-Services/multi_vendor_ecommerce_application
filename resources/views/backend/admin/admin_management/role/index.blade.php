@@ -18,8 +18,8 @@
                             <tr>
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Name') }}</th>
-                                <th>{{ __('Created Date') }}</th>
                                 <th>{{ __('Created By') }}</th>
+                                <th>{{ __('Created Date') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -41,8 +41,8 @@
             let table_columns = [
                 //name and data, orderable, searchable
                 ['name', true, true],
-                ['created_at', false, false],
                 ['created_by', true, true],
+                ['created_at', true, true],
                 ['action', false, false],
             ];
             const details = {

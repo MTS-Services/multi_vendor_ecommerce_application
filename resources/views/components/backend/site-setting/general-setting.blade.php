@@ -150,8 +150,8 @@
     <script>
         $(document).ready(function() {
             const existingFiles = {
-                "#site_logo": "{{ isset($general_settings['site_logo']) ? asset('storage/' . $general_settings['site_logo']) : '' }}",
-                "#site_favicon": "{{ isset($general_settings['site_favicon']) ? asset('storage/' . $general_settings['site_favicon']) : '' }}",
+                "#site_logo": "{{ isset($general_settings['site_logo']) ? asset('storage/' . $general_settings['site_logo']) : null }}",
+                "#site_favicon": "{{ isset($general_settings['site_favicon']) ? asset('storage/' . $general_settings['site_favicon']) : null }}",
             };
             file_upload(["#site_logo", "#site_favicon"], "uploadImage", "admin", existingFiles, false);
         });

@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $tables = ['users', 'admins','permissions','roles'];
+        $tables = ['users', 'admins', 'permissions', 'roles'];
         foreach ($tables as $table) {
             Schema::table($table, function (Blueprint $table) {
-                $table->integer('sort_order')->default(0);
+                $table->bigInteger('sort_order')->default(0);
+
+                $table->index('sort_order');
             });
         }
-
     }
 
     /**
@@ -25,9 +26,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        $tables = ['users', 'admins','permissions','roles'];
+        $tables = ['users', 'admins', 'permissions', 'roles'];
         foreach ($tables as $table) {
             Schema::table($table, function (Blueprint $table) {
+                $table->dropIndex(['sort_order']);
                 $table->dropColumn('sort_order');
             });
         }

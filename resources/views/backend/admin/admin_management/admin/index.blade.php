@@ -24,8 +24,8 @@
                                 <th>{{ __('Role') }}</th>
                                 <th>{{ __('Email') }}</th>
                                 <th>{{ __('Status') }}</th>
-                                <th>{{ __('Created Date') }}</th>
                                 <th>{{ __('Created By') }}</th>
+                                <th>{{ __('Created Date') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -51,8 +51,8 @@
                 ['role_id', true, true],
                 ['email', true, true],
                 ['status', true, true],
-                ['created_at', false, false],
                 ['created_by', true, true],
+                ['created_at', true, true],
                 ['action', false, false],
             ];
             const details = {
@@ -85,7 +85,7 @@
                 },
                 {
                     label: "Image",
-                    key: "image",
+                    key: "modified_image",
                     type: "image"
                 },
                 {
@@ -94,9 +94,18 @@
                 },
                 {
                     label: "Status",
-                    key: "statusBadgeTitle",
-                    type: "badge",
-                    badgeClass: 'statusBadgeBg',
+                    key: "status_label",
+                    color: "status_color",
+                },
+                {
+                    label: "Verify Status",
+                    key: "verify_label",
+                    color: "verify_color",
+                },
+                {
+                    label: "Gender",
+                    key: "gender_label",
+                    color: "gender_color",
                 },
             ];
             fetchAndShowModal(detailsUrl, headers, "#modal_data", "myModal");

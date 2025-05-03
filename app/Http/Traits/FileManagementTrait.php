@@ -17,22 +17,22 @@ trait FileManagementTrait
      * @param string $folderName The folder to store the image
      * @return void
      */
-    public function handleFileUpload(Request $request, $model, $file_name, $fileField = 'image', $folderName = 'uploads/')
-    {
-        // Check if the request has a file
-        if ($request->hasFile($fileField)) {
-            $file = $request->file($fileField);
-            $fileName = $file_name . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs($folderName, $fileName, 'public');
+    // public function handleFileUpload(Request $request, $model, $file_name, $fileField = 'image', $folderName = 'uploads/')
+    // {
+    //     // Check if the request has a file
+    //     if ($request->hasFile($fileField)) {
+    //         $file = $request->file($fileField);
+    //         $fileName = $file_name . '_' . time() . '.' . $file->getClientOriginalExtension();
+    //         $path = $file->storeAs($folderName, $fileName, 'public');
 
-            // If the model already has an file, delete the old one
-            if ($model->$fileField) {
-                $this->fileDelete($model->$fileField);
-            }
-            // Assign the new image path to the model
-            $model->$fileField = $path;
-        }
-    }
+    //         // If the model already has an file, delete the old one
+    //         if ($model->$fileField) {
+    //             $this->fileDelete($model->$fileField);
+    //         }
+    //         // Assign the new image path to the model
+    //         $model->$fileField = $path;
+    //     }
+    // }
     public function fileDelete($file)
     {
         if ($file) {
@@ -40,24 +40,24 @@ trait FileManagementTrait
         }
     }
 
-    public function handleFilepondFileUpload($model, $image, $old_image = false)
+    public function handleFilepondFileUpload($model, $input_field, $auditor, $folderName = 'uploads/', $db_field = 'image')
     {
-        $temp_file = TempFile::findOrFail($image);
+        $temp_file = TempFile::findOrFail($input_field);
         if ($temp_file) {
-            $from_path = 'public/' . $temp_file->path . '/' . $temp_file->filename;
-            $to_path = 'admins/' . str_replace(' ', '-', admin()->name) . '/' . time() . '/' . $temp_file->filename;
-            Storage::move($from_path, 'public/' . $to_path);
-            if ($old_image) {
-                // $this->fileDelete($old_image);
+            $from_path = $temp_file->path . '/' . $temp_file->filename;
+            $to_path = $folderName . time() . '/' . $temp_file->filename;
+
+            Storage::disk('public')->move($from_path, $to_path);
+            if ($model->image) {
                 $temp_create = new TempFile();
-                $temp_create->path =  dirname($old_image);
-                $temp_create->filename = basename($old_image);
+                $temp_create->path = dirname($model->$db_field);
+                $temp_create->filename = basename($model->$db_field);
                 $temp_create->from()->associate($model);
-                $temp_create->creater()->associate(admin());
+                $temp_create->creater()->associate($auditor);
                 $temp_create->save();
             }
             $model->image = $to_path;
-            Storage::deleteDirectory('public/' . $temp_file->path);
+            Storage::disk('public')->deleteDirectory($temp_file->path);
             $temp_file->forceDelete();
         }
     }

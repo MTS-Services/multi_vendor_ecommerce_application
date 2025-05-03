@@ -24,13 +24,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-// Admin Login Routes
-Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/login', 'adminLogin')->name('login');
-    Route::post('/login', 'adminLoginCheck')->name('login');
-    Route::post('/logout', 'logout')->name('logout');
-});
-
 Route::post('update/sort/order', [DatatableController::class, 'updateSortOrder'])->name('update.sort.order');
 // File Management
 Route::controller(FileManagementController::class)->prefix('file-management')->name('file.')->group(function () {
@@ -53,10 +46,6 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
 
 
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
-
-
-
-
 
 
     // Admin Management
@@ -93,3 +82,8 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::post('notification/update', 'notification')->name('notification');
     });
 });
+
+require __DIR__.'/admin.php';
+require __DIR__.'/user.php';
+require __DIR__.'/vendor.php';
+require __DIR__.'/frontend.php';

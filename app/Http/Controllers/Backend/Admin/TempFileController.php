@@ -23,10 +23,12 @@ class TempFileController extends Controller
      */
     public function index(Request $request)
     {
-        $temps = TempFile::with(['creater', 'from'])->get();
+        $query = TempFile::with(['creater', 'from'])
+            ->orderBy('sort_order', 'asc')
+            ->latest();
+        $temps = $query->count();
         if ($request->ajax()) {
-            $temps = $temps->sortBy('sort_order');
-            return DataTables::of($temps)
+            return DataTables::eloquent($query)
                 ->editColumn('path', function ($temp) {
                     if (isImage($temp->filename)) {
                         return "<div class='imagePreviewDiv d-inline-block'>
@@ -47,10 +49,10 @@ class TempFileController extends Controller
                             href='" . route('temp.download', encrypt($temp->path . '/' . $temp->filename)) . "'><i class='icon-arrow-down-circle fs-3 mt-1'></i></a>";
                 })
                 ->editColumn('created_at', function ($temp) {
-                    return timeFormat($temp->created_at);
+                    return $temp->created_at_formatted;
                 })
                 ->editColumn('created_by', function ($temp) {
-                    return creater_name($temp->creater);
+                    return $temp->creater_name;
                 })
                 ->editColumn('from_type', function ($temp) {
                     return $temp->from_type ? getSubmitterType($temp->from_type) : 'Temp File';
@@ -64,7 +66,6 @@ class TempFileController extends Controller
                             'delete' => true,
                             'permissions' => ['temp-delete']
                         ]
-
                     ];
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
@@ -79,14 +80,7 @@ class TempFileController extends Controller
         $file_url = decrypt($file_url);
         if (Storage::exists('public/' . $file_url)) {
             $fileExtension = pathinfo($file_url, PATHINFO_EXTENSION);
-
-            // if (strtolower($fileExtension) === 'pdf') {
-            //     return response()->file(storage_path('app/public/' . $file_url), [
-            //         'Content-Disposition' => 'inline; filename="' . basename($file_url) . '"'
-            //     ]);
-            // } else {
             return response()->download(storage_path('app/public/' . $file_url), basename($file_url));
-            // }
         } else {
             session()->flash('error', 'File not found!');
             return redirect()->route('temp.index');

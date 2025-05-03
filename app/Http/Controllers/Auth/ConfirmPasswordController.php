@@ -25,8 +25,10 @@ class ConfirmPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin/dashboard';
-
+    protected function redirectTo()
+    {
+        return route('user.profile');
+    }
     /**
      * Create a new controller instance.
      *

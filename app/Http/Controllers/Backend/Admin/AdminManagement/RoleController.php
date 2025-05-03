@@ -31,54 +31,60 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-        $roles = Role::with(['permissions', 'creater_admin'])->get();
+        $query = Role::with(['permissions:id,name,prefix', 'creater_admin'])
+            ->orderBy('sort_order', 'asc')
+            ->latest();
         if ($request->ajax()) {
-            $roles = $roles->sortBy('sort_order');
-            return DataTables::of($roles)
-                ->editColumn('created_at', function ($role) {
-                    return timeFormat($role->created_at);
-                })
+            return DataTables::eloquent($query)
                 ->editColumn('created_by', function ($role) {
-                    return creater_name($role->creater_admin);
+                    return $role->creater_name;
+                })
+                ->editColumn('created_at', function ($role) {
+                    return $role->created_at_formatted;
                 })
                 ->editColumn('action', function ($role) {
-                    $menuItems = [
-                        [
-                            'routeName' => 'javascript:void(0)',
-                            'data-id' => encrypt($role->id),
-                            'className' => 'view',
-                            'label' => 'Details',
-                            'permissions' => ['role-list', 'role-delete']
-                        ],
-                        [
-                            'routeName' => 'am.role.edit',
-                            'params' => [encrypt($role->id)],
-                            'label' => 'Edit',
-                            'permissions' => ['role-edit']
-                        ],
-
-                        [
-                            'routeName' => 'am.role.destroy',
-                            'params' => [encrypt($role->id)],
-                            'label' => 'Delete',
-                            'delete' => true,
-                            'permissions' => ['role-delete']
-                        ]
-                    ];
+                    $menuItems = $this->menuItems($role);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['created_at', 'created_by', 'action'])
+                ->rawColumns(['created_by', 'created_at', 'action'])
                 ->make(true);
         }
-        return view('backend.admin.admin_management.role.index', compact('roles'));
+        return view('backend.admin.admin_management.role.index');
     }
+    protected function menuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'javascript:void(0)',
+                'data-id' => encrypt($model->id),
+                'className' => 'view',
+                'label' => 'Details',
+                'permissions' => ['role-list', 'role-delete']
+            ],
+            [
+                'routeName' => 'am.role.edit',
+                'params' => [encrypt($model->id)],
+                'label' => 'Edit',
+                'permissions' => ['role-edit']
+            ],
+
+            [
+                'routeName' => 'am.role.destroy',
+                'params' => [encrypt($model->id)],
+                'label' => 'Delete',
+                'delete' => true,
+                'permissions' => ['role-delete']
+            ]
+        ];
+    }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create(): View
     {
-        $permissions = Permission::orderBy('prefix')->get();
+        $permissions = Permission::select(['id', 'name', 'prefix'])->orderBy('prefix')->get();
         $data['groupedPermissions'] = $permissions->groupBy(function ($permission) {
             return $permission->prefix;
         });
@@ -107,8 +113,7 @@ class RoleController extends Controller
     //  */
     public function show(string $id): JsonResponse
     {
-        $data = Role::with(['permissions', 'creater_admin', 'updater_admin'])->findOrFail(decrypt($id));
-        $this->AdminAuditColumnsData($data);
+        $data = Role::with(['permissions:id,name,prefix', 'creater_admin', 'updater_admin'])->findOrFail(decrypt($id));
         $data->permission_names = $data->permissions->pluck('name')->implode(' | ');
         return response()->json($data);
     }
@@ -116,14 +121,14 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id): View
+    public function edit(string $id)
     {
         $id = decrypt($id);
         if ($id == 1) {
             session()->flash('error', 'Super Admin can not be deleted!');
             return redirect()->route('am.role.index');
         }
-        $data['role'] = Role::with('permissions')->findOrFail($id);
+        $data['role'] = Role::with('permissions:id,name,prefix')->findOrFail($id);
         $data['permissions'] = Permission::orderBy('prefix')->get();
         $data['groupedPermissions'] = $data['permissions']->groupBy(function ($permission) {
             return $permission->prefix;
@@ -155,7 +160,7 @@ class RoleController extends Controller
             return redirect()->route('am.role.index');
         }
         $role = Role::findOrFail($id);
-        $role->deleted_by = auth()->guard('admin')->user()->id;
+        $role->deleted_by = admin()->id;
         $role->delete();
         session()->flash('success', 'Role deleted successfully!');
         return redirect()->route('am.role.index');

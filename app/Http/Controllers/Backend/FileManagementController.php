@@ -33,7 +33,6 @@ class FileManagementController extends Controller
         return $request->name;
     }
 
-
     public function deleteTempFile()
     {
 

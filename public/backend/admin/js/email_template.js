@@ -1,9 +1,12 @@
 $(document).ready(function () {
+    const emailTemplateModal = document.getElementById('emailTemplateModal');
+    emailTemplateModal.addEventListener('hidden.bs.modal', event => {
+        destroyAllEditors();
+    })
     $(".edit_et").on("click", function () {
         let id = $(this).data("id");
         let _url = details.edit_url;
         let __url = _url.replace("id", id);
-        destroyAllEditors();
         let textAreas = $("#emailTemplateForm").find("textarea");
         $.ajax({
             url: __url,
@@ -30,7 +33,7 @@ $(document).ready(function () {
                 $("#subject").val(data.email_template.subject);
                 $("#template").val(data.email_template.template);
                 initializeCKEditor(textAreas);
-                showModal("exampleModal");
+                showModal("emailTemplateModal");
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching member data:", error);
@@ -41,16 +44,18 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $("#updateEmailTemplate").click(function () {
-        var form = $("#emailTemplateForm");
+        let template_value = editors[$('#template').attr('data-index')].getData();
+        let form = $("#emailTemplateForm");
         let id = $(this).data("id");
         let _url = details.edit_url;
         let __url = _url.replace("id", id);
         $.ajax({
             type: "PUT",
             url: __url,
-            data: form.serialize(),
+            data: form.serialize() +
+                        `&template=${encodeURIComponent(template_value)}`,
             success: function (response) {
-                hideModal("exampleModal");
+                hideModal("emailTemplateModal");
                 window.location.reload();
             },
             error: function (xhr) {
