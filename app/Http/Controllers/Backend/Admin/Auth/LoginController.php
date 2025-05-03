@@ -29,6 +29,7 @@ class LoginController extends Controller
     /**
      * Show the admin login form.
      */
+
     public function showLoginForm()
     {
         if ($this->guard()->check()) {
