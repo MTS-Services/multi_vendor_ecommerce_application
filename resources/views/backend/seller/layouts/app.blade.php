@@ -19,13 +19,20 @@
 
 
     <link href="{{ asset('backend/seller/assets/css/styles.css') }}" rel="stylesheet" />
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
+    {{-- Boxicons --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css" />
+
+    @stack('css-links')
+
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    {{-- Custom CSS --}}
+    @stack('css')
 
 </head>
 
 <body>
-   
+
 
     {{-- Header --}}
     @include('backend.seller.layouts.partials.header')
@@ -45,9 +52,11 @@
             @include('backend.seller.layouts.partials.footer')
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-    </script>
     <script src="{{ asset('backend/seller/assets/js/scripts.js') }}"></script>
+
+    {{-- Custom JS --}}
+    @stack('js-links')
+    @stack('js')
 </body>
 
 </html>
