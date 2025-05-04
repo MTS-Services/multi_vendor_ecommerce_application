@@ -303,7 +303,7 @@ class AuthBaseModel extends Authenticatable
     // Accessor for modified image
     public function getModifiedImageAttribute()
     {
-        return auth_storage_url($this->image);
+        return auth_storage_url($this->image, $this->gender);
     }
 
 }

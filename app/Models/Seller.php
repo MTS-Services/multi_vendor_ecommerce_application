@@ -4,10 +4,18 @@ namespace App\Models;
 
 use App\Models\AuthBaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 
 class Seller extends AuthBaseModel
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->appends = array_merge(parent::getAppends(), [
+            'modified_image',
+        ]);
+    }
 
     protected $table = 'sellers';
     protected $guard_name = 'seller';
@@ -23,9 +31,8 @@ class Seller extends AuthBaseModel
         'is_verify',
         'gender',
         'email_verified_at',
-        'password',
         'otp_send_at',
-        'emargency_phone',
+        'emergency_phone',
         'phone',
         'father_name',
         'mother_name',

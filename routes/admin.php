@@ -13,8 +13,8 @@ use App\Http\Controllers\Backend\Admin\SiteSettingController;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Backend\Admin\SellerManagement\SellerController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\CategoryController;
+use App\Http\Controllers\Backend\Admin\SellerManagement\SellerController;
 
 // Admin Auth Routes
 Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')->group(function () {
@@ -58,6 +58,12 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         // Route::get('user/status/{user}', [UserController::class, 'status'])->name('user.status');
     });
 
+    // Product Management
+    Route::group(['as' => 'pm.', 'prefix' => 'product-management'], function () {
+        Route::resource('category', CategoryController::class);
+        Route::get('category/status/{category}', [CategoryController::class, 'status'])->name('category.status');
+    });
+
   // Documentation
   Route::resource('documentation', DocumentationController::class);
 
@@ -81,13 +87,6 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     Route::put('email-template/edit/{id}', 'et_update')->name('email_template');
     Route::post('notification/update', 'notification')->name('notification');
   });
-
-     // User Management
-     Route::group(['as' => 'pm.', 'prefix' => 'product-management'], function () {
-        //Category-controller
-        Route::resource('category', CategoryController::class);
-        Route::get('category/status/{user}', [CategoryController::class, 'status'])->name('category.status');
-    });
 
 });
 

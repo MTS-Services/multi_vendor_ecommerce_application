@@ -5,16 +5,16 @@ namespace App\Http\Controllers\Backend\Admin\ProductManagement;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryRequest;
 use App\Models\Category;
-use App\Models\Role;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Http\RedirectResponse;
+use App\Http\Traits\FileManagementTrait;
 
 class CategoryController extends Controller
 {
+    use FileManagementTrait;
     public function __construct()
     {
-        $this->middleware('admin');
+        $this->middleware('auth:admin');
         $this->middleware('permission:category-list|category-create|category-edit|category-delete', ['only' => ['index', 'show']]);
         $this->middleware('permission:category-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:category-edit', ['only' => ['edit', 'update']]);
@@ -27,7 +27,7 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Category::with(['creater_admin', 'role'])
+        $query = Category::with(['creater', 'sub_categories'])
             ->orderBy('sort_order', 'asc')
             ->latest();
         if ($request->ajax()) {
@@ -38,7 +38,7 @@ class CategoryController extends Controller
                 ->editColumn('is_featured', function ($category) {
                     return "<span class='badge " . $category->featured_color . "'>" . $category->featured_label . "</span>";
                 })
-                ->editColumn('created_by', function ($category) {
+                ->editColumn('creater_id', function ($category) {
                     return $category->creater_name;
                 })
                 ->editColumn('created_at', function ($category) {
@@ -48,10 +48,44 @@ class CategoryController extends Controller
                     $menuItems = $this->menuItems($category);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'is_featured', 'created_by', 'created_at', 'action'])
+                ->rawColumns(['status', 'is_featured', 'creater_id', 'created_at', 'action'])
                 ->make(true);
         }
-        return view('backend.admin.product_management.categories.index');
+        return view('backend.admin.product_management.category.index');
+    }
+
+    protected function menuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'javascript:void(0)',
+                'data-id' => encrypt($model->id),
+                'className' => 'view',
+                'label' => 'Details',
+                'permissions' => ['category-list', 'category-delete', 'category-status']
+            ],
+            [
+                'routeName' => 'pm.category.status',
+                'params' => [encrypt($model->id)],
+                'label' => $model->status_btn_label,
+                'permissions' => ['category-status']
+            ],
+            [
+                'routeName' => 'pm.category.edit',
+                'params' => [encrypt($model->id)],
+                'label' => 'Edit',
+                'permissions' => ['category-edit']
+            ],
+
+            [
+                'routeName' => 'pm.category.destroy',
+                'params' => [encrypt($model->id)],
+                'label' => 'Delete',
+                'delete' => true,
+                'permissions' => ['category-delete']
+            ]
+
+        ];
     }
 
     /**
@@ -59,20 +93,20 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories['roles'] = Role::select(['id', 'name'])->latest()->get();
-        return view('backend.admin.product_management.categories.create', compact('categories'));
+       return view('backend.admin.product_management.category.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CategoryRequest $req): RedirectResponse
+    public function store(CategoryRequest $request)
     {
-        $categories = new Category();
-
-        if (isset($req->image)) {
-            $this->handleFilepondFileUpload($categories, $req->image, admin(), 'categories/');
+        $data = $request->validated();
+        $data['created_by'] = admin()->id;
+        if(isset($request->image)) {
+            $data['image'] = $this->handleFilepondFileUpload(Category::class, $request->image, admin(), 'categories/');
         }
+<<<<<<< HEAD
         $categories->name = $req->name;
         $categories->description = $req->description;
         $categories->meta_title = $req->meta_title;
@@ -82,6 +116,11 @@ class CategoryController extends Controller
         $categories->assignRole($categories->role->name);
         session()->flash('success', 'Category created successfully!');
         return redirect()->route('pm.admin.index');
+=======
+        Category::create($data);
+        session()->flash('success','Category created successfully!');
+        return redirect()->route('pm.category.index');
+>>>>>>> f7d70aba48701837d33699111539660a7097d539
     }
 
     /**
@@ -89,9 +128,13 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
+<<<<<<< HEAD
         $data = Category::with(['creater_admin', 'updater_admin', 'role'])->findOrFail(decrypt($id));
         $data->append(['modified_image', 'status_label', 'status_color', 'verify_label', 'verify_color', 'gender_label', 'gender_color', 'creater_name', 'updater_name']);
         return response()->json($data);
+=======
+        //
+>>>>>>> f7d70aba48701837d33699111539660a7097d539
     }
 
     /**
@@ -99,7 +142,12 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
+<<<<<<< HEAD
         $admin = Admin::findOrFail(decrypt($id));
+=======
+        //
+    }
+>>>>>>> f7d70aba48701837d33699111539660a7097d539
 
         if (isset($req->image)) {
             $this->handleFilepondFileUpload($admin, $req->image, admin(), 'admins/');
@@ -115,24 +163,7 @@ class CategoryController extends Controller
         return redirect()->route('am.admin.index');
     public function update(Request $request, string $id)
     {
-        // $validated = $request->validated();
-
-        // $stickerCategory = StickerCategory::findOrFail(decrypt($id));
-
-
-        // if ($request->hasFile('image')) {
-        //     $this->handleFileUpload($request, $stickerCategory, 'image', 'image');
-        // }
-
-        // $validated['image'] = $stickerCategory['image'];
-        // $validated['status'] = $request->has('status') ? 1 : 0;
-        // $validated['updated_by'] = admin()->id;
-
-        // // Update category
-        // $stickerCategory->update($validated);
-
-        // return redirect()->route('am.sticker-category.index')
-        //     ->with('success', 'Sticker category updated successfully.');
+        //
     }
 
     /**
@@ -140,13 +171,6 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        // $stickerCategory = StickerCategory::findOrFail(decrypt($id));
-        // if ($stickerCategory->image) {
-        //     Storage::disk('public')->delete($stickerCategory->image);
-        // }
-
-        // $stickerCategory->delete();
-
-        // return redirect()->route('am.sticker-category.index')->with('success', 'Category deleted successfully.');
+        //
     }
 }

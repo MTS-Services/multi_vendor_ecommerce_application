@@ -21,30 +21,33 @@ class CategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->route('category')?->id ?? null;
-
         return [
-            'name' => ['required', 'string', 'max:255', 'unique:categories,name,' . $id],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:categories,slug,' . $id],
-            'description' => ['nullable', 'string'],
-            'image' => ['nullable', 'image', 'max:2048'], // max 2MB
-            'status' => ['required', 'boolean'],
-            'is_featured' => ['required', 'boolean'],
-            'meta_title' => ['nullable', 'string', 'max:255'],
-            'meta_description' => ['nullable', 'string', 'max:500'],
-            'sort_order' => ['nullable', 'integer'],
-            'parent_id' => ['nullable', 'exists:categories,id'],
+
+            'meta_title' => 'nullable|string',
+            'meta_description' => 'nullable|string',
+            'description' => 'nullable|string',
+            'image' => 'nullable',
+
+        ]
+            +
+            ($this->isMethod('POST') ? $this->store() : $this->update());
+    }
+
+    protected function store(): array
+    {
+        return [
+            'name' => 'required|string|unique:categories,name',
+            'slug' => 'required|string|unique:categories,slug',
         ];
     }
 
 
-    public function messages(): array
+    protected function update(): array
     {
         return [
-            'name.required' => 'Category name is required.',
-            'name.unique' => 'This category name is already taken.',
-            'slug.unique' => 'This slug is already in use.',
-            'image.image' => 'Uploaded file must be a valid image.',
+            'name' => 'required|string|unique:categories,name,' . decrypt($this->route('category')),
+            'slug' => 'required|string|unique:categories,slug,' . decrypt($this->route('category')),
+
         ];
     }
 }

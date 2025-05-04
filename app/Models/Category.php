@@ -3,41 +3,58 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends BaseModel
 {
-    use HasFactory;
 
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_DEACTIVE = 0;
+    protected $fillable = [
+        'sort_order',
+        'parent_id',
+        'name',
+        'slug',
+        'description',
+        'image',
+        'status',
+        'is_featured',
+        'meta_title',
+        'meta_description',
 
-    public const FEATURED = 1;
-    public const NOT_FEATURED = 2;
+        'creater_id',
+        'updater_id',
+        'deleter_id',
 
+        'creater_type',
+        'updater_type',
+        'deleter_type',
+
+        'modified_image',
+
+
+    ];
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
         $this->appends = array_merge(parent::getAppends(), [
+
             'status_label',
             'status_color',
             'status_btn_label',
             'status_btn_color',
             'status_labels',
 
+            'featured_labels',
             'featured_label',
             'featured_color',
             'featured_btn_label',
             'featured_btn_color',
-            'featured_labels',
-            'modified_image',
 
+            'modified_image',
         ]);
     }
-
+    public const STATUS_ACTIVE = 1;
+    public const STATUS_DEACTIVE = 0;
     // Status labels
     public static function getStatusLabels(): array
     {
@@ -46,6 +63,8 @@ class Category extends BaseModel
             self::STATUS_DEACTIVE => 'Deactive',
         ];
     }
+
+
 
     // Status colors
     public static function getStatusColors(): array
@@ -104,106 +123,93 @@ class Category extends BaseModel
     }
 
 
+    public const NOT_FEATURED = 0;
+    public const FEATURED = 1;
+
+     // Feature labels
+     public static function getFeaturedLabels(): array
+     {
+         return [
+             self::NOT_FEATURED => 'No',
+             self::FEATURED => 'Yes',
+         ];
+     }
 
 
 
+     // Featured colors
+     public static function getFeaturedColors(): array
+     {
+         return [
+             self::NOT_FEATURED => 'bg-warning',
+             self::FEATURED => 'bg-info',
+         ];
+     }
 
-    public static function getFeaturedLabels(): array
-    {
-        return [
-            self::FEATURED => 'Yes',
-            self::NOT_FEATURED => 'No',
-        ];
-    }
+     // Featured btn labels
+     public static function getFeaturedBtnLabels(): array
+     {
+         return [
+             self::NOT_FEATURED => 'Make Featured',
+             self::FEATURED => 'Remove From Featured',
+         ];
+     }
 
-    // Feature colors
-    public static function getFeaturedColors(): array
-    {
-        return [
-            self::FEATURED => 'bg-info',
-            self::NOT_FEATURED => 'bg-warning',
-        ];
-    }
+     // Featured btn colors
+     public static function getFeaturedBtnColors(): array
+     {
+         return [
+             self::NOT_FEATURED => 'btn btn-info',
+             self::FEATURED => 'btn btn-warning',
+         ];
+     }
 
-    // Feature btn labels
-    public static function getFeaturedBtnLabels(): array
-    {
-        return [
-            self::FEATURED => 'Remove From Featured',
-            self::NOT_FEATURED => 'Make Featured',
-        ];
-    }
+     // Accessor for featured labels
+     public function getFeaturedLabelsAttribute(): array
+     {
+         return self::getFeaturedLabels();
+     }
 
-    // Feature btn colors
-    public static function getFeaturedBtnColors(): array
-    {
-        return [
-            self::FEATURED => 'btn btn-warning',
-            self::NOT_FEATURED => 'btn btn-info',
-        ];
-    }
+     // Accessor for featured label
+     public function getFeaturedLabelAttribute(): string
+     {
+         return self::getFeaturedLabels()[$this->is_featured] ?? 'Unknown';
+     }
+     // Accessor for featured color
+     public function getFeaturedColorAttribute(): string
+     {
+         return self::getFeaturedColors()[$this->is_featured] ?? 'bg-secondary';
+     }
 
-    // Accessor for Feature labels
-    public function getFeaturedLabelsAttribute(): array
-    {
-        return self::getFeaturedLabels();
-    }
+     // Accessor for featured label
+     public function getFeaturedBtnLabelAttribute(): string
+     {
+         return self::getFeaturedBtnLabels()[$this->is_featured] ?? 'Unknown';
+     }
 
-    // Accessor for Feature label
-    public function getFeaturedLabelAttribute(): string
-    {
-        return self::getFeaturedLabels()[$this->is_featured] ?? 'Unknown';
-    }
-    // Accessor for Feature color
-    public function getFeaturedColorAttribute(): string
-    {
-        return self::getFeaturedColors()[$this->is_featured] ?? 'bg-secondary';
-    }
-
-    // Accessor for Feature label
-    public function getFeaturedBtnLabelAttribute(): string
-    {
-        return self::getFeaturedBtnLabels()[$this->is_featured] ?? 'Unknown';
-    }
-
-    // Accessor for Featured btn color
-    public function getFeaturedBtnColorAttribute(): string
-    {
-        return self::getFeaturedBtnColors()[$this->is_featured] ?? 'btn btn-secondary';
-    }
+     // Accessor for featured btn color
+     public function getFeaturedBtnColorAttribute(): string
+     {
+         return self::getFeaturedBtnColors()[$this->is_featured] ?? 'btn btn-secondary';
+     }
 
 
+     public function category(): BelongsTo
+     {
+         return $this->belongsTo(Category::class, 'parent_id');
+     }
 
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class, 'parent_id');
-    }
-
-    public function sub_categories(): HasMany
-    {
-        return $this->hasMany(Category::class, 'parent_id');
-    }
-
-    public function scopeActive(Builder $query): Builder
-    {
-        return $query->where('status', self::STATUS_ACTIVE);
-    }
-    public function scopeDeactive(Builder $query): Builder
-    {
-        return $query->where('status', self::STATUS_DEACTIVE);
-    }
-
-    public function scopeFeatured(Builder $query): Builder
-    {
-        return $query->where('is_featured', self::FEATURED);
-    }
-    public function scopeNotFeatured(Builder $query): Builder
-    {
-        return $query->where('is_featured', self::NOT_FEATURED);
-    }
+     public function sub_categories(): HasMany
+     {
+         return $this->hasMany(Category::class, 'parent_id', 'id');
+     }
 
     public function getModifiedImageAttribute()
     {
-        return auth_storage_url($this->image);
+        return storage_url($this->image);
     }
+
+
+
+
 }

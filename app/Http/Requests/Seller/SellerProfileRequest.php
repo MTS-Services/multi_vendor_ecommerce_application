@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Seller;
 
 use App\Models\Seller;
 use Illuminate\Foundation\Http\FormRequest;
@@ -29,20 +29,40 @@ class SellerProfileRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:sellers,email,' . seller()->id,
             'username' => 'required|string|max:255',
-            'password' => 'nullable|min:8|confirmed',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-            'status' => 'required|in:active,inactive',
-            'is_verify' => 'required|boolean',
-            'gender' => 'required|in:male,female',
-            'email_verified_at' => 'nullable|date',
-            'otp_send_at' => 'nullable|date',
+            'gender' => 'required|in:' . implode(',', [
+                Seller::GENDER_MALE,
+                Seller::GENDER_FEMALE,
+                Seller::GENDER_OTHERS,
+            ]),
             'emergency_phone' => 'nullable|digits:11',
             'phone' => 'required|digits:11',
             'father_name' => 'nullable|string|max:255',
             'mother_name' => 'nullable|string|max:255',
             'present_address' => 'nullable|string|max:500',
             'permanent_address' => 'nullable|string|max:500',
+
+        ] +
+            ($this->isMethod('POST') ? $this->store() : $this->update());
+    }
+    protected function store(): array
+    {
+        return [
+            'username' => 'nullable|string|unique:sellers,username|max:20',
+            'email' => 'required|unique:sellers,email',
+            'password' => 'required|min:6|confirmed',
+            'image' => 'required',
         ];
     }
 
+
+    protected function update(): array
+    {
+        return [
+            'username' => 'nullable|string|unique:sellers,username|max:20,' . ($this->route('seller')),
+            'email' => 'required|unique:sellers,email,' . ($this->route('seller')),
+            'password' => 'nullable|min:6|confirmed',
+            'image' => 'nullable',
+        ];
+    }
 }
