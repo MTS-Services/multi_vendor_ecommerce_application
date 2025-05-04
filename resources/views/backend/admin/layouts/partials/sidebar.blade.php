@@ -24,12 +24,23 @@
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
+
                 <li class="nav-item  @if ($page_slug == 'dashboard') active @endif">
                     <a href="{{ route('admin.dashboard') }}">
                         <i class="icon-chart"></i>
                         <p>{{ __('Dashboard') }}</p>
                     </a>
                 </li>
+
+                <li class="nav-item  @if ($page_slug == 'category') active @endif">
+                    <a href="{{ route('pm.category.index') }}">
+                        <i class="icon-chart"></i>
+                        <p>{{ __('Category') }}</p>
+                    </a>
+                </li>
+
+
+
 
                 <li class="nav-item  @if ($page_slug == 'admin' || $page_slug == 'role' || $page_slug == 'permission') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#admin_management"

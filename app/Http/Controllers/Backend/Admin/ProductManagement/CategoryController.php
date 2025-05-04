@@ -23,8 +23,34 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('sort_order')->paginate(10);
-        return view('backend.admin.product_management.categories.index',compact('categories'));
+        $query = Admin::with(['creater_admin', 'role'])
+            ->orderBy('sort_order', 'asc')
+            ->latest();
+        if ($request->ajax()) {
+            return DataTables::eloquent($query)
+                ->editColumn('role_id', function ($admin) {
+                    return optional($admin->role)->name;
+                })
+                ->editColumn('status', function ($admin) {
+                    return "<span class='badge " . $admin->status_color . "'>$admin->status_label</span>";
+                })
+                ->editColumn('is_verify', function ($user) {
+                    return "<span class='badge " . $user->verify_color . "'>" . $user->verify_label . "</span>";
+                })
+                ->editColumn('created_by', function ($admin) {
+                    return $admin->creater_name;
+                })
+                ->editColumn('created_at', function ($admin) {
+                    return $admin->created_at_formatted;
+                })
+                ->editColumn('action', function ($admin) {
+                    $menuItems = $this->menuItems($admin);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['role_id', 'status', 'is_verify', 'created_by', 'created_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.product_management.categories.index');
     }
 
     /**
@@ -32,7 +58,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::whereNull('parent_id')->get();
+        $categories = Category::active()->get(); // For parent selection
         return view('backend.admin.product_management.categories.create', compact('categories'));
     }
 
