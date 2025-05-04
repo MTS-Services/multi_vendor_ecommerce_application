@@ -1,19 +1,19 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'user'])
-@section('title', 'Create User')
+@extends('backend.admin.layouts.master', ['page_slug' => 'seller'])
+@section('title', 'Create Seller')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('Create User') }}</h4>
+                    <h4 class="cart-title">{{ __('Create Seller') }}</h4>
                     <x-backend.admin.button :datas="[
-                        'routeName' => 'um.user.index',
+                        'routeName' => 'sl.seller.index',
                         'label' => 'Back',
-                        'permissions' => ['user-list', 'user-details', 'user-delete', 'user-status'],
+                        'permissions' => ['seller-list', 'seller-details', 'seller-delete', 'seller-status'],
                     ]" />
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('um.user.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('sl.seller.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label>{{ __('Name') }} <span class="text-danger">*</span></label>
@@ -26,6 +26,16 @@
                             <input type="text" value="{{ old('username') }}" name="username" class="form-control"
                                 placeholder="Enter username">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('Gender') }}<span class="text-danger">*</span></label>
+                            <select name="gender" class="form-control">
+                                <option value="">Select Gender</option>
+                                <option value="{{ \App\Models\Seller::GENDER_MALE }}">Male</option>
+                                <option value="{{ \App\Models\Seller::GENDER_FEMALE }}">Female</option>
+                                <option value="{{ \App\Models\Seller::GENDER_OTHERS }}">Others</option>
+                            </select>
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'gender']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Image') }}</label>
