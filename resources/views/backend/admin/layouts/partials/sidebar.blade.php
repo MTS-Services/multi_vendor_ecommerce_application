@@ -86,6 +86,23 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item  @if ($page_slug == 'seller' || $page_slug == 'seller_package') active submenu @endif">
+                    <a data-bs-toggle="collapse" href="#seller_management"
+                        @if ($page_slug == 'seller') aria-expanded="true" @endif>
+                        <i class="icon-people"></i>
+                        <p>{{ __('Seller Management') }}</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse @if ($page_slug == 'seller' || $page_slug == 'seller_package') show @endif" id="seller_management">
+                        <ul class="nav nav-collapse">
+                            <li class="@if ($page_slug == 'user') active @endif">
+                                <a href="{{ route('sl.seller.index') }}">
+                                    <span class="sub-item">{{ __('Seller') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
                 <li class="nav-item  @if ($page_slug == 'audits') active @endif">
                     <a href="{{ route('audit.index') }}">

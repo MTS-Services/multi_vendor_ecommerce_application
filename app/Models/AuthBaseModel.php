@@ -306,15 +306,4 @@ class AuthBaseModel extends Authenticatable
         return auth_storage_url($this->image);
     }
 
-
-    // Custom attributes loader
-    // public function loadAttributes(array $attributes)
-    // {
-    //     foreach ($attributes as $attribute) {
-    //         if (property_exists($this, $attribute)) {
-    //             $this->setAttribute($attribute, $this->{$attribute});
-    //         }
-    //     }
-    //     return $this;
-    // }
 }

@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\Admin\SiteSettingController;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Backend\Admin\SellerManagement\SellerController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\CategoryController;
 
 // Admin Auth Routes
@@ -49,6 +50,12 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
      Route::group(['as' => 'um.', 'prefix' => 'user-management'], function () {
         Route::resource('user', UserController::class);
         Route::get('user/status/{user}', [UserController::class, 'status'])->name('user.status');
+    });
+
+    // Seller Management
+    Route::group(['as' => 'sl.', 'prefix' => 'seller-management'], function () {
+        Route::resource('seller', SellerController::class);
+        // Route::get('user/status/{user}', [UserController::class, 'status'])->name('user.status');
     });
 
   // Documentation
