@@ -27,16 +27,12 @@ class SellerProfileRequest extends FormRequest
         return [
 
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:sellers,email,',
-            'username' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'gender' => 'required|in:' . implode(',', [
                 Seller::GENDER_MALE,
                 Seller::GENDER_FEMALE,
                 Seller::GENDER_OTHERS,
             ]),
             'emergency_phone' => 'nullable|digits:11',
-            'phone' => 'required|digits:11',
             'father_name' => 'nullable|string|max:255',
             'mother_name' => 'nullable|string|max:255',
             'present_address' => 'nullable|string|max:500',
@@ -49,6 +45,7 @@ class SellerProfileRequest extends FormRequest
     {
         return [
             'username' => 'nullable|string|unique:sellers,username|max:20',
+            'phone' => 'nullable|string|unique:sellers,phone|digits:11',
             'email' => 'required|unique:sellers,email',
             'password' => 'required|min:6|confirmed',
             'image' => 'required',
@@ -59,8 +56,9 @@ class SellerProfileRequest extends FormRequest
     protected function update(): array
     {
         return [
-            'username' => 'nullable|string|unique:sellers,username|max:20,' . ($this->route('seller')),
-            'email' => 'required|unique:sellers,email,' . ($this->route('seller')),
+            'username' => 'nullable|string|max:20|unique:sellers,username,' . seller()->id,
+            'phone' => 'nullable|string|digits:11|unique:sellers,phone,' . seller()->id,
+            'email' => 'required|unique:sellers,email,' . seller()->id,
             'password' => 'nullable|min:6|confirmed',
             'image' => 'nullable',
         ];
