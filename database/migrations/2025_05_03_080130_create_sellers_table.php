@@ -27,7 +27,7 @@ return new class extends Migration
             $table->boolean('is_verify')->default(Seller::UNVERIFIED)->comment(Seller::UNVERIFIED . ': Unverified, ' . Seller::VERIFIED . ': Verified');
             $table->tinyInteger('gender')->nullable()->comment(Seller::GENDER_MALE . ': Male, ' . Seller::GENDER_FEMALE . ': Female, ' . Seller::GENDER_OTHERS . ': Other');
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
@@ -36,7 +36,7 @@ return new class extends Migration
             // Add the otp_send_at column (if it doesn't exist already)
             $table->timestamp('otp_send_at')->nullable(); // Add this line
             // Infromation
-            $table->string('emargency_phone')->nullable();
+            $table->string('emergency_phone')->nullable();
             $table->string('phone')->nullable();
             $table->string('father_name')->nullable();
             $table->string('mother_name')->nullable();
@@ -62,5 +62,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('sellers');
+
     }
 };

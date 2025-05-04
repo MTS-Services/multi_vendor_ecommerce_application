@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Seller;
 
 use App\Models\Seller;
 use Illuminate\Foundation\Http\FormRequest;
@@ -29,7 +29,6 @@ class SellerProfileRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:sellers,email,' . seller()->id,
             'username' => 'required|string|max:255',
-            'password' => 'nullable|min:8|confirmed',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'status' => 'required|in:active,inactive',
             'is_verify' => 'required|boolean',
@@ -42,6 +41,7 @@ class SellerProfileRequest extends FormRequest
             'mother_name' => 'nullable|string|max:255',
             'present_address' => 'nullable|string|max:500',
             'permanent_address' => 'nullable|string|max:500',
+
         ];
     }
 

@@ -3,35 +3,42 @@
 namespace App\Http\Controllers\Backend\Seller;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SellerProfileRequest;
+use App\Http\Requests\Seller\SellerProfileRequest;
 use App\Models\Seller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 
 class SellerProfileController extends Controller
 {
     public function show()
     {
-        $seller = Auth::guard('seller')->user();
+        $seller = seller();
         return view('backend.seller.profile.index', compact('seller'));
     }
 
-    public function update(SellerProfileRequest $request, $sellerId)
+    public function update(SellerProfileRequest $request, Seller $seller)
     {
-        $seller = Seller::findOrFail($sellerId);
 
         $validated = $request->validated();
         $seller->name = $validated['name'];
-        $seller->email = $validated['email'];
+        if ($validated['email'] !== $seller->email) {
+            if (Seller::where('email', $validated['email'])->where('id', '!=', $seller->id)->exists()) {
+                return redirect()->back()->withErrors(['email' => 'The email has already been taken by another seller.']);
+            }
+            $seller->email = $validated['email'];
+        } else {
+            $validated['email'] = $seller->email;
+        }
+
+
+
+
         $seller->username = $validated['username'];
+        $seller->status;
         if ($request->filled('password')) {
             $seller->password = Hash::make($validated['password']);
         }
-        $seller->status = $validated['status'];
-        $seller->is_verify = $validated['is_verify'];
-        $seller->gender = $validated['gender'];
+        $seller->is_verify;
+        $seller->gender;
         $seller->email_verified_at = $validated['email_verified_at'] ?? $seller->email_verified_at;
         $seller->otp_send_at = $validated['otp_send_at'] ?? $seller->otp_send_at;
         $seller->emergency_phone = $validated['emergency_phone'] ?? $seller->emergency_phone;
