@@ -76,6 +76,7 @@ class CategoryController extends Controller
         $categories->name = $req->name;
         $categories->description = $req->description;
         $categories->meta_title = $req->meta_title;
+        $categories->meta_description = $req->meta_description;
         $categories->created_by = admin()->id;
         $categories->save();
         $categories->assignRole($categories->role->name);
@@ -88,8 +89,9 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        // $stickerCategory = StickerCategory::findOrFail(decrypt($id));
-        // return view('backend.admin.stickerMangement.stickerCategory.show', compact('stickerCategory'));
+        $data = Category::with(['creater_admin', 'updater_admin', 'role'])->findOrFail(decrypt($id));
+        $data->append(['modified_image', 'status_label', 'status_color', 'verify_label', 'verify_color', 'gender_label', 'gender_color', 'creater_name', 'updater_name']);
+        return response()->json($data);
     }
 
     /**
@@ -97,13 +99,20 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        // $stickerCategory = StickerCategory::findOrFail(decrypt($id));
-        // return view('backend.admin.stickerMangement.stickerCategory.edit', compact('stickerCategory'));
-    }
+        $admin = Admin::findOrFail(decrypt($id));
 
-    /**
-     * Update the specified resource in storage.
-     */
+        if (isset($req->image)) {
+            $this->handleFilepondFileUpload($admin, $req->image, admin(), 'admins/');
+        }
+        $admin->role_id = $req->role;
+        $admin->name = $req->name;
+        $admin->email = $req->email;
+        $admin->password = $req->password ? $req->password : $admin->password;
+        $admin->updated_by = admin()->id;
+        $admin->update();
+        $admin->syncRoles($admin->role->name);
+        session()->flash('success', 'Admin updated successfully!');
+        return redirect()->route('am.admin.index');
     public function update(Request $request, string $id)
     {
         // $validated = $request->validated();
