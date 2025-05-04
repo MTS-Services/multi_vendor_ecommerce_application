@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Backend\Admin\SellerManagement;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Seller\SellerRequest;
+use App\Http\Traits\DetailsCommonDataTrait;
+use App\Http\Traits\FileManagementTrait;
 use Illuminate\Http\Request;
 use App\Models\Seller;
 
 class SellerController extends Controller
 {
+    use FileManagementTrait, DetailsCommonDataTrait;
     public function __construct()
     {
         $this->middleware('admin');
@@ -24,7 +27,8 @@ class SellerController extends Controller
      */
     public function index()
     {
-        return view('backend.admin.seller_management.index');
+        $data['sellers']=Seller::all();
+        return view('backend.admin.seller_management.index',$data);
     }
 
     /**
@@ -53,7 +57,7 @@ class SellerController extends Controller
 
 
         $seller->save();
-        return redirect()->route('admin.seller.index');
+        return redirect()->route('sl.seller.index');
 
     }
 
@@ -62,7 +66,8 @@ class SellerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data['sellers']=Seller::all();
+        return view('backend.admin.seller_management.show',$data);
     }
 
     /**

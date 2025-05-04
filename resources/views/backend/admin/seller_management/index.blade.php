@@ -23,6 +23,7 @@
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Username') }}</th>
                                 <th>{{ __('Email') }}</th>
+                                <th>{{ __('Gender') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Verify Status') }}</th>
                                 <th>{{ __('Created By') }}</th>
@@ -31,6 +32,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                        
                         </tbody>
                     </table>
                 </div>
@@ -38,18 +40,19 @@
         </div>
     </div>
     {{-- Admin Details Modal  --}}
-    {{-- <x-backend.admin.details-modal :datas="['modal_title' => 'Seller Details']" /> --}}
+    <x-backend.admin.details-modal :datas="['modal_title' => 'Seller Details']" />
 @endsection
 @push('js')
-    {{-- <script src="{{ asset('custom_litebox/litebox.js') }}"></script> --}}
+    <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
     {{-- Datatable Scripts --}}
-    {{-- <script src="{{ asset('datatable/main.js') }}"></script>
+    <script src="{{ asset('datatable/main.js') }}"></script>
     <script>
         $(document).ready(function() {
             let table_columns = [
 
                 ['name', true, true],
                 ['username', true, true],
+                ['gender', true, true],
                 ['email', true, true],
                 ['status', true, true],
                 ['is_verify', true, true],
@@ -61,23 +64,23 @@
                 table_columns: table_columns,
                 main_class: '.datatable',
                 displayLength: 10,
-                main_route: "{{ route('um.user.index') }}",
+                main_route: "{{ route('sl.seller.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
                 export_columns: [0, 1, 2, 3, 4, 5, 6, 7],
-                model: 'User',
+                model: 'Seller',
             };
             initializeDataTable(details);
         })
-    </script> --}}
+    </script>
 @endpush
 @push('js')
     {{-- Show details scripts --}}
     <script src="{{ asset('modal/details_modal.js') }}"></script>
-    {{-- <script>
+     <script>
 
         $(document).on("click", ".view", function() {
             let id = $(this).data("id");
-            let route = "{{ route('um.user.show', ['id']) }}";
+            let route = "{{ route('sl.seller.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
             const headers = [{
                     label: "Name",
@@ -87,6 +90,10 @@
                     label: "Username",
                     key: "username"
                 },
+                {
+                    lavel:"Gender",
+                    key: "gender"
+                }
                 {
                     label: "Image",
                     key: "modified_image",
@@ -114,5 +121,5 @@
             ];
             fetchAndShowModal(detailsUrl, headers, "#modal_data", "myModal");
         });
-    </script> --}}
+    </script>
 @endpush
