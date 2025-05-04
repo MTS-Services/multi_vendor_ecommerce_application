@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class Seller extends AuthBaseModel
 {
     use HasFactory, Notifiable;
+ 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -54,5 +55,10 @@ class Seller extends AuthBaseModel
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+
+
+
 }
 

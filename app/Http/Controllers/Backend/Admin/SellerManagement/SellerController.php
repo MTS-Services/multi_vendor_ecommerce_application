@@ -28,16 +28,17 @@ class SellerController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Seller::with(['creater_seller', 'role'])
+        $query = Seller::with(['creater'])
         ->orderBy('sort_order', 'asc')
         ->latest();
     if ($request->ajax()) {
         return DataTables::eloquent($query)
-            ->editColumn('role_id', function ($seller) {
-                return optional($seller->role)->name;
-            })
+
             ->editColumn('status', function ($seller) {
                 return "<span class='badge " . $seller->status_color . "'>$seller->status_label</span>";
+            })
+            ->editColumn('gender', function ($seller) {
+                return "<span class='badge " . $seller->gender_color . "'>$seller->gender_label</span>";
             })
             ->editColumn('is_verify', function ($seller) {
                 return "<span class='badge " . $seller->verify_color . "'>" . $seller->verify_label . "</span>";
@@ -52,10 +53,10 @@ class SellerController extends Controller
                 $menuItems = $this->menuItems($seller);
                 return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
             })
-            ->rawColumns(['role_id', 'status', 'is_verify', 'created_by', 'created_at', 'action'])
+            ->rawColumns([ 'status','gender', 'is_verify', 'created_by', 'created_at', 'action'])
             ->make(true);
     }
-        return view('backend.admin.seller_management.index');
+        return view('backend.admin.seller_management.seller.index');
     }
 
     protected function menuItems($model): array
@@ -97,7 +98,7 @@ class SellerController extends Controller
      */
     public function create()
     {
-        return view('backend.admin.seller_management.create');
+        return view('backend.admin.seller_management.seller.create');
     }
 
     /**
@@ -122,7 +123,7 @@ class SellerController extends Controller
     public function show(string $id)
     {
         $data['sellers']=Seller::all();
-        return view('backend.admin.seller_management.show',$data);
+        return view('backend.admin.seller_management.seller.show',$data);
     }
 
     /**
@@ -130,7 +131,8 @@ class SellerController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data['seller'] = Seller::find(decrypt($id));
+        return view('backend.admin.seller_management.seller.edit', $data);
     }
 
     /**
@@ -138,7 +140,18 @@ class SellerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $seller = Seller::find(decrypt($id));
+        if (isset($request->image)) {
+            $data['image'] = $this->handleFilepondFileUpload(Seller::class, $request->image, seller(), 'sellers/');
+        }
+        $seller->name = $request->name;
+        $seller->username = $request->username;
+        $seller->email = $request->email;
+        $seller->password = $request->password;
+        $seller->updater()->associate(seller());
+        $seller->update();
+        session()->flash('success', 'Seller updated successfully!');
+        return redirect()->route('sl.seller.index');
     }
 
     /**

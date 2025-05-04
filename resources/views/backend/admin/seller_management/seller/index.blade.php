@@ -32,7 +32,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        
+
                         </tbody>
                     </table>
                 </div>
@@ -52,8 +52,8 @@
 
                 ['name', true, true],
                 ['username', true, true],
-                ['gender', true, true],
                 ['email', true, true],
+                ['gender', true, true],
                 ['status', true, true],
                 ['is_verify', true, true],
                 ['created_by', true, true],
