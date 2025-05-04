@@ -21,6 +21,7 @@ class SellerProfileController extends Controller
 
         // Update the seller details
         $seller->name = $validated['name'];
+        $seller->email = $validated['email'];
         $seller->gender = $validated['gender'];  // Make sure this gets updated
         $seller->emergency_phone = $validated['emergency_phone'] ?? $seller->emergency_phone;
         $seller->phone = $validated['phone'];

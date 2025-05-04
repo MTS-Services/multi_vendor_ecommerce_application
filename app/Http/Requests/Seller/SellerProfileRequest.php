@@ -27,7 +27,7 @@ class SellerProfileRequest extends FormRequest
         return [
 
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:sellers,email,' . seller()->id,
+            'email' => 'required|email|unique:sellers,email,',
             'username' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'gender' => 'required|in:' . implode(',', [
