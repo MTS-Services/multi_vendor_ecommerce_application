@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Backend\Admin\ProductManagement;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use App\Http\Traits\FileManagementTrait;
 
 class CategoryController extends Controller
 {
+    use FileManagementTrait;
     public function __construct()
     {
         $this->middleware('auth:admin');
@@ -90,15 +93,22 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+       return view('backend.admin.product_management.category.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['created_by'] = admin()->id;
+        if(isset($request->image)) {
+            $data['image'] = $this->handleFilepondFileUpload(Category::class, $request->image, admin(), 'categories/');
+        }
+        Category::create($data);
+        session()->flash('success','Category created successfully!');
+        return redirect()->route('pm.category.index');
     }
 
     /**
