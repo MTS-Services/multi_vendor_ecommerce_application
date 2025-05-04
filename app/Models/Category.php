@@ -33,6 +33,8 @@ class Category extends BaseModel
             'featured_btn_label',
             'featured_btn_color',
             'featured_labels',
+            'modified_image',
+
         ]);
     }
 
@@ -198,5 +200,10 @@ class Category extends BaseModel
     public function scopeNotFeatured(Builder $query): Builder
     {
         return $query->where('is_featured', self::NOT_FEATURED);
+    }
+
+    public function getModifiedImageAttribute()
+    {
+        return auth_storage_url($this->image);
     }
 }

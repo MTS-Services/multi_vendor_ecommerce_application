@@ -1,89 +1,98 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'admin'])
-@section('title', 'Admin List')
+@extends('backend.admin.layouts.master', ['page_slug' => 'pm'])
+
+@section('title', 'Category List')
+
 @push('css')
     <link rel="stylesheet" href="{{ asset('custom_litebox/litebox.css') }}">
 @endpush
-@section('content')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3">Categories</h1>
-    <a href="{{ route('pm.category.create') }}" class="btn btn-primary">
-        <i class="fas fa-plus"></i> Add New
-    </a>
-</div>
-<div class="card shadow-sm">
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped align-middle">
-                <thead class="table-dark text-center">
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                        <th>Status</th>
-                        <th>Featured</th>
-                        <th>Created By</th>
-                        <th>Created At</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($categories as $category)
-                        <tr>
-                            <td class="text-center">{{ $loop->iteration }}</td>
-                            <td>{{ $category->name }}</td>
-                            <td class="text-center">
-                                @if($category->image)
-                                    <img src="{{ storage_url($category->image) }}" alt="{{ $category->name }}" width="50" class="img-thumbnail">
-                                @else
-                                    <span class="text-muted">No Image</span>
-                                @endif
-                            </td>
-                            <td class="text-center">
-                                <span class="badge {{ $category->status_color }}">
-                                    {{ $category->status_label }}
-                                </span>
-                            </td>
-                            <td class="text-center">
-                                <span class="badge {{ $category->featured_color }}">
-                                    {{ $category->featured_label }}
-                                </span>
-                            </td>
-                            <td>{{ optional($category->createdBy)->name ?? 'System' }}</td>
-                            <td>{{ timeFormat($category->created_at) }}</td>
-                            <td class="text-center">
-                                <div class="btn-group">
-                                    <a href="{{ route('pm.category.show', $category) }}" class="btn btn-sm btn-info" title="View">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="{{ route('pm.category.edit', encrypt($category->id)) }}" class="btn btn-sm btn-warning" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <button type="button" class="btn btn-sm btn-danger" title="Delete"
-                                        onclick="if(confirm('Are you sure?')) { document.getElementById('delete-form-{{ encrypt($category->id) }}').submit(); }">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                    <form id="delete-form-{{ encrypt($category->id) }}" method="POST"
-                                          action="{{ route('pm.category.destroy', $category) }}" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="8" class="text-center text-muted">No categories found.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        <div class="mt-3">
-            {{ $categories->links() }}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="cart-title">{{ __('Category List') }}</h4>
+                    <x-backend.admin.button :datas="[
+                        'routeName' => 'pm.category.create',
+                        'label' => 'Add New',
+                        'permissions' => ['category-create'],
+                    ]" />
+                </div>
+                <div class="card-body">
+                    <table class="table table-responsive table-striped datatable">
+                        <thead>
+                            <tr>
+                                <th>{{ __('SL') }}</th>
+                                <th>{{ __('Name') }}</th>
+                                <th>{{ __('Image') }}</th>
+                                <th>{{ __('Description') }}</th>
+                                <th>{{ __('Status') }}</th>
+                                <th>{{ __('Featured') }}</th>
+                                <th>{{ __('Created By') }}</th>
+                                <th>{{ __('Created Date') }}</th>
+                                <th>{{ __('Action') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
+    {{-- Category Details Modal --}}
+    <x-backend.admin.details-modal :datas="['modal_title' => 'Category Details']" />
 @endsection
+
+@push('js')
+    <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
+    <script src="{{ asset('datatable/main.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            let table_columns = [
+                ['name', true, true],
+                ['modified_image', false, false],
+                ['description', true, true],
+                ['status', true, true],
+                ['is_featured', true, true],
+                ['created_by', true, true],
+                ['created_Date', true, true],
+                ['action', false, false],
+            ];
+
+            const details = {
+                table_columns: table_columns,
+                main_class: '.datatable',
+                displayLength: 10,
+                main_route: "{{ route('pm.category.index') }}",
+                order_route: "{{ route('update.sort.order') }}",
+                export_columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                model: 'Category',
+            };
+
+            initializeDataTable(details);
+        });
+    </script>
+@endpush
+
+@push('js')
+    <script src="{{ asset('modal/details_modal.js') }}"></script>
+    <script>
+        $(document).on("click", ".view", function() {
+            let id = $(this).data("id");
+            let route = "{{ route('pm.category.show', ['id']) }}";
+            const detailsUrl = route.replace("id", id);
+
+            const headers = [
+                { label: "Name", key: "name" },
+                { label: "Status", key: "status_label", color: "status_color" },
+                { label: "Featured", key: "featured_label", color: "featured_color" },
+                { label: "Image", key: "modified_image", type: "image" },
+                { label: "Description", key: "description" },
+                { label: "Meta Title", key: "meta_title" },
+                { label: "Meta Description", key: "meta_description" },
+            ];
+            fetchAndShowModal(detailsUrl, headers, "#modal_data", "myModal");
+        });
+    </script>
+@endpush

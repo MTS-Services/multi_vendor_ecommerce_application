@@ -1,127 +1,89 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'admin'])
-@section('title', 'Admin List')
+@extends('backend.admin.layouts.master', ['page_slug' => 'pm'])
+
+@section('title', 'Create Category')
+
 @push('css')
     <link rel="stylesheet" href="{{ asset('custom_litebox/litebox.css') }}">
 @endpush
-@section('content')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3">Add New Category</h1>
-    <a href="{{ route('pm.category.index') }}" class="btn btn-secondary">
-        <i class="fas fa-arrow-left"></i> Back to List
-    </a>
-</div>
+    <div class="row">
+        <div class="col-12">
+            <form action="{{ route('pm.category.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="card-title">{{ __('Create Category') }}</h4>
+                        <a href="{{ route('pm.category.index') }}" class="btn btn-sm btn-secondary">
+                            <i class="fas fa-arrow-left"></i> {{ __('Back') }}
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="name">{{ __('Name') }} <span class="text-danger">*</span></label>
+                            <input type="text" name="name" id="name" value="{{ old('name') }}"
+                                   class="form-control @error('name') is-invalid @enderror" required>
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-<form action="{{ route('pm.category.store') }}" method="POST" enctype="multipart/form-data">
-    @csrf
+                        <div class="form-group">
+                            <label for="description">{{ __('Description') }}</label>
+                            <textarea name="description" id="description"
+                                      class="form-control @error('description') is-invalid @enderror"
+                                      rows="4">{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="meta_title">{{ __('Meta Title') }}</label>
+                            <input type="text" name="meta_title" id="meta_title"
+                                   class="form-control @error('meta_title') is-invalid @enderror"
+                                   value="{{ old('meta_title') }}">
+                            @error('meta_title')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body row g-4">
+                        <div class="form-group">
+                            <label for="meta_description">{{ __('Meta Description') }}</label>
+                            <textarea name="meta_description" id="meta_description"
+                                      class="form-control @error('meta_description') is-invalid @enderror"
+                                      rows="3">{{ old('meta_description') }}</textarea>
+                            @error('meta_description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-            {{-- Name --}}
-            <div class="col-md-6">
-                <label for="name" class="form-label">Category Name <span class="text-danger">*</span></label>
-                <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
-                       value="{{ old('name') }}" required>
-                @error('name')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
+                        <div class="form-group">
+                            <label>{{ __('Image') }}</label>
+                            <input type="file" name="uploadImage" data-actualName="image" class="form-control filepond"
+                                id="image" accept="image/*">
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />
+                        </div>
 
-            {{-- Parent Category --}}
-            <div class="col-md-6">
-                <label for="parent_id" class="form-label">Parent Category</label>
-                <select name="parent_id" id="parent_id" class="form-select @error('parent_id') is-invalid @enderror">
-                    <option value="">-- None (Top Level) --</option>
-                    @foreach($categories as $parent)
-                        <option value="{{ $parent->id }}" {{ old('parent_id') == $parent->id ? 'selected' : '' }}>
-                            {{ $parent->name }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('parent_id')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            {{-- Slug --}}
-            <div class="col-md-6">
-                <label for="slug" class="form-label">Slug</label>
-                <input type="text" name="slug" id="slug" class="form-control @error('slug') is-invalid @enderror"
-                       value="{{ old('slug') }}">
-                @error('slug')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            {{-- Sort Order --}}
-            <div class="col-md-6">
-                <label for="sort_order" class="form-label">Sort Order</label>
-                <input type="number" name="sort_order" id="sort_order" class="form-control @error('sort_order') is-invalid @enderror"
-                       value="{{ old('sort_order', 0) }}">
-                @error('sort_order')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            {{-- Status --}}
-            <div class="col-md-6">
-                <label for="status" class="form-label">Status</label>
-                <select name="status" id="status" class="form-select @error('status') is-invalid @enderror">
-                    <option value="1" {{ old('status', 1) == 1 ? 'selected' : '' }}>Active</option>
-                    <option value="0" {{ old('status') == 0 ? 'selected' : '' }}>Inactive</option>
-                </select>
-                @error('status')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            {{-- Featured --}}
-            <div class="col-md-6">
-                <label for="is_featured" class="form-label">Featured</label>
-                <select name="is_featured" id="is_featured" class="form-select @error('is_featured') is-invalid @enderror">
-                    <option value="1" {{ old('is_featured') == 1 ? 'selected' : '' }}>Yes</option>
-                    <option value="2" {{ old('is_featured', 2) == 2 ? 'selected' : '' }}>No</option>
-                </select>
-                @error('is_featured')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            {{-- Image --}}
-            <div class="col-md-6">
-                <label for="image" class="form-label">Category Image</label>
-                <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
-                @error('image')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            {{-- Description --}}
-            <div class="col-md-12">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="description" id="description" class="form-control" rows="3">{{ old('description') }}</textarea>
-            </div>
-
-            {{-- Meta Title --}}
-            <div class="col-md-6">
-                <label for="meta_title" class="form-label">Meta Title</label>
-                <input type="text" name="meta_title" id="meta_title" class="form-control" value="{{ old('meta_title') }}">
-            </div>
-
-            {{-- Meta Description --}}
-            <div class="col-md-6">
-                <label for="meta_description" class="form-label">Meta Description</label>
-                <input type="text" name="meta_description" id="meta_description" class="form-control" value="{{ old('meta_description') }}">
-            </div>
-        </div>
-
-        <div class="card-footer text-end">
-            <button type="submit" class="btn btn-success">
-                <i class="fas fa-save"></i> Save Category
-            </button>
+                    </div>
+                    <div class="card-footer text-right">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> {{ __('Save') }}
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-</form>
 @endsection
+
+@push('js')
+    {{-- FilePond  --}}
+    <script src="{{ asset('filepond/filepond.js') }}"></script>
+    <script src="{{ asset('ckEditor5/main.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            file_upload(["#image"], "uploadImage", "admin", [], false);
+        });
+    </script>
+    {{-- FilePond  --}}
+@endpush

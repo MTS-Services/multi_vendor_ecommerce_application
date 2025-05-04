@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Backend\Admin\ProductManagement;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\CategoryRequest;
 use App\Models\Category;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Http\RedirectResponse;
 
 class CategoryController extends Controller
 {
@@ -21,10 +25,33 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::orderBy('sort_order')->paginate(10);
-        return view('backend.admin.product_management.categories.index',compact('categories'));
+        $query = Category::with(['creater_admin', 'role'])
+            ->orderBy('sort_order', 'asc')
+            ->latest();
+        if ($request->ajax()) {
+            return DataTables::eloquent($query)
+                ->editColumn('status', function ($category) {
+                    return "<span class='badge " . $category->status_color . "'>$category->status_label</span>";
+                })
+                ->editColumn('is_featured', function ($category) {
+                    return "<span class='badge " . $category->featured_color . "'>" . $category->featured_label . "</span>";
+                })
+                ->editColumn('created_by', function ($category) {
+                    return $category->creater_name;
+                })
+                ->editColumn('created_at', function ($category) {
+                    return $category->created_at_formatted;
+                })
+                ->editColumn('action', function ($category) {
+                    $menuItems = $this->menuItems($category);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['status', 'is_featured', 'created_by', 'created_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.product_management.categories.index');
     }
 
     /**
@@ -32,33 +59,28 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::whereNull('parent_id')->get();
+        $categories['roles'] = Role::select(['id', 'name'])->latest()->get();
         return view('backend.admin.product_management.categories.create', compact('categories'));
     }
-
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $req): RedirectResponse
     {
-        // $stickerCategory = new StickerCategory();
+        $categories = new Category();
 
-        // // if ($request->hasFile('image')) {
-        // //     $validated['image'] = $request->file('image')->store('sticker-categories', 'public');
-        // // }
-
-        // if ($request->hasFile('image')) {
-        //     $this->handleFileUpload($request, $stickerCategory, 'image', 'image');
-        // }
-
-        // $validated = $request->validated();
-        // $validated['image'] = $stickerCategory['image'];
-        // $validated['created_by'] = admin()->id;
-        // StickerCategory::create($validated);
-
-        // return redirect()->route('am.sticker-category.index')
-        //     ->with('success', 'Sticker category created successfully.');
+        if (isset($req->image)) {
+            $this->handleFilepondFileUpload($categories, $req->image, admin(), 'categories/');
+        }
+        $categories->name = $req->name;
+        $categories->description = $req->description;
+        $categories->meta_title = $req->meta_title;
+        $categories->created_by = admin()->id;
+        $categories->save();
+        $categories->assignRole($categories->role->name);
+        session()->flash('success', 'Category created successfully!');
+        return redirect()->route('pm.admin.index');
     }
 
     /**
