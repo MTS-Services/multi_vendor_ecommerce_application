@@ -17,6 +17,20 @@ class Seller extends AuthBaseModel
         'name',
         'email',
         'password',
+        'username',
+        'image',
+        'status',
+        'is_verify',
+        'gender',
+        'email_verified_at',
+        'password',
+        'otp_send_at',
+        'emargency_phone',
+        'phone',
+        'father_name',
+        'mother_name',
+        'present_address',
+        'permanent_address',
 
         'creater_id',
         'updater_id',
@@ -33,3 +47,4 @@ class Seller extends AuthBaseModel
         'password' => 'hashed',
     ];
 }
+
