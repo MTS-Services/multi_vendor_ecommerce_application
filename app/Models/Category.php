@@ -9,29 +9,48 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Category extends BaseModel
 {
 
+    protected $fillable = [
+        'sort_order',
+        'parent_id',
+        'name',
+        'slug',
+        'description',
+        'image',
+        'status',
+        'is_featured',
+        'meta_title',
+        'meta_description',
+
+        'creater_id',
+        'updater_id',
+        'deleter_id',
+
+        'creater_type',
+        'updater_type',
+        'deleter_type',
+
+        'modified_image',
+
+
+    ];
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
         $this->appends = array_merge(parent::getAppends(), [
-            'status_labels',
-            'status_label',
-            'status_colors',
-            'status_color',
 
-            'status_btn_labels',
+            'status_label',
+            'status_color',
             'status_btn_label',
-            'status_btn_colors',
             'status_btn_color',
+            'status_labels',
 
             'featured_labels',
             'featured_label',
-            'featured_colors',
             'featured_color',
-
-            'featured_btn_labels',
             'featured_btn_label',
-            'featured_btn_colors',
             'featured_btn_color',
+
+            'modified_image',
         ]);
     }
     public const STATUS_ACTIVE = 1;
@@ -184,6 +203,11 @@ class Category extends BaseModel
      {
          return $this->hasMany(Category::class, 'parent_id', 'id');
      }
+
+    public function getModifiedImageAttribute()
+    {
+        return storage_url($this->image);
+    }
 
 
 
