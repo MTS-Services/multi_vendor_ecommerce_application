@@ -11,7 +11,7 @@ class CategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,32 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+
+            'meta_title' => 'nullable|string',
+            'meta_description' => 'nullable|string',
+            'description' => 'nullable|string',
+            'image' => 'nullable',
+
+        ]
+            +
+            ($this->isMethod('POST') ? $this->store() : $this->update());
+    }
+
+    protected function store(): array
+    {
+        return [
+            'name' => 'required|string|unique:categories,name',
+            'slug' => 'required|string|unique:categories,slug',
+        ];
+    }
+
+
+    protected function update(): array
+    {
+        return [
+            'name' => 'required|string|unique:categories,name,' . decrypt($this->route('category')),
+            'slug' => 'required|string|unique:categories,slug,' . decrypt($this->route('category')),
+
         ];
     }
 }
