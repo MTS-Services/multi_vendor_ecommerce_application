@@ -27,6 +27,7 @@
                                 <th>{{ __('Image') }}</th>
                                 <th>{{ __('Description') }}</th>
                                 <th>{{ __('Status') }}</th>
+                                <th>{{ __('Featured') }}</th>
                                 <th>{{ __('Created By') }}</th>
                                 <th>{{ __('Created Date') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -50,9 +51,10 @@
         $(document).ready(function() {
             let table_columns = [
                 ['name', true, true],
-                ['image', false, false],
+                ['modified_image', false, false],
                 ['description', true, true],
                 ['status', true, true],
+                ['is_featured', true, true],
                 ['created_by', true, true],
                 ['created_Date', true, true],
                 ['action', false, false],
@@ -64,7 +66,7 @@
                 displayLength: 10,
                 main_route: "{{ route('pm.category.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5],
+                export_columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
                 model: 'Category',
             };
 
@@ -84,7 +86,8 @@
             const headers = [
                 { label: "Name", key: "name" },
                 { label: "Status", key: "status_label", color: "status_color" },
-                { label: "Image", key: "image_url", type: "image" },
+                { label: "Featured", key: "featured_label", color: "featured_color" },
+                { label: "Image", key: "modified_image", type: "image" },
                 { label: "Description", key: "description" },
                 { label: "Meta Title", key: "meta_title" },
                 { label: "Meta Description", key: "meta_description" },

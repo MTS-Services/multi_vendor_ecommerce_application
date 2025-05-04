@@ -37,33 +37,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
-                        <div class="form-group">
-                            <label for="status">{{ __('Status') }} <span class="text-danger">*</span></label>
-                            <select name="status" id="status"
-                                    class="form-control @error('status') is-invalid @enderror" required>
-                                <option value="1" selected>{{ __('Active') }}</option>
-                                <option value="0">{{ __('Inactive') }}</option>
-                            </select>
-                            @error('status')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label for="is_featured">{{ __('Featured') }}</label>
-                            <select name="is_featured" id="is_featured"
-                                    class="form-control @error('is_featured') is-invalid @enderror">
-                                <option value="0" selected>{{ __('Not Featured') }}</option>
-                                <option value="1">{{ __('Featured') }}</option>
-                            </select>
-                            @error('is_featured')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <input type="hidden" name="sort_order" value="0">
-
                         <div class="form-group">
                             <label for="meta_title">{{ __('Meta Title') }}</label>
                             <input type="text" name="meta_title" id="meta_title"
@@ -104,5 +77,13 @@
 @endsection
 
 @push('js')
-    <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
+    {{-- FilePond  --}}
+    <script src="{{ asset('filepond/filepond.js') }}"></script>
+    <script src="{{ asset('ckEditor5/main.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            file_upload(["#image"], "uploadImage", "admin", [], false);
+        });
+    </script>
+    {{-- FilePond  --}}
 @endpush
