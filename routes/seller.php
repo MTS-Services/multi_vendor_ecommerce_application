@@ -21,5 +21,5 @@ Route::group(['prefix' => 'seller', 'as' => 'seller.'], function () {
 
 
 Route::group(['middleware' => 'auth:seller', 'prefix' => 'seller'], function () {
-  Route::get('/profile', [SellerDashboardController::class, 'profile'])->name('seller.profile');
+  Route::get('/dashboard', [SellerDashboardController::class, 'dashboard'])->name('seller.dashboard');
 });
