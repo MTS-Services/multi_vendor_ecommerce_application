@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Seller;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -22,30 +23,25 @@ class SellerProfileRequest extends FormRequest
      */
     public function rules(): array
     {
-        $sellerId = $this->route('seller'); // Get ID from route
 
         return [
+
             'name' => 'required|string|max:255',
-            'username' => [
-                'required',
-                Rule::unique('users', 'username')->ignore($sellerId),
-            ],
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('users', 'email')->ignore($sellerId),
-            ],
-            'phone' => 'nullable|string|max:20',
-            'emargency_phone' => 'nullable|string|max:20',
+            'email' => 'required|email|unique:sellers,email,' . seller()->id,
+            'username' => 'required|string|max:255',
+            'password' => 'nullable|min:8|confirmed',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'status' => 'required|in:active,inactive',
+            'is_verify' => 'required|boolean',
+            'gender' => 'required|in:male,female',
+            'email_verified_at' => 'nullable|date',
+            'otp_send_at' => 'nullable|date',
+            'emergency_phone' => 'nullable|digits:11',
+            'phone' => 'required|digits:11',
             'father_name' => 'nullable|string|max:255',
             'mother_name' => 'nullable|string|max:255',
-            'present_address' => 'nullable|string|max:255',
-            'permanent_address' => 'nullable|string|max:255',
-            'gender' => 'nullable|integer|in:1,2,3',
-            'status' => 'nullable|boolean',
-            'is_verify' => 'nullable|boolean',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'password' => 'nullable|string|min:8',
+            'present_address' => 'nullable|string|max:500',
+            'permanent_address' => 'nullable|string|max:500',
         ];
     }
 

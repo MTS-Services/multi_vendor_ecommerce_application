@@ -1,155 +1,184 @@
 @extends('backend.seller.layouts.app', ['page_slug' => 'profile'])
 
-@section('title', 'Seller Profile')
+@section('title', 'Edit Profile')
 
+@push('css')
+    <style>
+        .card {
+            border-radius: 10px;
+        }
+
+        .form-control {
+            border-radius: 6px;
+            box-shadow: none;
+        }
+
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .btn {
+            border-radius: 6px;
+        }
+    </style>
+@endpush
+{{ $errors->all() }}
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="card card-primary card-outline">
-                <div class="card-body box-profile">
-                    <div class="text-center">
-                        @if($seller->image)
-                            <img class="profile-user-img img-fluid img-circle"
-                                 src="{{ asset('storage/' . $seller->image) }}"
-                                 alt="{{ $seller->name }}">
-                        @else
-                            <img class="profile-user-img img-fluid img-circle"
-                                 src="{{ asset('img/default-user.png') }}"
-                                 alt="{{ $seller->name }}">
-                        @endif
+    <div class="container-fluid">
+        <div class="row">
+            {{-- Profile Edit Card --}}
+            <div class="col-lg-12 mb-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white">
+                        <h4 class="mb-0">Edit Profile</h4>
                     </div>
+                    <div class="card-body">
+                        <form action="{{ route('seller.profile.update') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
 
-                    <h3 class="profile-username text-center">{{ $seller->name }}</h3>
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <label>Full Name</label>
+                                    <input type="text" name="name" class="form-control"
+                                        value="{{ $seller->name ?? 'Not set' }}">
+                                </div>
 
-                    <p class="text-muted text-center">
-                        @if($seller->is_verify)
-                            <span class="badge badge-success"><i class="fas fa-check-circle"></i> Verified</span>
-                        @else
-                            <span class="badge badge-warning"><i class="fas fa-exclamation-circle"></i> Unverified</span>
-                        @endif
-                    </p>
+                                <div class="col-md-12 mb-3">
+                                    <label>Email</label>
+                                    <input type="email" name="email" class="form-control"
+                                        value="{{ $seller->email ?? 'Not set' }}">
+                                </div>
 
-                    <ul class="list-group list-group-unbordered mb-3">
-                        <li class="list-group-item">
-                            <b>Username</b> <a class="float-right">{{ $seller->username ?? 'Not set' }}</a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Email</b> <a class="float-right">{{ $seller->email }}</a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Phone</b> <a class="float-right">{{ $seller->phone ?? 'Not set' }}</a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Status</b>
-                            <a class="float-right">
-                                @if($seller->status)
-                                    <span class="badge badge-success">Active</span>
-                                @else
-                                    <span class="badge badge-danger">Inactive</span>
-                                @endif
-                            </a>
-                        </li>
-                    </ul>
+                                <div class="col-md-12 mb-3">
+                                    <label>Username</label>
+                                    <input type="text" name="username" class="form-control"
+                                        value="{{ $seller->username ?? 'Not set' }}">
+                                </div>
 
-                    <a href="{{ route('seller.profile.edit') }}" class="btn btn-primary btn-block"><i class="fas fa-edit"></i> Edit Profile</a>
+                                <div class="col-md-12 mb-3">
+                                    <label>Profile Image</label>
+                                    <input type="file" name="image" class="form-control">
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label>Status</label>
+                                    <select name="status" class="form-control">
+                                        <option value="active" {{ $seller->status === 'active' ? 'selected' : '' }}>Active
+                                        </option>
+                                        <option value="inactive" {{ $seller->status === 'inactive' ? 'selected' : '' }}>
+                                            Inactive</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label>Is Verified</label>
+                                    <select name="is_verify" class="form-control">
+                                        <option value="1" {{ $seller->is_verify === 1 ? 'selected' : '' }}>Verified
+                                        </option>
+                                        <option value="0" {{ $seller->is_verify === 0 ? 'selected' : '' }}>Not Verified
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label>Gender</label>
+                                    <select name="gender" class="form-control">
+                                        <option value="male" {{ $seller->gender === 'male' ? 'selected' : '' }}>Male
+                                        </option>
+                                        <option value="female" {{ $seller->gender === 'female' ? 'selected' : '' }}>Female
+                                        </option>
+                                        <option value="others" {{ $seller->gender === 'others' ? 'selected' : '' }}>Others
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label>Email Verified At</label>
+                                    <input type="date" name="email_verified_at" class="form-control"
+                                        value="{{ $seller->email_verified_at ?? 'Not set' }}">
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label>OTP Sent At</label>
+                                    <input type="datetime-local" name="otp_send_at" class="form-control"
+                                        value="{{ $seller->otp_send_at ?? 'Not set' }}">
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label>Emergency Phone</label>
+                                    <input type="text" name="emergency_phone" class="form-control"
+                                        value="{{ $seller->emergency_phone ?? 'Not set' }}">
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label>Phone</label>
+                                    <input type="text" name="phone" class="form-control"
+                                        value="{{ $seller->phone ?? 'Not set' }}">
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label>Father's Name</label>
+                                    <input type="text" name="father_name" class="form-control"
+                                        value="{{ $seller->father_name ?? 'Not set' }}">
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label>Mother's Name</label>
+                                    <input type="text" name="mother_name" class="form-control"
+                                        value="{{ $seller->mother_name ?? 'Not set' }}">
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label>Present Address</label>
+                                    <textarea name="present_address" class="form-control">{{ $seller->present_address ?? 'Not set' }}</textarea>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label>Permanent Address</label>
+                                    <textarea name="permanent_address" class="form-control">{{ $seller->permanent_address ?? 'Not set' }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="text-right mt-4">
+                                <button class="btn btn-primary px-4">Update Profile</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
 
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Account Security</h3>
-                </div>
-                <div class="card-body">
-                    <a href="{{ route('seller.profile.password') }}" class="btn btn-default btn-block">
-                        <i class="fas fa-lock"></i> Change Password
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-9">
-            <div class="card">
-                <div class="card-header p-2">
-                    <h3 class="card-title">Detailed Information</h3>
-                </div>
-                <div class="card-body">
-                    @if(session('success'))
-                        <div class="alert alert-success alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                            <h5><i class="icon fas fa-check"></i> Success!</h5>
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                        <i class="fas fa-user"></i> Personal Details
-                                    </h3>
-                                </div>
-                                <div class="card-body">
-                                    <dl class="row">
-                                        <dt class="col-sm-4">Full Name</dt>
-                                        <dd class="col-sm-8">{{ $seller->name }}</dd>
-
-                                        <dt class="col-sm-4">Gender</dt>
-                                        <dd class="col-sm-8">{{ $seller->gender_text }}</dd>
-
-                                        <dt class="col-sm-4">Father's Name</dt>
-                                        <dd class="col-sm-8">{{ $seller->father_name ?? 'Not provided' }}</dd>
-
-                                        <dt class="col-sm-4">Mother's Name</dt>
-                                        <dd class="col-sm-8">{{ $seller->mother_name ?? 'Not provided' }}</dd>
-                                    </dl>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                        <i class="fas fa-phone"></i> Contact Information
-                                    </h3>
-                                </div>
-                                <div class="card-body">
-                                    <dl class="row">
-                                        <dt class="col-sm-4">Email</dt>
-                                        <dd class="col-sm-8">{{ $seller->email }}</dd>
-
-                                        <dt class="col-sm-4">Phone</dt>
-                                        <dd class="col-sm-8">{{ $seller->phone ?? 'Not provided' }}</dd>
-
-                                        <dt class="col-sm-4">Emergency Phone</dt>
-                                        <dd class="col-sm-8">{{ $seller->emargency_phone ?? 'Not provided' }}</dd>
-                                    </dl>
-                                </div>
-                            </div>
-                        </div>
+            {{-- Password Change Card --}}
+            <div class="col-lg-12 mt-5">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white">
+                        <h4 class="mb-0">Change Password</h4>
                     </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <i class="fas fa-map-marker-alt"></i> Address Information
-                            </h3>
-                        </div>
-                        <div class="card-body">
-                            <dl class="row">
-                                <dt class="col-sm-2">Present Address</dt>
-                                <dd class="col-sm-10">{{ $seller->present_address ?? 'Not provided' }}</dd>
-
-                                <dt class="col-sm-2">Permanent Address</dt>
-                                <dd class="col-sm-10">{{ $seller->permanent_address ?? 'Not provided' }}</dd>
-                            </dl>
-                        </div>
+                    <div class="card-body">
+                        <form action="{{ route('seller.profile.password.update') }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <label>Current Password</label>
+                                    <input type="password" name="current_password" class="form-control">
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label>New Password</label>
+                                    <input type="password" name="new_password" class="form-control">
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label>Confirm New Password</label>
+                                    <input type="password" name="new_password_confirmation" class="form-control">
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-success px-4">Change Password</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection

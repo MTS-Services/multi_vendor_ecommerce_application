@@ -15,40 +15,37 @@ class SellerProfileController extends Controller
     public function show()
     {
         $seller = Auth::guard('seller')->user();
-        return view('backend.seller.profile.index',compact('seller'));
+        return view('backend.seller.profile.index', compact('seller'));
     }
-    public function edit()
-    {
-        $seller = Auth::guard('seller')->user();
-        return view('backend.seller.profile.edit',compact('seller'));
-    }
+
     public function update(SellerProfileRequest $request, $sellerId)
-{
-    $seller = Seller::findOrFail($sellerId);
+    {
+        $seller = Seller::findOrFail($sellerId);
 
-    // Handle password update
-    if ($request->filled('password')) {
-        $request->merge(['password' => Hash::make($request->password)]);
-    } else {
-        $request->request->remove('password');
-    }
-
-    // Handle image upload
-    if ($request->hasFile('image')) {
-        if ($seller->image) {
-            Storage::disk('public')->delete($seller->image);
+        $validated = $request->validated();
+        $seller->name = $validated['name'];
+        $seller->email = $validated['email'];
+        $seller->username = $validated['username'];
+        if ($request->filled('password')) {
+            $seller->password = Hash::make($validated['password']);
         }
+        $seller->status = $validated['status'];
+        $seller->is_verify = $validated['is_verify'];
+        $seller->gender = $validated['gender'];
+        $seller->email_verified_at = $validated['email_verified_at'] ?? $seller->email_verified_at;
+        $seller->otp_send_at = $validated['otp_send_at'] ?? $seller->otp_send_at;
+        $seller->emergency_phone = $validated['emergency_phone'] ?? $seller->emergency_phone;
+        $seller->phone = $validated['phone'];
+        $seller->father_name = $validated['father_name'] ?? $seller->father_name;
+        $seller->mother_name = $validated['mother_name'] ?? $seller->mother_name;
+        $seller->present_address = $validated['present_address'] ?? $seller->present_address;
+        $seller->permanent_address = $validated['permanent_address'] ?? $seller->permanent_address;
 
-        $filename = time() . '_' . uniqid() . '.' . $request->image->getClientOriginalExtension();
-        $path = $request->image->storeAs('sellers', $filename, 'public');
-        $request->merge(['image' => $path]);
+
+        // Update model
+        $seller->save();
+
+        return redirect()->route('seller.profile_show', )
+            ->with('success', 'Seller updated successfully');
     }
-
-    // Update model
-    $seller->update($request->except('_token', '_method'));
-
-    return redirect()->route('sellers.profile_show', $seller->id)
-        ->with('success', 'Seller updated successfully');
 }
-}
-
