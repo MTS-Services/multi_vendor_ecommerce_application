@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Admin\ProductManagement;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -22,7 +23,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('backend.admin.product_management.categories.index',);
+        $categories = Category::orderBy('sort_order')->paginate(10);
+        return view('backend.admin.product_management.categories.index',compact('categories'));
     }
 
     /**
@@ -30,7 +32,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        // return view('backend.admin.stickerMangement.StickerCategory.create');
+        $categories = Category::whereNull('parent_id')->get();
+        return view('backend.admin.product_management.categories.create', compact('categories'));
     }
 
 
