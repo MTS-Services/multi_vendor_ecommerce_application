@@ -111,15 +111,4 @@ class BaseModel extends Model
     {
         return $this->deleted_at ? timeFormatHuman($this->deleted_at) : 'Null';
     }
-
-    // Custom attributes loader
-    // public function loadAttributes(array $attributes)
-    // {
-    //     foreach ($attributes as $attribute) {
-    //         if (property_exists($this, $attribute)) {
-    //             $this->setAttribute($attribute, $this->{$attribute});
-    //         }
-    //     }
-    //     return $this;
-    // }
 }

@@ -18,13 +18,13 @@ function admin()
 {
     return auth()->guard('admin')->user();
 }
-function user()
-{
-    return auth()->guard('web')->user();
-}
 function seller()
 {
     return auth()->guard('seller')->user();
+}
+function user()
+{
+    return auth()->guard('web')->user();
 }
 function creater_name($user)
 {

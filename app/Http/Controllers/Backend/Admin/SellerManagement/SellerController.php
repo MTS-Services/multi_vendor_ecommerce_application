@@ -42,21 +42,15 @@ class SellerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SellerRequest $request)
     {
-        $seller= new Seller();
-
+        $data= $request->validated();
+        $data['created_by'] = admin()->id;
         if (isset($request->image)) {
-            $this->handleFilepondFileUpload($seller, $request->image, seller(), 'sellers/');
+            $data['image'] = $this->handleFilepondFileUpload(Seller::class, $request->image, seller(), 'sellers/');
         }
-        $seller->name = $request->name;
-        $seller->userName = $request->userName;
-        $seller->gender = $request->gender;
-        $seller->email = $request->email;
-        $seller->password = $request->password;
-
-
-        $seller->save();
+        $seller = Seller::create($data);
+        session()->flash('success','Seller created successfully!');
         return redirect()->route('sl.seller.index');
 
     }
