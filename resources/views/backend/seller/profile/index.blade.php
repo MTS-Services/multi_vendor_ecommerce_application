@@ -96,47 +96,47 @@
                                 <div class="col-md-12 mb-3">
                                     <label>{{__('Email Verified At')}}</label>
                                     <input type="date" name="email_verified_at" class="form-control"
-                                        value="{{ $seller->email_verified_at ?? 'Not set' }}">
+                                        value="{{ $seller->email_verified_at }}">
                                 </div>
 
                                 <div class="col-md-12 mb-3">
                                     <label>{{__('OTP Sent At')}}</label>
                                     <input type="datetime-local" name="otp_send_at" class="form-control"
-                                        value="{{ $seller->otp_send_at ?? 'Not set' }}">
+                                        value="{{ $seller->otp_send_at }}">
                                 </div>
 
                                 <div class="col-md-12 mb-3">
                                     <label>{{__('Emergency Phone')}}</label>
                                     <input type="text" name="emergency_phone" class="form-control"
-                                        value="{{ $seller->emergency_phone ?? 'Not set' }}">
+                                        value="{{ $seller->emergency_phone }}">
                                 </div>
 
                                 <div class="col-md-12 mb-3">
                                     <label>{{__('Phone')}}</label>
                                     <input type="text" name="phone" class="form-control"
-                                        value="{{ $seller->phone ?? 'Not set' }}">
+                                        value="{{ $seller->phone }}">
                                 </div>
 
                                 <div class="col-md-12 mb-3">
                                     <label>{{__("Father's Name")}}</label>
                                     <input type="text" name="father_name" class="form-control"
-                                        value="{{ $seller->father_name ?? 'Not set' }}">
+                                        value="{{ $seller->father_name }}">
                                 </div>
 
                                 <div class="col-md-12 mb-3">
                                     <label>{{__("Mother's Name")}}</label>
                                     <input type="text" name="mother_name" class="form-control"
-                                        value="{{ $seller->mother_name ?? 'Not set' }}">
+                                        value="{{ $seller->mother_name }}">
                                 </div>
 
                                 <div class="col-md-12 mb-3">
                                     <label>{{__('Present Address')}}</label>
-                                    <textarea name="present_address" class="form-control">{{ $seller->present_address ?? 'Not set' }}</textarea>
+                                    <textarea name="present_address" class="form-control">{{ $seller->present_address }}</textarea>
                                 </div>
 
                                 <div class="col-md-12 mb-3">
                                     <label>{{__('Permanent Address')}}</label>
-                                    <textarea name="permanent_address" class="form-control">{{ $seller->permanent_address ?? 'Not set' }}</textarea>
+                                    <textarea name="permanent_address" class="form-control">{{ $seller->permanent_address }}</textarea>
                                 </div>
                             </div>
 
