@@ -8,6 +8,7 @@ use App\Http\Traits\DetailsCommonDataTrait;
 use App\Http\Traits\FileManagementTrait;
 use Illuminate\Http\Request;
 use App\Models\Seller;
+use Yajra\DataTables\Facades\DataTables;
 
 class SellerController extends Controller
 {
@@ -25,10 +26,70 @@ class SellerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['sellers']=Seller::all();
-        return view('backend.admin.seller_management.index',$data);
+        $query = Seller::with(['creater_seller', 'role'])
+        ->orderBy('sort_order', 'asc')
+        ->latest();
+    if ($request->ajax()) {
+        return DataTables::eloquent($query)
+            ->editColumn('role_id', function ($seller) {
+                return optional($seller->role)->name;
+            })
+            ->editColumn('status', function ($seller) {
+                return "<span class='badge " . $seller->status_color . "'>$seller->status_label</span>";
+            })
+            ->editColumn('is_verify', function ($seller) {
+                return "<span class='badge " . $seller->verify_color . "'>" . $seller->verify_label . "</span>";
+            })
+            ->editColumn('created_by', function ($seller) {
+                return $seller->creater_name;
+            })
+            ->editColumn('created_at', function ($seller) {
+                return $seller->created_at_formatted;
+            })
+            ->editColumn('action', function ($seller) {
+                $menuItems = $this->menuItems($seller);
+                return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+            })
+            ->rawColumns(['role_id', 'status', 'is_verify', 'created_by', 'created_at', 'action'])
+            ->make(true);
+    }
+        return view('backend.admin.seller_management.index');
+    }
+
+    protected function menuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'javascript:void(0)',
+                'data-id' => encrypt($model->id),
+                'className' => 'view',
+                'label' => 'Details',
+                'permissions' => ['seller-list', 'seller-delete', 'seller-status']
+            ],
+            [
+                'routeName' => 'sl.seller.status',
+                'params' => [encrypt($model->id)],
+                'label' => $model->status_btn_label,
+                'permissions' => ['seller-status']
+            ],
+            [
+                'routeName' => 'sl.seller.edit',
+                'params' => [encrypt($model->id)],
+                'label' => 'Edit',
+                'permissions' => ['seller-edit']
+            ],
+
+            [
+                'routeName' => 'sl.seller.destroy',
+                'params' => [encrypt($model->id)],
+                'label' => 'Delete',
+                'delete' => true,
+                'permissions' => ['seller-delete']
+            ]
+
+        ];
     }
 
     /**
