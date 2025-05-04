@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends BaseModel
 {
@@ -14,6 +17,24 @@ class Category extends BaseModel
 
     public const FEATURED = 1;
     public const NOT_FEATURED = 2;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->appends = array_merge(parent::getAppends(), [
+            'status_label',
+            'status_color',
+            'status_btn_label',
+            'status_btn_color',
+            'status_labels',
+
+            'featured_label',
+            'featured_color',
+            'featured_btn_label',
+            'featured_btn_color',
+            'featured_labels',
+        ]);
+    }
 
     // Status labels
     public static function getStatusLabels(): array
@@ -147,5 +168,35 @@ class Category extends BaseModel
     public function getFeaturedBtnColorAttribute(): string
     {
         return self::getFeaturedBtnColors()[$this->is_featured] ?? 'btn btn-secondary';
+    }
+
+
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    public function sub_categories(): HasMany
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+    public function scopeDeactive(Builder $query): Builder
+    {
+        return $query->where('status', self::STATUS_DEACTIVE);
+    }
+
+    public function scopeFeatured(Builder $query): Builder
+    {
+        return $query->where('is_featured', self::FEATURED);
+    }
+    public function scopeNotFeatured(Builder $query): Builder
+    {
+        return $query->where('is_featured', self::NOT_FEATURED);
     }
 }
