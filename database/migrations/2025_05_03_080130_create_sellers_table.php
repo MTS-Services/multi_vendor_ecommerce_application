@@ -35,6 +35,13 @@ return new class extends Migration
 
             // Add the otp_send_at column (if it doesn't exist already)
             $table->timestamp('otp_send_at')->nullable(); // Add this line
+            // Infromation
+            $table->string('emargency_phone')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('father_name')->nullable();
+            $table->string('mother_name')->nullable();
+            $table->string('present_address')->nullable();
+            $table->string('permanent_address')->nullable();
 
             // Indexes
             $table->index('sort_order');
