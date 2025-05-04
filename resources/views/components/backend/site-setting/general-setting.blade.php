@@ -14,7 +14,7 @@
                         <input type="text" name="site_name"
                             class="form-control{{ $errors->has('site_name') ? ' is-invalid' : '' }}"
                             placeholder="{{ __('Site Name') }}" value="{{ $general_settings['site_name'] ?? '' }}">
-                        <x-feedback-alert :datas="['errors' => $errors, 'field' => 'site_name']" />
+                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'site_name']" />
                     </div>
 
                     <div class="form-group{{ $errors->has('site_short_name') ? ' has-danger' : '' }}">
@@ -23,7 +23,7 @@
                             class="form-control{{ $errors->has('site_short_name') ? ' is-invalid' : '' }} "
                             placeholder="{{ __('Site Short Name') }}"
                             value="{{ $general_settings['site_short_name'] ?? '' }}">
-                        <x-feedback-alert :datas="['errors' => $errors, 'field' => 'site_short_name']" />
+                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'site_short_name']" />
                     </div>
 
                     <div class="form-group{{ $errors->has('timezone') ? ' has-danger' : '' }}">
@@ -36,7 +36,7 @@
                                     {{ $at['name'] ?? '' }}</option>
                             @endforeach
                         </select>
-                        <x-feedback-alert :datas="['errors' => $errors, 'field' => 'timezone']" />
+                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'timezone']" />
                     </div>
 
                     <div class="form-group{{ $errors->has('site_logo') ? ' has-danger' : '' }}">
@@ -45,7 +45,7 @@
                             class="form-control {{ $errors->has('site_logo') ? ' is-invalid' : '' }} image-upload"
                             @if (isset($general_settings['site_logo'])) data-existing-files="{{ storage_url($general_settings['site_logo']) }}" data-delete-url="" @endif
                             accept="image/*">
-                        <x-feedback-alert :datas="['errors' => $errors, 'field' => 'site_logo']" />
+                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'site_logo']" />
                     </div>
 
                     <div class="form-group{{ $errors->has('site_favicon') ? ' has-danger' : '' }}">
@@ -55,7 +55,7 @@
                             class="form-control {{ $errors->has('site_favicon') ? ' is-invalid' : '' }} image-upload"
                             @if (isset($general_settings['site_favicon'])) data-existing-files="{{ storage_url($general_settings['site_favicon']) }}" data-delete-url="{{ storage_url($general_settings['site_favicon']) }}" @endif
                             accept="image/*">
-                        <x-feedback-alert :datas="['errors' => $errors, 'field' => 'site_favicon']" />
+                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'site_favicon']" />
 
                     </div>
 
@@ -68,7 +68,7 @@
                             <option value="local" @if (isset($general_settings['env']) && $general_settings['env'] == 'local') selected @endif>
                                 {{ __('Local') }}</option>
                         </select>
-                        <x-feedback-alert :datas="['errors' => $errors, 'field' => 'env']" />
+                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'env']" />
                     </div>
 
                     <div class="form-group{{ $errors->has('debug') ? ' has-danger' : '' }}">
@@ -81,7 +81,7 @@
                             <option value="0" @if (isset($general_settings['debug']) && $general_settings['debug'] == '0') selected @endif>
                                 {{ __('False') }}</option>
                         </select>
-                        <x-feedback-alert :datas="['errors' => $errors, 'field' => 'debug']" />
+                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'debug']" />
                     </div>
 
                     <div class="form-group {{ $errors->has('debugbar') ? ' has-danger' : '' }}">
@@ -94,7 +94,7 @@
                             <option value="0" @if (isset($general_settings['debugbar']) && $general_settings['debugbar'] == '0') selected @endif>
                                 {{ __('False') }}</option>
                         </select>
-                        <x-feedback-alert :datas="['errors' => $errors, 'field' => 'debugbar']" />
+                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'debugbar']" />
                     </div>
                     <div class="form-group {{ $errors->has('audit') ? ' has-danger' : '' }}">
                         <label>{{ __('Enable Audit') }}
@@ -106,7 +106,7 @@
                             <option value="0" @if (isset($general_settings['audit']) && $general_settings['audit'] == '0') selected @endif>
                                 {{ __('False') }}</option>
                         </select>
-                        <x-feedback-alert :datas="['errors' => $errors, 'field' => 'audit']" />
+                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'audit']" />
                     </div>
 
                     <div class="form-group {{ $errors->has('date_format') ? ' has-danger' : '' }} row">
@@ -121,7 +121,7 @@
                                 <option value="m/d/Y" @if (isset($general_settings['date_format']) && $general_settings['date_format'] == 'm/d/Y') selected @endif>
                                     {{ __('MM/DD/YYYY') }}</option>
                             </select>
-                            <x-feedback-alert :datas="['errors' => $errors, 'field' => 'date_format']" />
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'date_format']" />
                         </div>
                         <div class="col-md-6">
                             <label>{{ __('Time Format') }}</label>
@@ -132,7 +132,7 @@
                                 <option value="h:i:s A" @if (isset($general_settings['time_format']) && $general_settings['time_format'] == 'h:i:s A') selected @endif>
                                     {{ __('12-hour format (hh:mm:ss AM/PM)') }}</option>
                             </select>
-                            <x-feedback-alert :datas="['errors' => $errors, 'field' => 'time_format']" />
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'time_format']" />
                         </div>
                     </div>
 
