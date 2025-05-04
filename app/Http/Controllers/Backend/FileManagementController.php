@@ -89,6 +89,8 @@ class FileManagementController extends Controller
                 return user();
             case 'admin':
                 return admin();
+            case 'seller':
+                return seller();
         }
     }
 
