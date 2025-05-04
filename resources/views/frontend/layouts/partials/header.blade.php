@@ -21,8 +21,10 @@
                     </svg>
                 </label>
                 <div class="dropdown dropdown-center text-text-primary dark:text-text-white">
-                    <div tabindex="0" role="button" class="m-1">{{ __('English') }} <i
-                            class='bx bx-chevron-down'></i></div>
+                    <div tabindex="0" role="button" class="m-1 flex items-center justify-center gap-3">
+                        {{ __('English') }}
+                        <i data-lucide="chevron-down" class="text-text-primary dark:text-text-white"></i>
+                    </div>
                     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-fit p-2 shadow-sm">
                         <li class="text-nowrap text-center"><a href="">{{ __('Bangla') }}</a></li>
                         <li class="text-nowrap text-center"><a href="">{{ __('Hindi') }}</a></li>
@@ -31,13 +33,12 @@
             </div>
             <div class="navbar-center">
                 <a href="{{ route('frontend.home') }}" class="">
-                    <span id="darkModeLogo" class="hidden">
+                    <span class="dark-mode-logo hidden">
                         <img src="{{ asset('frontend/images/logo-light.png') }}" alt="Logo">
                     </span>
-                    <span id="lightModeLogo">
+                    <span class="light-mode-logo">
                         <img src="{{ asset('frontend/images/logo.png') }}" alt="Logo">
                     </span>
-
                 </a>
             </div>
             <div class="navbar-end">

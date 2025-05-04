@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <link rel="shortcut icon" href="{{asset('frontend/images/favicon.png')}}" type="image/x-icon">
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>
@@ -59,40 +61,42 @@
     </script>
 
     {{-- Toggle theme --}}
+
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             const $html = $('#html');
             const $themeToggle = $('#theme-toggle');
-            const $darkModeLogo = $('#darkModeLogo');
-            const $lightModeLogo = $('#lightModeLogo');
-
+            const $darkModeLogos = $('.dark-mode-logo');
+            const $lightModeLogos = $('.light-mode-logo');
+    
             // Load saved theme
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme) {
                 $html.removeClass('light dark').addClass(savedTheme).attr('data-theme', savedTheme);
                 $themeToggle.prop('checked', savedTheme === 'dark');
-                toggleLogo(savedTheme);
+                toggleLogos(savedTheme);
             }
-
+    
             // Toggle theme on change
-            $themeToggle.on('change', function() {
+            $themeToggle.on('change', function () {
                 const newTheme = $themeToggle.is(':checked') ? 'dark' : 'light';
                 $html.removeClass('light dark').addClass(newTheme).attr('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
-                toggleLogo(newTheme);
+                toggleLogos(newTheme);
             });
-
-            function toggleLogo(theme) {
+    
+            function toggleLogos(theme) {
                 if (theme === 'dark') {
-                    $darkModeLogo.removeClass('hidden');
-                    $lightModeLogo.addClass('hidden');
+                    $darkModeLogos.removeClass('hidden');
+                    $lightModeLogos.addClass('hidden');
                 } else {
-                    $darkModeLogo.addClass('hidden');
-                    $lightModeLogo.removeClass('hidden');
+                    $darkModeLogos.addClass('hidden');
+                    $lightModeLogos.removeClass('hidden');
                 }
             }
         });
     </script>
+    
 
     {{-- Custom Cursor --}}
     <script>
