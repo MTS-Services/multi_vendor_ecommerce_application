@@ -30,10 +30,10 @@
                         <div class="form-group">
                             <label>{{ __('Gender') }}<span class="text-danger">*</span></label>
                             <select name="gender" class="form-control">
-                                <option value="">Select Gender</option>
-                                <option value="{{ \App\Models\Seller::GENDER_MALE }}">Male</option>
-                                <option value="{{ \App\Models\Seller::GENDER_FEMALE }}">Female</option>
-                                <option value="{{ \App\Models\Seller::GENDER_OTHERS }}">Others</option>
+                                <option value="" selected hidden>{{__('Select Gender')}}</option>
+                                @foreach (\App\Models\Seller::getGenderLabels() as $key => $value)
+                                    <option value="{{ $key }}" {{ old('gender') == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                @endforeach
                             </select>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'gender']" />
                         </div>
