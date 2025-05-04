@@ -8,6 +8,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Traits\FileManagementTrait;
+use App\Models\Role;
 
 class CategoryController extends Controller
 {
@@ -116,20 +117,29 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    }
     public function edit(string $id)
     {
-        //
+        $Category['Category'] = Category::findOrFail(decrypt($id));
+        $Category['roles'] = Role::select(['id', 'name'])->latest()->get();
+        return view('backend.admin.product_management.category.edit', $Category);
     }
 
-    public function update(Request $request, string $id)
+    public function update(CategoryRequest $req, string $id)
     {
-        //
+        $Category = Category::findOrFail(decrypt($id));
+
+        if (isset($req->image)) {
+            $this->handleFilepondFileUpload($Category, $req->image, admin(), 'categories/');
+        }
+        $Category->name = $req->name;
+        $Category->slug = $req->slug;
+        $Category->description = $req->description;
+        $Category->meta_title = $req->meta_title;
+        $Category->meta_description = $req->meta_description;
+        session()->flash('success', 'Admin updated successfully!');
+        return redirect()->route('pm.category.index');
     }
 
     /**
