@@ -10,7 +10,7 @@
         <button class="btn-secondary">Click Me</button>
         <button class="btn-paginate">1</button>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {{-- <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 
             @php
                 $collections = collect([
@@ -29,12 +29,12 @@
             <x-frontend.product :items="$collections" />
 
         </div>
-        
+
     </div>
     <div class="min-h-screen">
         Hello world
         <i data-lucide="feather"></i>
 
         <div class="w-full h-48 bg-gradient-light dark:bg-gradient-dark"></div>
-    </div>
+    </div> --}}
 @endsection
