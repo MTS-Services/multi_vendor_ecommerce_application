@@ -3,7 +3,7 @@
 @section('title', 'Home')
 
 @section('content')
-    {{-- Featured Products --}}
+    {{-- Featured Products  start --}}
     <section class="bg-bg-gray dark:bg-bg-dark py-18">
         <div class="container">
             <div class="header pb-6">
@@ -37,7 +37,8 @@
             </div>
         </div>
     </section>
-    {{--     --}}
+    {{--    Featured Products  end --}}
+    {{--  Unmatched Performance start   --}}
     <section class="bg-bg-white dark:bg-bg-dark py-18">
         <div class="container">
             <div class="main  rounded-xl bg-gradient-primary dark:bg-gradient-dark  flex items-center justify-around">
@@ -52,4 +53,5 @@
             </div>
         </div>
     </section>
+    {{--  Unmatched Performance end --}}
 @endsection
