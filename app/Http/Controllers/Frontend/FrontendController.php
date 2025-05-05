@@ -20,4 +20,8 @@ class FrontendController extends Controller
     {
         return view('frontend.pages.shop');
     }
+    public function wishlist()
+    {
+        return view('frontend.pages.wishlist');
+    }
 }

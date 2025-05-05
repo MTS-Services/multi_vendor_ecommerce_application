@@ -3,6 +3,16 @@
 @section('title', 'Shop')
 @push('css')
     <style>
+        .bracamb-dot::before {
+            content: "";
+            height: 6px;
+            width: 6px;
+            border-radius: 50%;
+            background-color: #8752FA;
+            display: inline-block;
+            margin-right: 3px;
+        }
+
         /* Custom styles for the range slider */
         .range-slider {
             position: relative;
@@ -39,11 +49,11 @@
             <li>
                 <a href="#" class="text-text-gray hover:text-text-accent">Home</a>
             </li>
-            <li>
+            <li class="relative bracamb-dot">
                 <a href="#collections" class="text-text-gray hover:text-text-accent">Collections</a>
             </li>
-            <li>
-                <span class="font-semibold">Women</span>
+            <li class="relative bracamb-dot">
+                <span class="font-midium">Women</span>
             </li>
         </ul>
     </div>
@@ -268,7 +278,8 @@
                     <div class="hover:scale-110 transition-all duration-500">
                         <img src="{{ asset('frontend/images/sb-banner.jpg') }}" alt="Elevate">
                     </div>
-                    <div class="flex flex-col justify-center items-center p-10 absolute bottom-0 left-0 w-full text-center">
+                    <div
+                        class="flex flex-col justify-center items-center p-10 absolute bottom-0 left-0 w-full text-center">
                         <h3 class="font-medium mb-4 capitalize text-4xl text-text-white z-10">Elevate your style</h3>
                         <button class="btn-primary">Shop Now</button>
                     </div>
@@ -332,7 +343,7 @@
                 occasion.
             </p>
             <p>
-                Looking for more? Don’t miss out on our other exciting collections for 
+                Looking for more? Don’t miss out on our other exciting collections for
                 <a href="#" class="text-text-danger font-medium underline">BAGS</a>
                 and
                 <a href="#" class="text-text-danger font-medium underline">ACCESSORIES.</a>

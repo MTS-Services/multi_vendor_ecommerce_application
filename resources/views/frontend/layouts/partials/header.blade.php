@@ -28,12 +28,12 @@
                         <i data-lucide="user-round" class="text-text-primary dark:text-text-white hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"
                             onclick="my_modal_1.showModal()"></i>
                     </a>
-                    <a href="#" class="text-2xl relative">
+                    <a href="{{ route('frontend.whishlist') }}" class="text-2xl relative">
                         <i data-lucide="heart" class="text-text-primary dark:text-text-white hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"></i>
                         <span
                             class="text-text-white text-xs absolute -top-2 -right-2 z-10 bg-bg-secondary w-4 h-4 rounded-full flex items-center justify-center">{{ __('2') }}</span>
                     </a>
-                    <a href="#" class="text-2xl relative">
+                    <a href="" class="text-2xl relative">
                         <i data-lucide="shopping-basket" class="text-text-primary dark:text-text-white  hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"></i>
                         <span
                             class="text-text-white text-xs absolute -top-2 -right-2 z-10 bg-bg-secondary w-4 h-4 rounded-full flex items-center justify-center">{{ __('2') }}</span>
