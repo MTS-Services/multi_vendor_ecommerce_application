@@ -1,9 +1,9 @@
 <div class="relative search-container">
     <button class="text-2xl toggle-search-btn " type="button">
-        <i data-lucide="search" class="text-text-primary dark:text-text-white"></i>
+        <i data-lucide="search" class="text-text-primary dark:text-text-white hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"></i>
     </button>
     <form action="{{ route('frontend.home') }}"
-        class="searchForm absolute top-1/2 right-[110%] transform -translate-y-1/2 transition-all duration-300 ease-in-out scale-95 opacity-0 pointer-events-none max-w-96 w-full min-w-64 z-50">
+        class="searchForm absolute top-1/2 right-[110%] transform -translate-y-1/2 transition-all duration-300 ease-in-out scale-95 opacity-0 pointer-events-none max-w-[500px] min-w-64 lg:min-w-96 z-50">
         <div class="join w-full">
             <div class="w-full">
                 <label class="input">

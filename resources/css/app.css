@@ -74,7 +74,7 @@
 /* input fieldset */
 @layer components {
     .input {
-        @apply px-4 py-2 bg-bg-white dark:bg-bg-light dark:bg-opacity-20 rounded-l-full border border-bg-light dark:border-bg-dark text-text-secondary dark:text-text-white border-none shadow-lg focus:outline-0 focus-within:outline-0 focus:ring-0 focus:border-bg-dark transition-all duration-300 ease-linear;
+        @apply px-4 py-2 bg-bg-light dark:bg-bg-darkSecondary rounded-l-full border border-bg-light dark:border-bg-dark text-text-secondary dark:text-text-white border-none shadow-lg focus:outline-0 focus-within:outline-0 focus:ring-0 focus:border-bg-dark transition-all duration-300 ease-linear;
     }
 }
 
@@ -152,7 +152,7 @@
         @apply relative;
     }
     .product .product-actions .btn-product i {
-        @apply text-xs bg-bg-dark dark:bg-bg-light dark:bg-opacity-50 bg-opacity-10 text-text-primary dark:text-text-white rounded-full !w-10 h-10 flex items-center justify-center transition-all duration-300 ease-linear;
+        @apply text-xs bg-bg-dark dark:bg-bg-darkSecondary bg-opacity-10 dark:bg-opacity-50 text-text-primary dark:text-text-white rounded-full !w-10 h-10 flex items-center justify-center transition-all duration-300 ease-linear;
         @apply hover:bg-opacity-100 hover:text-text-accent;
     }
     .product .product-actions .btn-product span {

@@ -7,7 +7,7 @@
                 
             </div>
             <div class="navbar-start lg:navbar-center">
-                <a href="{{ route('frontend.home') }}" class="">
+                <a href="{{ route('frontend.home') }}" class="w-fit mx-auto">
                     <span class="dark-mode-logo hidden">
                         <img src="{{ asset('frontend/images/logo-light.png') }}" alt="Logo">
                     </span>
@@ -25,22 +25,22 @@
                     </span>
 
                     <a href="#" class="text-2xl">
-                        <i data-lucide="user-round" class="text-text-primary dark:text-text-white"
+                        <i data-lucide="user-round" class="text-text-primary dark:text-text-white hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"
                             onclick="my_modal_1.showModal()"></i>
                     </a>
                     <a href="#" class="text-2xl relative">
-                        <i data-lucide="heart" class="text-text-primary dark:text-text-white"></i>
+                        <i data-lucide="heart" class="text-text-primary dark:text-text-white hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"></i>
                         <span
                             class="text-text-white text-xs absolute -top-2 -right-2 z-10 bg-bg-secondary w-4 h-4 rounded-full flex items-center justify-center">{{ __('2') }}</span>
                     </a>
                     <a href="#" class="text-2xl relative">
-                        <i data-lucide="shopping-basket" class="text-text-primary dark:text-text-white"></i>
+                        <i data-lucide="shopping-basket" class="text-text-primary dark:text-text-white  hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"></i>
                         <span
                             class="text-text-white text-xs absolute -top-2 -right-2 z-10 bg-bg-secondary w-4 h-4 rounded-full flex items-center justify-center">{{ __('2') }}</span>
                     </a>
 
                     <button class="openSidebar text-2xl lg:hidden" title="Open Sidebar">
-                        <i data-lucide="menu"></i>
+                        <i data-lucide="menu" class="text-text-primary dark:text-text-white hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"></i>
                     </button>
                 </div>
             </div>
@@ -72,6 +72,12 @@
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent 
                 hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
                 {{ __('Faq') }}
+            </a>
+            <a href="{{route('frontend.test')}}"
+                class="capitalize text-text-primary dark:text-text-white relative 
+                after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent 
+                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
+                {{ __('Test') }}
             </a>
         </div>
     </div>
