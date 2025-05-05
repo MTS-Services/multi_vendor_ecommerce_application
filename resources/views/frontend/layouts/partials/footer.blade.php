@@ -20,7 +20,7 @@
                 </div>
                 <span class="text-xl">{{ __('FREE RETURNS') }}</span>
             </div>
-            <div class="flex pr-18 border-r items-center gap-2">
+            <div class="flex pr-18 items-center gap-2">
                 <div class=" w-15 h-15 rounded-full flex items-center justify-center border ">
                     <i data-lucide="headphones" class="w-8 h-8"></i>
                 </div>

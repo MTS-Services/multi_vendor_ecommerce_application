@@ -73,11 +73,11 @@
 
         <!-- Navigation buttons -->
         <div class="swiper-button swiper-button-prev">
-            <i class="fa-solid fa-angle-left"></i>
+            <i data-lucide="chevron-right"></i>
         </div>
 
         <div class="swiper-button swiper-button-next">
-            <i class="fa-solid fa-angle-right"></i>
+            <i data-lucide="chevron-left"></i>
         </div>
     </div>
 
@@ -88,9 +88,12 @@
 
         <div class="w-full h-48 bg-gradient-light dark:bg-gradient-dark"></div>
     </div>
+
+
+
 @endsection
 
-@push('js')
+{{-- @push('js')
     <script type="module">
       import Swiper from '/frontend/js/swiper.min.js';
 
@@ -105,4 +108,4 @@
             });
         });
     </script>
-@endpush
+@endpush --}}
