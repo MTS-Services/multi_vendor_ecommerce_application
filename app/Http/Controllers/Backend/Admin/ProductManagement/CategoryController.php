@@ -70,6 +70,12 @@ class CategoryController extends Controller
                 'permissions' => ['category-list']
             ],
             [
+                'routeName' => 'pm.category.edit',
+                'params' => [encrypt($model->id)],
+                'label' => 'Edit',
+                'permissions' => ['category-edit']
+            ],
+            [
                 'routeName' => 'pm.category.status',
                 'params' => [encrypt($model->id)],
                 'label' => $model->status_btn_label,
@@ -81,13 +87,6 @@ class CategoryController extends Controller
                 'label' => $model->featured_btn_label,
                 'permissions' => ['category-feature']
             ],
-            [
-                'routeName' => 'pm.category.edit',
-                'params' => [encrypt($model->id)],
-                'label' => 'Edit',
-                'permissions' => ['category-edit']
-            ],
-
             [
                 'routeName' => 'pm.category.destroy',
                 'params' => [encrypt($model->id)],
