@@ -18,6 +18,10 @@ function admin()
 {
     return auth()->guard('admin')->user();
 }
+function seller()
+{
+    return auth()->guard('seller')->user();
+}
 function user()
 {
     return auth()->guard('web')->user();

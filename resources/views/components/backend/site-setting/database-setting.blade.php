@@ -21,7 +21,7 @@
                             <option value="sqlsrv" @if (isset($db_settings['db_driver']) && $db_settings['db_driver'] == 'sqlsrv') selected @endif>
                                 {{ __('SQL Server') }}</option>
                         </select>
-                        <x-feedback-alert :datas="['errors' => $errors, 'field' => 'db_driver']" />
+                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'db_driver']" />
                     </div>
 
                     <div class="form-group {{ $errors->has('db_host') ? ' has-danger' : '' }}">
@@ -29,7 +29,7 @@
                         <input type="text" name="db_host"
                             class="form-control {{ $errors->has('db_host') ? ' is-invalid' : '' }}"
                             placeholder="{{ __('Database Host') }}" value="{{ $db_settings['db_host'] ?? '' }}">
-                        <x-feedback-alert :datas="['errors' => $errors, 'field' => 'db_host']" />
+                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'db_host']" />
                     </div>
 
                     <div class="form-group {{ $errors->has('db_port') ? ' has-danger' : '' }}">
@@ -37,7 +37,7 @@
                         <input type="text" name="db_port"
                             class="form-control {{ $errors->has('db_port') ? ' is-invalid' : '' }}"
                             placeholder="{{ __('Database Port') }}" value="{{ $db_settings['db_port'] ?? '' }}">
-                        <x-feedback-alert :datas="['errors' => $errors, 'field' => 'db_port']" />
+                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'db_port']" />
                     </div>
 
                     <div class="form-group{{ $errors->has('db_name') ? ' has-danger' : '' }}">
@@ -45,7 +45,7 @@
                         <input type="" name="db_name"
                             class="form-control {{ $errors->has('db_name') ? ' is-invalid' : '' }}"
                             placeholder="{{ __('Database Name') }}" value="{{ $db_settings['db_name'] ?? '' }}">
-                        <x-feedback-alert :datas="['errors' => $errors, 'field' => 'db_name']" />
+                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'db_name']" />
                     </div>
 
                     <div class="form-group {{ $errors->has('db_username') ? ' has-danger' : '' }}">
@@ -54,7 +54,7 @@
                             class="form-control{{ $errors->has('db_username') ? ' is-invalid' : '' }}"
                             placeholder="{{ __('Database Username') }}"
                             value="{{ $db_settings['db_username'] ?? '' }}" autocomplete="off">
-                        <x-feedback-alert :datas="['errors' => $errors, 'field' => 'db_username']" />
+                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'db_username']" />
                     </div>
 
                     <div class="form-group {{ $errors->has('db_password') ? ' has-danger' : '' }}">
@@ -63,7 +63,7 @@
                             class="form-control{{ $errors->has('db_password') ? ' is-invalid' : '' }}"
                             placeholder="{{ __('Database Password') }}"
                             value="{{ $db_settings['db_password'] ?? '' }}" autocomplete="off">
-                        <x-feedback-alert :datas="['errors' => $errors, 'field' => 'db_password']" />
+                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'db_password']" />
                     </div>
                 </div>
                 <div class="card-footer text-end">

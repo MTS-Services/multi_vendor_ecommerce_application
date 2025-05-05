@@ -62,7 +62,7 @@
     <script src="{{ asset('filepond/filepond.js') }}"></script>
     <script>
         $(document).ready(function() {
-            file_upload(["#image"], "uploadImage", "user", [], false);
+            file_upload(["#image"], "uploadImage", "admin", [], false);
         });
     </script>
     {{-- FilePond  --}}

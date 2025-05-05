@@ -1,18 +1,21 @@
 <?php
 
-use App\Http\Controllers\Backend\Admin\UserManagement\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Backend\Admin\AdminManagement\AdminController;
-use App\Http\Controllers\Backend\Admin\AdminManagement\PermissionController;
-use App\Http\Controllers\Backend\Admin\AdminManagement\RoleController;
+use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Backend\Admin\AuditController;
-use App\Http\Controllers\Backend\Admin\DatatableController as AdminDatatableController;
-use App\Http\Controllers\Backend\Admin\DocumentationController;
 use App\Http\Controllers\Backend\Admin\TempFileController;
 use App\Http\Controllers\Backend\Admin\SiteSettingController;
-use Illuminate\Support\Facades\Response;
+use App\Http\Controllers\Backend\Admin\DocumentationController;
+use App\Http\Controllers\Backend\Admin\UserManagement\UserController;
+use App\Http\Controllers\Backend\Admin\AdminManagement\RoleController;
+use App\Http\Controllers\Backend\Admin\AdminManagement\AdminController;
+use App\Http\Controllers\Backend\Admin\SellerManagement\SellerController;
+use App\Http\Controllers\Backend\Admin\AdminManagement\PermissionController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\CategoryController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\SubCategoryController;
 use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Backend\Admin\DatatableController as AdminDatatableController;
 
 // Admin Auth Routes
 Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')->group(function () {
@@ -24,7 +27,7 @@ Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')-
 
 
 Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
-  
+
   Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
   //Developer Routes
   Route::get('/export-permissions', function () {
@@ -50,6 +53,24 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('user/status/{user}', [UserController::class, 'status'])->name('user.status');
     });
 
+    // Seller Management
+    Route::group(['as' => 'sl.', 'prefix' => 'seller-management'], function () {
+        Route::resource('seller', SellerController::class);
+        Route::get('seller/status/{seller}', [SellerController::class, 'status'])->name('seller.status');
+    });
+
+    // Product Management
+    Route::group(['as' => 'pm.', 'prefix' => 'product-management'], function () {
+        // Category Routes
+        Route::resource('category', CategoryController::class);
+        Route::get('category/status/{category}', [CategoryController::class, 'status'])->name('category.status');
+        Route::get('category/feature/{category}', [CategoryController::class, 'feature'])->name('category.feature');
+        // Sub Category Routes
+        Route::resource('sub-category', SubCategoryController::class);
+        Route::get('sub-category/status/{sub_category}', [SubCategoryController::class, 'status'])->name('sub-category.status');
+        Route::get('sub-category/feature/{sub_category}', [SubCategoryController::class, 'feature'])->name('sub-category.feature');
+    });
+
   // Documentation
   Route::resource('documentation', DocumentationController::class);
 
@@ -73,4 +94,6 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     Route::put('email-template/edit/{id}', 'et_update')->name('email_template');
     Route::post('notification/update', 'notification')->name('notification');
   });
+
 });
+

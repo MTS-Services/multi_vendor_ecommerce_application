@@ -43,12 +43,13 @@ trait FileManagementTrait
     public function handleFilepondFileUpload($model, $input_field, $auditor, $folderName = 'uploads/', $db_field = 'image')
     {
         $temp_file = TempFile::findOrFail($input_field);
+        $to_path = '';
         if ($temp_file) {
             $from_path = $temp_file->path . '/' . $temp_file->filename;
             $to_path = $folderName . time() . '/' . $temp_file->filename;
 
             Storage::disk('public')->move($from_path, $to_path);
-            if ($model->image) {
+            if (isset($model->$db_field) && $model->$db_field) {
                 $temp_create = new TempFile();
                 $temp_create->path = dirname($model->$db_field);
                 $temp_create->filename = basename($model->$db_field);
@@ -56,9 +57,13 @@ trait FileManagementTrait
                 $temp_create->creater()->associate($auditor);
                 $temp_create->save();
             }
-            $model->image = $to_path;
+            if (isset($model->$db_field)) {
+                $model->$db_field = $to_path;
+            }
+
             Storage::disk('public')->deleteDirectory($temp_file->path);
             $temp_file->forceDelete();
         }
+        return $to_path;
     }
 }
