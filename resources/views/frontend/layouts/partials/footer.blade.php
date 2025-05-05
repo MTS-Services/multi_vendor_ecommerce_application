@@ -1,7 +1,4 @@
 <footer>
-
-
-
     <!-- Feature Icons Row  Start-->
     <div class="container">
         <div class="flex flex-wrap justify-around items-center py-6  divide-gray-300  text-center">
@@ -32,6 +29,7 @@
         </div>
     </div>
     {{-- Feature Icons Row End --}}
+
     {{-- logo part start --}}
     <section class="py-10 border">
         <div class="container">
@@ -70,6 +68,7 @@
         </div>
     </section>
     {{-- logo part end --}}
+
     <!-- Main Flex Content start-->
     <div class="container">
 
@@ -181,7 +180,8 @@
 
     </div>
     {{-- Main content end --}}
-    <!-- Bottom Footer -->
+
+    <!-- Footer socket -->
     <section class="border-t  ">
 
         <div class="container py-6 px-4 flex flex-col md:flex-row justify-between items-center gap-4">
@@ -217,6 +217,5 @@
             </div>
         </div>
     </section>
-    {{-- Bottom footer end --}}
-
+    {{-- Bottom socket end --}}
 </footer>
