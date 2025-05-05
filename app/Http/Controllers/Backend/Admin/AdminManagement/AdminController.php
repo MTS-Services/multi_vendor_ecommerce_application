@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\AdminRequest;
 use App\Models\Admin;
 use App\Http\Traits\DetailsCommonDataTrait;
 use App\Models\Role;
+use DB;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Traits\FileManagementTrait;
@@ -20,7 +21,7 @@ class AdminController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->middleware('permission:admin-list|admin-details|admin-delete|admin-status', ['only' => ['index']]);
+        $this->middleware('permission:admin-list', ['only' => ['index']]);
         $this->middleware('permission:admin-details', ['only' => ['show']]);
         $this->middleware('permission:admin-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:admin-edit', ['only' => ['edit', 'update']]);
@@ -32,10 +33,11 @@ class AdminController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Admin::with(['creater_admin', 'role'])
+
+        if ($request->ajax()) {
+            $query = Admin::with(['creater_admin', 'role'])
             ->orderBy('sort_order', 'asc')
             ->latest();
-        if ($request->ajax()) {
             return DataTables::eloquent($query)
                 ->editColumn('role_id', function ($admin) {
                     return optional($admin->role)->name;
@@ -70,7 +72,7 @@ class AdminController extends Controller
                 'data-id' => encrypt($model->id),
                 'className' => 'view',
                 'label' => 'Details',
-                'permissions' => ['admin-list', 'admin-delete', 'admin-status']
+                'permissions' => ['admin-details']
             ],
             [
                 'routeName' => 'am.admin.status',
@@ -111,19 +113,22 @@ class AdminController extends Controller
     public function store(AdminRequest $req): RedirectResponse
     {
 
-        $admin = new Admin();
+        DB::transaction(function () use ($req) {
+            try{
+                $validated= $req->validated();
+                $validated['created_by'] = admin()->id;
+                if (isset($req->image)) {
+                    $validated['image'] = $this->handleFilepondFileUpload(Admin::class, $req->image, admin(), 'admins/');
+                }
+                $admin = Admin::create($validated);
+                $admin->assignRole($admin->role->name);
+                session()->flash('success', 'Admin created successfully!');
+            } catch (\Throwable $e) {
+                session()->flash('error', 'Admin create failed!');
+                throw $e;
 
-        if (isset($req->image)) {
-            $this->handleFilepondFileUpload($admin, $req->image, admin(), 'admins/');
-        }
-        $admin->role_id = $req->role;
-        $admin->name = $req->name;
-        $admin->email = $req->email;
-        $admin->password = $req->password;
-        $admin->created_by = admin()->id;
-        $admin->save();
-        $admin->assignRole($admin->role->name);
-        session()->flash('success', 'Admin created successfully!');
+            }
+        });
         return redirect()->route('am.admin.index');
     }
 
@@ -133,7 +138,6 @@ class AdminController extends Controller
     public function show(string $id): JsonResponse
     {
         $data = Admin::with(['creater_admin', 'updater_admin', 'role'])->findOrFail(decrypt($id));
-        $data->append(['modified_image', 'status_label', 'status_color', 'verify_label', 'verify_color', 'gender_label', 'gender_color', 'creater_name', 'updater_name']);
         return response()->json($data);
     }
 
@@ -152,20 +156,26 @@ class AdminController extends Controller
      */
     public function update(AdminRequest $req, string $id): RedirectResponse
     {
-        // HHi
-        $admin = Admin::findOrFail(decrypt($id));
 
-        if (isset($req->image)) {
-            $this->handleFilepondFileUpload($admin, $req->image, admin(), 'admins/');
-        }
-        $admin->role_id = $req->role;
-        $admin->name = $req->name;
-        $admin->email = $req->email;
-        $admin->password = $req->password ? $req->password : $admin->password;
-        $admin->updated_by = admin()->id;
-        $admin->update();
-        $admin->syncRoles($admin->role->name);
-        session()->flash('success', 'Admin updated successfully!');
+
+        DB::transaction(function () use ($req, $id) {
+            try{
+                $admin = Admin::findOrFail(decrypt($id));
+                $validated= $req->validated();
+                $validated['password'] = ($req->password ? $req->password : $admin->password);
+                if (isset($req->image)) {
+                    $validated['image'] = $this->handleFilepondFileUpload($admin, $req->image, admin(), 'admins/');
+                }
+                $validated['updated_by'] = admin()->id;
+                $admin->update($validated);
+                $admin->syncRoles($admin->role->name);
+                session()->flash('success', 'Admin updated successfully!');
+            } catch (\Throwable $e) {
+                session()->flash('error', 'Admin update failed!');
+                throw $e;
+
+            }
+        });
         return redirect()->route('am.admin.index');
     }
 
@@ -176,10 +186,10 @@ class AdminController extends Controller
     {
         $admin = Admin::with('role')->findOrFail(decrypt($id));
         if ($admin->role_id == 1) {
-            session()->flash('error', 'Super Admin can not be deleted!');
+            session()->flash('error', 'Can not delete Super Admin!');
             return redirect()->route('am.admin.index');
         }
-        $admin->deleted_by = admin()->id;
+        $admin->update(['deleted_by' => admin()->id]);
         $admin->delete();
         session()->flash('success', 'Admin deleted successfully!');
         return redirect()->route('am.admin.index');
@@ -188,9 +198,11 @@ class AdminController extends Controller
     public function status(string $id): RedirectResponse
     {
         $admin = Admin::findOrFail(decrypt($id));
-        $admin->status = !$admin->status;
-        $admin->updated_by = admin()->id;
-        $admin->update();
+        if ($admin->role_id == 1) {
+            session()->flash('error', 'Can not change Super Admin status!');
+            return redirect()->route('am.admin.index');
+        }
+        $admin->update(['status' => !$admin->status, 'updated_by'=> admin()->id]);
         session()->flash('success', 'Admin status updated successfully!');
         return redirect()->route('am.admin.index');
     }

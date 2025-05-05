@@ -18,7 +18,7 @@ class PermissionController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->middleware('permission:permission-list|permission-details|permission-delete', ['only' => ['index']]);
+        $this->middleware('permission:permission-list', ['only' => ['index']]);
         $this->middleware('permission:permission-details', ['only' => ['show']]);
         $this->middleware('permission:permission-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:permission-edit', ['only' => ['edit', 'update']]);
@@ -30,10 +30,11 @@ class PermissionController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Permission::with('creater_admin')
+
+        if ($request->ajax()) {
+            $query = Permission::with('creater_admin')
             ->orderBy('sort_order', 'asc')
             ->latest();
-        if ($request->ajax()) {
             return DataTables::eloquent($query)
                 ->editColumn('created_by', function ($permission) {
                     return $permission->creater_name;
@@ -59,7 +60,7 @@ class PermissionController extends Controller
                 'data-id' => encrypt($model->id),
                 'className' => 'view',
                 'label' => 'Details',
-                'permissions' => ['permission-list', 'permission-delete']
+                'permissions' => ['permission-details']
             ],
             [
                 'routeName' => 'am.permission.edit',
@@ -91,12 +92,10 @@ class PermissionController extends Controller
      */
     public function store(PermissionRequest $req): RedirectResponse
     {
-        $permission = new Permission();
-        $permission->name = $req->name;
-        $permission->prefix = $req->prefix;
-        $permission->guard_name = 'admin';
-        $permission->created_by = admin()->id;
-        $permission->save();
+        $validated = $req->validated();
+        $validated['created_by'] = admin()->id;
+        $validated['guard_name'] = 'admin';
+        $permission = Permission::create($validated);
         session()->flash('success', "$permission->name permission created successfully");
         return redirect()->route('am.permission.index');
     }
@@ -122,14 +121,13 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PermissionRequest $request, string $id): RedirectResponse
+    public function update(PermissionRequest $req, string $id): RedirectResponse
     {
         $permission = Permission::findOrFail(decrypt($id));
-        $permission->name = $request->name;
-        $permission->prefix = $request->prefix;
-        $permission->guard_name = 'admin';
-        $permission->updated_by = admin()->id;
-        $permission->save();
+        $validated = $req->validated();
+        $validated['updated_by'] = admin()->id;
+        $validated['guard_name'] = 'admin';
+        $permission->update($validated);
         session()->flash('success', "$permission->name permission updated successfully");
         return redirect()->route('am.permission.index');
     }
@@ -140,7 +138,7 @@ class PermissionController extends Controller
     public function destroy(string $id): RedirectResponse
     {
         $permission = Permission::findOrFail(decrypt($id));
-        $permission->deleted_by = admin()->id;
+        $permission->update(['deleted_by' => admin()->id]);
         $permission->delete();
         session()->flash('success', "$permission->name permission deleted successfully");
         return redirect()->route('am.permission.index');
