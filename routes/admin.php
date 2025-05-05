@@ -56,7 +56,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     // Seller Management
     Route::group(['as' => 'sl.', 'prefix' => 'seller-management'], function () {
         Route::resource('seller', SellerController::class);
-        // Route::get('user/status/{user}', [UserController::class, 'status'])->name('user.status');
+        Route::get('seller/status/{seller}', [SellerController::class, 'status'])->name('seller.status');
     });
 
     // Product Management
