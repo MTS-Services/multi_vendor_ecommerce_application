@@ -63,6 +63,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     Route::group(['as' => 'pm.', 'prefix' => 'product-management'], function () {
         Route::resource('category', CategoryController::class);
         Route::get('category/status/{category}', [CategoryController::class, 'status'])->name('category.status');
+        Route::get('category/feature/{category}', [CategoryController::class, 'feature'])->name('category.feature');
         Route::resource('subcategory', SubCategoryController::class);
         Route::get('subcategory/status/{subcategory}', [SubCategoryController::class, 'status'])->name('subcategory.status');
     });

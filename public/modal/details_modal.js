@@ -26,6 +26,8 @@ function showModalWithData(headers, data, modalWrapId, modalId) {
     const headerHtml = headers
         .map((header) => {
             if (header.color) {
+                console.log(data);
+
                 return `
                     <tr>
                         <th class="text-nowrap">${header.label}</th>

@@ -23,7 +23,6 @@
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Featured') }}</th>
-                                <th>{{ __('Image') }}</th>
                                 <th>{{ __('Created By') }}</th>
                                 <th>{{ __('Created Date') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -50,7 +49,6 @@
                 ['name', true, true],
                 ['status', true, true],
                 ['is_featured', true, true],
-                ['modified_image', true, true],
                 ['creater_id', true, true],
                 ['created_at', false, false],
                 ['action', false, false],
@@ -61,7 +59,7 @@
                 displayLength: 10,
                 main_route: "{{ route('pm.category.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5, 6],
+                export_columns: [0, 1, 2, 3, 4, 5],
                 model: 'Category',
             };
             initializeDataTable(details);
@@ -75,7 +73,7 @@
         // Event listener for viewing details
         $(document).on("click", ".view", function() {
             let id = $(this).data("id");
-            let route = "{{ route('um.user.show', ['id']) }}";
+            let route = "{{ route('pm.category.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
             const headers = [{
                     label: "Name",
@@ -91,18 +89,14 @@
                     type: "image"
                 },
                 {
-                    label: "Description",
-                    key: "description"
+                    label: "Featured",
+                    key: "featured_label",
+                    color: "featured_color",
                 },
                 {
                     label: "Status",
                     key: "status_label",
                     color: "status_color",
-                },
-                {
-                    label: "Featured",
-                    key: "featured_label",
-                    color: "featured_color",
                 },
                 {
                     label: "Meta Title",
@@ -111,6 +105,10 @@
                 {
                     label: "Meta Description",
                     key: "meta_description"
+                },
+                {
+                    label: "Description",
+                    key: "description"
                 },
             ];
             fetchAndShowModal(detailsUrl, headers, "#modal_data", "myModal");

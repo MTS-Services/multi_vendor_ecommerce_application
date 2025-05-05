@@ -9,50 +9,45 @@
                     <x-backend.admin.button :datas="[
                         'routeName' => 'pm.category.index',
                         'label' => 'Back',
-                        'permissions' => ['Category-list', 'Category-details', 'Category-delete', 'Category-status'],
+                        'permissions' => ['Category-list'],
                     ]" />
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('pm.category.update', encrypt($Category->id)) }}" method="POST"
+                    <form action="{{ route('pm.category.update', encrypt($category->id)) }}" method="POST"
                         enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div class="form-group">
-                            <label>{{ __('Name') }} <span class="text-danger">*</span></label>
-                            <input type="text" name="name" value="{{ $Category->name }}" class="form-control"
+                            <label>{{ __('Name') }}  <span class="text-danger">*</span></label>
+                            <input type="text" value="{{ $category->name }}" id="title" name="name" class="form-control"
                                 placeholder="Enter name">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
-
-                                <div class="form-group">
-                                    <label>{{ __('Slug') }} <span class="text-danger">*</span></label>
-                                    <input type="text" name="slug" value="{{ $Category->slug }}" class="form-control"
-                                        placeholder="Enter Slug">
-                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'slug']" />
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('Slug') }}  <span class="text-danger">*</span></label>
+                            <input type="text" value="{{ $category->slug }}" name="slug" id="slug" class="form-control"
+                                placeholder="Enter slug">
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'slug']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Image') }}</label>
-                            <input type="file" accept="image/*" name="uploadImage" data-actualName="image"
-                                class="form-control filepond" id="image">
+                            <input type="file" name="uploadImage" data-actualName="image" class="form-control filepond"
+                                id="image" accept="image/*">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />
                         </div>
                         <div class="form-group">
-                            <label>{{ __('Meta Title') }} <span class="text-danger">*</span></label>
-                            <input type="text" name="meta_title" value="{{ $Category->meta_title }}" class="form-control"
-                                placeholder="Enter meta title">
+                            <label>{{ __('Meta Title') }}</label>
+                            <input type="text" name="meta_title" value="{{ $category->meta_title }}" class="form-control" placeholder="Enter meta title">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'meta_title']" />
                         </div>
-
                         <div class="form-group">
-                            <label>{{ __('Meta Description') }} <span class="text-danger">*</span></label>
-                            <input type="text" name="meta_description" value="{{ $Category->meta_description }}" class="form-control"
-                                placeholder="Enter meta description">
+                            <label>{{ __('Meta Description') }}</label>
+                            <textarea name="meta_description" class="form-control" placeholder="Enter meta description">{{$category->meta_description}}</textarea>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'meta_description']" />
                         </div>
-
                         <div class="form-group">
-                            <label>{{ __('Description') }} <span class="text-danger">*</span></label>
-                            <input type="text" name="description" value="{{ $Category->description }}" class="form-control"
-                                placeholder="Enter description">
+                            <label>{{ __('Description') }}</label>
+                            <textarea name="description" class="form-control" placeholder="Enter description">{{$category->description}}</textarea>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'description']" />
                         </div>
                         <div class="form-group float-end">
@@ -71,7 +66,7 @@
     <script>
         $(document).ready(function() {
             const existingFiles = {
-                "#image":"{{ storage_url($Category->image)}}",
+                "#image":"{{ storage_url($category->image)}}",
             }
             file_upload(["#image"], "uploadImage", "admin", existingFiles, false);
         });

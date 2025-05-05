@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends BaseModel
 {
@@ -43,7 +41,6 @@ class Category extends BaseModel
             'status_btn_label',
             'status_btn_color',
             'status_labels',
-
             'featured_labels',
             'featured_label',
             'featured_color',
@@ -53,17 +50,8 @@ class Category extends BaseModel
             'modified_image',
         ]);
     }
-    // app/Models/Category.php
 
-    public function parent()
-    {
-        return $this->belongsTo(Category::class, 'parent_id');
-    }
 
-    public function children()
-    {
-        return $this->hasMany(Category::class, 'parent_id');
-    }
 
 
     public const STATUS_ACTIVE = 1;
@@ -206,19 +194,44 @@ class Category extends BaseModel
         return self::getFeaturedBtnColors()[$this->is_featured] ?? 'btn btn-secondary';
     }
 
-
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class, 'parent_id');
-    }
-
-    public function sub_categories(): HasMany
-    {
-        return $this->hasMany(Category::class, 'parent_id', 'id');
-    }
-
     public function getModifiedImageAttribute()
     {
         return storage_url($this->image);
     }
+
+    public function cateagory()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    public function sub_categories()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+    public function scopeDeactive($query)
+    {
+        return $query->where('status', self::STATUS_DEACTIVE);
+    }
+    public function scopeFeatured($query)
+    {
+        return $query->where('status', self::FEATURED);
+    }
+    public function scopeNotFeatured($query)
+    {
+        return $query->where('status', self::NOT_FEATURED);
+    }
+
+    public function scopeIsCategory($query) {
+        return $query->where('parent_id', null);
+    }
+    public function scopeIsSubCategory($query) {
+        return $query->where('parent_id', '!=', null);
+    }
+
+
 }
