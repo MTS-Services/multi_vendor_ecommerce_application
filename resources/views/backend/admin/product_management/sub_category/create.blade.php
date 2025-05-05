@@ -7,31 +7,35 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Create Sub Category') }}</h4>
                     <x-backend.admin.button :datas="[
-                        'routeName' => 'pm.subcategory.index',
+                        'routeName' => 'pm.sub-category.index',
                         'label' => 'Back',
-                        'permissions' => ['subcategory-list', 'subcategory-details', 'subcategory-delete', 'subcategory-status'],
+                        'permissions' => ['subcategory-list'],
                     ]" />
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('pm.subcategory.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('pm.sub-category.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
+                            <label>{{ __('Category') }}  <span class="text-danger">*</span></label>
+                            <select name="parent_id" class="form-control">
+                                <option value="" selected disabled>{{ __('Select Category') }}</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('parent_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'parent_id']" />
+                        </div>
+                        <div class="form-group">
                             <label>{{ __('Name') }}  <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ old('name') }}" name="name" class="form-control"
+                            <input type="text" value="{{ old('name') }}" id="title" name="name" class="form-control"
                                 placeholder="Enter name">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
                         </div>
 
                         <div class="form-group">
-                            <label>{{ __('category') }}  <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ old('category') }}" name="name" class="form-control"
-                                placeholder="Enter category">
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'category']" />
-                        </div>
-
-                        <div class="form-group">
                             <label>{{ __('Slug') }}  <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ old('slug') }}" name="slug" class="form-control"
+                            <input type="text" value="{{ old('slug') }}" id="slug" name="slug" class="form-control"
                                 placeholder="Enter slug">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'slug']" />
                         </div>
@@ -42,17 +46,17 @@
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />
                         </div>
                         <div class="form-group">
-                            <label>{{ __('Meta Title') }} <span class="text-danger">*</span></label>
+                            <label>{{ __('Meta Title') }}</label>
                             <input type="text" name="meta_title" value="{{ old('meta_title') }}" class="form-control" placeholder="Enter meta title">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'meta_title']" />
                         </div>
                         <div class="form-group">
-                            <label>{{ __('Meta Description') }} <span class="text-danger">*</span></label>
+                            <label>{{ __('Meta Description') }}</label>
                             <textarea name="meta_description" class="form-control" placeholder="Enter meta description">{{old('meta_description')}}</textarea>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'meta_description']" />
                         </div>
                         <div class="form-group">
-                            <label>{{ __('Description') }} <span class="text-danger">*</span></label>
+                            <label>{{ __('Description') }}</label>
                             <textarea name="description" class="form-control" placeholder="Enter description">{{old('description')}}</textarea>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'description']" />
                         </div>

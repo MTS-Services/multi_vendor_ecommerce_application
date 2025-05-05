@@ -66,7 +66,7 @@
     <script>
         $(document).ready(function() {
             const existingFiles = {
-                "#image":"{{ storage_url($category->image)}}",
+                "#image":"{{ $category->modified_image }}",
             }
             file_upload(["#image"], "uploadImage", "admin", existingFiles, false);
         });

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends BaseModel
 {
@@ -48,6 +50,7 @@ class Category extends BaseModel
             'featured_btn_color',
 
             'modified_image',
+            'category_name',
         ]);
     }
 
@@ -198,13 +201,17 @@ class Category extends BaseModel
     {
         return storage_url($this->image);
     }
+    public function getCategoryNameAttribute(): string|null
+    {
+        return optional($this->category)->name;
+    }
 
-    public function cateagory()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
-    public function sub_categories()
+    public function sub_categories(): HasMany
     {
         return $this->hasMany(Category::class, 'parent_id');
     }

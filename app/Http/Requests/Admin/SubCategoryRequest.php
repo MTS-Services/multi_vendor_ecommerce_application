@@ -27,6 +27,7 @@ class SubCategoryRequest extends FormRequest
             'meta_description' => 'nullable|string',
             'description' => 'nullable|string',
             'image' => 'nullable',
+            'parent_id' => 'required|exists:categories,id',
 
         ]
             +
@@ -45,8 +46,8 @@ class SubCategoryRequest extends FormRequest
     protected function update(): array
     {
         return [
-            'name' => 'required|string|unique:categories,name,' . decrypt($this->route('category')),
-            'slug' => 'required|string|unique:categories,slug,' . decrypt($this->route('category')),
+            'name' => 'required|string|unique:categories,name,' . decrypt($this->route('sub_category')),
+            'slug' => 'required|string|unique:categories,slug,' . decrypt($this->route('sub_category')),
 
         ];
     }
