@@ -21,6 +21,14 @@
                                 placeholder="Enter name">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
                         </div>
+
+                        <div class="form-group">
+                            <label>{{ __('category') }}  <span class="text-danger">*</span></label>
+                            <input type="text" value="{{ old('category') }}" name="name" class="form-control"
+                                placeholder="Enter category">
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'category']" />
+                        </div>
+
                         <div class="form-group">
                             <label>{{ __('Slug') }}  <span class="text-danger">*</span></label>
                             <input type="text" value="{{ old('slug') }}" name="slug" class="form-control"

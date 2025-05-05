@@ -119,7 +119,7 @@ class SubCategoryController extends Controller
     public function edit(string $id)
     {
         $subcategory['subcategory'] = Category::findOrFail(decrypt($id));
-        $Category['roles'] = Role::select(['id', 'name'])->latest()->get();
+        $subcategory['roles'] = Role::select(['id', 'name'])->latest()->get();
         return view('backend.admin.product_management.sub_category.edit', $subcategory);
     }
 
@@ -128,10 +128,10 @@ class SubCategoryController extends Controller
      */
     public function update(SubCategoryRequest $request, string $id)
     {
-        $subcategory = Category::findOrFail(decrypt($id));
 
-        if (isset($req->image)) {
-            $this->handleFilepondFileUpload($subcategory, $request->image, admin(), 'categories/');
+        $subcategory = Category::findOrFail(decrypt($id));
+        if (isset($request->image)) {
+            $this->handleFilepondFileUpload($subcategory, $request->uploadImage, admin(), 'subcategories/');
         }
         $subcategory->name = $request->name;
         $subcategory->slug = $request->slug;

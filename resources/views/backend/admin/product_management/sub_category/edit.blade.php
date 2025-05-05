@@ -71,7 +71,7 @@
     <script>
         $(document).ready(function() {
             const existingFiles = {
-                "#image":"{{ storage_url($SubCategory->image)}}",
+                "#image":"{{ storage_url($subcategory->image)}}",
             }
             file_upload(["#image"], "uploadImage", "admin", existingFiles, false);
         });
