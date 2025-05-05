@@ -11,6 +11,15 @@ class Role extends SpatieRole implements Auditable
 {
     use HasFactory, \OwenIt\Auditing\Auditable;
 
+    protected $fillable = [
+        "name",
+        "guard_name",
+
+        "created_by",
+        "updated_by",
+        "deleted_by",
+    ];
+
     public function creater_admin()
     {
         return $this->belongsTo(Admin::class, 'created_by')->select(['id', 'name']);
