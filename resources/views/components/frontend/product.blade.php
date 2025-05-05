@@ -1,7 +1,7 @@
 <div class="product">
 
     <figure>
-        <img src="{{ asset('default_img/phone.png') }}" alt="{{ $items['title'] }}" />
+        <img src="{{ asset($items['image']) }}" alt="{{ $items['title'] }}" />
     </figure>
     <div class="card-body">
         <a href="#" class="product-title">{{ $items['title'] }}</a>

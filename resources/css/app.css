@@ -81,7 +81,7 @@
 /* Buttons */
 @layer components {
     .btn-search {
-        @apply py-2 pl-4 pr-8 text-white bg-bg-accent !rounded-r-full font-medium transition-all duration-300 relative overflow-hidden;
+        @apply py-2 pl-4 pr-8 text-text-white bg-bg-accent !rounded-r-full font-medium transition-all duration-300 relative overflow-hidden;
 
         @apply after:content-[''] after:absolute after:w-5 after:h-[200%] after:bg-bg-light after:opacity-30 after:backdrop-blur-md after:left-[200%] after:z-[1] after:rounded-full after:transition-all after:duration-500 after:ease-linear after:-top-5 after:rotate-45;
 
@@ -89,12 +89,27 @@
     }
 
     .btn-primary {
-        @apply py-2 px-6 text-white bg-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden;
+        @apply py-2 px-6 text-text-white bg-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden;
 
         @apply after:content-[''] after:absolute after:w-5 after:h-[200%] after:bg-bg-light after:opacity-30 after:backdrop-blur-md after:left-[200%] after:z-[1] after:rounded-full after:transition-all after:duration-500 after:ease-linear after:-top-5 after:rotate-45;
 
         @apply hover:after:-left-full;
     }
+    .btn-secondary {
+        @apply py-2 px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden;
+
+        @apply after:content-[''] after:absolute after:w-5 after:h-[200%] after:bg-bg-light after:opacity-30 after:backdrop-blur-md after:left-[200%] after:z-[1] after:rounded-full after:transition-all after:duration-500 after:ease-linear after:-top-5 after:rotate-45;
+
+        @apply hover:after:-left-full hover:text-text-white hover:bg-bg-accent;
+    }
+    .btn-paginate {
+        @apply w-10 h-10 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden;
+
+        @apply after:content-[''] after:absolute after:w-5 after:h-[200%] after:bg-bg-light after:opacity-30 after:backdrop-blur-md after:left-[200%] after:z-[1] after:rounded-full after:transition-all after:duration-500 after:ease-linear after:-top-5 after:rotate-45;
+
+        @apply hover:after:-left-full hover:text-text-white hover:bg-bg-accent;
+    }
+
 }
 
 /* Products Component */
