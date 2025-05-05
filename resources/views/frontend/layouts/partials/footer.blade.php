@@ -195,7 +195,7 @@
             <div class="flex gap-2">
                 <img src="{{ asset('frontend/images/footer_bank_logos (1).png') }}" alt="{{ __('Eximbank') }}"
                     class="h-7" />
-                <img src="{{ asset('frontend/images/footer_bank_logos (11).png') }}" alt="{{ __('Eximbank') }}"
+                <img src="{{ asset('frontend/images/footer_bank_logos (11).png') }}" alt="{{ __('Pay') }}"
                     class="h-7" />
 
                     <img src="{{ asset('frontend/images/footer_bank_logos (3).png') }}" alt="{{ __('Techcombank') }}"
