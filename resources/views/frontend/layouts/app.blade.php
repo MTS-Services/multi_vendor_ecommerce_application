@@ -84,7 +84,7 @@
             }
 
             // Toggle theme on change
-            $themeToggle.on('change', function() {
+            $(document).on('change',$themeToggle, function() {
                 const newTheme = $themeToggle.is(':checked') ? 'dark' : 'light';
                 $html.removeClass('light dark').addClass(newTheme).attr('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
@@ -169,6 +169,7 @@
     </script>
 
 
+    {{-- Side Bar --}}
     <script>
         $(document).ready(function() {
             const $openSidebar = $('.openSidebar');
@@ -182,37 +183,69 @@
             // Sidebar open functionality
             $openSidebar.on('click', function() {
                 $sidebar.css('transform', 'translateX(0)'); // Show the sidebar
-                $(this).addClass('hidden'); // Hide the open button
+                // $(this).addClass('hidden'); // Hide the open button
             });
 
             // Sidebar close functionality
             $closeSidebar.on('click', function() {
                 $sidebar.css('transform', 'translateX(100%)'); // Hide the sidebar
                 setTimeout(() => {
-                    $openSidebar.removeClass('hidden'); // Show all openSidebar buttons
+                    // $openSidebar.removeClass('hidden'); // Show all openSidebar buttons
                 }, 300); // Delay for the sidebar transition
             });
 
-            // Scroll event listener for navbar transitions
-            $(window).on('scroll', function() {
-                const scrollPosition = $(this).scrollTop();
+            // // Scroll event listener for navbar transitions
+            // $(window).on('scroll', function() {
+            //     const scrollPosition = $(this).scrollTop();
 
-                // Scrolling down
-                if (scrollPosition > 50 && scrollPosition > lastScrollPosition) {
-                    $firstNavbar.removeClass('navbar-show').addClass('navbar-hide');
-                    $secondNavbar.removeClass('navbar-hide').addClass('navbar-show');
-                }
-                // Scrolling up
-                else if (scrollPosition < lastScrollPosition && scrollPosition <= 50) {
-                    $firstNavbar.removeClass('navbar-hide').addClass('navbar-show');
-                    $secondNavbar.removeClass('navbar-show').addClass('navbar-hide');
-                }
+            //     // Scrolling down
+            //     if (scrollPosition > 50 && scrollPosition > lastScrollPosition) {
+            //         $firstNavbar.removeClass('navbar-show').addClass('navbar-hide');
+            //         $secondNavbar.removeClass('navbar-hide').addClass('navbar-show');
+            //     }
+            //     // Scrolling up
+            //     else if (scrollPosition < lastScrollPosition && scrollPosition <= 50) {
+            //         $firstNavbar.removeClass('navbar-hide').addClass('navbar-show');
+            //         $secondNavbar.removeClass('navbar-show').addClass('navbar-hide');
+            //     }
 
-                // Update last scroll position
-                lastScrollPosition = scrollPosition;
+            //     // Update last scroll position
+            //     lastScrollPosition = scrollPosition;
+            // });
+        });
+    </script>
+
+    {{-- Toggle search form --}}
+    <script>
+        document.querySelectorAll('.toggle-search-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent this click from bubbling to the window
+                const container = button.closest('.search-container');
+                const form = container.querySelector('.searchForm');
+
+                form.classList.toggle('opacity-0');
+                form.classList.toggle('pointer-events-none');
+                form.classList.toggle('scale-95');
+                form.classList.toggle('scale-100');
+                form.classList.toggle('opacity-100');
+            });
+        });
+
+        // Hide any open search form when clicking outside
+        window.addEventListener('click', (e) => {
+            document.querySelectorAll('.search-container').forEach(container => {
+                if (!container.contains(e.target)) {
+                    const form = container.querySelector('.searchForm');
+                    // Only hide if it's currently visible
+                    if (form.classList.contains('opacity-100')) {
+                        form.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+                        form.classList.remove('opacity-100', 'scale-100');
+                    }
+                }
             });
         });
     </script>
+
 
 
     @stack('js-links')

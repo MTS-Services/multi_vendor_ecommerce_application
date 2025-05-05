@@ -54,9 +54,9 @@ module.exports = {
           primary: '#000AEE',       // Vivid blue
           secondary: '#8A2BE2',     // Purple background
           accent: '#8752FA',        // Violet background
-          dark: '#292929',          // Dark section
           light: '#FFFDF6',
           dark: '#2d2d2d',
+          darkSecondary: '#021526',
           gray: '#F3F4F6',
           white: '#ffffff',
           black: '#000000',
