@@ -18,10 +18,11 @@ class AuditController extends Controller
     }
     public function index(Request $request)
     {
-        $query = Audit::with(['user'])
+
+        if ($request->ajax()) {
+            $query = Audit::with(['user'])
             ->orderBy('sort_order', 'asc')
             ->latest();
-        if ($request->ajax()) {
             return DataTables::eloquent($query)
                 ->editColumn('event', function ($audit) {
                     return ucfirst($audit->event);

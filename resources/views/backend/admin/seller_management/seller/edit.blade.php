@@ -1,51 +1,46 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'user'])
-@section('title', 'Create User')
+@extends('backend.admin.layouts.master', ['page_slug' => 'seller'])
+@section('title', 'Create Seller')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('Create User') }}</h4>
+                    <h4 class="cart-title">{{ __('Edit Seller') }}</h4>
                     <x-backend.admin.button :datas="[
-                        'routeName' => 'um.user.index',
+                        'routeName' => 'sl.seller.index',
                         'label' => 'Back',
-                        'permissions' => ['user-list', 'user-details', 'user-delete', 'user-status'],
+                        'permissions' => ['seller-list'],
                     ]" />
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('um.user.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('sl.seller.update', encrypt($seller->id)) }}" method="POST" enctype="multipart/form-data">
+                        @method('PUT')
                         @csrf
                         <div class="form-group">
                             <label>{{ __('Name') }} <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ old('name') }}" name="name" class="form-control"
+                            <input type="text" value="{{ $seller->name }}" name="name" class="form-control"
                                 placeholder="Enter name">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Username') }}</label>
-                            <input type="text" value="{{ old('username') }}" name="username" class="form-control"
+                            <input type="text" value="{{ $seller->username }}" name="username" class="form-control"
                                 placeholder="Enter username">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
                         </div>
                         <div class="form-group">
-                            <label>{{ __('Image') }}</label>
-                            <input type="file" name="uploadImage" data-actualName="image" class="form-control filepond"
-                                id="image" accept="image/*">
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />
-                        </div>
-                        <div class="form-group">
                             <label>{{ __('Email') }} <span class="text-danger">*</span></label>
-                            <input type="text" name="email" class="form-control" placeholder="Enter email">
+                            <input type="text" name="email" value="{{ $seller->email }}" class="form-control" placeholder="Enter email">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Password') }} <span class="text-danger">*</span></label>
-                            <input type="password" name="password" class="form-control" placeholder="Enter password">
+                            <input type="password" name="password" value="{{ $seller->password }}" class="form-control" placeholder="Enter password">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'password']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Confirm Password') }} <span class="text-danger">*</span></label>
-                            <input type="password" name="password_confirmation" class="form-control"
+                            <input type="password" name="password_confirmation" value="{{ $seller->password }}" class="form-control"
                                 placeholder="Enter confirm password">
                         </div>
                         <div class="form-group float-end">
@@ -57,13 +52,3 @@
         </div>
     </div>
 @endsection
-@push('js')
-    {{-- FilePond  --}}
-    <script src="{{ asset('filepond/filepond.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            file_upload(["#image"], "uploadImage", "admin", [], false);
-        });
-    </script>
-    {{-- FilePond  --}}
-@endpush

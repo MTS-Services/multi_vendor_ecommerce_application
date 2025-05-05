@@ -27,7 +27,7 @@ return new class extends Migration
             $table->boolean('is_verify')->default(Seller::UNVERIFIED)->comment(Seller::UNVERIFIED . ': Unverified, ' . Seller::VERIFIED . ': Verified');
             $table->tinyInteger('gender')->nullable()->comment(Seller::GENDER_MALE . ': Male, ' . Seller::GENDER_FEMALE . ': Female, ' . Seller::GENDER_OTHERS . ': Other');
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
@@ -35,6 +35,11 @@ return new class extends Migration
 
             // Add the otp_send_at column (if it doesn't exist already)
             $table->timestamp('otp_send_at')->nullable(); // Add this line
+            // Infromation
+            $table->string('emergency_phone')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('father_name')->nullable();
+            $table->string('mother_name')->nullable();
 
             // Indexes
             $table->index('sort_order');
@@ -42,7 +47,6 @@ return new class extends Migration
             $table->index('status'); // Index for status (frequently filtered)
             $table->index('is_verify'); // Index for email verification status
             $table->index('gender'); // Index for gender (optional, if queried often)
-            $table->index('otp_send_at'); // Index for OTP sent timestamp
             $table->index('created_at'); // Index for soft deletes
             $table->index('updated_at'); // Index for soft deletes
             $table->index('deleted_at'); // Index for soft deletes
@@ -55,5 +59,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('sellers');
+
     }
 };

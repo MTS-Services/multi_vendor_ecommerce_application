@@ -13,6 +13,8 @@ use App\Http\Controllers\Backend\Admin\SiteSettingController;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\CategoryController;
+use App\Http\Controllers\Backend\Admin\SellerManagement\SellerController;
 
 // Admin Auth Routes
 Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')->group(function () {
@@ -24,7 +26,7 @@ Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')-
 
 
 Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
-  
+
   Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
   //Developer Routes
   Route::get('/export-permissions', function () {
@@ -50,6 +52,18 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('user/status/{user}', [UserController::class, 'status'])->name('user.status');
     });
 
+    // Seller Management
+    Route::group(['as' => 'sl.', 'prefix' => 'seller-management'], function () {
+        Route::resource('seller', SellerController::class);
+        Route::get('seller/status/{seller}', [SellerController::class, 'status'])->name('seller.status');
+    });
+
+    // Product Management
+    Route::group(['as' => 'pm.', 'prefix' => 'product-management'], function () {
+        Route::resource('category', CategoryController::class);
+        Route::get('category/status/{category}', [CategoryController::class, 'status'])->name('category.status');
+    });
+
   // Documentation
   Route::resource('documentation', DocumentationController::class);
 
@@ -73,4 +87,6 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     Route::put('email-template/edit/{id}', 'et_update')->name('email_template');
     Route::post('notification/update', 'notification')->name('notification');
   });
+
 });
+

@@ -24,12 +24,23 @@
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
+
                 <li class="nav-item  @if ($page_slug == 'dashboard') active @endif">
                     <a href="{{ route('admin.dashboard') }}">
                         <i class="icon-chart"></i>
                         <p>{{ __('Dashboard') }}</p>
                     </a>
                 </li>
+
+                <li class="nav-item  @if ($page_slug == 'category') active @endif">
+                    <a href="{{ route('pm.category.index') }}">
+                        <i class="icon-chart"></i>
+                        <p>{{ __('Category') }}</p>
+                    </a>
+                </li>
+
+
+
 
                 <li class="nav-item  @if ($page_slug == 'admin' || $page_slug == 'role' || $page_slug == 'permission') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#admin_management"
@@ -58,18 +69,54 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item  @if ($page_slug == 'user' || $page_slug == 'user_package') active submenu @endif">
+                <li class="nav-item  @if ($page_slug == 'user') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#user_management"
                         @if ($page_slug == 'user') aria-expanded="true" @endif>
                         <i class="icon-people"></i>
                         <p>{{ __('User Management') }}</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse @if ($page_slug == 'user' || $page_slug == 'user_package') show @endif" id="user_management">
+                    <div class="collapse @if ($page_slug == 'user') show @endif" id="user_management">
                         <ul class="nav nav-collapse">
                             <li class="@if ($page_slug == 'user') active @endif">
                                 <a href="{{ route('um.user.index') }}">
                                     <span class="sub-item">{{ __('User') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                {{-- Product Management --}}
+                <li class="nav-item  @if ($page_slug == 'category') active submenu @endif">
+                    <a data-bs-toggle="collapse" href="#product_management"
+                        @if ($page_slug == 'category') aria-expanded="true" @endif>
+                        <i class="icon-people"></i>
+                        <p>{{ __('Product Management') }}</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse @if ($page_slug == 'category' ) show @endif" id="product_management">
+                        <ul class="nav nav-collapse">
+                            <li class="@if ($page_slug == 'category') active @endif">
+                                <a href="{{ route('pm.category.index') }}">
+                                    <span class="sub-item">{{ __('Category') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item  @if ($page_slug == 'seller' || $page_slug == 'seller_package') active submenu @endif">
+                    <a data-bs-toggle="collapse" href="#seller_management"
+                        @if ($page_slug == 'seller') aria-expanded="true" @endif>
+                        <i class="icon-people"></i>
+                        <p>{{ __('Seller Management') }}</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse @if ($page_slug == 'seller' || $page_slug == 'seller_package') show @endif" id="seller_management">
+                        <ul class="nav nav-collapse">
+                            <li class="@if ($page_slug == 'user') active @endif">
+                                <a href="{{ route('sl.seller.index') }}">
+                                    <span class="sub-item">{{ __('Seller') }}</span>
                                 </a>
                             </li>
                         </ul>

@@ -17,20 +17,20 @@ function fetchAndShowModal(detailsUrl, headers, modalWrapId, modalId) {
 function showModalWithData(headers, data, modalWrapId, modalId) {
     // Create the table header dynamically
     const commonHeaders = [
-        { label: "Created Date", key: "creating_time" },
+        { label: "Created Date", key: "created_at_formatted" },
         { label: "Created By", key: "creater_name" },
-        { label: "Updated Date", key: "updating_time" },
+        { label: "Updated Date", key: "updated_at_formatted" },
         { label: "Updated By", key: "updater_name" },
     ];
     headers.push(...commonHeaders);
     const headerHtml = headers
         .map((header) => {
-            if (header.type === "badge") {
+            if (header.color) {
                 return `
                     <tr>
                         <th class="text-nowrap">${header.label}</th>
                         <th>:</th>
-                        <td><span class="badge ${data[header.badgeClass]}">${
+                        <td><span class="badge ${data[header.color]}">${
                     data[header.key]
                 }</span></td>
                     </tr>
@@ -53,6 +53,28 @@ function showModalWithData(headers, data, modalWrapId, modalId) {
                         </td>
                     </tr>
                 `;
+            } else if (header.type === "video") {
+                return `
+                <tr>
+                    <th class="text-nowrap">${header.label}</th>
+                    <th>:</th>
+                    <td>
+                        <div class="videoPreviewDiv d-inline-block">
+                            <div class="video">
+                                <video src="${data[header.key]}" class="video"></video>
+                            </div>
+                        </div>
+                        <div class="videoView hide">
+                            <div class="videoViewContent">
+                                <video class="playVideo" controls>
+                                    <source src="${data[header.key]}" type="video/mp4">
+                                </video>
+                            </div>
+                            <div class="close_button fa-beat">X</div>
+                        </div>
+                    </td>
+                </tr>
+            `;
             } else {
                 return `
                     <tr>
