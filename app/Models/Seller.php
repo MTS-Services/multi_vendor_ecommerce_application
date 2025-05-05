@@ -3,24 +3,11 @@
 namespace App\Models;
 
 use App\Models\AuthBaseModel;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Notifications\Notifiable;
 
 class Seller extends AuthBaseModel
 {
-    use HasFactory, Notifiable;
- 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->appends = array_merge(parent::getAppends(), [
-            'modified_image',
-        ]);
-    }
 
     protected $table = 'sellers';
-    protected $guard_name = 'seller';
-    protected $guard = 'seller';
 
     protected $fillable = [
         'name',
@@ -31,18 +18,19 @@ class Seller extends AuthBaseModel
         'status',
         'is_verify',
         'gender',
-        'email_verified_at',
         'otp_send_at',
         'emergency_phone',
         'phone',
         'father_name',
         'mother_name',
-        'present_address',
-        'permanent_address',
 
         'creater_id',
         'updater_id',
         'deleter_id',
+
+        'creater_type',
+        'updater_type',
+        'deleter_type',
     ];
 
     protected $hidden = [
@@ -53,6 +41,12 @@ class Seller extends AuthBaseModel
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'status'=> 'integer',
+        'is_verify'=> 'integer',
+        'gender'=> 'integer',
+        'creater_id' => 'integer',
+        'updater_id'=> 'integer',
+        'deleter_id'=> 'integer',
     ];
 
 

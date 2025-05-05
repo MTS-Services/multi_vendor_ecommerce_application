@@ -9,7 +9,7 @@
                     <x-backend.admin.button :datas="[
                         'routeName' => 'sl.seller.index',
                         'label' => 'Back',
-                        'permissions' => ['seller-list', 'seller-details', 'seller-delete', 'seller-status'],
+                        'permissions' => ['seller-list'],
                     ]" />
                 </div>
                 <div class="card-body">
@@ -26,22 +26,6 @@
                             <input type="text" value="{{ old('username') }}" name="username" class="form-control"
                                 placeholder="Enter username">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
-                        </div>
-                        <div class="form-group">
-                            <label>{{ __('Gender') }}<span class="text-danger">*</span></label>
-                            <select name="gender" class="form-control">
-                                <option value="" selected hidden>{{__('Select Gender')}}</option>
-                                @foreach (\App\Models\Seller::getGenderLabels() as $key => $value)
-                                    <option value="{{ $key }}" {{ old('gender') == $key ? 'selected' : '' }}>{{ $value }}</option>
-                                @endforeach
-                            </select>
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'gender']" />
-                        </div>
-                        <div class="form-group">
-                            <label>{{ __('Image') }}</label>
-                            <input type="file" name="uploadImage" data-actualName="image" class="form-control filepond"
-                                id="image" accept="image/*">
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Email') }} <span class="text-danger">*</span></label>
@@ -67,13 +51,3 @@
         </div>
     </div>
 @endsection
-@push('js')
-    {{-- FilePond  --}}
-    <script src="{{ asset('filepond/filepond.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            file_upload(["#image"], "uploadImage", "admin", [], false);
-        });
-    </script>
-    {{-- FilePond  --}}
-@endpush

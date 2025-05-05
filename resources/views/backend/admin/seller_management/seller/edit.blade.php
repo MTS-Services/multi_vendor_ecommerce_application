@@ -9,11 +9,11 @@
                     <x-backend.admin.button :datas="[
                         'routeName' => 'sl.seller.index',
                         'label' => 'Back',
-                        'permissions' => ['seller-list', 'seller-details', 'seller-delete', 'seller-status'],
+                        'permissions' => ['seller-list'],
                     ]" />
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('sl.seller.update', encrypt($seller->id)) }}" id="updateForm') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('sl.seller.update', encrypt($seller->id)) }}" method="POST" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div class="form-group">
@@ -27,22 +27,6 @@
                             <input type="text" value="{{ $seller->username }}" name="username" class="form-control"
                                 placeholder="Enter username">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
-                        </div>
-                        <div class="form-group">
-                            <label>{{ __('Gender') }}<span class="text-danger">*</span></label>
-                            <select name="gender" value={{ $seller->gender }} class="form-control">
-                                <option value="" selected hidden>{{__('Select Gender')}}</option>
-                                @foreach (\App\Models\Seller::getGenderLabels() as $key => $value)
-                                    <option value="{{ $key }}" {{ old('gender') == $key ? 'selected' : '' }}>{{ $value }}</option>
-                                @endforeach
-                            </select>
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'gender']" />
-                        </div>
-                        <div class="form-group">
-                            <label>{{ __('Image') }}</label>
-                            <input type="file" name="uploadImage" value="{{ $seller->image }}" data-actualName="image" class="form-control filepond"
-                                id="image" accept="image/*">
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Email') }} <span class="text-danger">*</span></label>
@@ -68,16 +52,3 @@
         </div>
     </div>
 @endsection
-@push('js')
-    {{-- FilePond  --}}
-    <script src="{{ asset('filepond/filepond.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            const existingFiles = {
-                "#image":"{{ auth_storage_url($seller->image) }}",
-            };
-            file_upload(["#image"], "uploadImage", "admin", existingFiles, false);
-        });
-    </script>
-    {{-- FilePond  --}}
-@endpush

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Seller;
+namespace App\Http\Requests\Admin;
 
 use App\Models\Seller;
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,12 +24,6 @@ class SellerRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:50',
-            'gender' => 'required|in:' . implode(',', [
-                Seller::GENDER_MALE,
-                Seller::GENDER_FEMALE,
-                Seller::GENDER_OTHERS,
-            ]),
-
             ]
             +
             ($this->isMethod('POST') ? $this->store() : $this->update());
@@ -40,7 +34,6 @@ class SellerRequest extends FormRequest
             'username' => 'nullable|string|unique:sellers,username|max:20',
             'email' => 'required|unique:sellers,email',
             'password' => 'required|min:6|confirmed',
-            'image' => 'required',
         ];
     }
 
@@ -51,7 +44,6 @@ class SellerRequest extends FormRequest
             'username' => 'nullable|string|unique:sellers,username|max:20,'. decrypt($this->route('seller')),
             'email' => 'required|unique:sellers,email,' . decrypt($this->route('seller')),
             'password' => 'nullable|min:6|confirmed',
-            'image' => 'nullable',
         ];
     }
 }

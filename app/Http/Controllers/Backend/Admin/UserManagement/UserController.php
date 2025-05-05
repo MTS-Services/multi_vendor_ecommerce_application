@@ -19,9 +19,8 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->middleware('permission:user-list|user-details|user-delete|user-status', ['only' => ['index']]);
+        $this->middleware('permission:user-list', ['only' => ['index']]);
         $this->middleware('permission:user-details', ['only' => ['show']]);
-        $this->middleware('permission:user-profile', ['only' => ['profile']]);
         $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
@@ -32,10 +31,11 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $query = User::with(['creater'])
+
+        if ($request->ajax()) {
+            $query = User::with(['creater'])
             ->orderBy('sort_order', 'asc')
             ->latest();
-        if ($request->ajax()) {
             return DataTables::eloquent($query)
                 ->editColumn('status', function ($user) {
                     return "<span class='badge " . $user->status_color . "'>" . $user->status_label . "</span>";
@@ -106,18 +106,13 @@ class UserController extends Controller
      */
     public function store(UserRequest $req): RedirectResponse
     {
-
-        $user = new User();
-
+        $validated = $req->validated();
+        $validated['creater_id'] = admin()->id;
+        $validated['creater_type'] = get_class(admin());
         if (isset($req->image)) {
-            $this->handleFilepondFileUpload($user, $req->image, admin(), 'users/');
+            $validated['image'] = $this->handleFilepondFileUpload(User::class, $req->image, admin(), 'users/');
         }
-        $user->name = $req->name;
-        $user->username = $req->username;
-        $user->email = $req->email;
-        $user->password = $req->password;
-        $user->creater()->associate(admin());
-        $user->save();
+        User::create($validated);
         session()->flash('success', 'User created successfully!');
         return redirect()->route('um.user.index');
     }
@@ -145,18 +140,14 @@ class UserController extends Controller
      */
     public function update(UserRequest $req, string $id): RedirectResponse
     {
-        // HHi
         $user = User::findOrFail(decrypt($id));
-
+        $validated = $req->validated();
+        $validated['updater_id'] = admin()->id;
+        $validated['updater_type'] = get_class(admin());
         if (isset($req->image)) {
-            $this->handleFilepondFileUpload($user, $req->image, admin(), 'users/');
+            $validated['image'] = $this->handleFilepondFileUpload($user, $req->image, admin(), 'users/');
         }
-        $user->name = $req->name;
-        $user->username = $req->username;
-        $user->email = $req->email;
-        $user->password = $req->password ? $req->password : $user->password;
-        $user->updater()->associate(admin());
-        $user->update();
+        $user->update($validated);
         session()->flash('success', 'User updated successfully!');
         return redirect()->route('um.user.index');
     }
@@ -167,8 +158,7 @@ class UserController extends Controller
     public function destroy(string $id): RedirectResponse
     {
         $user = User::findOrFail(decrypt($id));
-        $user->deleter()->associate(admin());
-        $user->save();
+        $user->update(['deleter_id' => admin()->id, 'deleter_type' => get_class(admin())]);
         $user->delete();
         session()->flash('success', 'User deleted successfully!');
         return redirect()->route('um.user.index');
@@ -177,9 +167,7 @@ class UserController extends Controller
     public function status(string $id): RedirectResponse
     {
         $user = User::findOrFail(decrypt($id));
-        $user->status = !$user->status;
-        $user->updater()->associate(admin());
-        $user->update();
+        $user->update(['status' => !$user->status, 'updater_id'=> admin()->id,'updater_type'=> get_class(admin())]);
         session()->flash('success', 'User status updated successfully!');
         return redirect()->route('um.user.index');
     }
