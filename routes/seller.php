@@ -8,27 +8,26 @@ use App\Http\Controllers\Backend\Seller\SellerProfileController;
 
 // Vendor Auth Routes
 Route::group(['prefix' => 'seller', 'as' => 'seller.'], function () {
-  Route::controller(SellerLoginController::class)->group(function () {
-    Route::get('/login', 'showLoginForm')->name('login'); // Seller Login Form
-    Route::post('/login', 'login')->name('login.submit'); // Seller Login Submit (Handled by AuthenticatesUsers)
-    Route::post('/logout', 'logout')->name('logout');
-  });
+    Route::controller(SellerLoginController::class)->group(function () {
+        Route::get('/login', 'showLoginForm')->name('login'); // Seller Login Form
+        Route::post('/login', 'login')->name('login.submit'); // Seller Login Submit (Handled by AuthenticatesUsers)
+        Route::post('/logout', 'logout')->name('logout');
+    });
 
-  Route::controller(SellerRegisterController::class)->group(function () {
-    Route::get('/register', 'showRegistrationForm')->name('register'); // Seller Register Form
-    Route::post('/register', 'register')->name('register.submit'); // Seller Register Submit
-  });
+    Route::controller(SellerRegisterController::class)->group(function () {
+        Route::get('/register', 'showRegistrationForm')->name('register'); // Seller Register Form
+        Route::post('/register', 'register')->name('register.submit'); // Seller Register Submit
+    });
 });
 
 
 Route::group(['middleware' => 'auth:seller', 'prefix' => 'seller'], function () {
-  Route::get('/profile', [SellerDashboardController::class, 'profile'])->name('seller.profile');
 
-  Route::get('/profile-show', [SellerProfileController::class, 'show'])->name('seller.profile_show');
-  Route::put('/profile/update', [SellerProfileController::class, 'update'])->name('seller.profile.update');
+    Route::get('/profile-show', [SellerProfileController::class, 'show'])->name('seller.profile_show');
+    Route::put('/profile/update', [SellerProfileController::class, 'update'])->name('seller.profile.update');
 
-  // Password routes
-  Route::get('/profile/password', [SellerProfileController::class, 'showChangePasswordForm'])->name('seller.profile.password');
-  Route::put('/profile/password/update', [SellerProfileController::class, 'updatePassword'])->name('seller.profile.password.update');
-
+    // Password routes
+    Route::get('/profile/password', [SellerProfileController::class, 'showChangePasswordForm'])->name('seller.profile.password');
+    Route::put('/profile/password/update', [SellerProfileController::class, 'updatePassword'])->name('seller.profile.password.update');
+    Route::get('/dashboard', [SellerDashboardController::class, 'dashboard'])->name('seller.dashboard');
 });

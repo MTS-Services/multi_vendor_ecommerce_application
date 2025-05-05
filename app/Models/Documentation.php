@@ -10,6 +10,7 @@ class Documentation extends BaseModel
     use HasFactory;
 
     protected $fillable = [
+        'sort_order',
         'title',
         'key',
         'type',

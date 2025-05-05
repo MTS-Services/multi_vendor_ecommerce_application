@@ -16,6 +16,7 @@ class Admin extends AuthBaseModel implements Auditable
      * @var array<int, string>
      */
     protected $fillable = [
+        'sort_order',
         'name',
         'email',
         'role_id',

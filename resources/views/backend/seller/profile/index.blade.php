@@ -43,43 +43,34 @@
                             @method('PUT')
 
                             <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <label>{{ __('Full Name') }}</label>
-                                    <input type="text" name="name" class="form-control"
-                                        value="{{ old('name', $seller->name) }}">
-                                    @error('name')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                <div class="form-group">
+                                    <label>{{ __('Name') }} <span class="text-danger">*</span></label>
+                                    <input type="text" value="{{ old('name', $seller->name) }}" name="name"
+                                        class="form-control" placeholder="Enter name">
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
+                                </div>
+                                <div class="form-group">
+                                    <label>{{ __('Email') }} <span class="text-danger">*</span></label>
+                                    <input type="text" value="{{ old('email', $seller->email) }}" name="email"
+                                        class="form-control" placeholder="Enter name">
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
+                                </div>
+                                <div class="form-group">
+                                    <label>{{ __('Username') }} <span class="text-danger">*</span></label>
+                                    <input type="text" value="{{ old('username', $seller->username) }}" name="username"
+                                        class="form-control" placeholder="Enter name">
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
                                 </div>
 
-                                <div class="col-md-12 mb-3">
-                                    <label>{{ __('Email') }}</label>
-                                    <input type="email" name="email" class="form-control"
-                                        value="{{ old('email', $seller->email) }}">
-                                    @error('email')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-
-                                <div class="col-md-12 mb-3">
-                                    <label>{{ __('Username') }}</label>
-                                    <input type="text" name="username" class="form-control"
-                                        value="{{ old('username', $seller->username) }}">
-                                    @error('username')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="col-md-12 mb-3">
+                                <div class="form-group">
                                     <label>{{ __('Profile Image') }}</label>
-                                    <input type="file" name="image" class="form-control">
-                                    @error('image')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                    <input type="file" name="uploadImage" data-actualName="image"
+                                        class="form-control filepond" id="image" accept="image/*">
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />
                                 </div>
-                                <div class="col-md-12 mb-3">
-                                    <label>{{ __('Gender') }}</label>
+
+                                <div class="form-group">
+                                    <label>{{ __('Gender') }} <span class="text-danger">*</span></label>
                                     <select name="gender" class="form-control">
                                         @foreach ($seller->getGenderLabels() as $key => $value)
                                             <option value="{{ $key }}"
@@ -87,60 +78,43 @@
                                                 {{ $value }}</option>
                                         @endforeach
                                     </select>
-                                    @error('gender')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                                <div class="col-md-12 mb-3">
-                                    <label>{{ __('Emergency Phone') }}</label>
-                                    <input type="text" name="emergency_phone" class="form-control"
-                                        value="{{ old('emergency_phone', $seller->emergency_phone) }}">
-                                    @error('emergency_phone')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'gender']" />
                                 </div>
 
-                                <div class="col-md-12 mb-3">
-                                    <label>{{ __('Phone') }}</label>
-                                    <input type="text" name="phone" class="form-control"
-                                        value="{{ old('phone', $seller->phone) }}">
-                                    @error('phone')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                <div class="form-group">
+                                    <label>{{ __('Emergency Phone') }} <span class="text-danger">*</span></label>
+                                    <input type="text" value="{{ old('emergency_phone', $seller->emergency_phone) }}"
+                                        name="emergency_phone" class="form-control" placeholder="Enter Emergency phone">
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'emergency_phone']" />
+                                </div>
+                                <div class="form-group">
+                                    <label>{{ __('Phone') }} <span class="text-danger">*</span></label>
+                                    <input type="text" value="{{ old('phone', $seller->phone) }}" name="phone"
+                                        class="form-control" placeholder="Enter phone">
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'phone']" />
+                                </div>
+                                <div class="form-group">
+                                    <label>{{ __("Father's Name") }} <span class="text-danger">*</span></label>
+                                    <input type="text" value="{{ old('father_name', $seller->father_name) }}"
+                                        name="father_name" class="form-control" placeholder="Enter Fathers name">
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'father_name']" />
+                                </div>
+                                <div>
+                                    <label>{{ __("Mother's Name") }} <span class="text-danger">*</span></label>
+                                    <input type="text" value="{{ old('mother_name', $seller->mother_name) }}"
+                                        name="mother_name" class="form-control" placeholder="Enter Fathers name">
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'mother_name']" />
                                 </div>
 
-                                <div class="col-md-12 mb-3">
-                                    <label>{{ __("Father's Name") }}</label>
-                                    <input type="text" name="father_name" class="form-control"
-                                        value="{{ old('father_name', $seller->father_name) }}">
-                                    @error('father_name')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                <div class="form-group">
+                                    <label>{{ __('Present Address') }} <span class="text-danger">*</span></label>
+                                    <textarea name="present_address" class="form-control" placeholder="Enter present_address">{{ old('present_address') }}</textarea>
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'present_address']" />
                                 </div>
-
-                                <div class="col-md-12 mb-3">
-                                    <label>{{ __("Mother's Name") }}</label>
-                                    <input type="text" name="mother_name" class="form-control"
-                                        value="{{ old('mother_name', $seller->mother_name) }}">
-                                    @error('mother_name')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="col-md-12 mb-3">
-                                    <label>{{ __('Present Address') }}</label>
-                                    <textarea name="present_address" class="form-control">{{ old('present_address', $seller->present_address) }}</textarea>
-                                    @error('present_address')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="col-md-12 mb-3">
-                                    <label>{{ __('Permanent Address') }}</label>
-                                    <textarea name="permanent_address" class="form-control">{{ old('permanent_address', $seller->permanent_address) }}</textarea>
-                                    @error('permanent_address')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                <div class="form-group">
+                                    <label>{{ __('Permanent Address') }} <span class="text-danger">*</span></label>
+                                    <textarea name="permanent_address" class="form-control" placeholder="Enter permanent_address">{{ old('permanent_address') }}</textarea>
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'permanent_address']" />
                                 </div>
                             </div>
 
@@ -162,13 +136,14 @@
                         <form action="{{ route('seller.profile.password.update') }}" method="POST">
                             @csrf
                             <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <label>{{ __('Current Password') }}</label>
-                                    <input type="password" name="current_password" class="form-control">
-                                    @error('current_password')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                <div>
+                                    <label>{{ __('Current Password') }} <span class="text-danger">*</span></label>
+                                    <input type="password"
+                                        name="current_password" class="form-control">
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'current_password']" />
                                 </div>
+
+                                
                                 <div class="col-md-12 mb-3">
                                     <label>{{ __('New Password') }}</label>
                                     <input type="password" name="new_password" class="form-control">
@@ -194,3 +169,17 @@
         </div>
     </div>
 @endsection
+@push('js-links')
+    {{-- FilePond  --}}
+    <script src="{{ asset('ckEditor5/main.js') }}"></script>
+    <script src="{{ asset('filepond/filepond.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            const existingFiles = {
+                "#image": "{{ auth_storage_url($seller->image, $seller->gender) }}",
+            }
+            file_upload(["#image"], "uploadImage", "seller", existingFiles, false);
+        });
+    </script>
+    {{-- FilePond  --}}
+@endpush
