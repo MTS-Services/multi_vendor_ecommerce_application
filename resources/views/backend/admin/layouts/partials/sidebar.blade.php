@@ -102,9 +102,17 @@
                                     <span class="sub-item">{{ __('Category') }}</span>
                                 </a>
                             </li>
+                            <li class="@if ($page_slug == 'subcategory') active @endif">
+                                <a href="{{ route('pm.subcategory.index') }}">
+                                    <span class="sub-item">{{ __('Sub Category') }}</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
+
+
+
                 <li class="nav-item  @if ($page_slug == 'seller' || $page_slug == 'seller_package') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#seller_management"
                         @if ($page_slug == 'seller') aria-expanded="true" @endif>

@@ -88,7 +88,6 @@ class CategoryController extends Controller
 
         ];
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -147,6 +146,9 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $Category = Category::findOrFail(decrypt($id));
+        $Category->delete();
+        session()->flash('success', 'Category deleted successfully!');
+        return redirect()->route('pm.category.index');
     }
 }
