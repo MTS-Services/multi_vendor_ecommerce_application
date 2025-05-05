@@ -147,6 +147,8 @@ module.exports = {
       backgroundImage: {
         'gradient-primary': 'linear-gradient(45deg, #4CAF83 0%, #86BD59 100%)',
         'gradient-secondary': 'linear-gradient(45deg, #FFCA40 0%, #FDC040 100%)',
+        'gradient-light': 'linear-gradient(45deg, #EFEFFE 0%, #FFEFF6 100%)',
+        'gradient-dark': 'linear-gradient(45deg, #2E2E4D 0%, #4D2E3C 100%)',
         'star': 'radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent)',
       },
       animation: {
