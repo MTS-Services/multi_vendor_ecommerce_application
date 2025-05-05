@@ -118,10 +118,10 @@
     }
 
     .product figure {
-        @apply relative py-5 bg-transparent h-64;
+        @apply relative pb-5 bg-transparent h-64;
     }
     .product figure img {
-        @apply transition-all duration-300 ease-linear h-full w-auto mx-auto;
+        @apply transition-all duration-300 ease-linear h-full w-full object-cover;
     }
     .product:hover figure img {
         @apply scale-105;

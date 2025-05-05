@@ -12,4 +12,6 @@ Route::group(['as' => 'frontend.'], function () {
 
   // Test Page
   Route::get('/test', [FrontendController::class, 'test'])->name('test');
+  //Shop Page
+  Route::get('/shop', [FrontendController::class, 'shop'])->name('shop');
 });
