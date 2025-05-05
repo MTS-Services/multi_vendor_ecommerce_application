@@ -14,7 +14,7 @@ class TempFileController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->middleware('permission:temp-list|temp-delete|temp-download', ['only' => ['index']]);
+        $this->middleware('permission:temp-list', ['only' => ['index']]);
         $this->middleware('permission:temp-download', ['only' => ['download']]);
         $this->middleware('permission:temp-delete', ['only' => ['destroy']]);
     }
