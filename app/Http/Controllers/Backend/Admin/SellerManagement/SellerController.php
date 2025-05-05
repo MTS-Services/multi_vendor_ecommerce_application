@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend\Admin\SellerManagement;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Seller\SellerRequest;
+use App\Http\Requests\Admin\SellerRequest;
 use App\Http\Traits\DetailsCommonDataTrait;
 use App\Http\Traits\FileManagementTrait;
 use Illuminate\Http\Request;
@@ -17,11 +17,12 @@ class SellerController extends Controller
     public function __construct()
     {
         $this->middleware('admin');
-        $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index', 'show']]);
-        $this->middleware('permission:product-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:product-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
-        $this->middleware('permission:product-status', ['only' => ['status']]);
+        $this->middleware('permission:seller-list', ['only' => ['index']]);
+        $this->middleware('permission:seller-details', ['only' => ['show']]);
+        $this->middleware('permission:seller-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:seller-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:seller-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:seller-status', ['only' => ['status']]);
     }
 
     /**
@@ -29,10 +30,11 @@ class SellerController extends Controller
      */
     public function index(Request $request)
     {
+
+    if ($request->ajax()) {
         $query = Seller::with(['creater'])
         ->orderBy('sort_order', 'asc')
         ->latest();
-    if ($request->ajax()) {
         return DataTables::eloquent($query)
 
             ->editColumn('status', function ($seller) {
@@ -44,7 +46,7 @@ class SellerController extends Controller
             ->editColumn('is_verify', function ($seller) {
                 return "<span class='badge " . $seller->verify_color . "'>" . $seller->verify_label . "</span>";
             })
-            ->editColumn('created_by', function ($seller) {
+            ->editColumn('creater_id', function ($seller) {
                 return $seller->creater_name;
             })
             ->editColumn('created_at', function ($seller) {
@@ -54,7 +56,7 @@ class SellerController extends Controller
                 $menuItems = $this->menuItems($seller);
                 return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
             })
-            ->rawColumns([ 'status','gender', 'is_verify', 'created_by', 'created_at', 'action'])
+            ->rawColumns([ 'status','gender', 'is_verify', 'creater_id', 'created_at', 'action'])
             ->make(true);
     }
         return view('backend.admin.seller_management.seller.index');
@@ -68,7 +70,7 @@ class SellerController extends Controller
                 'data-id' => encrypt($model->id),
                 'className' => 'view',
                 'label' => 'Details',
-                'permissions' => ['seller-list', 'seller-delete', 'seller-status']
+                'permissions' => ['seller-details']
             ],
             [
                 'routeName' => 'sl.seller.status',
@@ -108,12 +110,13 @@ class SellerController extends Controller
      */
     public function store(SellerRequest $request)
     {
-        $data= $request->validated();
-        $data['created_by'] = admin()->id;
+        $validated= $request->validated();
+        $validated['creater_id'] = admin()->id;
+        $validated['creater_type'] = get_class(admin());
         if (isset($request->image)) {
-            $data['image'] = $this->handleFilepondFileUpload(Seller::class, $request->image, seller(), 'sellers/');
+            $validated['image'] = $this->handleFilepondFileUpload(Seller::class, $request->image, admin(), 'sellers/');
         }
-        $seller = Seller::create($data);
+        Seller::create($validated);
         session()->flash('success','Seller created successfully!');
         return redirect()->route('sl.seller.index');
 
@@ -133,25 +136,24 @@ class SellerController extends Controller
      */
     public function edit(string $id)
     {
-        $data['seller'] = Seller::find(decrypt($id));
+        $data['seller'] = Seller::findOrFail(decrypt($id));
         return view('backend.admin.seller_management.seller.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SellerRequest $request, string $id)
     {
-        $seller = Seller::find(decrypt($id));
+        $seller = Seller::findOrFail(decrypt($id));
+        $validated= $request->validated();
+        $validated['updater_id'] = admin()->id;
+        $validated['updater_type'] = get_class(admin());
+        $validated['password'] = ($request->password ? $request->password : $seller->password);
         if (isset($request->image)) {
-            $data['image'] = $this->handleFilepondFileUpload(Seller::class, $request->image, seller(), 'sellers/');
+            $validated['image'] = $this->handleFilepondFileUpload($seller, $request->image, admin(), 'sellfolderName: ers/');
         }
-        $seller->name = $request->name;
-        $seller->username = $request->username;
-        $seller->email = $request->email;
-        $seller->password = $request->password;
-        $seller->updater()->associate(seller());
-        $seller->update();
+        $seller->update($validated);
         session()->flash('success', 'Seller updated successfully!');
         return redirect()->route('sl.seller.index');
     }
@@ -161,10 +163,9 @@ class SellerController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
-        $user = Seller::findOrFail(decrypt($id));
-        $user->deleter()->associate(admin());
-        $user->save();
-        $user->delete();
+        $seller = Seller::findOrFail(decrypt($id));
+        $seller->update(['deleter_id' => admin()->id, 'deleter_type'=> get_class(admin())]);
+        $seller->delete();
         session()->flash('success', 'Seller deleted successfully!');
         return redirect()->route('sl.seller.index');
     }
@@ -172,9 +173,7 @@ class SellerController extends Controller
     public function status(string $id): RedirectResponse
     {
         $seller = Seller::findOrFail(decrypt($id));
-        $seller->status = !$seller->status;
-        $seller->updater()->associate(admin());
-        $seller->update();
+        $seller->update(['status' => !$seller->status, 'updater_id'=> admin()->id,'updater_type'=> get_class(admin())]);
         session()->flash('success', 'Seller status updated successfully!');
         return redirect()->route('sl.seller.index');
     }

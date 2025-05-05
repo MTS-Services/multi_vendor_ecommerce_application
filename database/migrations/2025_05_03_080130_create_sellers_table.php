@@ -40,8 +40,6 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('father_name')->nullable();
             $table->string('mother_name')->nullable();
-            $table->string('present_address')->nullable();
-            $table->string('permanent_address')->nullable();
 
             // Indexes
             $table->index('sort_order');
@@ -49,7 +47,6 @@ return new class extends Migration
             $table->index('status'); // Index for status (frequently filtered)
             $table->index('is_verify'); // Index for email verification status
             $table->index('gender'); // Index for gender (optional, if queried often)
-            $table->index('otp_send_at'); // Index for OTP sent timestamp
             $table->index('created_at'); // Index for soft deletes
             $table->index('updated_at'); // Index for soft deletes
             $table->index('deleted_at'); // Index for soft deletes
