@@ -89,21 +89,23 @@
     }
 
     .btn-primary {
-        @apply py-2 px-6 text-text-white bg-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden;
+        @apply py-3 px-6 text-text-white bg-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden flex items-center justify-center gap-1 w-fit;
 
         @apply after:content-[''] after:absolute after:w-5 after:h-[200%] after:bg-bg-light after:opacity-30 after:backdrop-blur-md after:left-[200%] after:z-[1] after:rounded-full after:transition-all after:duration-500 after:ease-linear after:-top-5 after:rotate-45;
 
         @apply hover:after:-left-full;
     }
+
     .btn-secondary {
-        @apply py-2 px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden;
+        @apply py-3 px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden flex items-center justify-center gap-1 w-fit;
 
         @apply after:content-[''] after:absolute after:w-5 after:h-[200%] after:bg-bg-light after:opacity-30 after:backdrop-blur-md after:left-[200%] after:z-[1] after:rounded-full after:transition-all after:duration-500 after:ease-linear after:-top-5 after:rotate-45;
 
         @apply hover:after:-left-full hover:text-text-white hover:bg-bg-accent;
     }
+
     .btn-paginate {
-        @apply w-10 h-10 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden;
+        @apply w-10 h-10 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden flex items-center justify-center gap-1 w-fit;
 
         @apply after:content-[''] after:absolute after:w-5 after:h-[200%] after:bg-bg-light after:opacity-30 after:backdrop-blur-md after:left-[200%] after:z-[1] after:rounded-full after:transition-all after:duration-500 after:ease-linear after:-top-5 after:rotate-45;
 
@@ -121,12 +123,15 @@
     .product figure {
         @apply relative py-5 bg-transparent h-80;
     }
+
     .product figure img {
         @apply transition-all duration-300 ease-linear h-full w-auto mx-auto;
     }
+
     .product:hover figure img {
         @apply scale-105;
     }
+
     .product .product-title {
         @apply text-lg font-semibold text-center mb-2 text-text-primary dark:text-text-white;
     }
@@ -134,9 +139,11 @@
     .product .product-prices {
         @apply flex items-center justify-center gap-2 font-inter;
     }
+
     .product .product-price {
         @apply font-semibold text-lg text-text-primary dark:text-text-white;
     }
+
     .product .product-old-price {
         @apply line-through text-text-light;
     }
@@ -152,13 +159,16 @@
     .product .product-actions .btn-product {
         @apply relative;
     }
+
     .product .product-actions .btn-product i {
         @apply text-sm bg-bg-dark dark:bg-bg-light dark:bg-opacity-50 bg-opacity-10 text-text-primary dark:text-text-white rounded-full !w-10 h-10 flex items-center justify-center transition-all duration-300 ease-linear;
         @apply hover:bg-opacity-100 hover:text-text-accent;
     }
+
     .product .product-actions .btn-product span {
         @apply absolute top-1/2 -translate-y-1/2 transform text-nowrap px-2 bg-bg-dark text-text-white rounded text-sm transition-all duration-300 ease-linear right-full opacity-0 invisible;
     }
+
     .product .product-actions .btn-product:hover span {
         @apply opacity-100 visible right-[120%];
     }
