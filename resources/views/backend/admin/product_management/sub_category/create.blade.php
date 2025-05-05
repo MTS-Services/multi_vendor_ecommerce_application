@@ -1,29 +1,41 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'category'])
-@section('title', 'Create Category')
+@extends('backend.admin.layouts.master', ['page_slug' => 'subcategory'])
+@section('title', 'Create Sub Category')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('Create Category') }}</h4>
+                    <h4 class="cart-title">{{ __('Create Sub Category') }}</h4>
                     <x-backend.admin.button :datas="[
-                        'routeName' => 'pm.category.index',
+                        'routeName' => 'pm.sub-category.index',
                         'label' => 'Back',
-                        'permissions' => ['category-list'],
+                        'permissions' => ['subcategory-list'],
                     ]" />
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('pm.category.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('pm.sub-category.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        <div class="form-group">
+                            <label>{{ __('Category') }}  <span class="text-danger">*</span></label>
+                            <select name="parent_id" class="form-control">
+                                <option value="" selected disabled>{{ __('Select Category') }}</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('parent_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'parent_id']" />
+                        </div>
                         <div class="form-group">
                             <label>{{ __('Name') }}  <span class="text-danger">*</span></label>
                             <input type="text" value="{{ old('name') }}" id="title" name="name" class="form-control"
                                 placeholder="Enter name">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
                         </div>
+
                         <div class="form-group">
                             <label>{{ __('Slug') }}  <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ old('slug') }}" name="slug" id="slug" class="form-control"
+                            <input type="text" value="{{ old('slug') }}" id="slug" name="slug" class="form-control"
                                 placeholder="Enter slug">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'slug']" />
                         </div>
