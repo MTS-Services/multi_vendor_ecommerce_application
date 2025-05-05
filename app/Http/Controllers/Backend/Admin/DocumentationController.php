@@ -31,10 +31,11 @@ class DocumentationController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Documentation::with(['creater_admin'])
+
+        if ($request->ajax()) {
+            $query = Documentation::with(['creater_admin'])
             ->orderBy('sort_order', 'asc')
             ->latest();
-        if ($request->ajax()) {
             return DataTables::eloquent($query)
                 ->editColumn('created_at', function ($doc) {
                     return $doc->created_at_formatted;
@@ -93,13 +94,9 @@ class DocumentationController extends Controller
      */
     public function store(DocumentationRequest $req): RedirectResponse
     {
-        $doc = new Documentation();
-        $doc->title = $req->title;
-        $doc->key = $req->key;
-        $doc->type = $req->type;
-        $doc->documentation = $req->documentation;
-        $doc->created_by = admin()->id;
-        $doc->save();
+        $validated = $req->validated();
+        $validated['created_by'] = admin()->id;
+        Documentation::create($validated);
         session()->flash('success', 'Documentation created successfully!');
         return redirect()->route('documentation.index');
     }
@@ -129,12 +126,9 @@ class DocumentationController extends Controller
     public function update(DocumentationRequest $req, string $id): RedirectResponse
     {
         $doc = Documentation::findOrFail(decrypt($id));
-        $doc->title = $req->title;
-        $doc->key = $req->key;
-        $doc->type = $req->type;
-        $doc->documentation = $req->documentation;
-        $doc->updated_by = admin()->id;
-        $doc->update();
+        $validated = $req->validated();
+        $validated['updated_by'] = admin()->id;
+        $doc->update($validated);
         session()->flash('success', 'Documentation updated successfully!');
         return redirect()->route('documentation.index');
     }
@@ -145,8 +139,7 @@ class DocumentationController extends Controller
     public function destroy(string $id): RedirectResponse
     {
         $doc = Documentation::findOrFail(decrypt($id));
-        $doc->deleted_by = admin()->id;
-        $doc->save();
+        $doc->update(['deleted_by' => admin()->id]);
         $doc->delete();
         session()->flash('success', 'Documentation deleted successfully!');
         return redirect()->route('documentation.index');

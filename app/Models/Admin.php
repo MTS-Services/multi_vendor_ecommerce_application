@@ -15,18 +15,17 @@ class Admin extends AuthBaseModel implements Auditable
      * The attributes that are mass assignable.
      * @var array<int, string>
      */
-
-     public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->appends = array_merge(parent::getAppends(), [
-            'modified_image',
-        ]);
-    }
     protected $fillable = [
         'name',
         'email',
+        'role_id',
+        'status',
+        'is_verify',
+        'gender',
         'password',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
     protected $guard_name = 'admin';
 
@@ -50,6 +49,9 @@ class Admin extends AuthBaseModel implements Auditable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'status' => 'integer',
+            'is_verify' => 'integer',
+            'gender' => 'integer',
         ];
     }
 
