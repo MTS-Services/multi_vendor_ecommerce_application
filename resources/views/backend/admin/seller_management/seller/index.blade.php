@@ -93,7 +93,7 @@
                 {
                     lavel:"Gender",
                     key: "gender"
-                }
+                },
                 {
                     label: "Image",
                     key: "modified_image",

@@ -9,6 +9,7 @@ use App\Http\Traits\FileManagementTrait;
 use Illuminate\Http\Request;
 use App\Models\Seller;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Http\RedirectResponse;
 
 class SellerController extends Controller
 {
@@ -75,6 +76,7 @@ class SellerController extends Controller
                 'label' => $model->status_btn_label,
                 'permissions' => ['seller-status']
             ],
+
             [
                 'routeName' => 'sl.seller.edit',
                 'params' => [encrypt($model->id)],
@@ -122,8 +124,8 @@ class SellerController extends Controller
      */
     public function show(string $id)
     {
-        $data['sellers']=Seller::all();
-        return view('backend.admin.seller_management.seller.show',$data);
+        $data = Seller::with(['creater', 'updater'])->findOrFail(decrypt($id));
+        return response()->json($data);
     }
 
     /**
@@ -157,8 +159,23 @@ class SellerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
-        //
+        $user = Seller::findOrFail(decrypt($id));
+        $user->deleter()->associate(admin());
+        $user->save();
+        $user->delete();
+        session()->flash('success', 'Seller deleted successfully!');
+        return redirect()->route('sl.seller.index');
+    }
+
+    public function status(string $id): RedirectResponse
+    {
+        $seller = Seller::findOrFail(decrypt($id));
+        $seller->status = !$seller->status;
+        $seller->updater()->associate(admin());
+        $seller->update();
+        session()->flash('success', 'Seller status updated successfully!');
+        return redirect()->route('sl.seller.index');
     }
 }
