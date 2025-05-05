@@ -122,6 +122,23 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item  @if ($page_slug == 'country' || $page_slug == 'country_package') active submenu @endif">
+                    <a data-bs-toggle="collapse" href="#country_management"
+                        @if ($page_slug == 'country') aria-expanded="true" @endif>
+                        <i class="icon-people"></i>
+                        <p>{{ __('Country Management') }}</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse @if ($page_slug == 'country' || $page_slug == 'country_package') show @endif" id="country_management">
+                        <ul class="nav nav-collapse">
+                            <li class="@if ($page_slug == 'country') active @endif">
+                                <a href="{{ route('sc.country.index') }}">
+                                    <span class="sub-item">{{ __('Country') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
                 <li class="nav-item  @if ($page_slug == 'audits') active @endif">
                     <a href="{{ route('audit.index') }}">

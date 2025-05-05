@@ -15,6 +15,8 @@ use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginControl
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\CategoryController;
 use App\Http\Controllers\Backend\Admin\SellerManagement\SellerController;
+use App\Http\Controllers\Backend\Admin\Setup\CountryController;
+use PHPUnit\Framework\Constraint\Count;
 
 // Admin Auth Routes
 Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')->group(function () {
@@ -56,6 +58,12 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     Route::group(['as' => 'sl.', 'prefix' => 'seller-management'], function () {
         Route::resource('seller', SellerController::class);
         Route::get('seller/status/{seller}', [SellerController::class, 'status'])->name('seller.status');
+    });
+
+     // Setup Country
+     Route::group(['as' => 'sc.', 'prefix' => 'country-management'], function () {
+        Route::resource('country', CountryController::class);
+        Route::get('country/status/{country}', [CountryController::class, 'status'])->name('country.status');
     });
 
     // Product Management

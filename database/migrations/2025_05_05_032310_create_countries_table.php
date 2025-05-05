@@ -5,6 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Traits\AuditColumnsTrait;
+use App\Models\Country;
 
 return new class extends Migration
 {
@@ -16,7 +17,14 @@ return new class extends Migration
     {
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('sort_order')->default(0);
+            $table->string("name")->nullable();
+            $table->string("slug")->unique();
+            $table->text("description")->nullable();
+            $table->boolean('status')->default(Country::STATUS_ACTIVE)->comment(Country::STATUS_ACTIVE . ': Active, ' . Country::STATUS_DEACTIVE . ': Inactive');
             $table->timestamps();
+            $table->softDeletes();
+            $this->addMorphedAuditColumns($table);
         });
     }
 
