@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="shortcut icon" href="{{asset('frontend/images/favicon.png')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('frontend/images/favicon.png') }}" type="image/x-icon">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -41,9 +41,15 @@
         <div class="custom-cursor"></div>
     </div>
 
+    {{-- Temporary Includes --}}
+    @include('frontend.includes.login')
+
 
     {{-- Header --}}
     @include('frontend.layouts.partials.header')
+
+    {{-- SideBar --}}
+    @include('frontend.layouts.partials.sidebar')
 
     <main>
         @yield('content')
@@ -63,12 +69,12 @@
     {{-- Toggle theme --}}
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             const $html = $('#html');
             const $themeToggle = $('#theme-toggle');
             const $darkModeLogos = $('.dark-mode-logo');
             const $lightModeLogos = $('.light-mode-logo');
-    
+
             // Load saved theme
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme) {
@@ -76,15 +82,15 @@
                 $themeToggle.prop('checked', savedTheme === 'dark');
                 toggleLogos(savedTheme);
             }
-    
+
             // Toggle theme on change
-            $themeToggle.on('change', function () {
+            $themeToggle.on('change', function() {
                 const newTheme = $themeToggle.is(':checked') ? 'dark' : 'light';
                 $html.removeClass('light dark').addClass(newTheme).attr('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
                 toggleLogos(newTheme);
             });
-    
+
             function toggleLogos(theme) {
                 if (theme === 'dark') {
                     $darkModeLogos.removeClass('hidden');
@@ -96,7 +102,7 @@
             }
         });
     </script>
-    
+
 
     {{-- Custom Cursor --}}
     <script>
@@ -161,6 +167,53 @@
             // }
         });
     </script>
+
+
+    <script>
+        $(document).ready(function() {
+            const $openSidebar = $('.openSidebar');
+            const $closeSidebar = $('.closeSidebar');
+            const $sidebar = $('.sidebar'); // Select the sidebar element globally
+
+            const $firstNavbar = $('#first-navbar');
+            const $secondNavbar = $('#second-navbar');
+            let lastScrollPosition = 0;
+
+            // Sidebar open functionality
+            $openSidebar.on('click', function() {
+                $sidebar.css('transform', 'translateX(0)'); // Show the sidebar
+                $(this).addClass('hidden'); // Hide the open button
+            });
+
+            // Sidebar close functionality
+            $closeSidebar.on('click', function() {
+                $sidebar.css('transform', 'translateX(100%)'); // Hide the sidebar
+                setTimeout(() => {
+                    $openSidebar.removeClass('hidden'); // Show all openSidebar buttons
+                }, 300); // Delay for the sidebar transition
+            });
+
+            // Scroll event listener for navbar transitions
+            $(window).on('scroll', function() {
+                const scrollPosition = $(this).scrollTop();
+
+                // Scrolling down
+                if (scrollPosition > 50 && scrollPosition > lastScrollPosition) {
+                    $firstNavbar.removeClass('navbar-show').addClass('navbar-hide');
+                    $secondNavbar.removeClass('navbar-hide').addClass('navbar-show');
+                }
+                // Scrolling up
+                else if (scrollPosition < lastScrollPosition && scrollPosition <= 50) {
+                    $firstNavbar.removeClass('navbar-hide').addClass('navbar-show');
+                    $secondNavbar.removeClass('navbar-show').addClass('navbar-hide');
+                }
+
+                // Update last scroll position
+                lastScrollPosition = scrollPosition;
+            });
+        });
+    </script>
+
 
     @stack('js-links')
     @stack('js')
