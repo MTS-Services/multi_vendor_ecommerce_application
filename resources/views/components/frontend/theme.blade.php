@@ -1,6 +1,6 @@
-<label class="swap swap-rotate" for="theme-toggle">
+<label class="swap swap-rotate">
     <!-- this hidden checkbox controls the state -->
-    <input type="checkbox" class="theme-controller" value="synthwave" id="theme-toggle" title="থিম টোগল" />
+    <input type="checkbox" class="theme-controller theme-toggle" value="synthwave" title="থিম টোগল" />
 
     <!-- sun icon -->
     <svg class="swap-on h-auto w-7 fill-bg-dark dark:fill-bg-light" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

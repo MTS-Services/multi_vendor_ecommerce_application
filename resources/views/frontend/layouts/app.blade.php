@@ -67,29 +67,29 @@
     </script>
 
     {{-- Toggle theme --}}
-
     <script>
         $(document).ready(function() {
             const $html = $('#html');
-            const $themeToggle = $('#theme-toggle');
+            const $themeToggle = $('.theme-toggle');
             const $darkModeLogos = $('.dark-mode-logo');
             const $lightModeLogos = $('.light-mode-logo');
 
             // Load saved theme
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                $html.removeClass('light dark').addClass(savedTheme).attr('data-theme', savedTheme);
-                $themeToggle.prop('checked', savedTheme === 'dark');
-                toggleLogos(savedTheme);
-            }
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
 
-            // Toggle theme on change
-            $(document).on('change',$themeToggle, function() {
-                const newTheme = $themeToggle.is(':checked') ? 'dark' : 'light';
-                $html.removeClass('light dark').addClass(newTheme).attr('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                toggleLogos(newTheme);
+            // Toggle theme on any switch change
+            $themeToggle.on('change', function() {
+                const newTheme = $(this).is(':checked') ? 'dark' : 'light';
+                setTheme(newTheme);
             });
+
+            function setTheme(theme) {
+                $html.removeClass('light dark').addClass(theme).attr('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                toggleLogos(theme);
+                $themeToggle.prop('checked', theme === 'dark');
+            }
 
             function toggleLogos(theme) {
                 if (theme === 'dark') {

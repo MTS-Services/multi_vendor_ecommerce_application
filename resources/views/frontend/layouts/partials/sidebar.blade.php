@@ -1,6 +1,6 @@
 <!-- Sidebar -->
 <div
-    class="sidebar fixed top-0 right-0 min-h-screen h-full w-2/3 translate-x-0 transition-all duration-300 ease-in-out bg-bg-light dark:bg-bg-darkSecondary shadow-lg z-[99999999999]">
+    class="sidebar fixed top-0 right-0 min-h-screen h-full w-2/3 translate-x-full transition-all duration-300 ease-in-out bg-bg-light dark:bg-bg-darkTertiary shadow-lg z-[99999999999]">
 
     <div class="h-full p-5">
         <div class="flex justify-between items-center border-b border-b-border-light pb-5">
@@ -20,7 +20,8 @@
         </div>
 
         <div class="flex justify-between items-center border-b border-b-border-light py-5">
-            <span class="text-text-primary dark:text-text-white text-opacity-50 dark:text-opacity-50">{{ __('Search Product') }}</span>
+            <span
+                class="text-text-primary dark:text-text-white text-opacity-50 dark:text-opacity-50">{{ __('Search Product') }}</span>
             <x-frontend.search />
         </div>
 
@@ -52,19 +53,46 @@
         </div>
 
         <div class="border-t border-t-border-light py-5 mt-5">
-            <span class="block text-text-primary dark:text-text-white text-opacity-50 dark:text-opacity-50">{{ __('Settings') }}</span>
+
+            {{-- General Settings --}}
+
+            <span
+                class="block text-text-primary dark:text-text-white text-opacity-50 dark:text-opacity-50 mb-2">{{ __('Settings') }}</span>
             <div class="pl-5">
                 <div class="flex items-center justify-between gap-2">
-                    <span class="text-text-primary dark:text-text-white text-opacity-50 dark:text-opacity-50">{{ __('Theme') }}</span>
+                    <span
+                        class="text-text-primary dark:text-text-white text-opacity-50 dark:text-opacity-50">{{ __('Theme') }}</span>
                     <x-frontend.theme />
                 </div>
                 <div class="flex items-center justify-between gap-2">
-                    <span class="text-text-primary dark:text-text-white text-opacity-50 dark:text-opacity-50">{{ __('Language') }}</span>
+                    <span
+                        class="text-text-primary dark:text-text-white text-opacity-50 dark:text-opacity-50">{{ __('Language') }}</span>
                     <x-frontend.language />
                 </div>
-                <div class="flex flex-col items-start justify-start gap-5">
+            </div>
 
-                </div>
+            {{-- Account Settings  --}}
+            <span
+                class="block text-text-primary dark:text-text-white text-opacity-50 dark:text-opacity-50 my-3">{{ __('Account') }}</span>
+            <div class="pl-5">
+                @auth('web')
+                    <a href="" class="flex items-center justify-between gap-2">
+                        <span
+                            class="text-text-primary dark:text-text-white text-opacity-50 dark:text-opacity-50">{{ __('Profile') }}</span>
+                        <i data-lucide="user"></i>
+                    </a>
+                    <a href="" class="flex items-center justify-between gap-2">
+                        <span
+                            class="text-text-primary dark:text-text-white text-opacity-50 dark:text-opacity-50">{{ __('Password') }}</span>
+                        <i data-lucide="key-round"></i>
+                    </a>
+                @else
+                    <a href="{{ route('login') }}" class="flex items-center justify-between gap-2">
+                        <span
+                            class="text-text-primary dark:text-text-white text-opacity-50 dark:text-opacity-50">{{ __('Profile') }}</span>
+                        <i data-lucide="user"></i>
+                    </a>
+                @endauth
             </div>
         </div>
 

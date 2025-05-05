@@ -5,7 +5,7 @@
     </div>
 
     <ul tabindex="0"
-        class="dropdown-content menu bg-bg-light dark:bg-bg-darkSecondary rounded-box z-1 w-fit p-2 shadow-sm">
+        class="dropdown-content menu bg-bg-light dark:bg-bg-darkSecondary rounded-box z-1 w-fit p-2 shadow-lg">
         <li class="text-nowrap text-center"><a href="">{{ __('Bangla') }}</a></li>
         <li class="text-nowrap text-center"><a href="">{{ __('Hindi') }}</a></li>
     </ul>

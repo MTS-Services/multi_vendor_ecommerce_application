@@ -1,4 +1,4 @@
-<header class="bg-bg-white dark:bg-bg-dark">
+<header class="bg-bg-white dark:bg-bg-darkTertiary">
     <div class="container">
         <div class="navbar">
             <div class="navbar-start hidden lg:flex">
@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <div class="divider my-2 hidden lg:block"></div>
+        <div class="w-full h-0.5 bg-gradient-light my-2 hidden lg:block"></div>
 
         <div class="items-center justify-center gap-5 pb-4 hidden lg:flex">
             <a href="{{ route('frontend.home') }}"
