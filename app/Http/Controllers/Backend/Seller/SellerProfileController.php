@@ -7,6 +7,7 @@ use App\Http\Requests\Seller\SellerProfileRequest;
 use App\Models\Seller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Traits\FileManagementTrait;
+use Illuminate\Http\Request;
 
 class SellerProfileController extends Controller
 {
@@ -35,4 +36,22 @@ class SellerProfileController extends Controller
         session()->flash('success', 'Profile updated successfully.');
         return redirect()->back();
     }
+    public function updatePassword(Request $request)
+{
+    $request->validate([
+        'current_password' => ['required'],
+        'new_password' => ['required', 'min:8', 'confirmed'], // will match new_password_confirmation
+    ]);
+
+    $seller = seller(); // or just Auth::user() if you're not using custom guard
+
+    if (!Hash::check($request->current_password, $seller->password)) {
+        return back()->withErrors(['current_password' => 'Current password is incorrect']);
+    }
+
+    $seller->password = Hash::make($request->new_password);
+    $seller->save();
+
+    return back()->with('success', 'Password changed successfully!');
+}
 }

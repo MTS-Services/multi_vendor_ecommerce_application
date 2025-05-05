@@ -142,21 +142,17 @@
                                         name="current_password" class="form-control">
                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'current_password']" />
                                 </div>
-
-                                
-                                <div class="col-md-12 mb-3">
-                                    <label>{{ __('New Password') }}</label>
-                                    <input type="password" name="new_password" class="form-control">
-                                    @error('new_password')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                <div>
+                                    <label>{{ __('New Password') }} <span class="text-danger">*</span></label>
+                                    <input type="password"
+                                        name="new_password" class="form-control">
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'new_password']" />
                                 </div>
-                                <div class="col-md-12 mb-3">
-                                    <label>{{ __('Confirm New Password') }}</label>
-                                    <input type="password" name="new_password_confirmation" class="form-control">
-                                    @error('new_password_confirmation')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                <div>
+                                    <label>{{ __('Confirm New Password') }} <span class="text-danger">*</span></label>
+                                    <input type="password"
+                                        name="new_password_confirmation" class="form-control">
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'new_password_confirmation']" />
                                 </div>
                             </div>
                             <div class="text-right">
