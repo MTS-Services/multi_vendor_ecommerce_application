@@ -7,29 +7,29 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Create Country') }}</h4>
                     <x-backend.admin.button :datas="[
-                        'routeName' => 'sc.country.index',
+                        'routeName' => 'setup.country.index',
                         'label' => 'Back',
-                        'permissions' => ['country-list', 'country-details', 'country-delete', 'country-status'],
+                        'permissions' => ['country-list'],
                     ]" />
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('sc.country.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('setup.country.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label>{{ __('Name') }} <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ old('name') }}" name="name" class="form-control"
+                            <input type="text" value="{{ old('name') }}" id="title" name="name" class="form-control"
                                 placeholder="Enter name">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Slug') }}<span class="text-danger">*</span></label>
-                            <input type="text" value="{{ old('slug') }}" name="slug" class="form-control"
+                            <input type="text" value="{{ old('slug') }}" id="slug" name="slug" class="form-control"
                                 placeholder="Enter slug">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'slug']" />
                         </div>
 
                         <div class="form-group">
-                            <label>{{ __('Description') }} <span class="text-danger">*</span></label>
+                            <label>{{ __('Description') }}</label>
                             <textarea type="text" name="description" class="form-control" placeholder="Description"></textarea>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'description']" />
                         </div>
@@ -43,12 +43,5 @@
     </div>
 @endsection
 @push('js')
-    {{-- FilePond  --}}
-    <script src="{{ asset('filepond/filepond.js') }}"></script>
-    {{-- <script>
-        $(document).ready(function() {
-            file_upload(["#image"], "uploadImage", "admin", [], false);
-        });
-    </script> --}}
-    {{-- FilePond  --}}
+    <script src="{{ asset('ckEditor5/main.js') }}"></script>
 @endpush

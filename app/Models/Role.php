@@ -12,6 +12,7 @@ class Role extends SpatieRole implements Auditable
     use HasFactory, \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
+        'sort_order',
         "name",
         "guard_name",
 

@@ -1,8 +1,5 @@
 @extends('backend.admin.layouts.master', ['page_slug' => 'country'])
 @section('title', 'Country List')
-@push('css')
-    <link rel="stylesheet" href="{{ asset('custom_litebox/litebox.css') }}">
-@endpush
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -10,7 +7,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Country List') }}</h4>
                     <x-backend.admin.button :datas="[
-                        'routeName' => 'sc.country.create',
+                        'routeName' => 'setup.country.create',
                         'label' => 'Add New',
                         'permissions' => ['country-create'],
                     ]" />
@@ -21,8 +18,6 @@
                             <tr>
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Name') }}</th>
-                                <th>{{ __('Slug') }}</th>
-                                <th>{{ __('Description') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Created By') }}</th>
                                 <th>{{ __('Created Date') }}</th>
@@ -41,16 +36,12 @@
     <x-backend.admin.details-modal :datas="['modal_title' => 'Country Details']" />
 @endsection
 @push('js')
-    <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
-    {{-- Datatable Scripts --}}
     <script src="{{ asset('datatable/main.js') }}"></script>
     <script>
         $(document).ready(function() {
             let table_columns = [
 
                 ['name', true, true],
-                ['slug', true, true],
-                ['description', true, true],
                 ['status', true, true],
                 ['created_by', true, true],
                 ['created_at', false, false],
@@ -60,10 +51,10 @@
                 table_columns: table_columns,
                 main_class: '.datatable',
                 displayLength: 10,
-                main_route: "{{ route('sc.country.index') }}",
+                main_route: "{{ route('setup.country.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5, 6, 7],
-                model: 'country',
+                export_columns: [0, 1, 2, 3, 4],
+                model: 'Country',
             };
             initializeDataTable(details);
         })
@@ -76,7 +67,7 @@
 
         $(document).on("click", ".view", function() {
             let id = $(this).data("id");
-            let route = "{{ route('sc.country.show', ['id']) }}";
+            let route = "{{ route('setup.country.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
             const headers = [{
                     label: "Name",
@@ -87,15 +78,16 @@
                     key: "slug"
                 },
                 {
-                    lavel:"Description",
-                    key: "description"
-                },
-
-                {
                     label: "Status",
                     key: "status_label",
                     color: "status_color",
                 },
+                {
+                    label:"Description",
+                    key: "description",
+                },
+
+
             ];
             fetchAndShowModal(detailsUrl, headers, "#modal_data", "myModal");
         });

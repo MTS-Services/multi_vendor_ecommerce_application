@@ -15,7 +15,8 @@ class CountryController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->middleware('permission:country-list|country-create|country-edit|country-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:country-list', ['only' => ['index']]);
+        $this->middleware('permission:country-details', ['only' => ['details']]);
         $this->middleware('permission:country-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:country-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:country-delete', ['only' => ['destroy']]);
@@ -27,16 +28,15 @@ class CountryController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Country::with(['creater'])
+
+    if ($request->ajax()) {
+        $query = Country::with(['creater_admin'])
         ->orderBy('sort_order', 'asc')
         ->latest();
-    if ($request->ajax()) {
         return DataTables::eloquent($query)
-
             ->editColumn('status', function ($country) {
                 return "<span class='badge " . $country->status_color . "'>$country->status_label</span>";
             })
-
             ->editColumn('created_by', function ($country) {
                 return $country->creater_name;
             })
@@ -61,23 +61,22 @@ class CountryController extends Controller
                 'data-id' => encrypt($model->id),
                 'className' => 'view',
                 'label' => 'Details',
-                'permissions' => ['country-list', 'country-delete', 'country-status']
+                'permissions' => ['country-list']
             ],
             [
-                'routeName' => 'sc.country.status',
+                'routeName' => 'setup.country.edit',
+                'params' => [encrypt($model->id)],
+                'label' => 'Edit',
+                'permissions' => ['country-edit']
+            ],
+            [
+                'routeName' => 'setup.country.status',
                 'params' => [encrypt($model->id)],
                 'label' => $model->status_btn_label,
                 'permissions' => ['country-status']
             ],
             [
-                'routeName' => 'sc.country.edit',
-                'params' => [encrypt($model->id)],
-                'label' => 'Edit',
-                'permissions' => ['country-edit']
-            ],
-
-            [
-                'routeName' => 'sc.country.destroy',
+                'routeName' => 'setup.country.destroy',
                 'params' => [encrypt($model->id)],
                 'label' => 'Delete',
                 'delete' => true,
@@ -101,11 +100,11 @@ class CountryController extends Controller
      */
     public function store(CountryRequest $request)
     {
-        $country= $request->validated();
-
-        $country = Country::create($country);
+        $validated= $request->validated();
+        $validated['created_by'] = admin()->id;
+        Country::create($validated);
         session()->flash('success','Country created successfully!');
-        return redirect()->route('sc.country.index');
+        return redirect()->route('setup.country.index');
     }
 
     /**
@@ -113,7 +112,7 @@ class CountryController extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        $data = Country::with(['creater', 'updater'])->findOrFail(decrypt($id));
+        $data = Country::with(['creater_admin', 'updater_admin'])->findOrFail(decrypt($id));
         return response()->json($data);
     }
 
@@ -122,7 +121,7 @@ class CountryController extends Controller
      */
     public function edit(string $id)
     {
-        $data['country'] = Country::find(decrypt($id));
+        $data['country'] = Country::findOrFail(decrypt($id));
         return view('backend.admin.setup.country.edit', $data);
     }
 
@@ -131,13 +130,12 @@ class CountryController extends Controller
      */
     public function update(CountryRequest $request, string $id)
     {
-       $country= Country::find(decrypt($id));
-        $country->name= $request->name;
-        $country->slug= $request->slug;
-        $country->description= $request->description;
-        $country->save();
+        $country= Country::findOrFail(decrypt($id));
+        $validated = $request->validated();
+        $validated['updated_by'] = admin()->id;
+        $country->update($validated);
         session()->flash('success','Country updated successfully!');
-        return redirect()->route('sc.country.index');
+        return redirect()->route('setup.country.index');
     }
 
     /**
@@ -145,22 +143,18 @@ class CountryController extends Controller
      */
     public function destroy(string $id)
     {
-        $user = Country::findOrFail(decrypt($id));
-        $user->deleter()->associate(admin());
-        $user->save();
-        $user->delete();
+        $country = Country::findOrFail(decrypt($id));
+        $country->update(['deleted_by'=> admin()->id]);
+        $country->delete();
         session()->flash('success', 'Country deleted successfully!');
-        return redirect()->route('sc.country.index');
+        return redirect()->route('setup.country.index');
     }
 
     public function status(string $id): RedirectResponse
     {
-        $user = Country::findOrFail(decrypt($id));
-        $user->status = !$user->status;
-        $user->updater()->associate(admin());
-        $user->update();
+        $country = Country::findOrFail(decrypt($id));
+        $country->update(['status' => !$country->status, 'updated_by'=> admin()->id]);
         session()->flash('success', 'Country status updated successfully!');
-        return redirect()->route('sc.country.index');
-
-}
+        return redirect()->route('setup.country.index');
+    }
 }

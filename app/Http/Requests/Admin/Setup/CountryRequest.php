@@ -22,7 +22,6 @@ class CountryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:4',
             'description' => 'nullable|string',
 
         ]
@@ -33,6 +32,7 @@ class CountryRequest extends FormRequest
     protected function store(): array
     {
         return [
+            'name' => 'required|unique:countries,name',
             'slug' => 'required|unique:countries,slug',
         ];
     }
@@ -41,6 +41,7 @@ class CountryRequest extends FormRequest
     protected function update(): array
     {
         return [
+            'name' => 'required|unique:countries,name,' . decrypt($this->route('country')),
             'slug' => 'required|unique:countries,slug,' . decrypt($this->route('country')),
         ];
     }
