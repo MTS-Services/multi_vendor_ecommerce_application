@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('country_id');
             $table->string("name")->unique();
             $table->string("slug")->unique();
-            $table->string("code")->unique();
+            $table->string("code")->nullable();
             $table->longText("description")->nullable();
             $table->boolean('status')->default(State::STATUS_ACTIVE)->comment(State::STATUS_ACTIVE . ': Active, ' . State::STATUS_DEACTIVE . ': Inactive');
             $table->timestamps();
