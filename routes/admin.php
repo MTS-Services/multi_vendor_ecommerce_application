@@ -66,7 +66,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('country/status/{country}', [CountryController::class, 'status'])->name('country.status');
 
         Route::resource('state', StateController::class);
-        Route::get('state/status/{country}', [StateController::class, 'status'])->name('state.status');
+        Route::get('state/status/{state}', [StateController::class, 'status'])->name('state.status');
     });
 
     // Product Management
