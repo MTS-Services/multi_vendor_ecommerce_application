@@ -77,7 +77,7 @@
     </section>
     {{-- -------------------------------------------- banner slider end ----------------------------------- --}}
 
-    {{-- ---------------------------------------- new arival start--------------------------------------- --}}
+    {{-- ---------------------------------------- new arival looping slider start--------------------------------------- --}}
     <section class="bg-bg-primary">
         <div class="swiper looping_slider">
             <div class="swiper-wrapper">
@@ -165,13 +165,13 @@
             </div>
         </div>
     </section>
-    {{-- --------------------------------------new arival slider end ------------------------------- --}}
+    {{-- --------------------------------------new arival slider looping end ------------------------------- --}}
     {{-- --------------------------------------catagories slider start --------------------------------- --}}
-    <section class="container py-15">
+    <section class="container py-15 relative">
         <div class="header">
             <h2 class="text-2xl md:text-4xl font-bold">Categories</h2>
         </div>
-        <div class="swiper categories">
+        <div class="swiper categories static">
             <div class="swiper-wrapper relative">
 
                 <div class="swiper-slide">
@@ -235,7 +235,7 @@
                 <h2 class="text-4xl">{{ __('Featured Products') }}</h2>
                 <p class="py-3">{{ __('Check out our featured products.') }}</p>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div class="grid grid-col md:grid-cols-3 lg:grid-cols-4 gap-4">
                 @php
                     $collections = collect([
                         'id' => 1,
@@ -280,11 +280,299 @@
         </div>
     </section>
     {{--  Unmatched Performance end --}}
+    {{-- Testimonials start --}}
+    <section>
+        <div class="container py-5 md:py-18">
+            <div class="headaer">
+                <h2 class="text-4xl pb-5">{{ __('Happy Customers') }}</h2>
+            </div>
+            <div class="relative">
+                <div class="swiper testimonial static">
+                    <div class="swiper-wrapper relative">
+                        {{-- card 1 --}}
+                        <div class="swiper-slide">
+                            <div class="w-[470px] card mx-auto bg-white border rounded-xl  space-y-4">
+                                <div class="md:px-6 px-3 md:py-4 py-2">
+                                    <div class="flex items-center space-x-1 pt-2">
+                                        <h4>{{ __('Jessica M.') }}</h4>
+                                        <i data-lucide="badge-check" class="w-4 h-4"></i>
+                                        <span class="text-xs">{{ __('Verified Buyer') }}</span>
+                                    </div>
+                                    <div class="flex space-x-1 text-text-danger md:py-5 py-2">
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                    </div>
+                                    <p class="text-sm ">
+                                        {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
+                                                                                                                                                                                                                                                                                                                                                                top-notch.
+                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                    </p>
+                                </div>
+                                <div
+                                    class=" border-t flex items-center space-x-4 gap-1 md:gap-3 md:px-6 px-3 md:py-4 py-2">
+                                    <img src="{{ asset('frontend/images/author-electric1.jpg') }}" alt="">
+                                    <div class="text">
+                                        <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
+                                                class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
+                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                        </p>
+                                        <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {{-- card 2 --}}
+                        <div class="swiper-slide">
+                            <div class="w-[470px] card mx-auto bg-white border rounded-xl  space-y-4">
+                                <div class="md:px-6 px-3 md:py-4 py-2">
+                                    <div class="flex items-center space-x-1 pt-2">
+                                        <h4>{{ __('Jessica M.') }}</h4>
+                                        <i data-lucide="badge-check" class="w-4 h-4"></i>
+                                        <span class="text-xs">{{ __('Verified Buyer') }}</span>
+                                    </div>
+                                    <div class="flex space-x-1 text-text-danger md:py-5 py-2">
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                    </div>
+                                    <p class="text-sm ">
+                                        {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
+                                                                                                                                                                                                                                                                                                                                                                top-notch.
+                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                    </p>
+                                </div>
+                                <div
+                                    class=" border-t flex items-center space-x-4 gap-1 md:gap-3 md:px-6 px-3 md:py-4 py-2">
+                                    <img src="{{ asset('frontend/images/author-electric1.jpg') }}" alt="">
+                                    <div class="text">
+                                        <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
+                                                class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
+                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                        </p>
+                                        <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {{-- card 3 --}}
+                        <div class="swiper-slide">
+                            <div class="w-[470px] card mx-auto bg-white border rounded-xl  space-y-4">
+                                <div class="md:px-6 px-3 md:py-4 py-2">
+                                    <div class="flex items-center space-x-1 pt-2">
+                                        <h4>{{ __('Jessica M.') }}</h4>
+                                        <i data-lucide="badge-check" class="w-4 h-4"></i>
+                                        <span class="text-xs">{{ __('Verified Buyer') }}</span>
+                                    </div>
+                                    <div class="flex space-x-1 text-text-danger md:py-5 py-2">
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                    </div>
+                                    <p class="text-sm ">
+                                        {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
+                                                                                                                                                                                                                                                                                                                                                                top-notch.
+                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                    </p>
+                                </div>
+                                <div
+                                    class=" border-t flex items-center space-x-4 gap-1 md:gap-3 md:px-6 px-3 md:py-4 py-2">
+                                    <img src="{{ asset('frontend/images/author-electric1.jpg') }}" alt="">
+                                    <div class="text">
+                                        <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
+                                                class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
+                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                        </p>
+                                        <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {{-- card 4 --}}
+                        <div class="swiper-slide">
+                            <div class="w-[470px] card mx-auto bg-white border rounded-xl  space-y-4">
+                                <div class="md:px-6 px-3 md:py-4 py-2">
+                                    <div class="flex items-center space-x-1 pt-2">
+                                        <h4>{{ __('Jessica M.') }}</h4>
+                                        <i data-lucide="badge-check" class="w-4 h-4"></i>
+                                        <span class="text-xs">{{ __('Verified Buyer') }}</span>
+                                    </div>
+                                    <div class="flex space-x-1 text-text-danger md:py-5 py-2">
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                    </div>
+                                    <p class="text-sm ">
+                                        {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
+                                                                                                                                                                                                                                                                                                                                                                top-notch.
+                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                    </p>
+                                </div>
+                                <div
+                                    class=" border-t flex items-center space-x-4 gap-1 md:gap-3 md:px-6 px-3 md:py-4 py-2">
+                                    <img src="{{ asset('frontend/images/author-electric1.jpg') }}" alt="">
+                                    <div class="text">
+                                        <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
+                                                class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
+                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                        </p>
+                                        <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {{-- card 5 --}}
+                        <div class="swiper-slide">
+                            <div class="w-[470px] card mx-auto bg-white border rounded-xl  space-y-4">
+                                <div class="md:px-6 px-3 md:py-4 py-2">
+                                    <div class="flex items-center space-x-1 pt-2">
+                                        <h4>{{ __('Jessica M.') }}</h4>
+                                        <i data-lucide="badge-check" class="w-4 h-4"></i>
+                                        <span class="text-xs">{{ __('Verified Buyer') }}</span>
+                                    </div>
+                                    <div class="flex space-x-1 text-text-danger md:py-5 py-2">
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                    </div>
+                                    <p class="text-sm ">
+                                        {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
+                                                                                                                                                                                                                                                                                                                                                                top-notch.
+                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                    </p>
+                                </div>
+                                <div
+                                    class=" border-t flex items-center space-x-4 gap-1 md:gap-3 md:px-6 px-3 md:py-4 py-2">
+                                    <img src="{{ asset('frontend/images/author-electric1.jpg') }}" alt="">
+                                    <div class="text">
+                                        <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
+                                                class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
+                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                        </p>
+                                        <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {{-- card 6 --}}
+                        <div class="swiper-slide">
+                            <div class="w-[470px] card mx-auto bg-white border rounded-xl  space-y-4">
+                                <div class="md:px-6 px-3 md:py-4 py-2">
+                                    <div class="flex items-center space-x-1 pt-2">
+                                        <h4>{{ __('Jessica M.') }}</h4>
+                                        <i data-lucide="badge-check" class="w-4 h-4"></i>
+                                        <span class="text-xs">{{ __('Verified Buyer') }}</span>
+                                    </div>
+                                    <div class="flex space-x-1 text-text-danger md:py-5 py-2">
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                    </div>
+                                    <p class="text-sm ">
+                                        {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
+                                                                                                                                                                                                                                                                                                                                                                top-notch.
+                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                    </p>
+                                </div>
+                                <div
+                                    class=" border-t flex items-center space-x-4 gap-1 md:gap-3 md:px-6 px-3 md:py-4 py-2">
+                                    <img src="{{ asset('frontend/images/author-electric1.jpg') }}" alt="">
+                                    <div class="text">
+                                        <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
+                                                class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
+                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                        </p>
+                                        <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="swiper-pagination z-10 !-bottom-8"></div>
+                    <!-- Navigation buttons -->
+                    <div class="swiper-button swiper-button-prev">
+                        <i data-lucide="chevron-right w-5 h-5"></i>
+                    </div>
+
+                    <div class="swiper-button swiper-button-next">
+                        <i data-lucide="chevron-left w-5 h-5"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{-- testimonial section end --}}
+    {{-- Brand items --}}
+    <section>
+        <div class="container">
+            <div class="swiper brand static">
+                <div class="swiper-wrapper relative">
+                    {{-- <div class="images flex items-center justify-center"> --}}
+                    <div class="swiper-slide">
+                        <div class="imag border w[350]">
+                            <img class=" " src="{{ asset('frontend/images/zara.png') }}" alt="zara">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="imag border w[350]">
+                            <img class=" " src="{{ asset('frontend/images/bear.png') }}" alt="pulbear">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="imag border w[350]">
+                            <img class=" " src="{{ asset('frontend/images/nike.png') }}" alt="nike">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="imag border w[350]">
+                            <img class=" " src="{{ asset('frontend/images/asos.png') }}" alt="asos">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="imag border w[350]">
+                            <img class=" " src="{{ asset('frontend/images/burberry.png') }}" alt="burberry">
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="imag border w[350]">
+                            <img class=" " src="{{ asset('frontend/images/forever.png') }}" alt="forever">
+                        </div>
+                    </div>
+
+                    {{-- </div> --}}
+                </div>
+                <div class="swiper-pagination z-10 !-bottom-8"></div>
+                <!-- Navigation buttons -->
+
+            </div>
+        </div>
+    </section>
 @endsection
 @push('js')
     <script type="module">
+        // import Swiper JS
         import Swiper from '/frontend/js/swiper.min.js';
-
+        // Banner Slider
         new Swiper('.banner', {
             slidesPerView: 1,
             autoplay: {
@@ -300,7 +588,9 @@
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
+
         });
+        // Looping Slider
         const loopingSlider = new Swiper('.looping_slider', {
             slidesPerView: "auto",
             loop: true,
@@ -311,6 +601,8 @@
             autoplay: {
                 delay: 1,
             },
+
+
         });
 
         const sliderElement = document.querySelector('.looping_slider');
@@ -322,6 +614,7 @@
         sliderElement.addEventListener('mouseleave', () => {
             loopingSlider.autoplay.start();
         });
+        // Categories Slider
         new Swiper('.categories', {
             slidesPerView: 6,
             autoplay: {
@@ -336,6 +629,96 @@
             navigation: {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                0: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                },
+                1280: {
+                    slidesPerView: 4,
+                    spaceBetween: 20,
+                },
+                1536: {
+                    slidesPerView: 5,
+                    spaceBetween: 20,
+                },
+
+            },
+        });
+
+        // Testimonial Slider
+        new Swiper('.testimonial', {
+            slidesPerView: 3,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            spaceBetween: 20,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                0: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                },
+
+
+            },
+        });
+        new Swiper('.brand', {
+            slidesPerView: 3,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            spaceBetween: 20,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+
+            breakpoints: {
+                0: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                },
+                550: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                800: {
+                    slidesPerView: 4,
+                    spaceBetween: 20,
+                },
+                1280: {
+                    slidesPerView: 6,
+                    spaceBetween: 20,
+                }
+
+
             },
         });
     </script>
