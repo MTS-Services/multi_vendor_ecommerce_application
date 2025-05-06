@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\Admin\Setup\CityController;
 use App\Http\Controllers\Backend\Admin\Setup\StateController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
@@ -67,6 +68,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
 
         Route::resource('state', StateController::class);
         Route::get('state/status/{state}', [StateController::class, 'status'])->name('state.status');
+
+        Route::resource('city', CityController::class);
+        Route::get('city/status/{state}', [CityController::class, 'status'])->name('city.status');
     });
 
     // Product Management
