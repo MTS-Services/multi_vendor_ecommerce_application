@@ -62,7 +62,7 @@
     <div class="container mx-auto px-4 py-8 text-center">
         <div class="flex flex-col items-center justify-center">
             <h1 class="text-3xl font-medium mb-3">Women</h1>
-            <p class="text-gray-600 mx-auto mb-4">
+            <p class="text-text-gray mx-auto mb-4">
                 Discover our carefully curated women's collection, where timeless elegance meets modern style.
             </p>
             <button class="btn-secondary">
@@ -109,15 +109,15 @@
                     </summary>
                     <div class="collapse-content text-sm">
                         <ul class="opacity-100">
-                            <li class="my-3"><a class="text-text-black hover:text-text-accent font-font-md"
+                            <li class="my-3"><a class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
                                     href="#">Men's top (20)</a></li>
-                            <li class="my-3"><a class="text-text-black hover:text-text-accent font-font-md"
+                            <li class="my-3"><a class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
                                     href="#">Men (20)</a></li>
-                            <li class="my-3"><a class="text-text-black hover:text-text-accent font-font-md"
+                            <li class="my-3"><a class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
                                     href="#">Women (20)</a></li>
-                            <li class="my-3"><a class="text-text-black hover:text-text-accent font-font-md"
+                            <li class="my-3"><a class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
                                     href="#">Kid (20)</a></li>
-                            <li class="my-3"><a class="text-text-black hover:text-text-accent font-font-md"
+                            <li class="my-3"><a class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
                                     href="#">T-shirt (20)</a></li>
                         </ul>
                     </div>
@@ -131,12 +131,12 @@
                     </summary>
                     <div class="collapse-content text-sm">
                         <label for="" class="flex items-center gap-2 py-2">
-                            <input type="checkbox" name="stock-in" id="stock-in" class="checkbox checkbox-sm"> <span
-                                class="text-text-black">In Stock</span>
+                            <input type="checkbox" name="stock-in" id="stock-in" class="checkbox checkbox-sm dark:border-white"> <span
+                                class="text-text-black dark:text-text-white">In Stock</span>
                         </label>
                         <label for="stock-out" class="flex items-center gap-2">
-                            <input type="checkbox" name="stock-out" id="stock-in" class="checkbox checkbox-sm"> <span
-                                class="text-text-black">Out Of Stock</span>
+                            <input type="checkbox" name="stock-out" id="stock-in" class="checkbox checkbox-sm dark:border-white"> <span
+                                class="text-text-black dark:text-text-white">Out Of Stock</span>
                         </label>
                     </div>
                 </details>
@@ -177,7 +177,7 @@
                             <div class="absolute w-3 h-3 bg-white border border-gray-400 rounded-full -mt-1 right-1/4">
                             </div>
                         </div>
-                        <div class="flex justify-between text-sm text-gray-500">
+                        <div class="flex justify-between text-sm text-text-gray">
                             <span>Price: $50 — $150</span>
                         </div>
                     </div>
@@ -225,15 +225,15 @@
                     <div class="collapse-content text-sm">
                         <ul class="space-y-2 text-sm">
                             <li class="flex items-center gap-2">
-                                <input type="checkbox" class="brand-checkbox checkbox checkbox-sm "
+                                <input type="checkbox" class="brand-checkbox checkbox checkbox-sm dark:border-white"
                                     name="brand-checkbox">
                                 <span>Vintea</span>
-                                <span class="text-gray-500">(1)</span>
+                                <span class="text-text-gray">(1)</span>
                             </li>
                             <li class="flex items-center gap-2">
-                                <input type="checkbox" class="brand-checkbox checkbox checkbox-sm" name="brand-checkbox">
+                                <input type="checkbox" class="brand-checkbox checkbox checkbox-sm dark:border-white" name="brand-checkbox">
                                 <span>Zara</span>
-                                <span class="text-gray-500">(20)</span>
+                                <span class="text-text-gray">(20)</span>
                             </li>
                     </div>
                 </details>
@@ -360,21 +360,21 @@
                         <i class="fa-solid fa-box text-xl"></i>
                     </div>
                     <h3 class="font-medium mb-2">Free Shipping</h3>
-                    <p class="text-sm text-gray-500">Enjoy free shipping on all orders over $100</p>
+                    <p class="text-sm text-text-gray">Enjoy free shipping on all orders over $100</p>
                 </div>
                 <div>
                     <div class="flex justify-center mb-3">
                         <i class="fa-solid fa-rotate text-xl"></i>
                     </div>
                     <h3 class="font-medium mb-2">Easy Returns</h3>
-                    <p class="text-sm text-gray-500">Hassle-free returns within 30 days of shipping experience</p>
+                    <p class="text-sm text-text-gray">Hassle-free returns within 30 days of shipping experience</p>
                 </div>
                 <div>
                     <div class="flex justify-center mb-3">
                         <i class="fa-solid fa-headset text-xl"></i>
                     </div>
                     <h3 class="font-medium mb-2">24/7 Support</h3>
-                    <p class="text-sm text-gray-500">Shop with confidence backed by our year warranty</p>
+                    <p class="text-sm text-text-gray">Shop with confidence backed by our year warranty</p>
                 </div>
             </div>
         </div>
