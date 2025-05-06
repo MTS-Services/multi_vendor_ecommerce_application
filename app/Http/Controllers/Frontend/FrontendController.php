@@ -16,4 +16,9 @@ class FrontendController extends Controller
     {
         return view('frontend.pages.test');
     }
+
+    public function index()
+    {
+        return view('frontend.auth.user.register');
+    }
 }
