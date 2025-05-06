@@ -61,7 +61,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     });
 
      // Setup Routes
-     Route::group(['as' => 'setup.', 'prefix' => 'country-management'], function () {
+     Route::group(['as' => 'setup.', 'prefix' => 'setup-management'], function () {
         Route::resource('country', CountryController::class);
         Route::get('country/status/{country}', [CountryController::class, 'status'])->name('country.status');
 
