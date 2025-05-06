@@ -10,6 +10,7 @@ class Seller extends AuthBaseModel
     protected $table = 'sellers';
 
     protected $fillable = [
+        'sort_order',
         'name',
         'email',
         'password',
