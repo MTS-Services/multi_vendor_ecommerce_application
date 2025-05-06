@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\Admin\Setup\BrandController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Backend\Admin\AuditController;
@@ -63,6 +64,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
      Route::group(['as' => 'setup.', 'prefix' => 'country-management'], function () {
         Route::resource('country', CountryController::class);
         Route::get('country/status/{country}', [CountryController::class, 'status'])->name('country.status');
+
+        Route::resource('brand', BrandController::class);
+        Route::get('brand/status/{brand}', [BrandController::class, 'status'])->name('brand.status');
     });
 
     // Product Management

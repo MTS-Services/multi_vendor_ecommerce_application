@@ -3,24 +3,20 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Category extends BaseModel
+class Brand extends BaseModel
 {
-
     protected $fillable = [
         'sort_order',
-        'parent_id',
         'name',
         'slug',
+        'logo',
+        'website',
         'description',
-        'image',
         'status',
         'is_featured',
         'meta_title',
         'meta_description',
-
         'creater_id',
         'updater_id',
         'deleter_id',
@@ -28,7 +24,6 @@ class Category extends BaseModel
         'creater_type',
         'updater_type',
         'deleter_type',
-
     ];
     public function __construct(array $attributes = [])
     {
@@ -46,8 +41,7 @@ class Category extends BaseModel
             'featured_btn_label',
             'featured_btn_color',
 
-            'modified_image',
-            'category_name',
+            'modified_logo',
         ]);
     }
 
@@ -194,23 +188,9 @@ class Category extends BaseModel
         return self::getFeaturedBtnColors()[$this->is_featured] ?? 'btn btn-secondary';
     }
 
-    public function getModifiedImageAttribute()
+    public function getModifiedLogoAttribute(): string|null
     {
-        return storage_url($this->image);
-    }
-    public function getCategoryNameAttribute(): string|null
-    {
-        return optional($this->category)->name;
-    }
-
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class, 'parent_id');
-    }
-
-    public function sub_categories(): HasMany
-    {
-        return $this->hasMany(Category::class, 'parent_id');
+        return storage_url($this->logo);
     }
 
     public function scopeActive($query)
@@ -229,13 +209,4 @@ class Category extends BaseModel
     {
         return $query->where('status', self::NOT_FEATURED);
     }
-
-    public function scopeIsCategory($query) {
-        return $query->where('parent_id', null);
-    }
-    public function scopeIsSubCategory($query) {
-        return $query->where('parent_id', '!=', null);
-    }
-
-
 }
