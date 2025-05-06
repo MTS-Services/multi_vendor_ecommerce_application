@@ -13,32 +13,68 @@
             margin-right: 3px;
         }
 
-        /* Custom styles for the range slider */
-        .range-slider {
+        .active span {
+            background-color: black !important;
+            opacity: 1 !important;
+        }
+
+        /* Custom styles for the range inputs */
+        .price-slider {
             position: relative;
+            width: 100%;
+            height: 4px;
+        }
+
+        .slider-track {
+            position: absolute;
+            width: 100%;
             height: 4px;
             background-color: #e5e7eb;
+            z-index: 1;
             border-radius: 9999px;
         }
 
-        .range-selected {
-            height: 100%;
-            background-color: #ff6b6b;
-            border-radius: 9999px;
+        .slider-range {
             position: absolute;
+            height: 4px;
+            background-color: #ff6b6b;
+            z-index: 2;
+            border-radius: 9999px;
         }
 
-        .range-handle {
+        /* Style the range inputs */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            position: absolute;
+            width: 100%;
+            background: transparent;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* Style the range thumb */
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background-color: white;
+            background: white;
             border: 2px solid #ff6b6b;
-            position: absolute;
-            top: 50%;
-            transform: translate(-50%, -50%);
             cursor: pointer;
-            z-index: 10;
+            pointer-events: auto;
+            margin-top: -8px;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #ff6b6b;
+            cursor: pointer;
+            pointer-events: auto;
         }
     </style>
 @endpush
@@ -65,9 +101,6 @@
             <p class="text-text-gray mx-auto mb-4">
                 Discover our carefully curated women's collection, where timeless elegance meets modern style.
             </p>
-            <button class="btn-secondary">
-                Read More
-            </button>
         </div>
     </div>
 
@@ -109,15 +142,20 @@
                     </summary>
                     <div class="collapse-content text-sm">
                         <ul class="opacity-100">
-                            <li class="my-3"><a class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
+                            <li class="my-3"><a
+                                    class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
                                     href="#">Men's top (20)</a></li>
-                            <li class="my-3"><a class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
+                            <li class="my-3"><a
+                                    class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
                                     href="#">Men (20)</a></li>
-                            <li class="my-3"><a class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
+                            <li class="my-3"><a
+                                    class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
                                     href="#">Women (20)</a></li>
-                            <li class="my-3"><a class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
+                            <li class="my-3"><a
+                                    class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
                                     href="#">Kid (20)</a></li>
-                            <li class="my-3"><a class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
+                            <li class="my-3"><a
+                                    class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
                                     href="#">T-shirt (20)</a></li>
                         </ul>
                     </div>
@@ -131,11 +169,13 @@
                     </summary>
                     <div class="collapse-content text-sm">
                         <label for="" class="flex items-center gap-2 py-2">
-                            <input type="checkbox" name="stock-in" id="stock-in" class="checkbox checkbox-sm dark:border-white"> <span
+                            <input type="checkbox" name="availability-checkbox" id="stock-in"
+                                class="availability-checkbox checkbox checkbox-sm dark:border-white"> <span
                                 class="text-text-black dark:text-text-white">In Stock</span>
                         </label>
                         <label for="stock-out" class="flex items-center gap-2">
-                            <input type="checkbox" name="stock-out" id="stock-in" class="checkbox checkbox-sm dark:border-white"> <span
+                            <input type="checkbox" name="availability-checkbox" id="stock-out"
+                                class="availability-checkbox checkbox checkbox-sm dark:border-white"> <span
                                 class="text-text-black dark:text-text-white">Out Of Stock</span>
                         </label>
                     </div>
@@ -147,18 +187,22 @@
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title font-semibold">Price</summary>
                     <div class="collapse-content">
-                        <!-- Range slider -->
                         <div class="mb-4">
-                            <div class="range-slider" id="price-slider">
-                                <div class="range-selected" id="selected-range"></div>
-                                <div class="range-handle" id="min-handle"></div>
-                                <div class="range-handle" id="max-handle"></div>
+                            <div class="price-slider h-6 mt-8 mb-4">
+                                <div class="slider-track"></div>
+                                <div class="slider-range" id="slider-range"></div>
+                                <input type="range" id="min-range" min="0" max="500" value="20"
+                                    class="absolute">
+                                <input type="range" id="max-range" min="0" max="500" value="300"
+                                    class="absolute">
                             </div>
                         </div>
+
+                        <!-- Price display -->
                         <div class="mb-6">
                             <p class="text-sm">
-                                Price: <span class="text-red-500" id="min-price">$20</span> - <span class="text-red-500"
-                                    id="max-price">$300</span>
+                                Price: <span class="text-text-danger" id="min-price">$20</span> - <span
+                                    class="text-text-danger" id="max-price">$300</span>
                             </p>
                         </div>
                     </div>
@@ -187,17 +231,21 @@
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title font-semibold ">Color</summary>
                     <div class="collapse-content text-sm">
-                        <div class="grid grid-cols-5 gap-2 mb-2">
-                            <div class="w-6 h-6 rounded-full bg-red-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-orange-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-yellow-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-green-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-blue-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-indigo-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-purple-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-pink-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-gray-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-black border border-gray-200"></div>
+                        <div class="grid grid-cols-5 gap-2 mb-2 pe-5">
+                            <input type="radio" name="radio-1"
+                                class="w-8 h-8 radio bg-bg-accent border-border-accent checked:bg-transparent text-text-accent" />
+                            <input type="radio" name="radio-1"
+                                class="w-8 h-8 radio bg-bg-secondary border-border-primary checked:bg-transparent text-text-tertiary" />
+                            <input type="radio" name="radio-1"
+                                class="w-8 h-8 radio bg-bg-dark border-border-dark checked:bg-transparent text-text-primary" />
+                            <input type="radio" name="radio-1"
+                                class="w-8 h-8 radio bg-bg-danger border-border-danger checked:bg-transparent text-text-danger" />
+                            <input type="radio" name="radio-1"
+                                class="w-8 h-8 radio bg-bg-accent border-border-accent checked:bg-transparent text-text-accent" />
+                            <input type="radio" name="radio-1"
+                                class="w-8 h-8 radio bg-bg-accent border-border-accent checked:bg-transparent text-text-accent" />
+                            <input type="radio" name="radio-1"
+                                class="w-8 h-8 radio bg-bg-accent border-border-accent checked:bg-transparent text-text-accent" />
                         </div>
                     </div>
                 </details>
@@ -231,7 +279,8 @@
                                 <span class="text-text-gray">(1)</span>
                             </li>
                             <li class="flex items-center gap-2">
-                                <input type="checkbox" class="brand-checkbox checkbox checkbox-sm dark:border-white" name="brand-checkbox">
+                                <input type="checkbox" class="brand-checkbox checkbox checkbox-sm dark:border-white"
+                                    name="brand-checkbox">
                                 <span>Zara</span>
                                 <span class="text-text-gray">(20)</span>
                             </li>
@@ -290,6 +339,57 @@
 
             {{-- Shop Card Section Start Here --}}
             <div class="w-[80%]">
+                <div class="flex items-center justify-between">
+                    <div class="w-full">
+                        <details class="dropdown">
+                            <summary class="btn rounded-full bg-bg-transparent border border-bg-accent text-text-accent">
+                                Sort By (Default) <i data-lucide="chevron-down"></i></summary>
+                            <ul class="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                                <li><a class="font-normal" href="#">Sort By (Default)</a></li>
+                                <li><a class="font-normal" href="#">Title Ascending</a></li>
+                                <li><a class="font-normal" href="#">Title Descending</a></li>
+                                <li><a class="font-normal" href="#">Price Ascending</a></li>
+                                <li><a class="font-normal" href="#">Price Descending</a></li>
+                            </ul>
+                        </details>
+                    </div>
+                    <div class="w-full">
+                        <div class="flex items-center gap-4 justify-end p-2">
+                            <div
+                                class="flex flex-col justify-center items-center gap-1 group hover:bg-opacity-100 active:hover:bg-opacity-100">
+                                <span
+                                    class="w-5 h-[2px] bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
+                                <span
+                                    class="w-5 h-[2px] bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
+                            </div>
+                            <div class="flex justify-center group hover:bg-opacity-100 items-center gap-1">
+                                <span
+                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
+                                <span
+                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
+                            </div>
+                            <div class="flex justify-center group hover:bg-opacity-100 items-center gap-1">
+                                <span
+                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
+                                <span
+                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
+                                <span
+                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
+                            </div>
+                            <div class="flex justify-center group hover:bg-opacity-100 items-center gap-1 active">
+                                <span
+                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
+                                <span
+                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
+                                <span
+                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
+                                <span
+                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5">
 
                     @php
@@ -469,12 +569,12 @@
             maxHandle.addEventListener('touchstart', (e) => startDrag(e, maxHandle));
 
             //Checkbox event
-            const checkboxe1 = document.querySelectorAll('.availability-checkbox');
-            checkboxe1.forEach(checkbox => {
-                checkbox.addEventListener('change', () => {
-                    if (checkbox.checked) {
-                        checkboxes.forEach(cb => {
-                            if (cb !== checkbox) cb.checked = false;
+            const checkboxs1 = document.querySelectorAll('.availability-checkbox');
+            checkboxs1.forEach(checkbox1 => {
+                checkbox1.addEventListener('change', () => {
+                    if (checkbox1.checked) {
+                        checkboxs1.forEach(cb => {
+                            if (cb !== checkbox1) cb.checked = false;
                         });
                     }
                 });
@@ -488,6 +588,48 @@
                         });
                     }
                 });
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const minRange = document.getElementById('min-range');
+            const maxRange = document.getElementById('max-range');
+            const sliderRange = document.getElementById('slider-range');
+            const minPrice = document.getElementById('min-price');
+            const maxPrice = document.getElementById('max-price');
+
+            // Update the slider
+            function updateSlider() {
+                // Calculate percentage positions
+                const minPercent = (minRange.value / minRange.max) * 100;
+                const maxPercent = (maxRange.value / maxRange.max) * 100;
+
+                // Update the colored range
+                sliderRange.style.left = minPercent + '%';
+                sliderRange.style.width = (maxPercent - minPercent) + '%';
+
+                // Update price display
+                minPrice.textContent = '$' + minRange.value;
+                maxPrice.textContent = '$' + maxRange.value;
+            }
+
+            // Set initial positions
+            updateSlider();
+
+            // Add event listeners
+            minRange.addEventListener('input', function() {
+                // Prevent min from exceeding max
+                if (parseInt(minRange.value) > parseInt(maxRange.value) - 10) {
+                    minRange.value = parseInt(maxRange.value) - 10;
+                }
+                updateSlider();
+            });
+
+            maxRange.addEventListener('input', function() {
+                // Prevent max from being less than min
+                if (parseInt(maxRange.value) < parseInt(minRange.value) + 10) {
+                    maxRange.value = parseInt(minRange.value) + 10;
+                }
+                updateSlider();
             });
         });
     </script>
