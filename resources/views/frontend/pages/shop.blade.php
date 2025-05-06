@@ -13,8 +13,8 @@
             margin-right: 3px;
         }
 
-        .active span {
-            background-color: black !important;
+        .active{
+            color: black !important;
             opacity: 1 !important;
         }
 
@@ -356,42 +356,27 @@
                     </div>
                     <div class="w-full">
                         <div class="flex items-center gap-4 justify-end p-2">
-                            <div
-                                class="flex flex-col justify-center items-center gap-1 group hover:bg-opacity-100 active:hover:bg-opacity-100">
-                                <span
-                                    class="w-5 h-[2px] bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
-                                <span
-                                    class="w-5 h-[2px] bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
+                            <div data-grid="1"
+                                class="layout-btn opacity-30 hover:opacity-100 transition-all duration-300">
+                                <i data-lucide="tally-2" class="rotate-90 mt-3"></i>
                             </div>
-                            <div class="flex justify-center group hover:bg-opacity-100 items-center gap-1">
-                                <span
-                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
-                                <span
-                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
+                            <div data-grid="2"
+                                class="layout-btn opacity-30 hover:opacity-100 transition-all duration-300">
+                               <i data-lucide="tally-2" class="ms-2"></i>
                             </div>
-                            <div class="flex justify-center group hover:bg-opacity-100 items-center gap-1">
-                                <span
-                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
-                                <span
-                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
-                                <span
-                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
+                            <div data-grid="3"
+                                class="layout-btn opacity-30 hover:opacity-100 transition-all duration-300">
+                               <i data-lucide="tally-3" class="ms-1"></i>
                             </div>
-                            <div class="flex justify-center group hover:bg-opacity-100 items-center gap-1 active">
-                                <span
-                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
-                                <span
-                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
-                                <span
-                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
-                                <span
-                                    class="w-[2px] h-5 bg-bg-dark bg-opacity-30 group-hover:bg-opacity-100 inline-block transition-all duration-500"></span>
+                            <div data-grid="4"
+                                class="layout-btn opacity-30 text-center hover:opacity-100 transition-all duration-300 active">
+                               <i data-lucide="tally-4" class=""></i>
                             </div>
-
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5">
+                <div id="productGrid"
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 gap-5 row-gap-10 mt-5">
 
                     @php
                         $collections = collect([
@@ -483,61 +468,110 @@
     {{-- Shop Card Section End Here --}}
 @endsection
 @push('js')
-<script>
-    $(document).ready(function () {
-        const $minRange = $('#min-range');
-        const $maxRange = $('#max-range');
-        const $sliderRange = $('#slider-range');
-        const $minPrice = $('#min-price');
-        const $maxPrice = $('#max-price');
+    <script>
+        $(document).ready(function () {
+            const $minRange = $('#min-range');
+            const $maxRange = $('#max-range');
+            const $sliderRange = $('#slider-range');
+            const $minPrice = $('#min-price');
+            const $maxPrice = $('#max-price');
 
-        function updateSlider() {
-            const minVal = parseInt($minRange.val());
-            const maxVal = parseInt($maxRange.val());
-            const minPercent = (minVal / parseInt($minRange.attr('max'))) * 100;
-            const maxPercent = (maxVal / parseInt($maxRange.attr('max'))) * 100;
+            function updateSlider() {
+                const minVal = parseInt($minRange.val());
+                const maxVal = parseInt($maxRange.val());
+                const minPercent = (minVal / parseInt($minRange.attr('max'))) * 100;
+                const maxPercent = (maxVal / parseInt($maxRange.attr('max'))) * 100;
 
-            $sliderRange.css({
-                left: minPercent + '%',
-                width: (maxPercent - minPercent) + '%'
+                $sliderRange.css({
+                    left: minPercent + '%',
+                    width: (maxPercent - minPercent) + '%'
+                });
+
+                $minPrice.text('$' + minVal);
+                $maxPrice.text('$' + maxVal);
+            }
+
+            // Set initial positions
+            updateSlider();
+
+            // Event listeners
+            $minRange.on('input', function () {
+                if (parseInt($minRange.val()) > parseInt($maxRange.val()) - 10) {
+                    $minRange.val(parseInt($maxRange.val()) - 10);
+                }
+                updateSlider();
             });
 
-            $minPrice.text('$' + minVal);
-            $maxPrice.text('$' + maxVal);
-        }
+            $maxRange.on('input', function () {
+                if (parseInt($maxRange.val()) < parseInt($minRange.val()) + 10) {
+                    $maxRange.val(parseInt($minRange.val()) + 10);
+                }
+                updateSlider();
+            });
 
-        // Set initial positions
-        updateSlider();
+            // Checkbox group 1 - availability
+            $('.availability-checkbox').on('change', function () {
+                if ($(this).is(':checked')) {
+                    $('.availability-checkbox').not(this).prop('checked', false);
+                }
+            });
 
-        // Event listeners
-        $minRange.on('input', function () {
-            if (parseInt($minRange.val()) > parseInt($maxRange.val()) - 10) {
-                $minRange.val(parseInt($maxRange.val()) - 10);
+            // Checkbox group 2 - brand
+            $('.brand-checkbox').on('change', function () {
+                if ($(this).is(':checked')) {
+                    $('.brand-checkbox').not(this).prop('checked', false);
+                }
+            });
+
+            $('.layout-btn').on('click', function () {
+                const cols = $(this).data('grid');
+
+                $('.layout-btn').removeClass('active')
+                $(this).addClass('active')
+
+                const grid = $('#productGrid');
+                grid.removeClass('grid-cols-1 grid-cols-2 grid-cols-3 grid-cols-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5');
+                grid.addClass(`grid-cols-${cols}`);
+            });
+
+            function updateLayoutButtonStyle() {
+                const width = $(window).width();
+
+                $('.layout-btn').each(function () {
+                    const grid = $(this).attr('data-grid');
+
+                    if (width > 1200) {
+                        // Show all
+                        $(this).removeClass('hidden');
+                    } else if (width <= 768) {
+                        // Show only grid 1 and 2
+                        if (grid === '1' || grid === '2') {
+                            $(this).removeClass('hidden');
+                        } else {
+                            $(this).addClass('hidden');
+                        }
+                    } else if (width <= 1200) {
+                        // Show grid 1, 2, 3
+                        if (grid === '1' || grid === '2' || grid === '3') {
+                            $(this).removeClass('hidden');
+                        } else {
+                            $(this).addClass('hidden');
+                        }
+                    } else {
+                        // Fallback
+                        $(this).addClass('hidden');
+                    }
+                });
             }
-            updateSlider();
-        });
 
-        $maxRange.on('input', function () {
-            if (parseInt($maxRange.val()) < parseInt($minRange.val()) + 10) {
-                $maxRange.val(parseInt($minRange.val()) + 10);
-            }
-            updateSlider();
-        });
 
-        // Checkbox group 1 - availability
-        $('.availability-checkbox').on('change', function () {
-            if ($(this).is(':checked')) {
-                $('.availability-checkbox').not(this).prop('checked', false);
-            }
-        });
+            // Run on load
+            updateLayoutButtonStyle();
 
-        // Checkbox group 2 - brand
-        $('.brand-checkbox').on('change', function () {
-            if ($(this).is(':checked')) {
-                $('.brand-checkbox').not(this).prop('checked', false);
-            }
+            // Run on window resize
+            $(window).resize(updateLayoutButtonStyle);
+
         });
-    });
-</script>
+    </script>
 
 @endpush
