@@ -33,14 +33,14 @@ class BannerRequest extends FormRequest
     protected function store(): array
     {
         return [
-            'image' => 'required|image|mimes:jpeg,png,jpg,webp',
+            'image' => 'required',
         ];
     }
 
     protected function update(): array
     {
         return [
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp',
+            'image' => 'nullable',
         ];
     }
 }

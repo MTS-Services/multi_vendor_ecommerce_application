@@ -22,6 +22,7 @@ class Banner extends BaseModel
         'created_by',
         'updated_by',
         'deleted_by',
+
     ];
 
     public function __construct(array $attributes = [])
@@ -34,6 +35,8 @@ class Banner extends BaseModel
             'status_btn_label',
             'status_btn_color',
             'status_labels',
+
+            'modified_image',
         ]);
     }
 
@@ -108,4 +111,10 @@ class Banner extends BaseModel
     }
 
     // ================= Status Functionality End Here =================
+
+    // Modify Image
+    public function getModifiedImageAttribute()
+    {
+        return storage_url($this->image);
+    }
 }

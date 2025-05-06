@@ -5,6 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Traits\AuditColumnsTrait;
+use App\Models\Banner;
 
 return new class extends Migration
 {
@@ -21,7 +22,7 @@ return new class extends Migration
             $table->string('subtitle');
             $table->string('image');
             $table->string('url');
-            $table->boolean('status')->default(true);
+            $table->boolean('status')->default(Banner::STATUS_ACTIVE)->comment(Banner::STATUS_ACTIVE . ': Active, ' . Banner::STATUS_DEACTIVE . ': Inactive');
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();
