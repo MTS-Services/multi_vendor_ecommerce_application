@@ -133,8 +133,14 @@
                                     <span class="sub-item">{{ __('Country') }}</span>
                                 </a>
                             </li>
+                            <li class="@if ($page_slug == 'state') active @endif">
+                                <a href="{{ route('setup.state.index') }}">
+                                    <span class="sub-item">{{ __('State') }}</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
+                   
                 </li>
 
                 <li class="nav-item  @if ($page_slug == 'audits') active @endif">
