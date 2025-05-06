@@ -21,7 +21,6 @@
                             <tr>
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Name') }}</th>
-                                <th>{{ __('Username') }}</th>
                                 <th>{{ __('Email') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Verify Status') }}</th>
@@ -49,7 +48,6 @@
             let table_columns = [
                 //name and data, orderable, searchable
                 ['name', true, true],
-                ['username', true, true],
                 ['email', true, true],
                 ['status', true, true],
                 ['is_verify', true, true],
@@ -63,7 +61,7 @@
                 displayLength: 10,
                 main_route: "{{ route('um.user.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5, 6, 7],
+                export_columns: [0, 1, 2, 3, 4, 5, 6],
                 model: 'User',
             };
             initializeDataTable(details);

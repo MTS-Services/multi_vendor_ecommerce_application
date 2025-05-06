@@ -12,8 +12,8 @@ class DashboardController extends Controller
         $this->middleware('auth:seller');
     }
 
-    public function profile()
+    public function dashboard()
     {
-        return view('backend.seller.profile');
+        return view('backend.seller.dashboard');
     }
 }

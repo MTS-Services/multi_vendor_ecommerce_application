@@ -21,12 +21,12 @@ return new class extends Migration
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('name')->unique();
             $table->string('slug')->unique();
-            $table->text('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('image')->nullable();
             $table->boolean('status')->default(Category::STATUS_ACTIVE)->comment(Category::STATUS_DEACTIVE . ': Deactive, ' . Category::STATUS_ACTIVE . ': Active');
             $table->boolean('is_featured')->default(Category::NOT_FEATURED)->comment(Category::NOT_FEATURED . ': No, ' . Category::FEATURED . ': Yes');
             $table->string('meta_title')->nullable();
-            $table->string('meta_description')->nullable();
+            $table->longText('meta_description')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $this->addMorphedAuditColumns($table);

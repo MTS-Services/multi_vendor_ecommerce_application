@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Backend\Admin\ProductManagement;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryRequest;
 use App\Models\Category;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Traits\FileManagementTrait;
@@ -15,22 +18,24 @@ class CategoryController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->middleware('permission:category-list|category-create|category-edit|category-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:category-list', ['only' => ['index']]);
+        $this->middleware('permission:category-details', ['only' => ['show']]);
         $this->middleware('permission:category-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:category-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:category-delete', ['only' => ['destroy']]);
         $this->middleware('permission:category-status', ['only' => ['status']]);
+        $this->middleware('permission:category-feature', ['only' => ['feature']]);
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse|View
     {
-        $query = Category::with(['creater', 'sub_categories'])
+        if ($request->ajax()) {
+            $query = Category::isCategory()->with(['creater', 'sub_categories'])->withCount(['sub_categories'])
             ->orderBy('sort_order', 'asc')
             ->latest();
-        if ($request->ajax()) {
             return DataTables::eloquent($query)
                 ->editColumn('status', function ($category) {
                     return "<span class='badge " . $category->status_color . "'>$category->status_label</span>";
@@ -62,7 +67,13 @@ class CategoryController extends Controller
                 'data-id' => encrypt($model->id),
                 'className' => 'view',
                 'label' => 'Details',
-                'permissions' => ['category-list', 'category-delete', 'category-status']
+                'permissions' => ['category-list']
+            ],
+            [
+                'routeName' => 'pm.category.edit',
+                'params' => [encrypt($model->id)],
+                'label' => 'Edit',
+                'permissions' => ['category-edit']
             ],
             [
                 'routeName' => 'pm.category.status',
@@ -71,12 +82,11 @@ class CategoryController extends Controller
                 'permissions' => ['category-status']
             ],
             [
-                'routeName' => 'pm.category.edit',
+                'routeName' => 'pm.category.feature',
                 'params' => [encrypt($model->id)],
-                'label' => 'Edit',
-                'permissions' => ['category-edit']
+                'label' => $model->featured_btn_label,
+                'permissions' => ['category-feature']
             ],
-
             [
                 'routeName' => 'pm.category.destroy',
                 'params' => [encrypt($model->id)],
@@ -87,11 +97,10 @@ class CategoryController extends Controller
 
         ];
     }
-
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
        return view('backend.admin.product_management.category.create');
     }
@@ -99,14 +108,15 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CategoryRequest $request)
+    public function store(CategoryRequest $request): RedirectResponse
     {
-        $data = $request->validated();
-        $data['created_by'] = admin()->id;
+        $validated = $request->validated();
+        $validated['creater_id'] = admin()->id;
+        $validated['creater_type'] = get_class(admin());
         if(isset($request->image)) {
-            $data['image'] = $this->handleFilepondFileUpload(Category::class, $request->image, admin(), 'categories/');
+            $validated['image'] = $this->handleFilepondFileUpload(Category::class, $request->image, admin(), 'categories/');
         }
-        Category::create($data);
+        Category::create($validated);
         session()->flash('success','Category created successfully!');
         return redirect()->route('pm.category.index');
     }
@@ -114,32 +124,55 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): JsonResponse
     {
-        //
+        $data = Category::with(['creater', 'updater', 'sub_categories'])->findOrFail(decrypt($id));
+        return response()->json($data);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $data['category'] = Category::findOrFail(decrypt($id));
+        return view('backend.admin.product_management.category.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(CategoryRequest $req, string $id): RedirectResponse
     {
-        //
+        $category = Category::findOrFail(decrypt($id));
+        $validated = $req->validated();
+        $validated['updater_id'] = admin()->id;
+        $validated['updater_type'] = get_class(admin());
+        if(isset($request->image)) {
+            $validated['image'] = $this->handleFilepondFileUpload($category, $req->image, admin(), 'categories/');
+        }
+        $category->update($validated);
+        session()->flash('success', 'Category updated successfully!');
+        return redirect()->route('pm.category.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
-        //
+        $category = Category::findOrFail(decrypt($id));
+        $category->update(['deleter_id' => admin()->id, 'deleter_type' => get_class(admin())]);
+        $category->delete();
+        session()->flash('success', 'Category deleted successfully!');
+        return redirect()->route('pm.category.index');
+    }
+
+    public function status(string $id): RedirectResponse
+    {
+        $category = Category::findOrFail(decrypt($id));
+        $category->update(['status' => !$category->status, 'updated_by'=> admin()->id]);
+        session()->flash('success', 'Category status updated successfully!');
+        return redirect()->route('pm.category.index');
+    }
+    public function feature(string $id): RedirectResponse
+    {
+        $category = Category::findOrFail(decrypt($id));
+        $category->update(['is_featured' => !$category->is_featured, 'updated_by'=> admin()->id]);
+        session()->flash('success', 'Category feature status updated successfully!');
+        return redirect()->route('pm.category.index');
     }
 }

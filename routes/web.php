@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Backend\FileManagementController;
 
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::post('update/sort/order', [DatatableController::class, 'updateSortOrder'])->name('update.sort.order');
 // File Management
 Route::controller(FileManagementController::class)->prefix('file-management')->name('file.')->group(function () {

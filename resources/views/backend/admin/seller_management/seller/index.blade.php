@@ -1,8 +1,5 @@
 @extends('backend.admin.layouts.master', ['page_slug' => 'seller'])
 @section('title', 'Seller List')
-@push('css')
-    <link rel="stylesheet" href="{{ asset('custom_litebox/litebox.css') }}">
-@endpush
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -21,9 +18,7 @@
                             <tr>
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Name') }}</th>
-                                <th>{{ __('Username') }}</th>
                                 <th>{{ __('Email') }}</th>
-                                <th>{{ __('Gender') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Verify Status') }}</th>
                                 <th>{{ __('Created By') }}</th>
@@ -32,7 +27,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        
+
                         </tbody>
                     </table>
                 </div>
@@ -43,7 +38,6 @@
     <x-backend.admin.details-modal :datas="['modal_title' => 'Seller Details']" />
 @endsection
 @push('js')
-    <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
     {{-- Datatable Scripts --}}
     <script src="{{ asset('datatable/main.js') }}"></script>
     <script>
@@ -51,12 +45,10 @@
             let table_columns = [
 
                 ['name', true, true],
-                ['username', true, true],
-                ['gender', true, true],
                 ['email', true, true],
                 ['status', true, true],
                 ['is_verify', true, true],
-                ['created_by', true, true],
+                ['creater_id', true, true],
                 ['created_at', false, false],
                 ['action', false, false],
             ];
@@ -66,14 +58,18 @@
                 displayLength: 10,
                 main_route: "{{ route('sl.seller.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5, 6, 7],
+                export_columns: [0, 1, 2, 3, 4, 5, 6],
                 model: 'Seller',
             };
             initializeDataTable(details);
         })
     </script>
 @endpush
+@push('css')
+    <link rel="stylesheet" href="{{ asset('custom_litebox/litebox.css') }}">
+@endpush
 @push('js')
+    <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
     {{-- Show details scripts --}}
     <script src="{{ asset('modal/details_modal.js') }}"></script>
      <script>
@@ -91,18 +87,31 @@
                     key: "username"
                 },
                 {
-                    lavel:"Gender",
-                    key: "gender"
-                }
+                    label: "Email",
+                    key: "email"
+                },
+                {
+                    label: "Phone",
+                    key: "phone"
+                },
+                {
+                    label: "Emergency Phone",
+                    key: "emergency_phone"
+                },
+                {
+                    label: "Father Name",
+                    key: "father_name"
+                },
+                {
+                    label: "Mother Name",
+                    key: "mother_name"
+                },
                 {
                     label: "Image",
                     key: "modified_image",
                     type: "image"
                 },
-                {
-                    label: "Email",
-                    key: "email"
-                },
+
                 {
                     label: "Status",
                     key: "status_label",
@@ -123,3 +132,4 @@
         });
     </script>
 @endpush
+

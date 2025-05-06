@@ -28,16 +28,17 @@ class User extends AuthBaseModel implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'status',
+        'image',
+        'is_verify',
+        'gender',
+
         'creater_id',
         'updater_id',
         'deleter_id',
         'creater_type',
         'updater_type',
         'deleted_type',
-        'status',
-        'image',
-        'is_verify',
-        'gender',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -55,9 +56,6 @@ class User extends AuthBaseModel implements MustVerifyEmail
      * @return array<string, string>
      */
     protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
         'creater_id' => 'integer',
         'updater_id' => 'integer',
         'deleter_id' => 'integer',

@@ -54,6 +54,7 @@ class AuthBaseModel extends Authenticatable
         'status_btn_label',
         'status_btn_color',
         'status_labels',
+        'modified_image',
 
         'verify_label',
         'verify_color',
@@ -66,6 +67,7 @@ class AuthBaseModel extends Authenticatable
         'updater_name',
         'deleter_name',
 
+
         'created_at_human',
         'updated_at_human',
         'deleted_at_human',
@@ -73,6 +75,7 @@ class AuthBaseModel extends Authenticatable
         'created_at_formatted',
         'updated_at_formatted',
         'deleted_at_formatted',
+
     ];
 
     // Status labels

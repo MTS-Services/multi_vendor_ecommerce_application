@@ -9,6 +9,15 @@ class Audit extends ModelsAudit
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'auditable_id',
+        'auditable_type',
+        'event',
+        'old_values',
+        'new_values',
+        'url',
+    ];
 
     protected $appends = [
         'created_at_human',

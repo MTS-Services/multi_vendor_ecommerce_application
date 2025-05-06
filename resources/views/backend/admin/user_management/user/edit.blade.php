@@ -66,7 +66,7 @@
     <script>
         $(document).ready(function() {
             const existingFiles = {
-                "#image":"{{ auth_storage_url($user->image) }}",
+                "#image":"{{ $user->modified_image }}",
             };
             file_upload(["#image"], "uploadImage", "admin", existingFiles, false);
         });
