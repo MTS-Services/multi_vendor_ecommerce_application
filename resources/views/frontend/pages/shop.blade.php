@@ -290,36 +290,36 @@
 
             {{-- Shop Card Section Start Here --}}
             <div class="w-[80%]">
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5">
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5">
 
-                    @php
-                        $collections = collect([
-                            'id' => 1,
-                            'image' => 'frontend/images/t-shirt.jpg',
-                            'title' => 'Turtleneck T-Shirt',
-                            'price' => 100.0,
-                            'old_price' => 120.0,
-                        ]);
-                    @endphp
+                        @php
+                            $collections = collect([
+                                'id' => 1,
+                                'image' => 'frontend/images/t-shirt.jpg',
+                                'title' => 'Turtleneck T-Shirt',
+                                'price' => 100.0,
+                                'old_price' => 120.0,
+                            ]);
+                        @endphp
 
-                    <x-frontend.product :items="$collections" />
-                    <x-frontend.product :items="$collections" />
-                    <x-frontend.product :items="$collections" />
-                    <x-frontend.product :items="$collections" />
-                    <x-frontend.product :items="$collections" />
-                    <x-frontend.product :items="$collections" />
-                    <x-frontend.product :items="$collections" />
-                    <x-frontend.product :items="$collections" />
-                    <x-frontend.product :items="$collections" />
-                    <x-frontend.product :items="$collections" />
-                    <x-frontend.product :items="$collections" />
-                    <x-frontend.product :items="$collections" />
-                    <x-frontend.product :items="$collections" />
-                    <x-frontend.product :items="$collections" />
-                    <x-frontend.product :items="$collections" />
-                    <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
+                        <x-frontend.product :items="$collections" />
 
-                </div>
+                    </div>
                 {{-- Page inner --}}
                 <div class="flex justify-center items-center gap-2 mt-10">
                     <button class="btn-paginate">1</button>

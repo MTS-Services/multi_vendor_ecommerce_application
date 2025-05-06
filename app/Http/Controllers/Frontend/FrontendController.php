@@ -24,4 +24,8 @@ class FrontendController extends Controller
     {
         return view('frontend.pages.wishlist');
     }
+    public function cart()
+    {
+        return view('frontend.pages.cart');
+    }
 }

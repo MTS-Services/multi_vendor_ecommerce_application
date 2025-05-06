@@ -71,14 +71,14 @@
             </div>
         </div>
 
-        <!-- Navigation buttons -->
+        {{-- <!-- Navigation buttons -->
         <div class="swiper-button swiper-button-prev">
             <i class="fa-solid fa-angle-left"></i>
         </div>
 
         <div class="swiper-button swiper-button-next">
             <i class="fa-solid fa-angle-right"></i>
-        </div>
+        </div> --}}
     </div>
 
 
