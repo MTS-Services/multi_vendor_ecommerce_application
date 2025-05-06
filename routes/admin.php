@@ -67,6 +67,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
 
         Route::resource('brand', BrandController::class);
         Route::get('brand/status/{brand}', [BrandController::class, 'status'])->name('brand.status');
+        Route::get('brand/feature/{brand}', [BrandController::class, 'feature'])->name('brand.feature');
     });
 
     // Product Management

@@ -25,7 +25,7 @@ class BrandRequest extends FormRequest
             'description' => 'nullable|string',
             'meta_description' => 'nullable|string',
             'meta_title' => 'nullable|string',
-            'logo'=> 'nullable|string',
+            'logo'=> 'nullable',
             'website'=> 'nullable|url',
 
         ]
