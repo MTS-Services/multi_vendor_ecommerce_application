@@ -8,7 +8,7 @@
     <div class="w-full md:w-1/2 p-10 md:p-12 flex flex-col justify-center">
       <h2 class="text-3xl font-semibold text-center mb-6">Create your Evolon account</h2>
       <form class="space-y-5">
-        <input type="text" placeholder="Full Name" class="w-full p-3 border border-light rounded-md focus:ring-2 focus:ring-accent" />
+        <input type="text" placeholder="First Name" class="w-full p-3 border border-light rounded-md focus:ring-2 focus:ring-accent" />
         <input type="text" placeholder="Username" class="w-full p-3 border border-light rounded-md focus:ring-2 focus:ring-accent" />
         <input type="email" placeholder="Email" class="w-full p-3 border border-light rounded-md focus:ring-2 focus:ring-accent" />
         <div class="relative">

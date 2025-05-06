@@ -4,11 +4,13 @@
 <div class="flex items-center justify-center min-h-screen bg-white px-4 py-10">
   <div class="flex flex-col md:flex-row bg-white shadow-lg rounded-2xl w-full max-w-7xl min-h-[600px] overflow-hidden">
 
+
+
     <!-- Left Side: Form -->
     <div class="w-full md:w-1/2 p-10 md:p-12 flex flex-col justify-center">
       <h2 class="text-3xl font-semibold text-center mb-6">Create your Evolon account</h2>
       <form class="space-y-5">
-        <input type="text" placeholder="Full Name" class="w-full p-3 border border-light rounded-md focus:ring-2 focus:ring-accent" />
+        <input type="text" placeholder="First Name" class="w-full p-3 border border-light rounded-md focus:ring-2 focus:ring-accent" />
         <input type="text" placeholder="Username" class="w-full p-3 border border-light rounded-md focus:ring-2 focus:ring-accent" />
         <input type="email" placeholder="Email" class="w-full p-3 border border-light rounded-md focus:ring-2 focus:ring-accent" />
         <div class="relative">
@@ -31,7 +33,7 @@
           Already have an account? <a href="{{ route('login') }}" class="text-accent hover:underline">Sign in</a>
         </div>
         <div class="text-center text-sm mt-2">
-          Become a <a href="#" class="text-accent hover:underline">Seller</a>
+          Become a <a href="" class="text-accent hover:underline">Seller</a>
         </div>
       </form>
     </div>
