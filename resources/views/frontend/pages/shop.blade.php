@@ -107,7 +107,9 @@
     <div class="container">
         {{-- Filters --}}
         {{-- <details class="dropdown">
-            <summary class="btn rounded-full bg-bg-transparent border border-bg-accent text-text-accent">Sort By (Default) <i data-lucide="chevron-down"></i></summary>
+            <summary class="btn rounded-full bg-bg-transparent border border-bg-accent text-text-accent">Sort By (Default)
+                <i data-lucide="chevron-down"></i>
+            </summary>
             <ul class="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
                 <li><a class="font-normal" href="#">Sort By (Default)</a></li>
                 <li><a class="font-normal" href="#">Title Ascending</a></li>
@@ -115,18 +117,21 @@
                 <li><a class="font-normal" href="#">Price Ascending</a></li>
                 <li><a class="font-normal" href="#">Price Descending</a></li>
             </ul>
-          </details>
+        </details>
         <div class="mt-5 mb-10">
             <span class=" me-3"><strong>Filter:</strong></span>
-            <div class="inline-flex gap-2 justify-start items-center py-2 px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden mb-5">
+            <div
+                class="inline-flex gap-2 justify-start items-center py-2 px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden mb-5">
                 <a href="#">Abilability</a>
                 <span class="inline-block"><i data-lucide="chevron-down"></i></span>
             </div>
-            <div class="inline-flex gap-2 justify-start items-center py-2 px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden mb-5">
+            <div
+                class="inline-flex gap-2 justify-start items-center py-2 px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden mb-5">
                 <a href="#">Color</a>
                 <span class="inline-block"><i data-lucide="chevron-down"></i></span>
             </div>
-            <div class="inline-flex gap-2 justify-start items-center py-2 px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden mb-5">
+            <div
+                class="inline-flex gap-2 justify-start items-center py-2 px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden mb-5">
                 <a href="#">Size</a>
                 <span class="inline-block"><i data-lucide="chevron-down"></i></span>
             </div>
@@ -191,10 +196,8 @@
                             <div class="price-slider h-6 mt-8 mb-4">
                                 <div class="slider-track"></div>
                                 <div class="slider-range" id="slider-range"></div>
-                                <input type="range" id="min-range" min="0" max="500" value="20"
-                                    class="absolute">
-                                <input type="range" id="max-range" min="0" max="500" value="300"
-                                    class="absolute">
+                                <input type="range" id="min-range" min="0" max="500" value="20" class="absolute">
+                                <input type="range" id="max-range" min="0" max="500" value="300" class="absolute">
                             </div>
                         </div>
 
@@ -307,8 +310,7 @@
                         </div>
                         <div class="flex gap-3 mt-5">
                             <div class="w-20 h-100 shrink-0 rounded-sm overflow-hidden">
-                                <img src="{{ asset('frontend/images/on-sale.jpg') }}" alt="Loose Fit Tee"
-                                    class="img-fluid">
+                                <img src="{{ asset('frontend/images/on-sale.jpg') }}" alt="Loose Fit Tee" class="img-fluid">
                             </div>
                             <div>
                                 <h4 class="text-base font-medium">Loose Fit Tee</h4>
@@ -327,8 +329,7 @@
                     <div class="hover:scale-110 transition-all duration-500">
                         <img src="{{ asset('frontend/images/sb-banner.jpg') }}" alt="Elevate">
                     </div>
-                    <div
-                        class="flex flex-col justify-center items-center p-10 absolute bottom-0 left-0 w-full text-center">
+                    <div class="flex flex-col justify-center items-center p-10 absolute bottom-0 left-0 w-full text-center">
                         <h3 class="font-medium mb-4 capitalize text-4xl text-text-white z-10">Elevate your style</h3>
                         <button class="btn-primary">Shop Now</button>
                     </div>
@@ -482,155 +483,61 @@
     {{-- Shop Card Section End Here --}}
 @endsection
 @push('js')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const slider = document.getElementById('price-slider');
-            const selectedRange = document.getElementById('selected-range');
-            const minHandle = document.getElementById('min-handle');
-            const maxHandle = document.getElementById('max-handle');
-            const minPrice = document.getElementById('min-price');
-            const maxPrice = document.getElementById('max-price');
+<script>
+    $(document).ready(function () {
+        const $minRange = $('#min-range');
+        const $maxRange = $('#max-range');
+        const $sliderRange = $('#slider-range');
+        const $minPrice = $('#min-price');
+        const $maxPrice = $('#max-price');
 
-            const minValue = 0;
-            const maxValue = 1000;
-            let currentMinValue = 20;
-            let currentMaxValue = 300;
+        function updateSlider() {
+            const minVal = parseInt($minRange.val());
+            const maxVal = parseInt($maxRange.val());
+            const minPercent = (minVal / parseInt($minRange.attr('max'))) * 100;
+            const maxPercent = (maxVal / parseInt($maxRange.attr('max'))) * 100;
 
-            // Initialize slider positions
+            $sliderRange.css({
+                left: minPercent + '%',
+                width: (maxPercent - minPercent) + '%'
+            });
+
+            $minPrice.text('$' + minVal);
+            $maxPrice.text('$' + maxVal);
+        }
+
+        // Set initial positions
+        updateSlider();
+
+        // Event listeners
+        $minRange.on('input', function () {
+            if (parseInt($minRange.val()) > parseInt($maxRange.val()) - 10) {
+                $minRange.val(parseInt($maxRange.val()) - 10);
+            }
             updateSlider();
-
-            // Handle dragging functionality
-            let isDragging = false;
-            let currentHandle = null;
-
-            function updateSlider() {
-                const sliderWidth = slider.offsetWidth;
-                const minPosition = ((currentMinValue - minValue) / (maxValue - minValue)) * 100;
-                const maxPosition = ((currentMaxValue - minValue) / (maxValue - minValue)) * 100;
-
-                minHandle.style.left = `${minPosition}%`;
-                maxHandle.style.left = `${maxPosition}%`;
-                selectedRange.style.left = `${minPosition}%`;
-                selectedRange.style.width = `${maxPosition - minPosition}%`;
-
-                minPrice.textContent = `$${currentMinValue}`;
-                maxPrice.textContent = `$${currentMaxValue}`;
-            }
-
-            function startDrag(e, handle) {
-                isDragging = true;
-                currentHandle = handle;
-                document.addEventListener('mousemove', onDrag);
-                document.addEventListener('mouseup', stopDrag);
-                document.addEventListener('touchmove', onDrag);
-                document.addEventListener('touchend', stopDrag);
-            }
-
-            function onDrag(e) {
-                if (!isDragging) return;
-
-                const sliderRect = slider.getBoundingClientRect();
-                const sliderWidth = sliderRect.width;
-
-                // Get position (handle mouse or touch events)
-                let clientX;
-                if (e.type === 'touchmove') {
-                    clientX = e.touches[0].clientX;
-                } else {
-                    clientX = e.clientX;
-                }
-
-                let position = (clientX - sliderRect.left) / sliderWidth;
-                position = Math.max(0, Math.min(1, position));
-
-                const value = Math.round(minValue + position * (maxValue - minValue));
-
-                if (currentHandle === minHandle) {
-                    currentMinValue = Math.min(value, currentMaxValue - 10);
-                } else {
-                    currentMaxValue = Math.max(value, currentMinValue + 10);
-                }
-
-                updateSlider();
-            }
-
-            function stopDrag() {
-                isDragging = false;
-                document.removeEventListener('mousemove', onDrag);
-                document.removeEventListener('mouseup', stopDrag);
-                document.removeEventListener('touchmove', onDrag);
-                document.removeEventListener('touchend', stopDrag);
-            }
-
-            // Add event listeners
-            minHandle.addEventListener('mousedown', (e) => startDrag(e, minHandle));
-            maxHandle.addEventListener('mousedown', (e) => startDrag(e, maxHandle));
-            minHandle.addEventListener('touchstart', (e) => startDrag(e, minHandle));
-            maxHandle.addEventListener('touchstart', (e) => startDrag(e, maxHandle));
-
-            //Checkbox event
-            const checkboxs1 = document.querySelectorAll('.availability-checkbox');
-            checkboxs1.forEach(checkbox1 => {
-                checkbox1.addEventListener('change', () => {
-                    if (checkbox1.checked) {
-                        checkboxs1.forEach(cb => {
-                            if (cb !== checkbox1) cb.checked = false;
-                        });
-                    }
-                });
-            });
-            const checkboxs2 = document.querySelectorAll('.brand-checkbox');
-            checkboxs2.forEach(checkbox2 => {
-                checkbox2.addEventListener('change', () => {
-                    if (checkbox2.checked) {
-                        checkboxs2.forEach(cb => {
-                            if (cb !== checkbox2) cb.checked = false;
-                        });
-                    }
-                });
-            });
         });
-        document.addEventListener('DOMContentLoaded', function() {
-            const minRange = document.getElementById('min-range');
-            const maxRange = document.getElementById('max-range');
-            const sliderRange = document.getElementById('slider-range');
-            const minPrice = document.getElementById('min-price');
-            const maxPrice = document.getElementById('max-price');
 
-            // Update the slider
-            function updateSlider() {
-                // Calculate percentage positions
-                const minPercent = (minRange.value / minRange.max) * 100;
-                const maxPercent = (maxRange.value / maxRange.max) * 100;
-
-                // Update the colored range
-                sliderRange.style.left = minPercent + '%';
-                sliderRange.style.width = (maxPercent - minPercent) + '%';
-
-                // Update price display
-                minPrice.textContent = '$' + minRange.value;
-                maxPrice.textContent = '$' + maxRange.value;
+        $maxRange.on('input', function () {
+            if (parseInt($maxRange.val()) < parseInt($minRange.val()) + 10) {
+                $maxRange.val(parseInt($minRange.val()) + 10);
             }
-
-            // Set initial positions
             updateSlider();
-
-            // Add event listeners
-            minRange.addEventListener('input', function() {
-                // Prevent min from exceeding max
-                if (parseInt(minRange.value) > parseInt(maxRange.value) - 10) {
-                    minRange.value = parseInt(maxRange.value) - 10;
-                }
-                updateSlider();
-            });
-
-            maxRange.addEventListener('input', function() {
-                // Prevent max from being less than min
-                if (parseInt(maxRange.value) < parseInt(minRange.value) + 10) {
-                    maxRange.value = parseInt(minRange.value) + 10;
-                }
-                updateSlider();
-            });
         });
-    </script>
+
+        // Checkbox group 1 - availability
+        $('.availability-checkbox').on('change', function () {
+            if ($(this).is(':checked')) {
+                $('.availability-checkbox').not(this).prop('checked', false);
+            }
+        });
+
+        // Checkbox group 2 - brand
+        $('.brand-checkbox').on('change', function () {
+            if ($(this).is(':checked')) {
+                $('.brand-checkbox').not(this).prop('checked', false);
+            }
+        });
+    });
+</script>
+
 @endpush
