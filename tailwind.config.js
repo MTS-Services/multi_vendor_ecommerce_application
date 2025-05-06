@@ -54,9 +54,10 @@ module.exports = {
           primary: '#000AEE',       // Vivid blue
           secondary: '#8A2BE2',     // Purple background
           accent: '#8752FA',        // Violet background
-          dark: '#292929',          // Dark section
           light: '#FFFDF6',
           dark: '#2d2d2d',
+          darkSecondary: '#021526',
+          darkTertiary: '#222831',
           gray: '#F3F4F6',
           white: '#ffffff',
           black: '#000000',
@@ -147,6 +148,8 @@ module.exports = {
       backgroundImage: {
         'gradient-primary': 'linear-gradient(45deg, #4CAF83 0%, #86BD59 100%)',
         'gradient-secondary': 'linear-gradient(45deg, #FFCA40 0%, #FDC040 100%)',
+        'gradient-light': 'linear-gradient(45deg, #EFEFFE 0%, #FFEFF6 100%)',
+        'gradient-dark': 'linear-gradient(45deg, #2E2E4D 0%, #4D2E3C 100%)',
         'star': 'radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent)',
       },
       animation: {
