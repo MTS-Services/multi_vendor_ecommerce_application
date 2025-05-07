@@ -12,13 +12,18 @@
             display: inline-block;
             margin-right: 3px;
         }
-        .swiper-button-next:after, .swiper-button-prev:after {
+
+        .swiper-button-next:after,
+        .swiper-button-prev:after {
             font-size: 16px !important;
         }
     </style>
 @endpush
 @section('content')
     <div class="container">
+        {{-- Sidebar --}}
+        @include('frontend.includes.cart_sidebar')
+
         {{-- Breadcrumb --}}
         <div class="container mx-auto px-4 py-4 text-sm">
             <ul class="flex items-center gap-2 ">
@@ -234,11 +239,13 @@
                             </div>
                         </div>
                         <!-- Navigation buttons -->
-                        <div class="swiper-button swiper-button-prev left-0 top-[210px] bg-bg-white shadow-xl w-8 h-8 text-text-black rounded-full font-bold">
+                        <div
+                            class="swiper-button swiper-button-prev left-0 top-[210px] bg-bg-white shadow-xl w-8 h-8 text-text-black rounded-full font-bold">
                             <i class="ffa-solida-angle-left"></i>
                         </div>
 
-                        <div class="swiper-button swiper-button-next left-15 top-[210px] bg-bg-white shadow-xl w-8 h-8 text-text-black rounded-full font-bold">
+                        <div
+                            class="swiper-button swiper-button-next left-15 top-[210px] bg-bg-white shadow-xl w-8 h-8 text-text-black rounded-full font-bold">
                             <i class="text-xlfa-solid fa-angle-right"></i>
                         </div>
                     </div>
@@ -283,11 +290,13 @@
                 </div>
             </div>
             <!-- Navigation buttons -->
-            <div class="swiper-button swiper-button-prev bg-bg-accent shadow-xl w-8 h-8 text-text-white rounded-full font-bold">
+            <div
+                class="swiper-button swiper-button-prev bg-bg-accent shadow-xl w-8 h-8 text-text-white rounded-full font-bold">
                 <i class=" ffa-solida-angle-left"></i>
             </div>
 
-            <div class="swiper-button swiper-button-next bg-bg-accent shadow-xl w-8 h-8 text-text-white rounded-full font-bold">
+            <div
+                class="swiper-button swiper-button-next bg-bg-accent shadow-xl w-8 h-8 text-text-white rounded-full font-bold">
                 <i class="fa-solid fa-angle-right"></i>
             </div>
         </div>
@@ -438,6 +447,25 @@
                     el: '.swiper-pagination',
                 },
                 watchSlidesProgress: true,
+            });
+        });
+
+        $(document).ready(function() {
+            const $openSidebar = $('.openCartSidebar');
+            const $closeSidebar = $('.closeCartSidebar');
+            const $sidebar = $('.cartSidebar'); // Select the sidebar element globally
+
+            // Sidebar open functionality
+            $openSidebar.on('click', function() {
+                $sidebar.css('transform', 'translateX(0)'); // Show the sidebar
+                // $(this).addClass('hidden'); // Hide the open button
+            });
+
+            $closeSidebar.on('click', function() {
+                $sidebar.css('transform', 'translateX(100%)'); // Hide the sidebar
+                setTimeout(() => {
+                    // $openSidebar.removeClass('hidden'); // Show all openSidebar buttons
+                }, 300); // Delay for the sidebar transition
             });
         });
     </script>
