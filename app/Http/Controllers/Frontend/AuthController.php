@@ -18,4 +18,9 @@ class AuthController extends Controller
     {
         return view('frontend.auth.user.register');
     }
+
+    public function verifyEmail()
+    {
+        return view('frontend.auth.user.verify');
+    }
 }

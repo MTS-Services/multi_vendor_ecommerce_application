@@ -32,7 +32,7 @@ class RegisterController extends Controller
      */
     protected function redirectTo()
     {
-        return route('user.profile');
+        return route('verification.notice');
     }
 
     public function showRegistrationForm()

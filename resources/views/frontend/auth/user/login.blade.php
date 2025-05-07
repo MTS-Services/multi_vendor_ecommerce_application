@@ -5,7 +5,7 @@
             <div
                 class="flex flex-col md:flex-row shadow-shadowPrimary shadow-shadow-dark/10 dark:shadow-shadow-light/10 rounded-2xl w-full overflow-hidden bg-bg-white dark:bg-bg-darkTertiary">
                 <!-- Left Side: Form -->
-                <div class="w-full md:w-1/2 p-10 md:p-12 flex flex-col justify-center">
+                <div class="w-full xl:w-1/2 p-10 md:p-12 flex flex-col justify-center">
                     <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Login your account') }}</h2>
                     <form class="space-y-5" action="{{ route('login') }}" method="POST">
                         @csrf
@@ -42,18 +42,18 @@
                             <x-frontend.input-error :datas="['errors' => $errors, 'field' => 'password']" />
                         </div>
 
-                        <div class="mt-5 flex justify-between items-center gap-5 flex-wrap">
+                        <div class="mt-5 flex justify-center sm:justify-between items-center gap-5 flex-wrap">
                             <button type="submit" class="btn-primary">{{ __('Login') }}</button>
                             <p class="text-center text-sm mt-4">
-                                {{ __('Don\'t have an account?') }} <a href="{{ route('register') }}"
+                                {{ __('Forgot password?') }} <a href="{{ route('password.request') }}"
                                     class="text-text-tertiary font-medium">
-                                    {{ __('Sign up') }} </a>
+                                    {{ __('Reset password') }} </a>
                             </p>
                         </div>
                     </form>
                     <div>
                         <div class="divider">{{ __('Or sign up with') }}</div>
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="flex flex-wrap gap-4">
                             <a href="#" class="btn-primary rounded-md w-full gap-3">
                                 <i class='bx bxl-google text-2xl'></i> {{ __('Google') }}
                             </a>
@@ -61,15 +61,20 @@
                                 <i class='bx bxl-facebook text-2xl'></i> {{ __('Facebook') }}
                             </a>
                         </div>
-                        <div class="text-center text-sm mt-4">
+                        <p class="text-center text-sm mt-4">
+                            {{ __('Don\'t have an account?') }} <a href="{{ route('register') }}"
+                                class="text-text-tertiary font-medium">
+                                {{ __('Sign up') }} </a>
+                        </p>
+                        <p class="text-center text-sm mt-4">
                             {{ __('Become a') }} <a href="#"
                                 class="text-text-accent font-medium">{{ __('Seller') }}</a>
-                        </div>
+                        </p>
                     </div>
                 </div>
 
                 <!-- Right Side: Image -->
-                <div class="w-full md:w-1/2">
+                <div class="w-1/2 hidden xl:block">
                     <img src="{{ asset('/frontend/images/5464026.jpg') }}" alt="Register Image"
                         class="w-full h-full object-cover" />
                 </div>
@@ -78,5 +83,5 @@
     </section>
 @endsection
 @push('js')
-    <script src="{{ asset('frontend/js/login.js') }}"></script>
+    <script src="{{ asset('frontend/js/password.js') }}"></script>
 @endpush

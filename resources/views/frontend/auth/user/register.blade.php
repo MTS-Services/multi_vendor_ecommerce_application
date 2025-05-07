@@ -3,13 +3,13 @@
     <section class="py-20">
         <div class="container">
             <div
-                class="flex flex-col md:flex-row-reverse shadow-shadowPrimary shadow-shadow-dark/10 dark:shadow-shadow-light/10 rounded-2xl w-full overflow-hidden bg-bg-white dark:bg-bg-darkTertiary">
+                class="flex flex-col xl:flex-row-reverse shadow-shadowPrimary shadow-shadow-dark/10 dark:shadow-shadow-light/10 rounded-2xl w-full overflow-hidden bg-bg-white dark:bg-bg-darkTertiary">
                 <!-- Left Side: Form -->
-                <div class="w-full md:w-1/2 p-10 md:p-12 flex flex-col justify-center">
+                <div class="w-full xl:w-1/2 p-10 md:p-12 flex flex-col justify-center">
                     <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Register your account') }}</h2>
                     <form class="space-y-5" action="{{ route('register') }}" method="POST">
                         @csrf
-                        <div class="flex items-center justify-between gap-3">
+                        <div class="flex items-center flex-wrap lg:flex-nowrap justify-between gap-3">
                             <div class="w-full">
                                 <label class="w-full">
                                     <input type="text" placeholder="First Name" name="first_name" class="input" />
@@ -38,7 +38,7 @@
                             <x-frontend.input-error :datas="['errors' => $errors, 'field' => 'email']" />
                         </div>
 
-                        <div class="flex items-center justify-between gap-3">
+                        <div class="flex items-center justify-between flex-wrap lg:flex-nowrap gap-3">
                             <div class="w-full">
                                 <label class="input relative">
                                     <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -80,18 +80,13 @@
                             </div>
                         </div>
 
-                        <div class="mt-5 flex justify-between items-center gap-5 flex-wrap">
+                        <div class="mt-5 flex justify-center items-center gap-5 flex-wrap">
                             <button type="submit" class="btn-primary">{{ __('Register') }}</button>
-                            <p class="text-center text-sm mt-4">
-                                {{ __('Already have an account?') }} <a href="{{ route('login') }}"
-                                    class="text-text-tertiary font-medium">
-                                    {{ __('Sign in') }} </a>
-                            </p>
                         </div>
                     </form>
                     <div>
                         <div class="divider">{{ __('Or sign up with') }}</div>
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="flex flex-wrap gap-4">
                             <a href="#" class="btn-primary rounded-md w-full gap-3">
                                 <i class='bx bxl-google text-2xl'></i> {{ __('Google') }}
                             </a>
@@ -99,6 +94,12 @@
                                 <i class='bx bxl-facebook text-2xl'></i> {{ __('Facebook') }}
                             </button>
                         </div>
+
+                        <p class="text-center text-sm mt-4">
+                            {{ __('Already have an account?') }} <a href="{{ route('login') }}"
+                                class="text-text-tertiary font-medium">
+                                {{ __('Sign in') }} </a>
+                        </p>
 
                         <div class="text-center text-sm mt-4">
                             {{ __('Become a') }} <a href="#"
@@ -108,7 +109,7 @@
                 </div>
 
                 <!-- Right Side: Image -->
-                <div class="w-full md:w-1/2">
+                <div class="w-1/2 hidden xl:block">
                     <img src="{{ asset('/frontend/images/5464026.jpg') }}" alt="Register Image"
                         class="w-full h-full object-cover" />
                 </div>
@@ -117,5 +118,5 @@
     </section>
 @endsection
 @push('js')
-    <script src="{{ asset('frontend/js/login.js') }}"></script>
+    <script src="{{ asset('frontend/js/password.js') }}"></script>
 @endpush
