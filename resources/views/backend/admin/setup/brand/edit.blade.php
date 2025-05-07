@@ -34,12 +34,9 @@
                     {{-- Logo --}}
                     <div class="form-group">
                         <label>{{ __('Logo') }}<span class="text-danger">*</span></label>
-                        <input type="file" name="logo" class="form-control">
+                        <input type="file" accept="image/*" name="uploadImage" data-actualName="logo"
+                            class="form-control filepond" id="logo">
                         <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'logo']" />
-                        
-                        @if($brand->logo)
-                            <img src="{{ asset('uploads/brands/' . $brand->logo) }}" alt="Logo" width="80" class="mt-2">
-                        @endif
                     </div>
 
                     {{-- Website --}}
@@ -67,20 +64,6 @@
                         <label>{{ __('Description') }}</label>
                         <textarea name="description" class="form-control" placeholder="Enter description">{{ old('description', $brand->description) }}</textarea>
                     </div>
-
-                    {{-- Status --}}
-                    <div class="form-group">
-                        <label>{{ __('Status') }} <span class="text-danger">*</span></label>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="status" value="1" {{ old('status', $brand->status) == '1' ? 'checked' : '' }}>
-                            <label class="form-check-label">{{ __('Active') }}</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="status" value="0" {{ old('status', $brand->status) == '0' ? 'checked' : '' }}>
-                            <label class="form-check-label">{{ __('Inactive') }}</label>
-                        </div>
-                    </div>
-
                     {{-- Submit --}}
                     <div class="form-group float-end mt-3">
                         <input type="submit" class="btn btn-primary" value="Update">
@@ -91,7 +74,17 @@
     </div>
 </div>
 @endsection
-
 @push('js')
 <script src="{{ asset('ckEditor5/main.js') }}"></script>
+{{-- FilePond  --}}
+<script src="{{ asset('filepond/filepond.js') }}"></script>
+<script>
+        $(document).ready(function() {
+            const existingFiles = {
+                "#image":"{{ $brand->modified_logo }}",
+            };
+            file_upload(["#image"], "uploadImage", "admin", existingFiles, false);
+        });
+    </script>
+{{-- FilePond  --}}
 @endpush

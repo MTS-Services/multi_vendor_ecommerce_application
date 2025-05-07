@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Admin\Setup;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Setup\BrandRequest;
+use App\Http\Traits\FileManagementTrait;
 use App\Models\Brand;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,6 +15,9 @@ use Yajra\DataTables\Facades\DataTables;
 
 class BrandController extends Controller
 {
+
+    use FileManagementTrait;
+
     public function __construct()
     {
         $this->middleware('auth:admin');
@@ -32,12 +36,15 @@ class BrandController extends Controller
     {
 
         if ($request->ajax()) {
-            $query = Brand::with(['creater_admin'])
+            $query = Brand::with(['creater'])
                 ->orderBy('sort_order', 'asc')
                 ->latest();
             return DataTables::eloquent($query)
                 ->editColumn('status', function ($brand) {
                     return "<span class='badge " . $brand->status_color . "'>$brand->status_label</span>";
+                })
+                ->editColumn('is_featured', function ($brand) {
+                    return "<span class='badge " . $brand->featured_color . "'>$brand->featured_label</span>";
                 })
                 ->editColumn('created_by', function ($brand) {
                     return $brand->creater_name;
@@ -49,7 +56,7 @@ class BrandController extends Controller
                     $menuItems = $this->menuItems($brand);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'created_by', 'created_at', 'action'])
+                ->rawColumns(['status','is_featured', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.setup.brand.index');
@@ -107,29 +114,16 @@ class BrandController extends Controller
      */
     public function store(BrandRequest $request)
     {
-        $validated= $request->validated();
-        if(isset($request->logo)) {
+        $validated = $request->validated();
+        $validated['creater_id'] = admin()->id;
+        $validated['creater_type'] = get_class(admin());
+        if (isset($request->logo)) {
             $validated['logo'] = $this->handleFilepondFileUpload(Brand::class, $request->logo, admin(), 'brands/');
         }
-        $validated['created_by'] = admin()->id;
         Brand::create($validated);
-        session()->flash('success','Brand created successfully!');
+        session()->flash('success', 'Brand created successfully!');
         return redirect()->route('setup.brand.index');
     }
-
-    public function handleFilepondFileUpload($modelClass, $file, $user, $path)
-{
-    // যদি file pond ID দিয়ে আসছে তাহলে resolve করে ফাইল বের করো
-    if (!($file instanceof UploadedFile)) {
-        $filePath = Storage::disk('public')->path($file);
-        $file = new UploadedFile($filePath, basename($filePath));
-    }
-
-    // ফাইল স্টোর করো
-    $storedPath = $file->store($path, 'public');
-
-    return $storedPath;
-}
 
     /**
      * Display the specified resource.
@@ -152,32 +146,16 @@ class BrandController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(BrandRequest $request, string $id)
     {
         $brand = Brand::findOrFail($id);
-
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'slug' => 'required|unique:brands,slug,' . $id,
-            'logo' => 'nullable|image|mimes:png,jpg,jpeg,svg|max:2048',
-            'status' => 'required|in:1,0',
-        ]);
-
-        if ($request->hasFile('logo')) {
-            $fileName = time() . '.' . $request->logo->extension();
-            $request->logo->move(public_path('uploads/brands'), $fileName);
-            $brand->logo = $fileName;
+        $validated = $request->validated();
+        $validated['updater_id'] = admin()->id;
+        $validated['updater_type'] = get_class(admin());
+        if (isset($request->logo)) {
+            $validated['logo'] = $this->handleFilepondFileUpload($brand, $request->logo, admin(), 'brands/');
         }
-
-        $brand->update([
-            'name' => $request->name,
-            'slug' => $request->slug,
-            'website' => $request->website,
-            'meta_title' => $request->meta_title,
-            'meta_description' => $request->meta_description,
-            'description' => $request->description,
-            'status' => $request->status,
-        ]);
+        $brand->update($validated);
 
         return redirect()->route('setup.brand.index')->with('success', 'Brand updated successfully!');
     }

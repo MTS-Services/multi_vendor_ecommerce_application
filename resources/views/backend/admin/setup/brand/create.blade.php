@@ -27,11 +27,12 @@
                         <input type="text" value="{{ old('slug') }}" id="slug" name="slug" class="form-control"
                             placeholder="Enter slug">
                         <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'slug']" />
-                    </div>                    
+                    </div>
                     {{-- Logo --}}
                     <div class="form-group">
                         <label>{{ __('Logo') }}<span class="text-danger">*</span></label>
-                        <input type="file" value="{{ old('logo') }}" id="logo" name="logo" class="form-control">
+                        <input type="file" name="uploadImage" data-actualName="logo" class="form-control filepond"
+                            id="image" accept="image/*">
                         <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'logo']" />
                     </div>
                     {{-- Website --}}
@@ -58,21 +59,6 @@
                         <label>{{__('Description')}}</label>
                         <textarea name="description" class="form-control" id="description" placeholder="Enter description">{{old('description')}}</textarea>
                     </div>
-                    {{-- Status --}}
-                    <div class="form-group">
-                        <label>{{ __('Status') }} <span class="text-danger">*</span></label>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="status" id="active" value="1"
-                                {{ old('status') == '1' ? 'checked' : '' }}>
-                            <label class="form-check-label" for="active">Active</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="status" id="inactive" value="0"
-                                {{ old('status') == '0' ? 'checked' : '' }}>
-                            <label class="form-check-label" for="inactive">Inactive</label>
-                        </div>
-                    </div>
-
                     <div class="form-group float-end">
                         <input type="submit" class="btn btn-primary" value="Create">
                     </div>
@@ -84,4 +70,12 @@
 @endsection
 @push('js')
 <script src="{{ asset('ckEditor5/main.js') }}"></script>
+{{-- FilePond  --}}
+<script src="{{ asset('filepond/filepond.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        file_upload(["#image"], "uploadImage", "admin", [], false);
+    });
+</script>
+{{-- FilePond  --}}
 @endpush
