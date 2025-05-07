@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Admin\Setup;
 
 use App\Http\Controllers\Controller;
 use App\Models\City;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -107,7 +108,8 @@ class CityController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data = City::with(['creater', 'updater', 'city'])->findOrFail(decrypt($id));
+        return response()->json($data);
     }
 
     /**
@@ -132,5 +134,12 @@ class CityController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function status(string $id): RedirectResponse
+    {
+        $state = City::findOrFail(decrypt($id));
+        $state->update(['status' => !$state->status, 'updated_by'=> admin()->id]);
+        session()->flash('success', ' city status updated successfully!');
+        return redirect()->route('setup.city.index');
     }
 }

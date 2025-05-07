@@ -1,11 +1,11 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'category'])
-@section('title', 'Category List')
+@extends('backend.admin.layouts.master', ['page_slug' => 'state'])
+@section('title', 'State List')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('Category List') }}</h4>
+                    <h4 class="cart-title">{{ __('State List') }}</h4>
                     <x-backend.admin.button :datas="[
                         'routeName' => 'setup.state.create',
                         'label' => 'Add New',

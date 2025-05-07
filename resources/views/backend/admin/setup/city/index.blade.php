@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('Country List') }}</h4>
+                    <h4 class="cart-title">{{ __('City List') }}</h4>
                     <x-backend.admin.button :datas="[
                         'routeName' => 'setup.city.create',
                         'label' => 'Add New',
@@ -54,7 +54,7 @@
                 displayLength: 10,
                 main_route: "{{ route('setup.city.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4],
+                export_columns: [0, 1, 2, 3, 4,5],
                 model: 'City',
             };
             initializeDataTable(details);
@@ -70,23 +70,28 @@
             let id = $(this).data("id");
             let route = "{{ route('setup.city.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
-            const headers = [{
-                    label: "Name",
-                    key: "name"
-                },
-                {
-                    label: "Slug",
-                    key: "slug"
-                },
-                {
-                    label: "Status",
-                    key: "status_label",
-                    color: "status_color",
-                },
-                {
-                    label:"Description",
-                    key: "description",
-                },
+            const headers = [
+                    {
+                        label: "Country",
+                        key: "country_name"
+                    },
+                    {
+                            label: "Name",
+                            key: "name"
+                        },
+                    {
+                        label: "Slug",
+                        key: "slug"
+                    },
+                    {
+                        label: "Status",
+                        key: "status_label",
+                        color: "status_color",
+                    },
+                    {
+                        label:"Description",
+                        key: "description",
+                    },
 
 
             ];
