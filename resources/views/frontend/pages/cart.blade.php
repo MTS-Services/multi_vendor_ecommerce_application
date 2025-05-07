@@ -12,23 +12,12 @@
             display: inline-block;
             margin-right: 3px;
         }
+        .swiper-button-next:after, .swiper-button-prev:after {
+            font-size: 16px !important;
+        }
     </style>
 @endpush
 @section('content')
-    {{-- <!-- Header -->
-    <div class="container mx-auto px-4 py-8 text-center">
-        <div class="flex flex-col items-center justify-center">
-            <h1 class="text-4xl font-medium mb-3 font-bold capitalize">Shopping Cart</h1>
-            <p>Spend $100 more to getFree Shipping</p>
-            <div class="shipping w-[400px]">
-                <div class="w-full h-2 bg-[#6E50A1] rounded-full relative mt-5">
-                    <span
-                        class="absolute left-0 top-[50%] translate-y-[-50%] text-text-white bg-bg-accent w-10 h-10 rounded-full flex items-center justify-center"><i
-                            data-lucide="truck" class=""></i></span>
-                </div>
-            </div>
-        </div>
-    </div> --}}
     <div class="container">
         {{-- Breadcrumb --}}
         <div class="container mx-auto px-4 py-4 text-sm">
@@ -68,7 +57,7 @@
                                 <th class="py-4 text-left font-medium">Product</th>
                                 <th class="py-4 text-left font-medium">Price</th>
                                 <th class="py-4 text-left font-medium">Quantity</th>
-                                <th class="py-4 text-left font-medium">Total</th>
+                                <th class="py-4 text-left font-medium w-[12%]">Total</th>
                             </tr>
                         </thead>
                         <tbody id="cart-items">
@@ -104,28 +93,28 @@
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                         <div class="flex flex-col items-center">
                             <div
-                                class="w-10 h-10 rounded-full bg-bg-danger dark:bg-bg-white bg-opacity-30 flex items-center justify-center text-text-accent mb-2">
+                                class="w-10 h-10 rounded-full bg-bg-accent dark:bg-bg-white bg-opacity-30 flex items-center justify-center text-text-accent mb-2">
                                 <i data-lucide="truck" class="text-md"></i>
                             </div>
                             <span class="text-xs font-medium uppercase">FREE SHIPPING</span>
                         </div>
                         <div class="flex flex-col items-center">
                             <div
-                                class="w-10 h-10 rounded-full bg-bg-danger dark:bg-bg-white bg-opacity-30 flex items-center justify-center text-text-accent mb-2">
+                                class="w-10 h-10 rounded-full bg-bg-accent dark:bg-bg-white bg-opacity-30 flex items-center justify-center text-text-accent mb-2">
                                 <i data-lucide="gift" class="text-md"></i>
                             </div>
                             <span class="text-xs font-medium uppercase">GIFT PACKAGE</span>
                         </div>
                         <div class="flex flex-col items-center">
                             <div
-                                class="w-10 h-10 rounded-full bg-bg-danger dark:bg-bg-white bg-opacity-30 flex items-center justify-center text-text-accent mb-2">
+                                class="w-10 h-10 rounded-full bg-bg-accent dark:bg-bg-white bg-opacity-30 flex items-center justify-center text-text-accent mb-2">
                                 <i data-lucide="refresh-cw" class="text-md"></i>
                             </div>
                             <span class="text-xs font-medium uppercase">FREE RETURNS</span>
                         </div>
                         <div class="flex flex-col items-center">
                             <div
-                                class="w-10 h-10 rounded-full bg-bg-danger dark:bg-bg-white bg-opacity-30 flex items-center justify-center text-text-accent mb-2">
+                                class="w-10 h-10 rounded-full bg-bg-accent dark:bg-bg-white bg-opacity-30 flex items-center justify-center text-text-accent mb-2">
                                 <i data-lucide="headphones" class="text-md"></i>
                             </div>
                             <span class="text-xs font-medium uppercase">SUPPORT ONLINE</span>
@@ -186,20 +175,72 @@
                 <!-- Testimonial -->
                 <div
                     class="shadow-card mt-6 bg-gradient-to-br from-bg-accent to-bg-secondary opacity-80 text-text-white p-6 rounded-md">
-                    <div class="text-3xl mb-2">"</div>
-                    <div class="flex mb-2">
-                        <i data-lucide="star" class="text-text-white text-opacity-100"></i>
-                        <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
-                        <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
-                        <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
-                        <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
-                    </div>
-                    <p class="text-sm mb-4">Stylish, comfortable, and perfect for any occasion! My new favorite fashion
-                        destination.</p>
-                    <div class="flex items-center">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Customer"
-                            class="w-8 h-8 rounded-full mr-2">
-                        <span class="text-sm font-medium">Vincent P.</span>
+                    <!-- Slider main container -->
+                    <div class="swiper testimonial">
+                        <div class="swiper-wrapper relative">
+                            <div class="swiper-slide pb-15">
+                                <div class="text-3xl mb-2">"</div>
+                                <div class="flex mb-2">
+                                    <i data-lucide="star" class="text-text-white text-opacity-100"></i>
+                                    <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
+                                    <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
+                                    <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
+                                    <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
+                                </div>
+                                <p class="text-sm mb-4">Stylish, comfortable, and perfect for any occasion! My new
+                                    favorite fashion
+                                    destination.</p>
+                                <div class="flex items-center">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Customer"
+                                        class="w-8 h-8 rounded-full mr-2">
+                                    <span class="text-sm font-medium">Vincent P.</span>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="text-3xl mb-2">"</div>
+                                <div class="flex mb-2">
+                                    <i data-lucide="star" class="text-text-white text-opacity-100"></i>
+                                    <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
+                                    <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
+                                    <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
+                                    <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
+                                </div>
+                                <p class="text-sm mb-4">Stylish, comfortable, and perfect for any occasion! My new
+                                    favorite fashion
+                                    destination.</p>
+                                <div class="flex items-center">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Customer"
+                                        class="w-8 h-8 rounded-full mr-2">
+                                    <span class="text-sm font-medium">Vincent P.</span>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="text-3xl mb-2">"</div>
+                                <div class="flex mb-2">
+                                    <i data-lucide="star" class="text-text-white text-opacity-100"></i>
+                                    <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
+                                    <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
+                                    <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
+                                    <i data-lucide="star" class="text-text-white text-opacity-100 ms-1"></i>
+                                </div>
+                                <p class="text-sm mb-4">Stylish, comfortable, and perfect for any occasion! My new
+                                    favorite fashion
+                                    destination.</p>
+                                <div class="flex items-center">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Customer"
+                                        class="w-8 h-8 rounded-full mr-2">
+                                    <span class="text-sm font-medium">Vincent P.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Navigation buttons -->
+                        <div class="swiper-button swiper-button-prev left-0 top-[210px] bg-bg-white shadow-xl w-8 h-8 text-text-black rounded-full font-bold">
+                            <i class="ffa-solida-angle-left"></i>
+                        </div>
+
+                        <div class="swiper-button swiper-button-next left-15 top-[210px] bg-bg-white shadow-xl w-8 h-8 text-text-black rounded-full font-bold">
+                            <i class="text-xlfa-solid fa-angle-right"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -242,11 +283,11 @@
                 </div>
             </div>
             <!-- Navigation buttons -->
-            <div class="swiper-button swiper-button-prev">
+            <div class="swiper-button swiper-button-prev bg-bg-accent shadow-xl w-8 h-8 text-text-white rounded-full font-bold">
                 <i class=" ffa-solida-angle-left"></i>
             </div>
 
-            <div class="swiper-button swiper-button-next">
+            <div class="swiper-button swiper-button-next bg-bg-accent shadow-xl w-8 h-8 text-text-white rounded-full font-bold">
                 <i class="fa-solid fa-angle-right"></i>
             </div>
         </div>
@@ -265,7 +306,7 @@
                 variant: 'White / L',
                 price: 100.00,
                 quantity: 1,
-                image: 'https://images.unsplash.com/photo-1566677914817-56426959ae9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80'
+                image: '{{ asset('frontend/images/demo-image1.avif') }}'
             },
             {
                 id: 2,
@@ -273,7 +314,7 @@
                 variant: 'White / L',
                 price: 120.00,
                 quantity: 1,
-                image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=150&q=80'
+                image: '{{ asset('frontend/images/demo-image1.avif') }}'
             }
         ];
 
@@ -371,8 +412,8 @@
         import Swiper from '/frontend/js/swiper.min.js';
 
         $(document).ready(function() {
-            const filterOptionSwiper = new Swiper('.cart-product', {
-                slidesPerView: 'auto',
+            const filterOptionSwiper = new Swiper('.testimonial', {
+                slidesPerView: '1',
                 spaceBetween: 20,
                 navigation: {
                     nextEl: '.swiper-button-next',
@@ -382,30 +423,22 @@
                     el: '.swiper-pagination',
                 },
                 watchSlidesProgress: true,
-                slidesPerView: 4,
             });
         });
 
-        // const swiper = new Swiper('.swiper', {
-        //     // Optional parameters
-        //     direction: 'vertical',
-        //     loop: true,
-
-        //     // If we need pagination
-        //     pagination: {
-        //         el: '.swiper-pagination',
-        //     },
-
-        //     // Navigation arrows
-        //     navigation: {
-        //         nextEl: '.swiper-button-next',
-        //         prevEl: '.swiper-button-prev',
-        //     },
-
-        //     // And if we need scrollbar
-        //     scrollbar: {
-        //         el: '.swiper-scrollbar',
-        //     },
-        // });
+        $(document).ready(function() {
+            const filterOptionSwiper = new Swiper('.cart-product', {
+                slidesPerView: '4',
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+                watchSlidesProgress: true,
+            });
+        });
     </script>
 @endpush
