@@ -133,6 +133,11 @@
                                     <span class="sub-item">{{ __('Country') }}</span>
                                 </a>
                             </li>
+                            <li class="@if ($page_slug == 'city') active @endif">
+                                <a href="{{ route('setup.city.index') }}">
+                                    <span class="sub-item">{{ __('City') }}</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
