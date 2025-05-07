@@ -107,7 +107,7 @@
     <div class="container">
         <div class="flex gap-5">
             {{-- Sidebar Start Here --}}
-            <div class="filter-sidebar w-100 xl:w-[25%] hidden xl:block">
+            <div class="filter-sidebar w-100 xl:w-[25%] hidden xl:block dark:bg-bg-darkSecondary p-4 rounded-md dark:bg-opacity-30">
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title font-semibold">
                         <span class="">Collections</span>
@@ -133,7 +133,7 @@
                     </div>
                 </details>
                 <!-- Divider -->
-                <div class="border-t border-border-gray"></div>
+                <div class="border-t border-border-light dark:border-opacity-50"></div>
                 {{-- Availability --}}
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title font-semibold ">
@@ -153,7 +153,7 @@
                     </div>
                 </details>
                 <!-- Divider -->
-                <div class="border-t border-gray"></div>
+                <div class="border-t border-border-light dark:border-opacity-50"></div>
                 {{-- Price --}}
                 <!-- Price header with dropdown arrow -->
                 <details class="collapse collapse-arrow" open>
@@ -178,7 +178,7 @@
                     </div>
                 </details>
                 <!-- Divider -->
-                <div class="border-t border-gray"></div>
+                <div class="border-t border-border-light dark:border-opacity-50"></div>
                 {{-- Color --}}
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title font-semibold ">Color</summary>
@@ -202,7 +202,7 @@
                     </div>
                 </details>
                 <!-- Divider -->
-                <div class="border-t border-gray"></div>
+                <div class="border-t border-border-light dark:border-opacity-50"></div>
                 
 
                 {{-- Size --}}
@@ -255,7 +255,7 @@
                     </div>
                 </details>
                 <!-- Divider -->
-                <div class="border-t border-gray"></div>
+                <div class="border-t border-border-light dark:border-opacity-50"></div>
                 {{-- Brand --}}
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title font-semibold ">Brand</summary>
@@ -276,7 +276,7 @@
                     </div>
                 </details>
                 <!-- Divider -->
-                <div class="border-t border-gray"></div>
+                <div class="border-t border-border-light dark:border-opacity-50"></div>
                 <!-- On Sale -->
                 <div class="mb-6">
                     <h3 class="font-medium mb-4">On sale</h3>
@@ -301,7 +301,7 @@
                             <div>
                                 <h4 class="text-base font-medium">Loose Fit Tee</h4>
                                 <div class="flex gap-2 items-center mt-1">
-                                    <span class="text-sm font-medium text-text-danger font-medium">$130.00</span>
+                                    <span class="text-sm font-medium text-text-danger">$130.00</span>
                                 </div>
                                 <p class="text-sm text-text-gray mt-1">3 color available</p>
                             </div>
@@ -309,9 +309,9 @@
                     </div>
                 </div>
                 <!-- Divider -->
-                <div class="border-t border-gray"></div>
+                <div class="border-t border-border-light dark:border-opacity-50"></div>
                 {{-- Elavate --}}
-                <div class="relative mt-3 rounded-md overflow-hidden">
+                <div class="relative mt-10 rounded-md overflow-hidden">
                     <div class="hover:scale-110 transition-all duration-500">
                         <img src="{{ asset('frontend/images/sb-banner.jpg') }}" alt="Elevate">
                     </div>
@@ -368,7 +368,7 @@
                     </div>
                 </div>
                 <div id="productGrid"
-                    class="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 row-gap-[50px] mt-5">
+                    class="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 gap-y-10 mt-5">
 
                     @php
                         $collections = collect([
@@ -430,7 +430,7 @@
     </div>
 
     <!-- Footer -->
-    <div class="border-t mt-16">
+    <div class="border-t mt-16 dark:bg-bg-darkSecondary dark:border-none">
         <div class="container mx-auto px-4 py-12">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div>
