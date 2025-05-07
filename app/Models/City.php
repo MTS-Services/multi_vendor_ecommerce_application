@@ -30,6 +30,9 @@ class City extends BaseModel
             'status_btn_label',
             'status_btn_color',
             'status_labels',
+
+            'country_name',
+            'state_name',
         ]);
     }
     public const STATUS_ACTIVE = 1;
@@ -106,12 +109,12 @@ class City extends BaseModel
         return $this->morphTo();
     }
 
-    // public function country(): MorphTo
-    // {
-    //     return $this->morphTo( 'parent', Country::class, 'parent_id', 'id');
-    // }
-    // public function state(): MorphTo
-    // {
-    //     return $this->morphTo( 'parent', State::class, 'parent_id', 'id');
-    // }
+    public function getCountryNameAttribute(): string|null
+    {
+        return isset(optional($this->parent)->country) ? optional($this->parent)->country->name : optional($this->parent)->name;
+    }
+    public function getStateNameAttribute(): string|null
+    {
+        return isset(optional($this->parent)->country) ? optional($this->parent)->name : null;
+    }
 }

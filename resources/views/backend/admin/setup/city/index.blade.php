@@ -76,9 +76,13 @@
                         key: "country_name"
                     },
                     {
-                            label: "Name",
-                            key: "name"
-                        },
+                        label: "State",
+                        key: "state_name"
+                    },
+                    {
+                        label: "Name",
+                        key: "name"
+                    },
                     {
                         label: "Slug",
                         key: "slug"

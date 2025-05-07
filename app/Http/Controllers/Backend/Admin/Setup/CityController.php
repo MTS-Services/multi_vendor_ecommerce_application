@@ -30,12 +30,12 @@ class CityController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $query = City::with(['creater'])
+            $query = City::with(['creater_admin', 'parent'])
             ->orderBy('sort_order', 'asc')
             ->latest();
             return DataTables::eloquent($query)
-            ->editColumn('parent_id', function ($city) {
-                return isset($city->parent->country) ? optional(optional($city->parent)->country)->name." (".optional($city->parent)->name.")" : optional($city->parent)->name;
+                ->editColumn('parent_id', function ($city) {
+                    return $city->country_name  . ($city->state_name ? "(". $city->state_name .")": "");
                 })
 
                 ->editColumn('status', function ($city) {
@@ -118,7 +118,7 @@ class CityController extends Controller
      */
     public function show(string $id)
     {
-        $data = City::with(['creater', 'updater', 'city'])->findOrFail(decrypt($id));
+        $data = City::with(['creater_admin', 'updater_admin', 'parent'])->findOrFail(decrypt($id));
         return response()->json($data);
     }
 
