@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class State extends BaseModel
 {
@@ -110,5 +111,10 @@ class State extends BaseModel
     public function getCountryNameAttribute(): string|null
     {
         return optional($this->country)->name;
+    }
+
+    public function cities(): MorphMany
+    {
+        return $this->morphMany(City::class, 'parent');
     }
 }

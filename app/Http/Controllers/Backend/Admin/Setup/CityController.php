@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Backend\Admin\Setup;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Setup\CityRequest;
 use App\Models\City;
+use App\Models\Country;
+use App\Models\State;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -91,15 +94,22 @@ class CityController extends Controller
      */
     public function create()
     {
-        //
+        $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
+        return view('backend.admin.setup.city.create',$data);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CityRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $validated['created_by'] = admin()->id;
+        $validated['parent_id'] = $request->state ? $request->state : $request->country;
+        $validated['parent_type'] = $request->state ? State::class : Country::class;
+        City::create($validated);
+        session()->flash('success','City created successfully!');
+        return redirect()->route('setup.city.index');
     }
 
     /**

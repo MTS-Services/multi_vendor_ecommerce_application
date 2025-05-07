@@ -23,8 +23,8 @@ class CityRequest extends FormRequest
     {
         return [
             'description' => 'nullable|string',
-            'country_id'=> 'required|exists:countries,id',
-            'state_id'=> 'nullable|exists:states,id',
+            'country'=> 'required|exists:countries,id',
+            'state'=> 'nullable|exists:states,id',
 
         ]
             +

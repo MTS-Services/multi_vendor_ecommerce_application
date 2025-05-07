@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Country extends BaseModel
 {
@@ -97,4 +99,24 @@ class Country extends BaseModel
     {
         return self::getStatusBtnColors()[$this->status] ?? 'btn btn-secondary';
     }
+
+    public function scopeActive($query): mixed
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+
+    public function scopeDeactive($query): mixed
+    {
+        return $query->where('status', self::STATUS_DEACTIVE);
+    }
+
+    public function cities(): MorphMany
+    {
+        return $this->morphMany(City::class,'parent');
+    }
+    public function states(): HasMany
+    {
+        return $this->hasMany(State::class, 'country_id');
+    }
+
 }
