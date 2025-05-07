@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\Admin\Setup\AxiosRequestController;
 use App\Http\Controllers\Backend\Admin\Setup\CityController;
 use App\Http\Controllers\Backend\Admin\Setup\StateController;
 use Illuminate\Support\Facades\Route;
@@ -63,6 +64,15 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
 
      // Setup Routes
      Route::group(['as' => 'setup.', 'prefix' => 'setup-management'], function () {
+        Route::controller(AxiosRequestController::class)->name('axios.')->group( function () {
+            Route::get('get-states', 'getStates')->name('get-states');
+            Route::get('get-cities', 'getCities')->name('getCities');
+            Route::get('get-areas', 'getAreas')->name('getAreas');
+            Route::get('get-sub-areas', 'getSubAreas')->name('getSubAreas');
+        });
+
+
+
         Route::resource('country', CountryController::class);
         Route::get('country/status/{country}', [CountryController::class, 'status'])->name('country.status');
 

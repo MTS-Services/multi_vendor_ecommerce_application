@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Backend\Admin\Setup;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Setup\CityRequest;
 use App\Models\City;
+use App\Models\Country;
+use App\Models\State;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -92,15 +95,22 @@ class CityController extends Controller
      */
     public function create()
     {
-        //
+        $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
+        return view('backend.admin.setup.city.create',$data);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CityRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $validated['created_by'] = admin()->id;
+        $validated['parent_id'] = $request->state ? $request->state : $request->country;
+        $validated['parent_type'] = $request->state ? State::class : Country::class;
+        City::create($validated);
+        session()->flash('success','City created successfully!');
+        return redirect()->route('setup.city.index');
     }
 
     /**
@@ -117,29 +127,40 @@ class CityController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data['city'] = City::with('parent')->findOrFail(decrypt($id));
+        $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
+        return view('backend.admin.setup.city.edit',$data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CityRequest $request, string $id): RedirectResponse
     {
-        //
+        $city = City::findOrFail(decrypt($id));
+        $validated = $request->validated();
+        $validated['created_by'] = admin()->id;
+        $validated['parent_id'] = $request->state ? $request->state : $request->country;
+        $validated['parent_type'] = $request->state ? State::class : Country::class;
+        $city->update($validated);
+        session()->flash('success','City updated successfully!');
+        return redirect()->route('setup.city.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
-        //
+        $city = City::findOrFail(decrypt($id));
+        $city->update(['deleted_by'=> admin()->id]);
+        $city->delete();
+        session()->flash('success', 'City deleted successfully!');
+        return redirect()->route('setup.city.index');
     }
+
     public function status(string $id): RedirectResponse
     {
-        $state = City::findOrFail(decrypt($id));
-        $state->update(['status' => !$state->status, 'updated_by'=> admin()->id]);
-        session()->flash('success', ' city status updated successfully!');
+        $city = City::findOrFail(decrypt($id));
+        $city->update(['status' => !$city->status, 'updated_by'=> admin()->id]);
+        session()->flash('success', 'City status updated successfully!');
         return redirect()->route('setup.city.index');
     }
 }
