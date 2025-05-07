@@ -1,4 +1,4 @@
-<footer>
+<footer class=" dark:bg-bg-darkTertiary">
     <!-- Feature Icons Row  Start-->
     <div class="container">
         <div class="flex flex-wrap justify-around items-center py-6  divide-gray-300  text-center">
@@ -44,22 +44,22 @@
                 </div>
                 <div class="flex gap-4">
                     <a href="www.facebook.com"
-                        class="w-14 h-14 flex items-center justify-center border rounded-full hover:bg-gray-100">
+                        class="w-14 h-14 flex items-center justify-center border rounded-full hover:bg-gradient-primary transition-all duration-500 dark:hover:bg-bg-gray/40">
                         <i data-lucide="facebook" class="w-6 h-6"></i>
                         <span class="sr-only">{{ __('Facebook') }}</span>
                     </a>
                     <a href="www.instagram.com"
-                        class="w-14 h-14 flex items-center justify-center border rounded-full hover:bg-gray-100">
+                        class="w-14 h-14 flex items-center justify-center border rounded-full hover:bg-gradient-primary transition-all duration-500 dark:hover:bg-bg-gray/40">
                         <i data-lucide="instagram" class="w-6 h-6"></i>
                         <span class="sr-only">{{ __('Instagram') }}</span>
                     </a>
                     <a href="www.linkedin.com"
-                        class="w-14 h-14 flex items-center justify-center border rounded-full hover:bg-gray-100">
+                        class="w-14 h-14 flex items-center justify-center border rounded-full hover:bg-gradient-primary transition-all duration-500 dark:hover:bg-bg-gray/40">
                         <i data-lucide="linkedin" class="w-6 h-6"></i>
                         <span class="sr-only">{{ __('LinkedIn') }}</span>
                     </a>
                     <a href="www.twitter.com"
-                        class="w-14 h-14 flex items-center justify-center border rounded-full hover:bg-gray-100">
+                        class="w-14 h-14 flex items-center justify-center border rounded-full hover:bg-gradient-primary transition-all duration-500 dark:hover:bg-bg-gray/40">
                         <i data-lucide="x" class="w-6 h-6"></i>
                         <span class="sr-only">{{ __('Twitter/X') }}</span>
                     </a>

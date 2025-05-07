@@ -2,12 +2,59 @@
 
 @section('title', 'Home')
 
+@push('css')
+    <style>
+        .swiper-pagination {
+            gap: 20px !important;
+        }
+
+        .swiper-pagination-bullet {
+            background-color: #8752FA;
+
+        }
+
+        .swiper-pagination-bullet.swiper-pagination-bullet-active {
+            position: relative;
+            margin: 0 12px !important;
+        }
+
+        .swiper-pagination-bullet.swiper-pagination-bullet-active::after {
+            position: absolute;
+            content: '';
+            width: 300% !important;
+            height: 300% !important;
+            background: transparent;
+            border-radius: 50%;
+            border: 2px solid transparent !important;
+            border-top: 1px solid black !important;
+            border-left: 1px solid black !important;
+            border-right: 1px solid black !important;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: spin 1.25s linear infinite;
+
+
+        }
+
+        @keyframes spin {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     {{-- ---------------------------------------- banner slider start -------------------- --}}
     <section class="swiper banner">
         <div class="swiper-wrapper relative">
             <div class="swiper-slide">
-                <section class="bg-bg-danger">
+                <section class="bg-bg-danger dark:bg-bg-accent/20">
                     <div class="container ">
                         <div class="slid flex-row flex items-center justify-between">
                             <div class="text">
@@ -26,7 +73,7 @@
                 </section>
             </div>
             <div class="swiper-slide">
-                <section class="bg-bg-light">
+                <section class="bg-bg-light dark:bg-bg-danger/30">
                     <div class="container ">
                         <div class="slid flex-row flex items-center justify-between">
                             <div class="text">
@@ -45,7 +92,7 @@
                 </section>
             </div>
             <div class="swiper-slide">
-                <section class="bg-bg-danger">
+                <section class="bg-bg-danger/50 dark:bg-bg-accent/30">
                     <div class="container ">
                         <div class="slid flex-row flex items-center justify-between">
                             <div class="text">
@@ -65,7 +112,7 @@
                 </section>
             </div>
         </div>
-        <div class="swiper-pagination z-10"></div>
+        <div class="swiper-pagination  z-10"></div>
         <!-- Navigation buttons -->
         <div class="swiper-button swiper-button-prev">
             <i data-lucide="chevron-left" class="w-5 h-5"></i>
@@ -167,71 +214,73 @@
     </section>
     {{-- --------------------------------------new arival slider looping end ------------------------------- --}}
     {{-- --------------------------------------catagories slider start --------------------------------- --}}
-    <section class="container py-15 relative">
-        <div class="header">
-            <h2 class="text-2xl md:text-4xl font-bold">Categories</h2>
-        </div>
-        <div class="swiper categories static">
-            <div class="swiper-wrapper relative">
-
-                <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/earphone.png') }}" alt="">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/earphone.png') }}" alt="">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/earphone.png') }}" alt="">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/earphone.png') }}" alt="">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/earphone.png') }}" alt="">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/earphone.png') }}" alt="">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{{ asset('frontend/images/earphone.png') }}" alt="">
-                </div>
-
+    <section class="md:py-22 py-11 relative dark:bg-bg-darkTertiary">
+        <div class="container ">
+            <div class="header">
+                <h2 class="text-2xl md:text-4xl md:pb-8 pb-4 font-bold">Categories</h2>
             </div>
-            <div class="swiper-pagination z-10"></div>
-            <!-- Navigation buttons -->
-            <div class="swiper-button swiper-button-prev">
-                <i data-lucide="chevron-left" class="w-5 h-5"></i>
-            </div>
-            <div class="swiper-button swiper-button-next">
-                <i data-lucide="chevron-right" class="w-5 h-5"></i>
+            <div class="swiper categories static">
+                <div class="swiper-wrapper ">
+
+                    <div class="swiper-slide">
+                        <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('frontend/images/earphone.png') }}" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('frontend/images/earphone.png') }}" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('frontend/images/earphone.png') }}" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('frontend/images/earphone.png') }}" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('frontend/images/earphone.png') }}" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('frontend/images/earphone.png') }}" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{{ asset('frontend/images/earphone.png') }}" alt="">
+                    </div>
+
+                </div>
+                <div class="swiper-pagination z-10 "></div>
+                <!-- Navigation buttons -->
+                <div class="swiper-button swiper-button-prev">
+                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                </div>
+                <div class="swiper-button swiper-button-next">
+                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                </div>
             </div>
         </div>
     </section>
     {{-- --------------------------------------catagories slider end --------------------------------- --}}
 
     {{-- Featured Products  start --}}
-    <section class="bg-bg-gray dark:bg-bg-dark py-18">
+    <section class="bg-bg-gray dark:bg-bg-accent/30 py-8 md:py-18">
         <div class="container">
             <div class="header pb-6">
                 <h2 class="text-4xl">{{ __('Featured Products') }}</h2>
@@ -266,7 +315,7 @@
     </section>
     {{--    Featured Products  end --}}
     {{--  Unmatched Performance start   --}}
-    <section class="bg-bg-white dark:bg-bg-dark py-18">
+    <section class="bg-bg-white dark:bg-bg-darkTertiary py-8 md:py-18">
         <div class="container">
             <div class="main  rounded-xl bg-gradient-primary dark:bg-gradient-dark  flex items-center justify-around">
                 <div class="left_side flex flex-col lg:gap-y-4 gap-y-2">
@@ -283,7 +332,7 @@
     </section>
     {{--  Unmatched Performance end --}}
     {{-- Testimonials start --}}
-    <section>
+    <section class="dark:bg-bg-accent/20">
         <div class="container py-10 md:py-18">
             <div class="headaer">
                 <h2 class="text-4xl pb-5">{{ __('Happy Customers') }}</h2>
@@ -293,7 +342,8 @@
                     <div class="swiper-wrapper relative">
                         {{-- card 1 --}}
                         <div class="swiper-slide">
-                            <div class=" card mx-auto bg-white border rounded-xl  space-y-4">
+                            <div
+                                class=" card mx-auto bg-bg-white border dark:bg-bg-dark/50 dark:shadow-sm rounded-xl  space-y-4">
                                 <div class="md:px-6 px-3 md:py-4 py-2">
                                     <div class="flex items-center space-x-1 pt-2">
                                         <h4>{{ __('Jessica M.') }}</h4>
@@ -309,8 +359,8 @@
                                     </div>
                                     <p class="lg:text-sm text-xs  ">
                                         {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
-                                                                                                                                                                                                                                                                                                                                                                top-notch.
-                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                top-notch.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
                                     </p>
                                 </div>
                                 <div
@@ -319,7 +369,7 @@
                                     <div class="text">
                                         <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
                                                 class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
-                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
                                         </p>
                                         <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
                                     </div>
@@ -329,7 +379,8 @@
                         </div>
                         {{-- card 2 --}}
                         <div class="swiper-slide">
-                            <div class=" card mx-auto bg-white border rounded-xl  space-y-4">
+                            <div
+                                class=" card mx-auto bg-bg-white border dark:bg-bg-dark/50 dark:shadow-sm rounded-xl  space-y-4">
                                 <div class="md:px-6 px-3 md:py-4 py-2">
                                     <div class="flex items-center space-x-1 pt-2">
                                         <h4>{{ __('Jessica M.') }}</h4>
@@ -345,8 +396,8 @@
                                     </div>
                                     <p class="lg:text-sm text-xs  ">
                                         {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
-                                                                                                                                                                                                                                                                                                                                                                top-notch.
-                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                top-notch.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
                                     </p>
                                 </div>
                                 <div
@@ -355,7 +406,7 @@
                                     <div class="text">
                                         <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
                                                 class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
-                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
                                         </p>
                                         <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
                                     </div>
@@ -365,7 +416,8 @@
                         </div>
                         {{-- card 3 --}}
                         <div class="swiper-slide">
-                            <div class=" card mx-auto bg-white border rounded-xl  space-y-4">
+                            <div
+                                class=" card mx-auto bg-bg-white border dark:bg-bg-dark/50 dark:shadow-sm rounded-xl  space-y-4">
                                 <div class="md:px-6 px-3 md:py-4 py-2">
                                     <div class="flex items-center space-x-1 pt-2">
                                         <h4>{{ __('Jessica M.') }}</h4>
@@ -381,8 +433,8 @@
                                     </div>
                                     <p class="lg:text-sm text-xs  ">
                                         {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
-                                                                                                                                                                                                                                                                                                                                                                top-notch.
-                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                top-notch.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
                                     </p>
                                 </div>
                                 <div
@@ -391,7 +443,7 @@
                                     <div class="text">
                                         <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
                                                 class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
-                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
                                         </p>
                                         <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
                                     </div>
@@ -401,7 +453,8 @@
                         </div>
                         {{-- card 4 --}}
                         <div class="swiper-slide">
-                            <div class=" card mx-auto bg-white border rounded-xl  space-y-4">
+                            <div
+                                class=" card mx-auto bg-bg-white border dark:bg-bg-dark/50 dark:shadow-sm rounded-xl  space-y-4">
                                 <div class="md:px-6 px-3 md:py-4 py-2">
                                     <div class="flex items-center space-x-1 pt-2">
                                         <h4>{{ __('Jessica M.') }}</h4>
@@ -417,8 +470,8 @@
                                     </div>
                                     <p class="lg:text-sm text-xs  ">
                                         {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
-                                                                                                                                                                                                                                                                                                                                                                top-notch.
-                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                top-notch.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
                                     </p>
                                 </div>
                                 <div
@@ -427,7 +480,7 @@
                                     <div class="text">
                                         <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
                                                 class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
-                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
                                         </p>
                                         <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
                                     </div>
@@ -437,7 +490,8 @@
                         </div>
                         {{-- card 5 --}}
                         <div class="swiper-slide">
-                            <div class=" card mx-auto bg-white border rounded-xl  space-y-4">
+                            <div
+                                class=" card mx-auto bg-bg-white border dark:bg-bg-dark/50 dark:shadow-sm rounded-xl  space-y-4">
                                 <div class="md:px-6 px-3 md:py-4 py-2">
                                     <div class="flex items-center space-x-1 pt-2">
                                         <h4>{{ __('Jessica M.') }}</h4>
@@ -453,8 +507,8 @@
                                     </div>
                                     <p class="lg:text-sm text-xs  ">
                                         {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
-                                                                                                                                                                                                                                                                                                                                                                top-notch.
-                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                top-notch.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
                                     </p>
                                 </div>
                                 <div
@@ -463,7 +517,7 @@
                                     <div class="text">
                                         <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
                                                 class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
-                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
                                         </p>
                                         <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
                                     </div>
@@ -473,7 +527,8 @@
                         </div>
                         {{-- card 6 --}}
                         <div class="swiper-slide">
-                            <div class=" card mx-auto bg-white border rounded-xl  space-y-4">
+                            <div
+                                class=" card mx-auto bg-bg-white border dark:bg-bg-dark/50 dark:shadow-sm rounded-xl  space-y-4">
                                 <div class="md:px-6 px-3 md:py-4 py-2">
                                     <div class="flex items-center space-x-1 pt-2">
                                         <h4>{{ __('Jessica M.') }}</h4>
@@ -489,8 +544,8 @@
                                     </div>
                                     <p class="lg:text-sm text-xs  ">
                                         {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
-                                                                                                                                                                                                                                                                                                                                                                top-notch.
-                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                top-notch.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
                                     </p>
                                 </div>
                                 <div
@@ -499,7 +554,7 @@
                                     <div class="text">
                                         <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
                                                 class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
-                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
                                         </p>
                                         <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
                                     </div>
@@ -525,39 +580,39 @@
     </section>
     {{-- testimonial section end --}}
     {{-- Brand items start --}}
-    <section>
+    <section class="dark:bg-bg-darkTertiary">
         <div class="container relative md:py-13 py-6">
             <div class="swiper brand static">
                 <div class="swiper-wrapper">
                     {{-- <div class="images flex items-center justify-center"> --}}
                     <div class="swiper-slide">
-                        <div class="imag border">
-                            <img class=" " src="{{ asset('frontend/images/zara.png') }}" alt="zara">
+                        <div class="imag border shadow-sm">
+                            <img class="" src="{{ asset('frontend/images/zara.png') }}" alt="zara">
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <div class="imag border">
-                            <img class=" " src="{{ asset('frontend/images/bear.png') }}" alt="pulbear">
+                        <div class="imag border shadow-sm">
+                            <img class="" src="{{ asset('frontend/images/bear.png') }}" alt="pulbear">
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <div class="imag border">
-                            <img class=" " src="{{ asset('frontend/images/nike.png') }}" alt="nike">
+                        <div class="imag border shadow-sm">
+                            <img class="" src="{{ asset('frontend/images/nike.png') }}" alt="nike">
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <div class="imag border">
-                            <img class=" " src="{{ asset('frontend/images/asos.png') }}" alt="asos">
+                        <div class="imag border shadow-sm">
+                            <img class="" src="{{ asset('frontend/images/asos.png') }}" alt="asos">
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <div class="imag border">
-                            <img class=" " src="{{ asset('frontend/images/burberry.png') }}" alt="burberry">
+                        <div class="imag border shadow-sm">
+                            <img class="" src="{{ asset('frontend/images/burberry.png') }}" alt="burberry">
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <div class="imag border">
-                            <img class=" " src="{{ asset('frontend/images/forever.png') }}" alt="forever">
+                        <div class="imag border shadow-sm">
+                            <img class="" src="{{ asset('frontend/images/forever.png') }}" alt="forever">
                         </div>
                     </div>
 

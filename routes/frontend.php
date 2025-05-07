@@ -12,4 +12,7 @@ Route::group(['as' => 'frontend.'], function () {
 
   // Test Page
   Route::get('/test', [FrontendController::class, 'test'])->name('test');
+
+// Singel Product
+  Route::get('/singel-product', [FrontendController::class, 'singel_product'])->name('singel_product');
 });

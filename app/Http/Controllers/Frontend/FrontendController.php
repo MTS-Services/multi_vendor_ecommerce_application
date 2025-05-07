@@ -16,4 +16,9 @@ class FrontendController extends Controller
     {
         return view('frontend.pages.test');
     }
+
+    public function singel_product()
+    {
+        return view('frontend.pages.singel_product');
+    }
 }
