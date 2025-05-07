@@ -10,7 +10,7 @@
                 </span>
             </a>
             <div class="flex items-center justify-center ">
-              <a href="">Facebook</a>
+                <a href="">{{ __('Facebook') }}</a>
             </div>
         </div>
     </div>
