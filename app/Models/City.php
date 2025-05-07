@@ -103,6 +103,15 @@ class City extends BaseModel
     {
         return self::getStatusBtnColors()[$this->status] ?? 'btn btn-secondary';
     }
+    public function scopeActive($query): mixed
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+
+    public function scopeDeactive($query): mixed
+    {
+        return $query->where('status', self::STATUS_DEACTIVE);
+    }
 
     public function parent(): MorphTo
     {

@@ -112,11 +112,11 @@ class Country extends BaseModel
 
     public function cities(): MorphMany
     {
-        return $this->morphMany(City::class,'parent');
+        return $this->morphMany(City::class,'parent')->active();
     }
     public function states(): HasMany
     {
-        return $this->hasMany(State::class, 'country_id');
+        return $this->hasMany(State::class, 'country_id')->active();
     }
 
 }

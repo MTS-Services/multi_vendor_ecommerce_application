@@ -103,6 +103,16 @@ class State extends BaseModel
         return self::getStatusBtnColors()[$this->status] ?? 'btn btn-secondary';
     }
 
+    public function scopeActive($query): mixed
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+
+    public function scopeDeactive($query): mixed
+    {
+        return $query->where('status', self::STATUS_DEACTIVE);
+    }
+
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'country_id','id');
@@ -115,6 +125,8 @@ class State extends BaseModel
 
     public function cities(): MorphMany
     {
-        return $this->morphMany(City::class, 'parent');
+        return $this->morphMany(City::class, 'parent')->active();
     }
+
+
 }
