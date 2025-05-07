@@ -119,6 +119,23 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item  @if ($page_slug == 'country') active submenu @endif">
+                    <a data-bs-toggle="collapse" href="#setup_management"
+                        @if ($page_slug == 'country') aria-expanded="true" @endif>
+                        <i class="icon-people"></i>
+                        <p>{{ __('Setup') }}</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse @if ($page_slug == 'country') show @endif" id="setup_management">
+                        <ul class="nav nav-collapse">
+                            <li class="@if ($page_slug == 'country') active @endif">
+                                <a href="{{ route('setup.country.index') }}">
+                                    <span class="sub-item">{{ __('Country') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
                 <li class="nav-item  @if ($page_slug == 'audits') active @endif">
                     <a href="{{ route('audit.index') }}">

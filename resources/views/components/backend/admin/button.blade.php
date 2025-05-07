@@ -28,7 +28,7 @@
 @if ($check)
     <a href="@if (isset($datas['delete']) && $datas['delete'] == true) javascript:void(0) @else {{ route($datas['routeName'], $parameterArray) }} @endif"
         @if (isset($datas['delete']) && $datas['delete'] == true) onclick="confirmDelete(() => document.getElementById('{{ $datas['form_id'] }}').submit())" @endif
-        class="btn btn-sm {{ $datas['className'] ?? 'btn-primary' }}">{{ __($datas['label'] ?? '') }}
+        class="btn {{ $datas['className'] ?? 'btn-primary' }}">{{ __($datas['label'] ?? '') }}
 
         @if (isset($datas['delete']) && $datas['delete'] == true)
             <form id="{{ $datas['form_id'] }}" action="{{ route($datas['routeName'], $parameterArray) }}" method="POST">

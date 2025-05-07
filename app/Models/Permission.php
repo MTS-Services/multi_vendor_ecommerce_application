@@ -12,6 +12,7 @@ class Permission extends SpatiePermission implements Auditable
     use HasFactory, \OwenIt\Auditing\Auditable;
 
     protected $fillables = [
+        'sort_order',
         'name',
         'prefix',
         'guard_name',
