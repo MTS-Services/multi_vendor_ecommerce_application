@@ -188,7 +188,8 @@
             <!-- Copyright -->
             <div>
 
-                <p>{{__('Copyright © 2025')}} <strong>{{ __('Vineta') }}</strong>. {{ __('All rights reserved.') }}</p>
+                <p>{{ __('Copyright © 2025') }} <strong>{{ __('Vineta') }}</strong>.
+                    {{ __('All rights reserved.') }}</p>
             </div>
 
             <!-- Payment Icons -->
@@ -197,22 +198,21 @@
                     class="h-7" />
                 <img src="{{ asset('frontend/images/footer_bank_logos (11).png') }}" alt="{{ __('Pay') }}"
                     class="h-7" />
-
-                    <img src="{{ asset('frontend/images/footer_bank_logos (3).png') }}" alt="{{ __('Techcombank') }}"
+                <img src="{{ asset('frontend/images/footer_bank_logos (3).png') }}" alt="{{ __('Techcombank') }}"
                     class="h-7" />
-                    <img src="{{ asset('frontend/images/footer_bank_logos (4).png') }}" alt="{{ __('Vietinbank') }}"
+                <img src="{{ asset('frontend/images/footer_bank_logos (4).png') }}" alt="{{ __('Vietinbank') }}"
                     class="h-7" />
-                    <img src="{{ asset('frontend/images/footer_bank_logos (5).png') }}" alt="{{ __('BIDV') }}"
+                <img src="{{ asset('frontend/images/footer_bank_logos (5).png') }}" alt="{{ __('BIDV') }}"
                     class="h-7" />
-                    <img src="{{ asset('frontend/images/footer_bank_logos (6).png') }}" alt="{{ __('Sacombank') }}"
+                <img src="{{ asset('frontend/images/footer_bank_logos (6).png') }}" alt="{{ __('Sacombank') }}"
                     class="h-7" />
-                    <img src="{{ asset('frontend/images/footer_bank_logos (7).png') }}" alt="{{ __('Agribank') }}"
+                <img src="{{ asset('frontend/images/footer_bank_logos (7).png') }}" alt="{{ __('Agribank') }}"
                     class="h-7" />
-                    <img src="{{ asset('frontend/images/footer_bank_logos (8).png') }}" alt="{{ __('VPBank') }}"
+                <img src="{{ asset('frontend/images/footer_bank_logos (8).png') }}" alt="{{ __('VPBank') }}"
                     class="h-7" />
-                    <img src="{{ asset('frontend/images/footer_bank_logos (10).png') }}" alt="{{ __('Vietcombank') }}"
+                <img src="{{ asset('frontend/images/footer_bank_logos (10).png') }}" alt="{{ __('Vietcombank') }}"
                     class="h-7" />
-                    <img src="{{ asset('frontend/images/footer_bank_logos (2).png') }}" alt="{{ __('Vietcombank') }}"
+                <img src="{{ asset('frontend/images/footer_bank_logos (2).png') }}" alt="{{ __('Vietcombank') }}"
                     class="h-7" />
             </div>
         </div>
