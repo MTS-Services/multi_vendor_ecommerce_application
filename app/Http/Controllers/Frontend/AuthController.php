@@ -7,20 +7,8 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    // User/Customer Auths
-
-    public function userLogin()
+    public function t()
     {
-        return view('frontend.auth.user.login');
-    }
-
-    public function userRegister()
-    {
-        return view('frontend.auth.user.register');
-    }
-
-    public function verifyEmail()
-    {
-        return view('frontend.auth.user.verify');
+        return view('frontend.auth.user.confirm-password');
     }
 }
