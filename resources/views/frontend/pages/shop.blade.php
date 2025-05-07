@@ -34,7 +34,7 @@
             border-radius: 9999px;
         }
 
-        .slider-range {
+        .slider-range, .slider-ranges {
             position: absolute;
             height: 4px;
             background-color: #ff6b6b;
@@ -105,45 +105,12 @@
     </div>
 
     <div class="container">
-        {{-- Filters --}}
-        {{-- <details class="dropdown">
-            <summary class="btn rounded-full bg-bg-transparent border border-bg-accent text-text-accent">Sort By (Default)
-                <i data-lucide="chevron-down"></i>
-            </summary>
-            <ul class="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-                <li><a class="font-normal" href="#">Sort By (Default)</a></li>
-                <li><a class="font-normal" href="#">Title Ascending</a></li>
-                <li><a class="font-normal" href="#">Title Descending</a></li>
-                <li><a class="font-normal" href="#">Price Ascending</a></li>
-                <li><a class="font-normal" href="#">Price Descending</a></li>
-            </ul>
-        </details>
-        <div class="mt-5 mb-10">
-            <span class=" me-3"><strong>Filter:</strong></span>
-            <div
-                class="inline-flex gap-2 justify-start items-center py-2 px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden mb-5">
-                <a href="#">Abilability</a>
-                <span class="inline-block"><i data-lucide="chevron-down"></i></span>
-            </div>
-            <div
-                class="inline-flex gap-2 justify-start items-center py-2 px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden mb-5">
-                <a href="#">Color</a>
-                <span class="inline-block"><i data-lucide="chevron-down"></i></span>
-            </div>
-            <div
-                class="inline-flex gap-2 justify-start items-center py-2 px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden mb-5">
-                <a href="#">Size</a>
-                <span class="inline-block"><i data-lucide="chevron-down"></i></span>
-            </div>
-        </div> --}}
-
-
         <div class="flex gap-5">
             {{-- Sidebar Start Here --}}
-            <div class="w-[20%]">
+            <div class="filter-sidebar w-100 xl:w-[25%] hidden xl:block">
                 <details class="collapse collapse-arrow" open>
-                    <summary class="collapse-title font-semibold ">
-                        <span>Collections</span>
+                    <summary class="collapse-title font-semibold">
+                        <span class="">Collections</span>
                     </summary>
                     <div class="collapse-content text-sm">
                         <ul class="opacity-100">
@@ -166,7 +133,7 @@
                     </div>
                 </details>
                 <!-- Divider -->
-                <div class="border-t border-gray"></div>
+                <div class="border-t border-border-gray"></div>
                 {{-- Availability --}}
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title font-semibold ">
@@ -212,29 +179,11 @@
                 </details>
                 <!-- Divider -->
                 <div class="border-t border-gray"></div>
-                {{-- <div class="mb-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="font-medium">Price</h3>
-                        <i class="fa-solid fa-chevron-up text-xs"></i>
-                    </div>
-                    <div class="px-1">
-                        <div class="h-1 bg-gray-200 rounded-full mb-4 relative">
-                            <div class="absolute h-1 bg-gray-400 rounded-full left-1/4 right-1/4"></div>
-                            <div class="absolute w-3 h-3 bg-white border border-gray-400 rounded-full -mt-1 left-1/4"></div>
-                            <div class="absolute w-3 h-3 bg-white border border-gray-400 rounded-full -mt-1 right-1/4">
-                            </div>
-                        </div>
-                        <div class="flex justify-between text-sm text-text-gray">
-                            <span>Price: $50 — $150</span>
-                        </div>
-                    </div>
-                </div> --}}
-
                 {{-- Color --}}
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title font-semibold ">Color</summary>
                     <div class="collapse-content text-sm">
-                        <div class="grid grid-cols-5 gap-2 mb-2 pe-5">
+                        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 mb-2 pe-5">
                             <input type="radio" name="radio-1"
                                 class="w-8 h-8 radio bg-bg-accent border-border-accent checked:bg-transparent text-text-accent" />
                             <input type="radio" name="radio-1"
@@ -336,14 +285,20 @@
                 </div>
 
             </div>
+            @include('frontend.includes.filter_sidebar')
+
             {{-- Sidebar Section End Here --}}
 
             {{-- Shop Card Section Start Here --}}
-            <div class="w-[80%]">
+            <div class="w-full xl:w-[75%]">
                 <div class="flex items-center justify-between">
-                    <div class="w-full">
+                    <div class="w-full flex items-center gap-3">
+                        <button class="openFilterSidebar btn rounded-full bg-bg-transparent border border-bg-accent text-text-accent xl:hidden">
+                            <span><i data-lucide="sliders-horizontal" class="w-5 h-5"></i></span>
+                            <span class="ml-2 text-base">Filter</span>
+                        </button>
                         <details class="dropdown">
-                            <summary class="btn rounded-full bg-bg-transparent border border-bg-accent text-text-accent">
+                            <summary class="btn rounded-full bg-bg-transparent dark:bg-bg-darkSecondary border border-bg-accent text-text-accent dark:text-text-white text-base min-w-[200px]">
                                 Sort By (Default) <i data-lucide="chevron-down"></i></summary>
                             <ul class="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
                                 <li><a class="font-normal" href="#">Sort By (Default)</a></li>
@@ -376,7 +331,7 @@
                     </div>
                 </div>
                 <div id="productGrid"
-                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 gap-5 row-gap-10 mt-5">
+                    class="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 row-gap-[50px] mt-5">
 
                     @php
                         $collections = collect([
@@ -468,6 +423,7 @@
     {{-- Shop Card Section End Here --}}
 @endsection
 @push('js')
+<script src="{{ asset('frontend/js/filterSidebar.js') }}"></script>
     <script>
         $(document).ready(function () {
             const $minRange = $('#min-range');
@@ -530,7 +486,7 @@
                 $(this).addClass('active')
 
                 const grid = $('#productGrid');
-                grid.removeClass('grid-cols-1 grid-cols-2 grid-cols-3 grid-cols-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5');
+                grid.removeClass('grid-cols-1 grid-cols-2 grid-cols-3 grid-cols-4 lg:grid-cols-3 2xl:grid-cols-4');
                 grid.addClass(`grid-cols-${cols}`);
             });
 
