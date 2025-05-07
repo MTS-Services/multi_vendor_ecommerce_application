@@ -105,4 +105,13 @@ class City extends BaseModel
     {
         return $this->morphTo();
     }
+
+    // public function country(): MorphTo
+    // {
+    //     return $this->morphTo( 'parent', Country::class, 'parent_id', 'id');
+    // }
+    // public function state(): MorphTo
+    // {
+    //     return $this->morphTo( 'parent', State::class, 'parent_id', 'id');
+    // }
 }
