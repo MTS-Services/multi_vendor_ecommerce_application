@@ -32,6 +32,11 @@ class LoginController extends Controller
         return route('user.profile');
     }
 
+    public function showLoginForm()
+    {
+        return view('frontend.auth.user.login');
+    }
+
     /**
      * Create a new controller instance.
      *
