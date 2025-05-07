@@ -97,7 +97,7 @@ class StateController extends Controller
      */
     public function create()
     {
-        $data['countries'] = Country::get();
+        $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
         return view('backend.admin.setup.state.create',$data);
     }
 
@@ -128,7 +128,7 @@ class StateController extends Controller
     public function edit(string $id)
     {
         $data['state'] = State::findOrFail(decrypt($id));
-        $data['countries'] = Country::get();
+        $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
         return view('backend.admin.setup.state.edit',$data);
     }
 

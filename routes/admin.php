@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\Admin\Setup\AxiosRequestController;
 use App\Http\Controllers\Backend\Admin\Setup\CityController;
+use App\Http\Controllers\Backend\Admin\Setup\OperationAreaController;
 use App\Http\Controllers\Backend\Admin\Setup\StateController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
@@ -66,21 +67,28 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
      Route::group(['as' => 'setup.', 'prefix' => 'setup-management'], function () {
         Route::controller(AxiosRequestController::class)->name('axios.')->group( function () {
             Route::get('get-states', 'getStates')->name('get-states');
-            Route::get('get-cities', 'getCities')->name('getCities');
-            Route::get('get-areas', 'getAreas')->name('getAreas');
-            Route::get('get-sub-areas', 'getSubAreas')->name('getSubAreas');
+            Route::get('get-states-or-cities', 'getStatesOrCities')->name('get-states-or-cities');
+            Route::get('get-cities', 'getCities')->name('get-cities');
+            Route::get('get-areas', 'getAreas')->name('get-areas');
+            Route::get('get-sub-areas', 'getSubAreas')->name('get-sub-areas');
         });
 
 
-
+        // Country Routes
         Route::resource('country', CountryController::class);
         Route::get('country/status/{country}', [CountryController::class, 'status'])->name('country.status');
 
+        // State Routes
         Route::resource('state', StateController::class);
         Route::get('state/status/{state}', [StateController::class, 'status'])->name('state.status');
 
+        // City Routes
         Route::resource('city', CityController::class);
         Route::get('city/status/{state}', [CityController::class, 'status'])->name('city.status');
+
+        // Operation Area Routes
+        Route::resource('operation-area', OperationAreaController::class);
+        Route::get('operation-area/status/{operation_area}', [OperationAreaController::class, 'status'])->name('operation-area.status');
     });
 
     // Product Management

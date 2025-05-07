@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class City extends BaseModel
@@ -120,10 +121,19 @@ class City extends BaseModel
 
     public function getCountryNameAttribute(): string|null
     {
-        return isset(optional($this->parent)->country) ? optional($this->parent)->country->name : optional($this->parent)->name;
+        return isset(optional($this->parent)->country) ? optional($this->parent)->country_name : optional($this->parent)->name;
     }
     public function getStateNameAttribute(): string|null
     {
-        return isset(optional($this->parent)->country) ? optional($this->parent)->name : null;
+        return isset(optional($this->parent)->country) ? optional($this->parent)->name : 'Null';
+    }
+
+    public function operationAreas(): HasMany
+    {
+        return $this->hasMany(OperationArea::class);
+    }
+    public function activeOperationAreas(): HasMany
+    {
+        return $this->operationAreas()->active();
     }
 }

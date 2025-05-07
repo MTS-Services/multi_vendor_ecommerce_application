@@ -119,14 +119,14 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item  @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city') active submenu @endif">
+                <li class="nav-item  @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city' || $page_slug == 'operation_area' || $page_slug == 'operation_sub_area') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#setup_management"
-                        @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city') aria-expanded="true" @endif>
+                        @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city' || $page_slug == 'operation_area' || $page_slug == 'operation_sub_area') aria-expanded="true" @endif>
                         <i class="icon-people"></i>
                         <p>{{ __('Setup') }}</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city') show @endif" id="setup_management">
+                    <div class="collapse @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city' || $page_slug == 'operation_area' || $page_slug == 'operation_sub_area') show @endif" id="setup_management">
                         <ul class="nav nav-collapse">
                             <li class="@if ($page_slug == 'country') active @endif">
                                 <a href="{{ route('setup.country.index') }}">
@@ -141,6 +141,11 @@
                             <li class="@if ($page_slug == 'city') active @endif">
                                 <a href="{{ route('setup.city.index') }}">
                                     <span class="sub-item">{{ __('City') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'operation_area') active @endif">
+                                <a href="{{ route('setup.operation-area.index') }}">
+                                    <span class="sub-item">{{ __('Operation Area') }}</span>
                                 </a>
                             </li>
 

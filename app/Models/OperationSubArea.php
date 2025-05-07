@@ -4,16 +4,14 @@ namespace App\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class State extends BaseModel
+class OperationSubArea extends BaseModel
 {
     protected $fillable = [
         'sort_order',
-        'country_id',
+        'operation_area_id',
         'name',
         'slug',
-        'code',
         'description',
         'status',
 
@@ -31,7 +29,12 @@ class State extends BaseModel
             'status_btn_label',
             'status_btn_color',
             'status_labels',
+
+            'operation_area_name',
+            'city_name',
+            'state_name',
             'country_name',
+
         ]);
     }
     public const STATUS_ACTIVE = 1;
@@ -113,24 +116,26 @@ class State extends BaseModel
         return $query->where('status', self::STATUS_DEACTIVE);
     }
 
-    public function country(): BelongsTo
+    public function operationArea():BelongsTo
     {
-        return $this->belongsTo(Country::class, 'country_id','id');
+        return $this->belongsTo(OperationArea::class, 'operation_area_id','id');
+    }
+    public function getOperationAreaNameAttribute(): string|null
+    {
+        return $this->operationArea?->name;
+    }
 
+    public function getCityNameAttribute(): string|null
+    {
+        return $this->operationArea?->city_name;
+    }
+
+    public function getStateNameAttribute(): string|null
+    {
+        return $this->operationArea?->state_name;
     }
     public function getCountryNameAttribute(): string|null
     {
-        return optional($this->country)->name;
+        return $this->operationArea?->country_name;
     }
-
-    public function cities(): MorphMany
-    {
-        return $this->morphMany(City::class, 'parent');
-    }
-    public function activeCities(): MorphMany
-    {
-        return $this->cities()->active();
-    }
-
-
 }
