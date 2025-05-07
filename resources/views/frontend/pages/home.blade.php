@@ -36,7 +36,7 @@
                                         data-lucide="chevron-right"></i></i></a>
                             </div>
                             <div class="image">
-                                <img class="" src="{{ asset('frontend/images/slider-electronic-2.png') }}"
+                                <img class="" src="{{ asset('frontend/images/slider-electronic-1.png') }}"
                                     alt="Slider Image">
                             </div>
 
@@ -524,9 +524,9 @@
         </div>
     </section>
     {{-- testimonial section end --}}
-    {{-- Brand items --}}
+    {{-- Brand items start --}}
     <section>
-        <div class="container relative">
+        <div class="container relative md:py-13 py-6">
             <div class="swiper brand static">
                 <div class="swiper-wrapper">
                     {{-- <div class="images flex items-center justify-center"> --}}
@@ -567,6 +567,7 @@
             </div>
         </div>
     </section>
+    {{-- Brand items end --}}
 @endsection
 @push('js')
     <script type="module">
@@ -679,6 +680,7 @@
 
             },
         });
+        // brand Slider
         new Swiper('.brand', {
             slidesPerView: 3,
             autoplay: {
