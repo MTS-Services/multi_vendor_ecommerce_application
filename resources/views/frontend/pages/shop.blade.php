@@ -203,18 +203,55 @@
                 </details>
                 <!-- Divider -->
                 <div class="border-t border-gray"></div>
+                
 
                 {{-- Size --}}
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title font-semibold ">Size</summary>
                     <div class="collapse-content text-sm">
-                        <div class="flex flex-wrap gap-2 mb-4">
+                            <fieldset class="flex flex-wrap gap-2">
+                              <label class="cursor-pointer">
+                                <input type="radio" name="size" value="XS" class="peer sr-only" />
+                                <div class="px-4 py-2 rounded-lg border shadow-md border-border-dark border-opacity-20 peer-checked:border-border-accent peer-checked:bg-bg-accent peer-checked:text-white transition-all duration-300">
+                                  XS (10)
+                                </div>
+                              </label>
+                          
+                              <label class="cursor-pointer">
+                                <input type="radio" name="size" value="S" class="peer sr-only" />
+                                <div class="px-4 py-2 rounded-lg border shadow-md border-border-dark border-opacity-20 peer-checked:border-border-accent peer-checked:bg-bg-accent peer-checked:text-white transition-all duration-300">
+                                  S (8)
+                                </div>
+                              </label>
+                          
+                              <label class="cursor-pointer">
+                                <input type="radio" name="size" value="M" class="peer sr-only" />
+                                <div class="px-4 py-2 rounded-lg border shadow-md border-border-dark border-opacity-20 peer-checked:border-border-accent peer-checked:bg-bg-accent peer-checked:text-white transition-all duration-300">
+                                  M (10)
+                                </div>
+                              </label>
+                          
+                              <label class="cursor-pointer">
+                                <input type="radio" name="size" value="L" class="peer sr-only" />
+                                <div class="px-4 py-2 rounded-lg border shadow-md border-border-dark border-opacity-20 peer-checked:border-border-accent peer-checked:bg-bg-accent peer-checked:text-white transition-all duration-300">
+                                  L (20)
+                                </div>
+                              </label>
+                          
+                              <label class="cursor-pointer">
+                                <input type="radio" name="size" value="XL" class="peer sr-only" />
+                                <div class="px-4 py-2 rounded-lg border shadow-md border-border-dark border-opacity-20 peer-checked:border-border-accent peer-checked:bg-bg-accent peer-checked:text-white transition-all duration-300">
+                                  XL (20)
+                                </div>
+                              </label>
+                            </fieldset>
+                        {{-- <div class="flex flex-wrap gap-2 mb-4">
                             <div class="px-3 py-1 border border-gray-200 rounded text-sm">XS (20)</div>
                             <div class="px-3 py-1 border border-gray-200 rounded text-sm">S (8)</div>
                             <div class="px-3 py-1 border border-gray-200 rounded text-sm">L (20)</div>
                             <div class="px-3 py-1 border border-gray-200 rounded text-sm">M (20)</div>
                             <div class="px-3 py-1 border border-gray-200 rounded text-sm">XL (20)</div>
-                        </div>
+                        </div> --}}
                     </div>
                 </details>
                 <!-- Divider -->
