@@ -7,7 +7,7 @@
                 <!-- Left Side: Form -->
                 <div class="w-full md:w-1/2 p-10 md:p-12 flex flex-col justify-center">
                     <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Register your account') }}</h2>
-                    <form class="space-y-5" action="" method="POST">
+                    <form class="space-y-5" action="{{ route('register') }}" method="POST">
                         @csrf
                         <div class="flex items-center justify-between gap-3">
                             <label class="w-full">

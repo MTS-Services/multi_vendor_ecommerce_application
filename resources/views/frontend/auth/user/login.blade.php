@@ -19,8 +19,8 @@
                                     </g>
                                 </svg>
                                 <input type="text" placeholder="Username or email"
-                                    name="email" />
-                                <x-frontend.input-error :datas="['errors' => $errors, 'field' => 'email']" />
+                                    name="login" />
+                                <x-frontend.input-error :datas="['errors' => $errors, 'field' => 'login']" />
                             </label>
 
                         </div>
@@ -40,7 +40,7 @@
                         <div class="mt-5 flex justify-between items-center gap-5 flex-wrap">
                             <button type="submit" class="btn-primary">{{ __('Login') }}</button>
                             <p class="text-center text-sm mt-4">
-                                {{ __('Don\'t have an account?') }} <a href="{{ route('auth.user.register') }}"
+                                {{ __('Don\'t have an account?') }} <a href="{{ route('register') }}"
                                     class="text-text-tertiary font-medium">
                                     {{ __('Sign up') }} </a>
                             </p>
@@ -52,9 +52,9 @@
                             <a href="#" class="btn-primary rounded-md w-full gap-3">
                                 <i class='bx bxl-google text-2xl'></i> {{ __('Google') }}
                             </a>
-                            <button type="button" class="btn-secondary rounded-md w-full gap-3">
+                            <a href="#" class="btn-secondary rounded-md w-full gap-3">
                                 <i class='bx bxl-facebook text-2xl'></i> {{ __('Facebook') }}
-                            </button>
+                            </a>
                         </div>
                         <div class="text-center text-sm mt-4">
                             {{ __('Become a') }} <a href="#"

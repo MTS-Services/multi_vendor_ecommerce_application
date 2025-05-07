@@ -16,10 +16,10 @@ Route::group(['as' => 'frontend.'], function () {
 });
 
 
-// Auth Routes
-Route::group(['as' => 'auth.', 'prefix' => 'auth'], function () {
-  Route::group(['as' => 'user.', 'prefix' => 'user'], function () {
-    Route::get('/login', [FrontendAuthController::class, 'userLogin'])->name('login');
-    Route::get('/register', [FrontendAuthController::class, 'userRegister'])->name('register');
-  });
-});
+// // Auth Routes
+// Route::group(['as' => 'auth.', 'prefix' => 'auth'], function () {
+//   Route::group(['as' => 'user.', 'prefix' => 'user'], function () {
+//     Route::get('/login', [FrontendAuthController::class, 'userLogin'])->name('login');
+//     Route::get('/register', [FrontendAuthController::class, 'userRegister'])->name('register');
+//   });
+// });

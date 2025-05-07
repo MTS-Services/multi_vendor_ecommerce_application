@@ -37,10 +37,6 @@
             @endauth
 
         </div>
-        <p>Page Desin</p>
-        <div class="flex items-center justify-center gap-5">
-            <a href="{{ route('auth.user.login') }}" class="btn-primary">User Login</a>
-        </div>
         <div class="modal-action">
             <form method="dialog">
                 <button class="btn">Close</button>
