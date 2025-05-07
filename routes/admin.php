@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backend\Admin\Setup\AxiosRequestController;
 use App\Http\Controllers\Backend\Admin\Setup\CityController;
 use App\Http\Controllers\Backend\Admin\Setup\OperationAreaController;
+use App\Http\Controllers\Backend\Admin\Setup\OperationSubAreaController;
 use App\Http\Controllers\Backend\Admin\Setup\StateController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
@@ -69,7 +70,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
             Route::get('get-states', 'getStates')->name('get-states');
             Route::get('get-states-or-cities', 'getStatesOrCities')->name('get-states-or-cities');
             Route::get('get-cities', 'getCities')->name('get-cities');
-            Route::get('get-areas', 'getAreas')->name('get-areas');
+            Route::get('get-operation-areas', 'getOperationAreas')->name('get-operation-areas');
             Route::get('get-sub-areas', 'getSubAreas')->name('get-sub-areas');
         });
 
@@ -89,6 +90,10 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         // Operation Area Routes
         Route::resource('operation-area', OperationAreaController::class);
         Route::get('operation-area/status/{operation_area}', [OperationAreaController::class, 'status'])->name('operation-area.status');
+
+        // Operation Sub Area Routes
+        Route::resource('operation-sub-area', OperationSubAreaController::class);
+        Route::get('operation-sub-area/status/{operation_sub_area}', [OperationSubAreaController::class, 'status'])->name('operation-sub-area.status');
     });
 
     // Product Management

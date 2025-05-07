@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Admin\Setup;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use App\Models\Country;
 use App\Models\State;
 use Illuminate\Http\JsonResponse;
@@ -62,6 +63,19 @@ class AxiosRequestController extends Controller
         }
         return response()->json([
              'message'=> "Cities not found!",
+         ]);
+      }
+      public function getOperationAreas(Request $request): JsonResponse{
+        $city_id = $request->city_id;
+        if($city_id){
+             $city = City::with('operation_areas')->findOrFail($city_id);
+             return response()->json([
+                 'operation_areas' => $city->activeOperationAreas,
+                 'message'=> "States fetched successfully!",
+             ]);
+        }
+        return response()->json([
+             'message'=> "Operation areas not found!",
          ]);
       }
 }

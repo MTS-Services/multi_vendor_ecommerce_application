@@ -37,7 +37,9 @@ function getStatesOrCity(countryId, route, stateOrCityId = null) {
                 $('#state').html(`<option value="" selected hidden>Select State</option>`);
                 response.data.states.forEach(function(state) {
                     $('#state').append(`<option value="${state.id}" ${state.id == stateOrCityId ? 'selected' : ''}>${state.name}</option>`);
+
                     $('#city').html(`<option value="" selected hidden>Select City</option>`).prop('disabled', true);
+                    $('#operation_area').html(`<option value="" selected hidden>Select Operation Area</option>`).prop('disabled', true);
                 });
                 $('#state').prop('disabled', false);
             } else {
@@ -50,6 +52,7 @@ function getStatesOrCity(countryId, route, stateOrCityId = null) {
                     $('#city').append(`<option value="${city.id}" ${city.id == stateOrCityId ? 'selected' : ''}>${city.name}</option>`);
 
                     $('#state').html(`<option value="" selected hidden>Select State</option>`).prop('disabled', true);
+                    $('#operation_area').html(`<option value="" selected hidden>Select Operation Area</option>`).prop('disabled', true);
                 });
                 $('#city').prop('disabled', false);
             } else {
@@ -80,6 +83,7 @@ function getCities(stateId, route, cityId = null) {
             $('#city').html(`<option value="" selected hidden>Select City</option>`);
             response.data.cities.forEach(function(city) {
                 $('#city').append(`<option value="${city.id}" ${city.id == cityId ? 'selected' : ''}>${city.name}</option>`);
+                $('#operation_area').html(`<option value="" selected hidden>Select Operation Area</option>`).prop('disabled', true);
             });
             $('#city').prop('disabled', false);
         } else {
@@ -90,6 +94,28 @@ function getCities(stateId, route, cityId = null) {
         console.error(error);
         $('#city').html(`<option value="" selected hidden>Select City</option>`).prop('disabled', true);
         alert('Failed to load states.');
+    });
+}
+function getCities(cityId, route, operationAreaId = null) {
+
+    axios.get(route, {
+        params: { city_id: cityId }
+    })
+    .then(function (response) {
+        if (response.data.operation_areas.length > 0) {
+            $('#operation_area').html(`<option value="" selected hidden>Select Operation Area</option>`);
+            response.data.operation_areas.forEach(function(operation_area) {
+                $('#operation_area').append(`<option value="${operation_area.id}" ${operation_area.id == operationAreaId ? 'selected' : ''}>${operation_area.name}</option>`);
+            });
+            $('#operation_area').prop('disabled', false);
+        } else {
+            $('#operation_area').html(`<option value="" selected hidden>Select Operation Area</option>`).prop('disabled', true);
+        }
+    })
+    .catch(function (error) {
+        console.error(error);
+        $('#operation_area').html(`<option value="" selected hidden>Select Operation Area</option>`).prop('disabled', true);
+        alert('Failed to load operation areas.');
     });
 }
 

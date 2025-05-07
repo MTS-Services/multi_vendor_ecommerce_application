@@ -3,10 +3,16 @@
 namespace App\Http\Controllers\Backend\Admin\Setup;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Setup\OperationSubAreaRequest;
+use App\Models\Country;
+use App\Models\OperationSubArea;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class OperationSubAreaController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth:admin');
@@ -24,31 +30,27 @@ class OperationSubAreaController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $query = City::with(['creater_admin', 'parent'])
+            $query = OperationSubArea::with(['creater_admin'])
             ->orderBy('sort_order', 'asc')
             ->latest();
             return DataTables::eloquent($query)
-                ->editColumn('parent_id', function ($city) {
-                    return $city->country_name  . ($city->state_name ? "(". $city->state_name .")": "");
+                ->editColumn('status', function ($operationSubArea) {
+                    return "<span class='badge " . $operationSubArea->status_color . "'>$operationSubArea->status_label</span>";
                 })
-
-                ->editColumn('status', function ($city) {
-                    return "<span class='badge " . $city->status_color . "'>$city->status_label</span>";
+                ->editColumn('created_by', function ($operationSubArea) {
+                    return $operationSubArea->creater_name;
                 })
-                ->editColumn('created_by', function ($city) {
-                    return $city->creater_name;
+                ->editColumn('created_at', function ($operationSubArea) {
+                    return $operationSubArea->created_at_formatted;
                 })
-                ->editColumn('created_at', function ($city) {
-                    return $city->created_at_formatted;
-                })
-                ->editColumn('action', function ($city) {
-                    $menuItems = $this->menuItems($city);
+                ->editColumn('action', function ($operationSubArea) {
+                    $menuItems = $this->menuItems($operationSubArea);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns([ 'parent_id','status', 'created_by', 'created_at', 'action'])
+                ->rawColumns(['status', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
-        return view('backend.admin.setup.city.index');
+        return view('backend.admin.setup.operation_sub_area.index');
     }
     protected function menuItems($model): array
     {
@@ -58,26 +60,26 @@ class OperationSubAreaController extends Controller
                 'data-id' => encrypt($model->id),
                 'className' => 'view',
                 'label' => 'Details',
-                'permissions' => ['city-list']
+                'permissions' => ['operation-sub-area-list']
             ],
             [
-                'routeName' => 'setup.city.edit',
+                'routeName' => 'setup.operation-sub-area.edit',
                 'params' => [encrypt($model->id)],
                 'label' => 'Edit',
-                'permissions' => ['city-edit']
+                'permissions' => ['operation-sub-area-edit']
             ],
             [
-                'routeName' => 'setup.city.status',
+                'routeName' => 'setup.operation-sub-area.status',
                 'params' => [encrypt($model->id)],
                 'label' => $model->status_btn_label,
-                'permissions' => ['city-status']
+                'permissions' => ['operation-sub-area-status']
             ],
             [
-                'routeName' => 'setup.city.destroy',
+                'routeName' => 'setup.operation-sub-area.destroy',
                 'params' => [encrypt($model->id)],
                 'label' => 'Delete',
                 'delete' => true,
-                'permissions' => ['city-delete']
+                'permissions' => ['operation-sub-area-delete']
             ]
 
         ];
@@ -90,21 +92,20 @@ class OperationSubAreaController extends Controller
     public function create()
     {
         $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
-        return view('backend.admin.setup.city.create',$data);
+        return view('backend.admin.setup.operation_sub_area.create',$data);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CityRequest $request)
+    public function store(OperationSubAreaRequest $request)
     {
         $validated = $request->validated();
+        $validated['operation_area_id'] = $request->operation_area;
         $validated['created_by'] = admin()->id;
-        $validated['parent_id'] = $request->state ? $request->state : $request->country;
-        $validated['parent_type'] = $request->state ? State::class : Country::class;
-        City::create($validated);
-        session()->flash('success','City created successfully!');
-        return redirect()->route('setup.city.index');
+        OperationSubArea::create($validated);
+        session()->flash('success','Operation sub area created successfully!');
+        return redirect()->route('setup.operation-sub-area.index');
     }
 
     /**
@@ -112,7 +113,7 @@ class OperationSubAreaController extends Controller
      */
     public function show(string $id)
     {
-        $data = City::with(['creater_admin', 'updater_admin', 'parent'])->findOrFail(decrypt($id));
+        $data = OperationSubArea::with(['creater_admin', 'updater_admin'])->findOrFail(decrypt($id));
         return response()->json($data);
     }
 
@@ -121,40 +122,39 @@ class OperationSubAreaController extends Controller
      */
     public function edit(string $id)
     {
-        $data['city'] = City::with('parent')->findOrFail(decrypt($id));
+        $data['operation_sub_area'] = OperationSubArea::findOrFail(decrypt($id));
         $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
-        return view('backend.admin.setup.city.edit',$data);
+        return view('backend.admin.setup.operation_sub_area.edit',$data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(CityRequest $request, string $id): RedirectResponse
+    public function update(OperationSubAreaRequest $request, string $id): RedirectResponse
     {
-        $city = City::findOrFail(decrypt($id));
+        $operation_sub_area = OperationSubArea::findOrFail(decrypt($id));
         $validated = $request->validated();
+        $validated['operation_area_id'] = $request->operation_area;
         $validated['created_by'] = admin()->id;
-        $validated['parent_id'] = $request->state ? $request->state : $request->country;
-        $validated['parent_type'] = $request->state ? State::class : Country::class;
-        $city->update($validated);
-        session()->flash('success','City updated successfully!');
-        return redirect()->route('setup.city.index');
+        $operation_sub_area->update($validated);
+        session()->flash('success','Operation sub area updated successfully!');
+        return redirect()->route('setup.operation-sub-area.index');
     }
 
     public function destroy(string $id): RedirectResponse
     {
-        $city = City::findOrFail(decrypt($id));
-        $city->update(['deleted_by'=> admin()->id]);
-        $city->delete();
-        session()->flash('success', 'City deleted successfully!');
-        return redirect()->route('setup.city.index');
+        $operation_sub_area = OperationSubArea::findOrFail(decrypt($id));
+        $operation_sub_area->update(['deleted_by'=> admin()->id]);
+        $operation_sub_area->delete();
+        session()->flash('success', 'Operation sub area deleted successfully!');
+        return redirect()->route('setup.operation-sub-area.index');
     }
 
     public function status(string $id): RedirectResponse
     {
-        $city = City::findOrFail(decrypt($id));
-        $city->update(['status' => !$city->status, 'updated_by'=> admin()->id]);
-        session()->flash('success', 'City status updated successfully!');
-        return redirect()->route('setup.city.index');
+        $operation_sub_area = OperationSubArea::findOrFail(decrypt($id));
+        $operation_sub_area->update(['status' => !$operation_sub_area->status, 'updated_by'=> admin()->id]);
+        session()->flash('success', 'Operation sub area status updated successfully!');
+        return redirect()->route('setup.operation-sub-area.index');
     }
 }

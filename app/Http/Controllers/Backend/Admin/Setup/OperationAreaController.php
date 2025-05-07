@@ -47,7 +47,7 @@ class OperationAreaController extends Controller
                     $menuItems = $this->menuItems($operationArea);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns([ 'city_id','status', 'created_by', 'created_at', 'action'])
+                ->rawColumns(['status', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.setup.operation_area.index');

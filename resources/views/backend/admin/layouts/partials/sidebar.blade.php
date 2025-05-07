@@ -148,6 +148,11 @@
                                     <span class="sub-item">{{ __('Operation Area') }}</span>
                                 </a>
                             </li>
+                            <li class="@if ($page_slug == 'operation_sub_area') active @endif">
+                                <a href="{{ route('setup.operation-sub-area.index') }}">
+                                    <span class="sub-item">{{ __('Operation Sub Area') }}</span>
+                                </a>
+                            </li>
 
                         </ul>
                     </div>
