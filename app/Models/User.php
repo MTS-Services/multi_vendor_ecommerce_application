@@ -25,7 +25,9 @@ class User extends AuthBaseModel implements MustVerifyEmail
      */
     protected $fillable = [
         'sort_order',
-        'name',
+        'first_name',
+        'last_name',
+        'username',
         'email',
         'password',
         'status',

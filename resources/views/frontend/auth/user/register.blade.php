@@ -61,7 +61,7 @@
                         <div class="mt-5 flex justify-between items-center gap-5 flex-wrap">
                             <button type="submit" class="btn-primary">{{ __('Register') }}</button>
                             <p class="text-center text-sm mt-4">
-                                {{ __('Already have an account?') }} <a href="{{ route('auth.user.login') }}"
+                                {{ __('Already have an account?') }} <a href="{{ route('login') }}"
                                     class="text-text-tertiary font-medium">
                                     {{ __('Sign in') }} </a>
                             </p>
