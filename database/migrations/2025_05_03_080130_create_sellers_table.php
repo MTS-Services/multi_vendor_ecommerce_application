@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->boolean('status')->default(Seller::STATUS_ACTIVE)->comment(Seller::STATUS_ACTIVE . ': Active, ' . Seller::STATUS_DEACTIVE . ': Inactive');
             $table->boolean('is_verify')->default(Seller::UNVERIFIED)->comment(Seller::UNVERIFIED . ': Unverified, ' . Seller::VERIFIED . ': Verified');
-            $table->tinyInteger('gender')->nullable()->comment(Seller::GENDER_MALE . ': Male, ' . Seller::GENDER_FEMALE . ': Female, ' . Seller::GENDER_OTHERS . ': Other');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();

@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->tinyInteger('status')->default(User::STATUS_ACTIVE)->comment(User::STATUS_ACTIVE . ': Active, ' . User::STATUS_DEACTIVE . ': Inactive');
             $table->tinyInteger('is_verify')->default(User::UNVERIFIED)->comment(User::UNVERIFIED . ': Unverified, ' . User::VERIFIED . ': Verified');
-            $table->tinyInteger('gender')->nullable()->comment(User::GENDER_MALE . ': Male, ' . User::GENDER_FEMALE . ': Female, ' . User::GENDER_OTHERS . ': Other');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
