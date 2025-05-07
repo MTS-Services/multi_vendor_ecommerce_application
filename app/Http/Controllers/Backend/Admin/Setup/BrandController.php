@@ -56,7 +56,7 @@ class BrandController extends Controller
                     $menuItems = $this->menuItems($brand);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status','is_featured', 'created_by', 'created_at', 'action'])
+                ->rawColumns(['status', 'is_featured', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.setup.brand.index');
@@ -148,7 +148,7 @@ class BrandController extends Controller
      */
     public function update(BrandRequest $request, string $id)
     {
-        $brand = Brand::findOrFail($id);
+        $brand = Brand::findOrFail(decrypt($id));
         $validated = $request->validated();
         $validated['updater_id'] = admin()->id;
         $validated['updater_type'] = get_class(admin());
@@ -156,8 +156,8 @@ class BrandController extends Controller
             $validated['logo'] = $this->handleFilepondFileUpload($brand, $request->logo, admin(), 'brands/');
         }
         $brand->update($validated);
-
-        return redirect()->route('setup.brand.index')->with('success', 'Brand updated successfully!');
+        session()->flash('success', 'Brabd updated successfully!');
+        return redirect()->route('setup.brand.index');
     }
 
     /**
@@ -180,9 +180,17 @@ class BrandController extends Controller
 
     public function status(string $id): HttpFoundationRedirectResponse
     {
-        $country = Brand::findOrFail(decrypt($id));
-        $country->update(['status' => !$country->status, 'updated_by' => admin()->id]);
+        $brand = Brand::findOrFail(decrypt($id));
+        $brand->update(['status' => !$brand->status, 'updated_by' => admin()->id]);
         session()->flash('success', 'Brand status updated successfully!');
+        return redirect()->route('setup.brand.index');
+    }
+
+    public function feature($id): HttpFoundationRedirectResponse
+    {
+        $brand = Brand::findOrFail(decrypt($id));
+        $brand->update(['is_featured' => !$brand->featured, 'updated_by' => admin()->id]);
+        session()->flash('success', 'Brand featured updated successfully!');
         return redirect()->route('setup.brand.index');
     }
 }

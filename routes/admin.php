@@ -65,6 +65,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::resource('country', CountryController::class);
         Route::get('country/status/{country}', [CountryController::class, 'status'])->name('country.status');
 
+        // Brand Routes
         Route::resource('brand', BrandController::class);
         Route::get('brand/status/{brand}', [BrandController::class, 'status'])->name('brand.status');
         Route::get('brand/feature/{brand}', [BrandController::class, 'feature'])->name('brand.feature');
