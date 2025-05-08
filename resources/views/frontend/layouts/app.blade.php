@@ -40,6 +40,11 @@
         <div class="custom-cursor"></div>
     </div>
 
+    {{-- Customer Auth --}}
+    @include('frontend.auth.user.login')
+
+    {{-- User Login --}}
+
     {{-- Temporary Includes --}}
     @include('frontend.includes.login')
 
