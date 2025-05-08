@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\State;
+use App\Models\OperationSubArea;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,24 +15,32 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('states', function (Blueprint $table) {
+        Schema::create('operation_sub_areas', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('sort_order')->default(0);
             $table->unsignedBigInteger('country_id');
+            $table->unsignedBigInteger('state_id')->nullable();
+            $table->unsignedBigInteger('city_id');
+            $table->unsignedBigInteger('operation_area_id');
             $table->string("name")->unique();
             $table->string("slug")->unique();
-            $table->string("code")->nullable();
             $table->longText("description")->nullable();
-            $table->boolean('status')->default(State::STATUS_ACTIVE)->comment(State::STATUS_ACTIVE . ': Active, ' . State::STATUS_DEACTIVE . ': Inactive');
+            $table->boolean('status')->default(OperationSubArea::STATUS_ACTIVE)->comment(OperationSubArea::STATUS_ACTIVE . ': Active, ' . OperationSubArea::STATUS_DEACTIVE . ': Inactive');
             $table->timestamps();
             $table->softDeletes();
             $this->addAdminAuditColumns($table);
 
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('operation_area_id')->references('id')->on('operation_areas')->onDelete('cascade')->onUpdate('cascade');
 
             // Indexes
             $table->index('sort_order');
             $table->index('country_id');
+            $table->index('state_id');
+            $table->index('city_id');
+            $table->index('operation_area_id');
             $table->index('name');
             $table->index('slug');
             $table->index('status');
@@ -47,6 +55,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('states');
+        Schema::dropIfExists('operation_sub_areas');
     }
 };

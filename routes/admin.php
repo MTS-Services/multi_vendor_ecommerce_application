@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Backend\Admin\Setup\AxiosRequestController;
 use App\Http\Controllers\Backend\Admin\Setup\CityController;
+use App\Http\Controllers\Backend\Admin\Setup\OperationAreaController;
+use App\Http\Controllers\Backend\Admin\Setup\OperationSubAreaController;
 use App\Http\Controllers\Backend\Admin\Setup\StateController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
@@ -18,6 +20,7 @@ use App\Http\Controllers\Backend\Admin\ProductManagement\CategoryController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\SubCategoryController;
 use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
+use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
 use App\Models\Banner;
@@ -68,27 +71,42 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
      Route::group(['as' => 'setup.', 'prefix' => 'setup-management'], function () {
         Route::controller(AxiosRequestController::class)->name('axios.')->group( function () {
             Route::get('get-states', 'getStates')->name('get-states');
-            Route::get('get-cities', 'getCities')->name('getCities');
-            Route::get('get-areas', 'getAreas')->name('getAreas');
-            Route::get('get-sub-areas', 'getSubAreas')->name('getSubAreas');
+            Route::get('get-states-or-cities', 'getStatesOrCities')->name('get-states-or-cities');
+            Route::get('get-cities', 'getCities')->name('get-cities');
+            Route::get('get-operation-areas', 'getOperationAreas')->name('get-operation-areas');
+            Route::get('get-sub-areas', 'getSubAreas')->name('get-sub-areas');
         });
 
 
-
+        // Country Routes
         Route::resource('country', CountryController::class);
         Route::get('country/status/{country}', [CountryController::class, 'status'])->name('country.status');
 
+        // State Routes
         Route::resource('state', StateController::class);
         Route::get('state/status/{state}', [StateController::class, 'status'])->name('state.status');
 
+        // City Routes
         Route::resource('city', CityController::class);
         Route::get('city/status/{state}', [CityController::class, 'status'])->name('city.status');
+
+        // Operation Area Routes
+        Route::resource('operation-area', OperationAreaController::class);
+        Route::get('operation-area/status/{operation_area}', [OperationAreaController::class, 'status'])->name('operation-area.status');
+
+        // Operation Sub Area Routes
+        Route::resource('operation-sub-area', OperationSubAreaController::class);
+        Route::get('operation-sub-area/status/{operation_sub_area}', [OperationSubAreaController::class, 'status'])->name('operation-sub-area.status');
     });
 
      // CMS Management
      Route::group(['as' => 'cms.', 'prefix' => 'cms-management'], function () {
         Route::resource('banner', BannerController::class);
         Route::get('banner/status/{banner}', [BannerController::class, 'status'])->name('banner.status');
+
+        // offer banner
+        Route::resource('offer-banner', OfferBannerController::class);
+        Route::get('offer-banner/status/{offer_banner}', [OfferBannerController::class, 'status'])->name('offer-banner.status');
     });
 
     // Product Management

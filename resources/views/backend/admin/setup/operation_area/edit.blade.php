@@ -1,19 +1,19 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'city'])
-@section('title', 'Edit City')
+@extends('backend.admin.layouts.master', ['page_slug' => 'operation_area'])
+@section('title', 'Edit Operation Area')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('Edit City') }}</h4>
+                    <h4 class="cart-title">{{ __('Edit Operation Area') }}</h4>
                     <x-backend.admin.button :datas="[
-                        'routeName' => 'setup.city.index',
+                        'routeName' => 'setup.operation-area.index',
                         'label' => 'Back',
-                        'permissions' => ['city-list'],
+                        'permissions' => ['operation-area-list'],
                     ]" />
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('setup.city.update', encrypt($city->id)) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('setup.operation-area.update', encrypt($operation_area->id)) }}') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
@@ -21,7 +21,7 @@
                             <select name="country" id="country" class="form-control">
                                 <option value="" selected hidden>{{__('Select Country')}}</option>
                                 @foreach ($countries as $country)
-                                    <option value="{{$country->id}}" {{ $city->country_id == $country->id ? 'selected' : ''}}>{{ $country->name }}</option>
+                                    <option value="{{$country->id}}" {{ $operation_area->country_id == $country->id ? 'selected' : ''}}>{{ $country->name }}</option>
                                 @endforeach
                             </select>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'country']" />
@@ -34,23 +34,29 @@
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'state']" />
                         </div>
 
-
+                        <div class="form-group">
+                            <label>{{ __('City') }} <span class="text-danger">*</span></label>
+                            <select name="city" id="city" class="form-control" disabled>
+                                <option value="" selected hidden>{{__('Select City')}}</option>
+                            </select>
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city']" />
+                        </div>
                         <div class="form-group">
                             <label>{{ __('Name') }} <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ $city->name }}" id="title" name="name" class="form-control"
+                            <input type="text" value="{{ $operation_area->name }}" id="title" name="name" class="form-control"
                                 placeholder="Enter name">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Slug') }}<span class="text-danger">*</span></label>
-                            <input type="text" value="{{ $city->slug }}" id="slug" name="slug" class="form-control"
+                            <input type="text" value="{{ $operation_area->slug }}" id="slug" name="slug" class="form-control"
                                 placeholder="Enter slug">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'slug']" />
                         </div>
 
                         <div class="form-group">
                             <label>{{ __('Description') }}</label>
-                            <textarea type="text" name="description" class="form-control" placeholder="Description">{{ $city->description }}</textarea>
+                            <textarea type="text" name="description" class="form-control" placeholder="Description">{{ $operation_area->description }}</textarea>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'description']" />
                         </div>
                         <div class="form-group float-end">
@@ -66,13 +72,21 @@
     <script src="{{ asset('ckEditor5/main.js') }}"></script>
 
     <script>
-        // Get Country States By Axios
+         // Get Country States By Axios
         $(document).ready(function() {
-            let route = "{{ route('setup.axios.get-states') }}";
-            getStates($('#country').val(), route, `{{$city->state_id}}`);
+            let route1 = "{{ route('setup.axios.get-states-or-cities') }}";
             $('#country').on('change', function () {
-                getStates($(this).val(), route);
+                getStatesOrCity($(this).val(), route1);
             });
+            let route2 = "{{ route('setup.axios.get-cities') }}";
+            $('#state').on('change', function () {
+                getCities($(this).val(), route2);
+            });
+            let data_id = `{{ $operation_area->state_id ? $operation_area->state_id : $operation_area->city_id }}`;
+            getStatesOrCity($('#country').val(), route1, data_id);
+            if(`{{$operation_area->state_id}}`){
+                getCities(`{{$operation_area->state_id}}`, route2, `{{ $operation_area->city_id }}`);
+            }
         });
     </script>
 @endpush
