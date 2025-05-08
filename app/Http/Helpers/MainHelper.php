@@ -77,17 +77,17 @@ function userFullName()
 
 function creater_name($user)
 {
-    return $user->first_name . ' ' . $user->last_name ?? 'System';
+    return $user->full_name ?? 'System';
 }
 
 function updater_name($user)
 {
-    return $user->first_name . ' ' . $user->last_name ?? 'Null';
+    return $user->full_name ?? 'Null';
 }
 
 function deleter_name($user)
 {
-    return $user->first_name . ' ' . $user->last_name ?? 'Null';
+    return $user->full_name ?? 'Null';
 }
 
 function isSuperAdmin()

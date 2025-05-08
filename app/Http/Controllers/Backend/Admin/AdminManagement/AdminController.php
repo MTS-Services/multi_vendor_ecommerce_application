@@ -35,6 +35,8 @@ class AdminController extends Controller
     {
 
         if ($request->ajax()) {
+
+
             $query = Admin::with(['creater_admin', 'role'])
                 ->orderBy('sort_order', 'asc')
                 ->latest();
@@ -102,6 +104,66 @@ class AdminController extends Controller
         ];
     }
 
+
+
+    public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+
+
+            $query = Admin::with(['deleter_admin', 'role'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+
+                ->editColumn('first_name', function ($admin) {
+                    return $admin->full_name . ($admin->username ? " (" . $admin->username . ")" : "");
+                })
+                ->editColumn('role_id', function ($admin) {
+                    return optional($admin->role)->name;
+                })
+                ->editColumn('status', function ($admin) {
+                    return "<span class='badge " . $admin->status_color . "'>$admin->status_label</span>";
+                })
+                ->editColumn('is_verify', function ($user) {
+                    return "<span class='badge " . $user->verify_color . "'>" . $user->verify_label . "</span>";
+                })
+                ->editColumn('deleted_by', function ($admin) {
+                    return $admin->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($admin) {
+                    return $admin->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($admin) {
+                    $menuItems = $this->trashedMenuItems($admin);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['first_name', 'role_id', 'status', 'is_verify', 'deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.admin_management.admin.recycle-bin');
+    }
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'am.admin.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['admin-restore']
+            ],
+            [
+                'routeName' => 'am.admin.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['admin-permanent-delete']
+            ]
+
+        ];
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -161,11 +223,14 @@ class AdminController extends Controller
      */
     public function update(AdminRequest $req, string $id): RedirectResponse
     {
+        $admin = Admin::findOrFail(decrypt($id));
+        if ($admin->role_id == 1 && $req->role != 1) {
+            session()->flash('error', 'Can not update Super Admin role!');
+            return redirect()->route('am.admin.index');
+        }
 
-
-        DB::transaction(function () use ($req, $id) {
+        DB::transaction(function () use ($req, $id, $admin) {
             try {
-                $admin = Admin::findOrFail(decrypt($id));
                 $validated = $req->validated();
                 $validated['password'] = ($req->password ? $req->password : $admin->password);
                 if (isset($req->image)) {
@@ -196,7 +261,7 @@ class AdminController extends Controller
         }
         $admin->update(['deleted_by' => admin()->id]);
         $admin->delete();
-        session()->flash('success', 'Admin deleted successfully!');
+        session()->flash('success', 'Admin move to recycle bin successfully!');
         return redirect()->route('am.admin.index');
     }
 
@@ -210,5 +275,23 @@ class AdminController extends Controller
         $admin->update(['status' => !$admin->status, 'updated_by' => admin()->id]);
         session()->flash('success', 'Admin status updated successfully!');
         return redirect()->route('am.admin.index');
+    }
+
+    public function restore(string $id): RedirectResponse
+    {
+        $admin = Admin::onlyTrashed()->findOrFail(decrypt($id));
+        $admin->update(['updated_by' => admin()->id]);
+        $admin->restore();
+        session()->flash('success', 'Admin restored successfully!');
+        return redirect()->route('am.admin.recycle-bin');
+    }
+
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $admin = Admin::onlyTrashed()->findOrFail(decrypt($id));
+        $this->fileDelete($admin->image);
+        $admin->forceDelete();
+        session()->flash('success', 'Admin permanently deleted successfully!');
+        return redirect()->route('am.admin.recycle-bin');
     }
 }

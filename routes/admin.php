@@ -50,6 +50,12 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
   Route::group(['as' => 'am.', 'prefix' => 'admin-management'], function () {
     Route::resource('admin', AdminController::class);
     Route::get('admin/status/{admin}', [AdminController::class, 'status'])->name('admin.status');
+    Route::get('admin/recycle/bin', [AdminController::class, 'recycleBin'])->name('admin.recycle-bin');
+    Route::get('admin/restore/{admin}', [AdminController::class, 'restore'])->name('admin.restore');
+    Route::delete('admin/permanent-delete/{admin}', [AdminController::class, 'permanentDelete'])->name('admin.permanent-delete');
+
+
+
     Route::resource('role', RoleController::class);
     Route::get('role/status/{role}', [RoleController::class, 'status'])->name('role.status');
     Route::resource('permission', PermissionController::class);
