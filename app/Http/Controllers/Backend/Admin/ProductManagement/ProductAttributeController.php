@@ -36,9 +36,9 @@ class ProductAttributeController extends Controller
                 ->editColumn('status', function ($product_attribute) {
                     return "<span class='badge " . $product_attribute->status_color . "'>$product_attribute->status_label</span>";
                 })
-                ->editColumn('is_featured', function ($product_attribute) {
-                    return "<span class='badge " . $product_attribute->featured_color . "'>" . $product_attribute->featured_label . "</span>";
-                })
+                // ->editColumn('is_featured', function ($product_attribute) {
+                //     return "<span class='badge " . $product_attribute->featured_color . "'>" . $product_attribute->featured_label . "</span>";
+                // })
                 ->editColumn('creater_id', function ($product_attribute) {
                     return $product_attribute->creater_name;
                 })
@@ -123,10 +123,9 @@ class ProductAttributeController extends Controller
      */
     public function show(string $id)
     {
-        $data = ProductAttribute::with(['creater', 'updater', 'product_attribute'])->findOrFail(decrypt($id));
+        $data = ProductAttribute::with(['creater', 'updater'])->findOrFail(decrypt($id));
         return response()->json($data);
     }
-
 
     /**
      * Show the form for editing the specified resource.
