@@ -3,15 +3,17 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class Country extends BaseModel
+class State extends BaseModel
 {
     protected $fillable = [
         'sort_order',
+        'country_id',
         'name',
         'slug',
+        'code',
         'description',
         'status',
 
@@ -29,6 +31,7 @@ class Country extends BaseModel
             'status_btn_label',
             'status_btn_color',
             'status_labels',
+            'country_name',
         ]);
     }
     public const STATUS_ACTIVE = 1;
@@ -100,23 +103,18 @@ class Country extends BaseModel
         return self::getStatusBtnColors()[$this->status] ?? 'btn btn-secondary';
     }
 
-    public function scopeActive($query): mixed
+    public function country(): BelongsTo
     {
-        return $query->where('status', self::STATUS_ACTIVE);
-    }
+        return $this->belongsTo(Country::class, 'country_id','id');
 
-    public function scopeDeactive($query): mixed
+    }
+    public function getCountryNameAttribute(): string|null
     {
-        return $query->where('status', self::STATUS_DEACTIVE);
+        return optional($this->country)->name;
     }
 
     public function cities(): MorphMany
     {
-        return $this->morphMany(City::class,'parent');
+        return $this->morphMany(City::class, 'parent');
     }
-    public function states(): HasMany
-    {
-        return $this->hasMany(State::class, 'country_id');
-    }
-
 }
