@@ -21,23 +21,6 @@
                                 placeholder="Enter name">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
                         </div>
-                        <div class="form-group">
-                            <label>{{ __('Image') }}</label>
-                            <input type="file" name="uploadImage" data-actualName="image" class="form-control filepond"
-                                id="image" accept="image/*">
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />
-                        </div>
-                        <div class="form-group">
-                            <label>{{ __('Meta Title') }}</label>
-                            <input type="text" name="meta_title" value="{{ old('meta_title') }}" class="form-control" placeholder="Enter meta title">
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'meta_title']" />
-                        </div>
-                        <div class="form-group">
-                            <label>{{ __('Meta Description') }}</label>
-                            <textarea name="meta_description" class="form-control" placeholder="Enter meta description">{{old('meta_description')}}</textarea>
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'meta_description']" />
-                        </div>
-
                         <div class="form-group float-end">
                             <input type="submit" class="btn btn-primary" value="Create">
                         </div>
@@ -47,14 +30,3 @@
         </div>
     </div>
 @endsection
-@push('js')
-    {{-- FilePond  --}}
-    <script src="{{ asset('ckEditor5/main.js') }}"></script>
-    <script src="{{ asset('filepond/filepond.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            file_upload(["#image"], "uploadImage", "admin", [], false);
-        });
-    </script>
-    {{-- FilePond  --}}
-@endpush

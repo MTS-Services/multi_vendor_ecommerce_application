@@ -7,12 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductManagement\ProductAttributeValueRequest;
 use App\Models\ProductAttributeValue;
 
-class ProductAttributeValueController extends Controller
+class AttributeValueController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->middleware('permission:product-attribute-value-list|product-attribute-value-create|product-attribute-value-edit|product-attribute-value-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:product-attribute-value-list', ['only' => ['index']]);
+        $this->middleware('permission:product-attribute-value-details', ['only' => ['show']]);
         $this->middleware('permission:product-attribute-value-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:product-attribute-value-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:product-attribute-value-delete', ['only' => ['destroy']]);

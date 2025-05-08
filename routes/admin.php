@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Backend\Admin\ProductManagement\ProductAttributeController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeController;
 use App\Http\Controllers\Backend\Admin\Setup\AxiosRequestController;
 use App\Http\Controllers\Backend\Admin\Setup\CityController;
 use App\Http\Controllers\Backend\Admin\Setup\OperationAreaController;
@@ -25,8 +25,6 @@ use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
 use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
-use App\Models\Banner;
-use App\Models\ProductAttribute;
 
 // Admin Auth Routes
 Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')->group(function () {
@@ -125,8 +123,8 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('sub-category/feature/{sub_category}', [SubCategoryController::class, 'feature'])->name('sub-category.feature');
 
         //Product Attribute
-        Route::resource('product-attribute', ProductAttributeController::class);
-        Route::get('product-attribute/status/{product_attribute}', [ProductAttributeController::class, 'status'])->name('product-attribute.status');
+        Route::resource('product-attribute', AttributeController::class);
+        Route::get('product-attribute/status/{product_attribute}', [AttributeController::class, 'status'])->name('product-attribute.status');
 
         // Brand Routes
         Route::resource('brand', BrandController::class);

@@ -23,23 +23,6 @@
                                 placeholder="Enter name">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
                         </div>
-
-                        <div class="form-group">
-                            <label>{{ __('Image') }}</label>
-                            <input type="file" name="uploadImage" data-actualName="image" class="form-control filepond"
-                                id="image" accept="image/*">
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />
-                        </div>
-                        <div class="form-group">
-                            <label>{{ __('Meta Title') }}</label>
-                            <input type="text" name="meta_title" value="{{ $product_attribute->meta_title }}" class="form-control" placeholder="Enter meta title">
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'meta_title']" />
-                        </div>
-                        <div class="form-group">
-                            <label>{{ __('Meta Description') }}</label>
-                            <textarea name="meta_description" class="form-control" placeholder="Enter meta description">{{$product_attribute->meta_description}}</textarea>
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'meta_description']" />
-                        </div>
                         <div class="form-group float-end">
                             <input type="submit" class="btn btn-primary" value="Update">
                         </div>
@@ -49,17 +32,3 @@
         </div>
     </div>
 @endsection
-@push('js')
-    {{-- FilePond  --}}
-    <script src="{{ asset('filepond/filepond.js') }}"></script>
-    <script src="{{ asset('ckEditor5/main.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            const existingFiles = {
-                "#image":"{{ $product_attribute->modified_image }}",
-            }
-            file_upload(["#image"], "uploadImage", "admin", existingFiles, false);
-        });
-    </script>
-    {{-- FilePond  --}}
-@endpush

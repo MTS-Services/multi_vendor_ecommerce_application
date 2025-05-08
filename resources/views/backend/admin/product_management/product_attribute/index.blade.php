@@ -78,23 +78,10 @@
                     key: "name"
                 },
                 {
-                    label: "Image",
-                    key: "modified_image",
-                    type: "image"
-                },
-                {
                     label: "Status",
                     key: "status_label",
                     color: "status_color",
-                },
-                {
-                    label: "Meta Title",
-                    key: "meta_title"
-                },
-                {
-                    label: "Meta Description",
-                    key: "meta_description"
-                },
+                }
 
             ];
             fetchAndShowModal(detailsUrl, headers, "#modal_data", "myModal");

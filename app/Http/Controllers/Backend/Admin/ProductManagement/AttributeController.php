@@ -10,13 +10,14 @@ use Illuminate\Http\RedirectResponse;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Traits\FileManagementTrait;
 
-class ProductAttributeController extends Controller
+class AttributeController extends Controller
 {
     use FileManagementTrait;
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->middleware('permission:product-attribute-list|product-attribute-create|product-attribute-edit|product-attribute-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:product-attribute-list', ['only' => ['index']]);
+        $this->middleware('permission:product-attribute-details', ['only' => ['show']]);
         $this->middleware('permission:product-attribute-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:product-attribute-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:product-attribute-delete', ['only' => ['destroy']]);
