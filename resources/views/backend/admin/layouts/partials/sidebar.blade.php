@@ -96,10 +96,16 @@
                                     <span class="sub-item">{{ __('Sub Category') }}</span>
                                 </a>
                             </li>
+
+                            <li class="@if ($page_slug == 'product_attribute') active @endif">
+                                <a href="{{ route('pm.product-attribute.index') }}">
+                                    <span class="sub-item">{{ __('Product Attribute') }}</span>
+                                </a>
+                            </li>
+
                         </ul>
                     </div>
                 </li>
-
 
 
                 <li class="nav-item  @if ($page_slug == 'seller' || $page_slug == 'seller_package') active submenu @endif">
