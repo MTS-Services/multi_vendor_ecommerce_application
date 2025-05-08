@@ -147,7 +147,7 @@
                     <!-- Contact Information -->
                     <div class="flex justify-between items-center mb-4 mt-5">
                         <h2 class="text-xl font-medium">Contact Information</h2>
-                        <a href="#" class="text-sm text-blue-600 hover:underline">Log in</a>
+                        <a href="#" class="text-sm text-text-accent hover:underline">Log in</a>
                     </div>
 
                     <div class="mb-8">
@@ -215,7 +215,7 @@
                             <div class="flex justify-between items-center mb-4">
                                 <span class="text-sm font-medium">Mail your check to:</span>
                                 <button id="preview-check"
-                                    class="text-sm bg-blue-600 text-text-white px-3 py-1 rounded hover:bg-blue-700 transition">
+                                    class="btn-primary rounded-md h-10 text-sm font-medium">
                                     Preview Check
                                 </button>
                             </div>
@@ -234,29 +234,29 @@
                                     class="bg-bg-white dar rounded-lg shadow-xl max-w-4xl w-full max-h-screen overflow-y-auto p-6">
                                     <div class="flex justify-between items-center mb-4">
                                         <h3 class="text-xl font-bold">Check Preview</h3>
-                                        <button id="close-check-modal" class="text-text-light hover:text-gray-700">
-                                            <i class="fas fa-times"></i>
+                                        <button id="close-check-modal" class="text-text-light hover:text-text-primary">
+                                            <i data-lucide="x" class="text-md"></i>
                                         </button>
                                     </div>
 
                                     <!-- Check Preview -->
                                     <div id="check-preview"
-                                        class="bg-bg-white border border-gray-300 rounded-lg overflow-hidden check-border">
+                                        class="bg-bg-white border border-border-light dark:border-opacity-30 rounded-lg overflow-hidden check-border">
                                         <!-- Check Header -->
                                         <div class="flex justify-between p-6 border-b border-border-light dark:border-opacity-30">
                                             <div>
-                                                <h1 class="text-2xl font-bold text-blue-800">YOUR BANK NAME</h1>
+                                                <h1 class="text-2xl font-bold text-text-tertiary">YOUR BANK NAME</h1>
                                                 <p class="text-sm text-text-light">123 Financial Street, Banking City, BC
                                                     12345</p>
                                             </div>
                                             <div class="text-right">
                                                 <div class="inline-block border border-gray-300 rounded px-3 py-1 mb-2">
                                                     <span class="text-sm text-text-light">CHECK NO.</span>
-                                                    <span class="block text-lg font-semibold">1001</span>
+                                                    <span class="block text-lg font-semibold dark:text-text-primary">1001</span>
                                                 </div>
                                                 <div class="text-sm text-text-light">
                                                     <span>DATE: </span>
-                                                    <span class="font-medium" id="check-date">May 8, 2025</span>
+                                                    <span class="font-medium dark:text-text-primary" id="check-date">May 8, 2025</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -266,38 +266,38 @@
                                             <!-- Pay To Line -->
                                             <div class="flex mb-6">
                                                 <div class="w-24 text-text-light text-sm">PAY TO THE<br>ORDER OF</div>
-                                                <div class="flex-1 border-b-2 border-gray-400 relative">
-                                                    <span class="absolute bottom-1 text-lg font-medium">Your Company
+                                                <div class="flex-1 border-b-2 border-border-light relative">
+                                                    <span class="absolute bottom-1 text-lg font-medium dark:text-text-primary">Your Company
                                                         Name</span>
                                                 </div>
                                                 <div
-                                                    class="w-32 flex items-center justify-center border-2 border-gray-400 ml-4 h-10">
-                                                    <span class="text-lg font-bold" id="check-amount">$610.00</span>
+                                                    class="w-32 flex items-center justify-center border-2 border-border-light ml-4 h-10">
+                                                    <span class="text-lg font-bold dark:text-text-primary" id="check-amount">$610.00</span>
                                                 </div>
                                             </div>
 
                                             <!-- Amount In Words -->
                                             <div class="flex mb-8">
-                                                <div class="flex-1 border-b-2 border-gray-400 relative">
-                                                    <span class="absolute bottom-1 text-md">Six Hundred Ten Dollars and
+                                                <div class="flex-1 border-b-2 border-border-light relative">
+                                                    <span class="absolute bottom-1 text-md dark:text-text-primary">Six Hundred Ten Dollars and
                                                         00/100</span>
                                                 </div>
                                                 <div class="w-32 ml-4">
-                                                    <span class="text-sm text-text-light">DOLLARS</span>
+                                                    <span class="text-sm text-text-light dark:text-text-primary">DOLLARS</span>
                                                 </div>
                                             </div>
 
                                             <!-- Memo and Signature -->
                                             <div class="flex mt-12">
                                                 <div class="w-1/2">
-                                                    <div class="border-b-2 border-gray-400 pb-1 w-3/4">
+                                                    <div class="border-b-2 border-border-light pb-1 w-3/4">
                                                         <span class="text-sm text-text-light">MEMO</span>
-                                                        <span class="block" id="check-memo">Order #12345</span>
+                                                        <span class="block dark:text-text-primary" id="check-memo">Order #12345</span>
                                                     </div>
                                                 </div>
                                                 <div class="w-1/2 text-right">
-                                                    <div class="border-b-2 border-gray-400 pb-1 inline-block w-3/4">
-                                                        <span class="signature text-xl">Your Signature</span>
+                                                    <div class="border-b-2 border-border-light pb-1 inline-block w-3/4">
+                                                        <span class="signature text-xl dark:text-text-primary">Your Signature</span>
                                                     </div>
                                                     <div class="text-sm text-text-light mt-1">AUTHORIZED SIGNATURE</div>
                                                 </div>
@@ -306,7 +306,7 @@
 
                                         <!-- MICR Line -->
                                         <div class="bg-bg-white border-t border-border-light dark:border-opacity-30 p-4">
-                                            <div class="micr text-lg text-center">
+                                            <div class="micr text-lg text-center dark:text-text-primary">
                                                 ⑆123456789⑆ ⑈987654321⑈ 1001
                                             </div>
                                         </div>
@@ -314,8 +314,8 @@
 
                                     <div class="mt-6 flex justify-end">
                                         <button id="print-check"
-                                            class="bg-blue-600 text-text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-                                            <i class="fas fa-print mr-2"></i> Print Check
+                                            class="btn-primary flex justify-center items-center gap-2 rounded-md">
+                                            <i data-lucide="printer" class="w-4 h-4"></i> Print Check
                                         </button>
                                     </div>
                                 </div>
@@ -387,7 +387,7 @@
                     <p class="text-sm text-text-light mb-8">
                         Your personal data will be used to process your order, support your experience throughout this
                         website, and for other purposes described in our
-                        <a href="#" class="text-blue-600 hover:underline">privacy policy</a>.
+                        <a href="#" class="text-text-accent hover:underline">privacy policy</a>.
                     </p>
                 </form>
             </div>
