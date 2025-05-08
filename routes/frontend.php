@@ -13,6 +13,8 @@ Route::group(['as' => 'frontend.'], function () {
 
   // Test Page
   Route::get('/test', [FrontendController::class, 'test'])->name('test');
+  // Test Page
+  Route::get('/checkout', [FrontendController::class, 'checkout'])->name('checkout');
 });
 
 
