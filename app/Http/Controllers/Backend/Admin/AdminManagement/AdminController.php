@@ -36,8 +36,8 @@ class AdminController extends Controller
 
         if ($request->ajax()) {
             $query = Admin::with(['creater_admin', 'role'])
-            ->orderBy('sort_order', 'asc')
-            ->latest();
+                ->orderBy('sort_order', 'asc')
+                ->latest();
             return DataTables::eloquent($query)
                 ->editColumn('role_id', function ($admin) {
                     return optional($admin->role)->name;
@@ -114,8 +114,8 @@ class AdminController extends Controller
     {
 
         DB::transaction(function () use ($req) {
-            try{
-                $validated= $req->validated();
+            try {
+                $validated = $req->validated();
                 $validated['created_by'] = admin()->id;
                 if (isset($req->image)) {
                     $validated['image'] = $this->handleFilepondFileUpload(Admin::class, $req->image, admin(), 'admins/');
@@ -126,7 +126,6 @@ class AdminController extends Controller
             } catch (\Throwable $e) {
                 session()->flash('error', 'Admin create failed!');
                 throw $e;
-
             }
         });
         return redirect()->route('am.admin.index');
@@ -159,9 +158,9 @@ class AdminController extends Controller
 
 
         DB::transaction(function () use ($req, $id) {
-            try{
+            try {
                 $admin = Admin::findOrFail(decrypt($id));
-                $validated= $req->validated();
+                $validated = $req->validated();
                 $validated['password'] = ($req->password ? $req->password : $admin->password);
                 if (isset($req->image)) {
                     $validated['image'] = $this->handleFilepondFileUpload($admin, $req->image, admin(), 'admins/');
@@ -173,7 +172,6 @@ class AdminController extends Controller
             } catch (\Throwable $e) {
                 session()->flash('error', 'Admin update failed!');
                 throw $e;
-
             }
         });
         return redirect()->route('am.admin.index');
@@ -202,7 +200,7 @@ class AdminController extends Controller
             session()->flash('error', 'Can not change Super Admin status!');
             return redirect()->route('am.admin.index');
         }
-        $admin->update(['status' => !$admin->status, 'updated_by'=> admin()->id]);
+        $admin->update(['status' => !$admin->status, 'updated_by' => admin()->id]);
         session()->flash('success', 'Admin status updated successfully!');
         return redirect()->route('am.admin.index');
     }
