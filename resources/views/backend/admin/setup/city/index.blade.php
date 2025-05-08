@@ -41,7 +41,7 @@
     <script>
         $(document).ready(function() {
             let table_columns = [
-                ['parent_id', true, true],
+                ['country_id', true, true],
                 ['name', true, true],
                 ['status', true, true],
                 ['created_by', true, true],

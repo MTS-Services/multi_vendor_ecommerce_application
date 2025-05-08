@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class State extends BaseModel
@@ -31,6 +32,7 @@ class State extends BaseModel
             'status_btn_label',
             'status_btn_color',
             'status_labels',
+
             'country_name',
         ]);
     }
@@ -103,6 +105,16 @@ class State extends BaseModel
         return self::getStatusBtnColors()[$this->status] ?? 'btn btn-secondary';
     }
 
+    public function scopeActive($query): mixed
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+
+    public function scopeDeactive($query): mixed
+    {
+        return $query->where('status', self::STATUS_DEACTIVE);
+    }
+
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'country_id','id');
@@ -113,8 +125,30 @@ class State extends BaseModel
         return optional($this->country)->name;
     }
 
-    public function cities(): MorphMany
+    public function cities(): HasMany
     {
-        return $this->morphMany(City::class, 'parent');
+        return $this->hasMany(City::class,'state_id');
     }
+    public function operationAreas(): HasMany
+    {
+        return $this->hasMany(OperationArea::class,'state_id');
+    }
+    public function operationSubAreas(): HasMany
+    {
+        return $this->hasMany(OperationSubArea::class,'state_id');
+    }
+    public function activeCities(): HasMany
+    {
+        return $this->cities()->active();
+    }
+    public function activeOperationAreas(): HasMany
+    {
+        return $this->operationAreas()->active();
+    }
+    public function activeOperationSubAreas(): HasMany
+    {
+        return $this->operationSubAreass()->active();
+    }
+
+
 }

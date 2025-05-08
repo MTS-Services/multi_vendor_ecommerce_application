@@ -6,7 +6,7 @@
         class="searchForm absolute top-1/2 right-[110%] transform -translate-y-1/2 transition-all duration-300 ease-in-out scale-95 opacity-0 pointer-events-none max-w-[500px] min-w-64 lg:min-w-96 z-50">
         <div class="join w-full">
             <div class="w-full">
-                <label class="input">
+                <label class="input input-search">
                     <svg class="h-[1em] opacity-50 stroke-current" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24">
                         <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none">

@@ -26,6 +26,9 @@
     {{-- Swiper CSS --}}
     <link rel="stylesheet" href="{{ asset('frontend/css/swiper.min.css') }}">
 
+    {{-- BoxIcons --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css" />
+
     @vite(['resources/css/app.css'])
 
     {{-- Custom CSS --}}
@@ -41,6 +44,8 @@
     <div class="cursor-wrapper">
         <div class="custom-cursor"></div>
     </div>
+
+    {{-- User Login --}}
 
     {{-- Temporary Includes --}}
     @include('frontend.includes.login')

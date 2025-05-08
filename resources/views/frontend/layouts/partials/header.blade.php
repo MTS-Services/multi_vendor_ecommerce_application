@@ -24,9 +24,8 @@
                         <x-frontend.search />
                     </span>
 
-                    <a href="#" class="text-2xl">
-                        <i data-lucide="user-round"
-                            class="text-text-primary dark:text-text-white hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"
+                    <a href="javaScript:void(0)" class="text-2xl">
+                        <i data-lucide="user-round" class="text-text-primary dark:text-text-white hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"
                             onclick="my_modal_1.showModal()"></i>
                     </a>
                     <a href="#" class="text-2xl relative">

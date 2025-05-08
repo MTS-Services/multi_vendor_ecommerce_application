@@ -33,7 +33,7 @@ class StateController extends Controller
     {
 
         if ($request->ajax()) {
-            $query = State::with(['creater'])
+            $query = State::with(['creater_admin', 'country'])
             ->orderBy('sort_order', 'asc')
             ->latest();
             return DataTables::eloquent($query)
@@ -43,7 +43,7 @@ class StateController extends Controller
                 ->editColumn('status', function ($state) {
                     return "<span class='badge " . $state->status_color . "'>$state->status_label</span>";
                 })
-                ->editColumn('creater_id', function ($state) {
+                ->editColumn('created_by', function ($state) {
                     return $state->creater_name;
                 })
                 ->editColumn('created_at', function ($state) {
@@ -53,7 +53,7 @@ class StateController extends Controller
                     $menuItems = $this->menuItems($state);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['country_id','status', 'creater_id', 'created_at', 'action'])
+                ->rawColumns(['country_id','status', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.setup.state.index');
@@ -97,7 +97,7 @@ class StateController extends Controller
      */
     public function create()
     {
-        $data['countries'] = Country::get();
+        $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
         return view('backend.admin.setup.state.create',$data);
     }
 
@@ -118,7 +118,7 @@ class StateController extends Controller
      */
     public function show(string $id)
     {
-        $data = State::with(['creater', 'updater', 'country'])->findOrFail(decrypt($id));
+        $data = State::with(['creater_admin', 'updater_admin', 'country'])->findOrFail(decrypt($id));
         return response()->json($data);
     }
 
@@ -128,7 +128,7 @@ class StateController extends Controller
     public function edit(string $id)
     {
         $data['state'] = State::findOrFail(decrypt($id));
-        $data['countries'] = Country::get();
+        $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
         return view('backend.admin.setup.state.edit',$data);
     }
 
