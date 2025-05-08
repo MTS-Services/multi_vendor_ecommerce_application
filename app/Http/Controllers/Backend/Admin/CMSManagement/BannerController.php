@@ -18,11 +18,12 @@ class BannerController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index', 'show']]);
-        $this->middleware('permission:product-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:product-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
-        $this->middleware('permission:product-status', ['only' => ['status']]);
+        $this->middleware('permission:banner-list', ['only' => ['index']]);
+        $this->middleware('permission:banner-details', ['only' => ['show']]);
+        $this->middleware('permission:banner-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:banner-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:banner-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:banner-status', ['only' => ['status']]);
     }
 
     /**
@@ -32,7 +33,7 @@ class BannerController extends Controller
     {
 
     if ($request->ajax()) {
-        $query = Banner::with(['creater'])
+        $query = Banner::with(['creater_admin'])
         ->orderBy('sort_order', 'asc')
         ->latest();
         return DataTables::eloquent($query)
@@ -41,7 +42,7 @@ class BannerController extends Controller
                 return "<span class='badge " . $banner->status_color . "'>$banner->status_label</span>";
             })
 
-            ->editColumn('creater_id', function ($banner) {
+            ->editColumn('created_by', function ($banner) {
                 return $banner->creater_name;
             })
             ->editColumn('created_at', function ($banner) {
@@ -51,7 +52,7 @@ class BannerController extends Controller
                 $menuItems = $this->menuItems($banner);
                 return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
             })
-            ->rawColumns([ 'status','creater_id', 'created_at', 'action'])
+            ->rawColumns([ 'status','created_by', 'created_at', 'action'])
             ->make(true);
     }
         return view('backend.admin.cms_management.banner.index');
@@ -107,7 +108,7 @@ class BannerController extends Controller
         $validated = $request->validated();
         $validated['created_by'] = admin()->id;
         if(isset($request->image)) {
-            $validated['image'] = $this->handleFilepondFileUpload(Banner::class, $request->image, admin(), 'categories/');
+            $validated['image'] = $this->handleFilepondFileUpload(Banner::class, $request->image, admin(), 'banners/');
         }
         Banner::create($validated);
         session()->flash('success','Banner created successfully!');
@@ -120,7 +121,7 @@ class BannerController extends Controller
      */
     public function show(string $id)
     {
-        $data = Banner::with(['creater', 'updater'])->findOrFail(decrypt($id));
+        $data = Banner::with(['creater_admin', 'updater_admin'])->findOrFail(decrypt($id));
         return response()->json($data);
     }
 
@@ -129,7 +130,7 @@ class BannerController extends Controller
      */
     public function edit(string $id)
     {
-        $data['banners'] = Banner::findOrFail(decrypt($id));
+        $data['banner'] = Banner::findOrFail(decrypt($id));
         return view('backend.admin.cms_management.banner.edit', $data);
     }
 
@@ -138,12 +139,13 @@ class BannerController extends Controller
      */
     public function update(BannerRequest $request, string $id)
     {
+        $banner = Banner::findOrFail(decrypt($id));
         $validated = $request->validated();
         $validated['updated_by'] = admin()->id;
         if(isset($request->image)) {
-            $validated['image'] = $this->handleFilepondFileUpload(Banner::class, $request->image, admin(), 'categories/');
+            $validated['image'] = $this->handleFilepondFileUpload($banner, $request->image, admin(), 'banners/');
         }
-        Banner::findOrFail(decrypt($id))->update($validated);
+        $banner->update($validated);
         session()->flash('success','Banner updated successfully!');
         return redirect()->route('cms.banner.index');
     }
@@ -154,16 +156,16 @@ class BannerController extends Controller
     public function destroy(string $id)
     {
         $banner = Banner::findOrFail(decrypt($id));
-        $banner->update(['deleter_id' => admin()->id, 'deleter_type' => get_class(admin())]);
+        $banner->update(['deleted_by' => admin()->id]);
         $banner->delete();
-        session()->flash('success', 'banner deleted successfully!');
+        session()->flash('success', 'Banner deleted successfully!');
         return redirect()->route('cms.banner.index');
     }
     public function status(string $id): RedirectResponse
     {
         $banner = Banner::findOrFail(decrypt($id));
         $banner->update(['status' => !$banner->status, 'updated_by'=> admin()->id]);
-        session()->flash('success', 'banner status updated successfully!');
+        session()->flash('success', 'Banner status updated successfully!');
         return redirect()->route('cms.banner.index');
     }
 }

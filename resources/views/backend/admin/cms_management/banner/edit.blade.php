@@ -13,18 +13,18 @@
                     ]" />
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('cms.banner.update', encrypt($banners->id)) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('cms.banner.update', encrypt($banner->id)) }}" method="POST" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div class="form-group">
                             <label>{{ __('Title') }}  <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ $banners->title }}" id="title" name="title" class="form-control"
+                            <input type="text" value="{{ $banner->title }}" id="title" name="title" class="form-control"
                                 placeholder="Enter title">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'title']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Sub Title') }}  <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ $banners->subtitle }}" name="subtitle" id="subtitle" class="form-control"
+                            <input type="text" value="{{ $banner->subtitle }}" name="subtitle" id="subtitle" class="form-control"
                                 placeholder="Enter title">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'subtitle']" />
                         </div>
@@ -36,18 +36,18 @@
                         </div>
                         <div class="form-group">
                             <label>{{ __('Url') }}</label>
-                            <input type="text" name="url" value="{{ $banners->url }}" class="form-control" placeholder="Enter url">
+                            <input type="text" name="url" value="{{ $banner->url }}" class="form-control" placeholder="Enter url">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'url']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('Start Date') }}</label>
-                            <input type="date" name="start_date" value="{{ $banners->start_date}}" class="form-control" placeholder="Enter date">
+                            <input type="date" name="start_date" value="{{ $banner->start_date}}" class="form-control" placeholder="Enter date">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'start_date']" />
                         </div>
 
                         <div class="form-group">
                             <label>{{ __('End Date') }}</label>
-                            <input type="date" name="end_date" value="{{$banners->end_date}}" class="form-control" placeholder="Enter date">
+                            <input type="date" name="end_date" value="{{$banner->end_date}}" class="form-control" placeholder="Enter date">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'end_date']" />
                         </div>
 
@@ -62,11 +62,13 @@
 @endsection
 @push('js')
     {{-- FilePond  --}}
-    <script src="{{ asset('ckEditor5/main.js') }}"></script>
     <script src="{{ asset('filepond/filepond.js') }}"></script>
     <script>
         $(document).ready(function() {
-            file_upload(["#image"], "uploadImage", "admin", [], false);
+            const existingFiles = {
+                "#image":"{{ $banner->modified_image }}",
+            }
+            file_upload(["#image"], "uploadImage", "admin", existingFiles, false);
         });
     </script>
     {{-- FilePond  --}}

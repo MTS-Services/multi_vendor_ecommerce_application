@@ -61,7 +61,6 @@
 @endsection
 @push('js')
     {{-- FilePond  --}}
-    <script src="{{ asset('ckEditor5/main.js') }}"></script>
     <script src="{{ asset('filepond/filepond.js') }}"></script>
     <script>
         $(document).ready(function() {
