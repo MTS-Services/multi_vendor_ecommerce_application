@@ -18,6 +18,7 @@ use App\Http\Controllers\Backend\Admin\SellerManagement\SellerController;
 use App\Http\Controllers\Backend\Admin\AdminManagement\PermissionController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\CategoryController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\SubCategoryController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\BrandController;
 use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
 use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
@@ -82,6 +83,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::resource('country', CountryController::class);
         Route::get('country/status/{country}', [CountryController::class, 'status'])->name('country.status');
 
+
         // State Routes
         Route::resource('state', StateController::class);
         Route::get('state/status/{state}', [StateController::class, 'status'])->name('state.status');
@@ -119,6 +121,11 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::resource('sub-category', SubCategoryController::class);
         Route::get('sub-category/status/{sub_category}', [SubCategoryController::class, 'status'])->name('sub-category.status');
         Route::get('sub-category/feature/{sub_category}', [SubCategoryController::class, 'feature'])->name('sub-category.feature');
+
+        // Brand Routes
+        Route::resource('brand', BrandController::class);
+        Route::get('brand/status/{brand}', [BrandController::class, 'status'])->name('brand.status');
+        Route::get('brand/feature/{brand}', [BrandController::class, 'feature'])->name('brand.feature');
     });
 
   // Documentation
