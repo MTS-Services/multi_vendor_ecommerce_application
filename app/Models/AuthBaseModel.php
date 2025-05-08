@@ -11,17 +11,17 @@ class AuthBaseModel extends Authenticatable
     use HasFactory, SoftDeletes;
     public function creater_admin()
     {
-        return $this->belongsTo(Admin::class, 'created_by')->select(['id', 'name']);
+        return $this->belongsTo(Admin::class, 'created_by')->select(['id', 'first_name', 'last_name']);
     }
 
     public function updater_admin()
     {
-        return $this->belongsTo(Admin::class, 'updated_by')->select(['id', 'name']);
+        return $this->belongsTo(Admin::class, 'updated_by')->select(['id', 'first_name', 'last_name']);
     }
 
     public function deleter_admin()
     {
-        return $this->belongsTo(Admin::class, 'deleted_by')->select(['id', 'name']);
+        return $this->belongsTo(Admin::class, 'deleted_by')->select(['id', 'first_name', 'last_name']);
     }
 
     public function creater()
@@ -55,6 +55,8 @@ class AuthBaseModel extends Authenticatable
         'status_btn_color',
         'status_labels',
         'modified_image',
+
+        'full_name',
 
         'verify_label',
         'verify_color',
@@ -309,4 +311,9 @@ class AuthBaseModel extends Authenticatable
         return auth_storage_url($this->image, $this->gender);
     }
 
+    // Get Full Name
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

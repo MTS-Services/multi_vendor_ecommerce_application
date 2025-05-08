@@ -92,6 +92,21 @@ module.exports = {
           white: '#ffffff',
           black: '#000000',
         },
+
+        shadow: {
+          primary: '#8A2BE2',
+          accent: '#8752FA',
+          dark: '#0A192F',
+          danger: '#DC2626',
+          white: '#ffffff',
+          black: '#000000',
+          light: '#E5E7EB',
+          darkSecondary: '#021526',
+          darkTertiary: '#222831',
+          gray: '#F3F4F6',
+          lightSecondary: '#F9FAFB',
+          lightTertiary: '#F3F4F6',
+        }
       },
       fontFamily: {
         'inter': ['Inter', ...defaultTheme.fontFamily.sans],
@@ -132,7 +147,7 @@ module.exports = {
         'card': '0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1)',
         'dropdown': '0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)',
         'inner': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
-        'none': 'none',
+        'shadowPrimary': 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
       },
       borderRadius: {
         'none': '0',

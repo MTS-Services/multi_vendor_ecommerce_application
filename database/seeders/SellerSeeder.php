@@ -14,9 +14,13 @@ class SellerSeeder extends Seeder
     public function run(): void
     {
         Seller::create([
-            'name' => 'Seller',
+            'first_name' => 'Test',
+            'last_name' => 'Seller',
+            'username' => 'seller',
             'email' => 'seller@dev.com',
             'password' => 'seller@dev.com',
+            'email_verified_at' => now(),
+            'is_verify' => 1
         ]);
     }
 }

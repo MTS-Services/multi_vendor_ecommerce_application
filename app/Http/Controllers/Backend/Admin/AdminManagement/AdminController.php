@@ -7,13 +7,13 @@ use App\Http\Requests\Admin\AdminRequest;
 use App\Models\Admin;
 use App\Http\Traits\DetailsCommonDataTrait;
 use App\Models\Role;
-use DB;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Traits\FileManagementTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -36,9 +36,13 @@ class AdminController extends Controller
 
         if ($request->ajax()) {
             $query = Admin::with(['creater_admin', 'role'])
-            ->orderBy('sort_order', 'asc')
-            ->latest();
+                ->orderBy('sort_order', 'asc')
+                ->latest();
             return DataTables::eloquent($query)
+
+                ->editColumn('first_name', function ($admin) {
+                    return $admin->full_name . ($admin->username ? " (" . $admin->username . ")" : "");
+                })
                 ->editColumn('role_id', function ($admin) {
                     return optional($admin->role)->name;
                 })
@@ -58,7 +62,7 @@ class AdminController extends Controller
                     $menuItems = $this->menuItems($admin);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['role_id', 'status', 'is_verify', 'created_by', 'created_at', 'action'])
+                ->rawColumns(['first_name', 'role_id', 'status', 'is_verify', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.admin_management.admin.index');
@@ -116,7 +120,9 @@ class AdminController extends Controller
         DB::transaction(function () use ($req) {
             try{
                 $validated= $req->validated();
+                $validated['role_id'] = $req->role;
                 $validated['created_by'] = admin()->id;
+
                 if (isset($req->image)) {
                     $validated['image'] = $this->handleFilepondFileUpload(Admin::class, $req->image, admin(), 'admins/');
                 }
@@ -126,7 +132,6 @@ class AdminController extends Controller
             } catch (\Throwable $e) {
                 session()->flash('error', 'Admin create failed!');
                 throw $e;
-
             }
         });
         return redirect()->route('am.admin.index');
@@ -159,13 +164,14 @@ class AdminController extends Controller
 
 
         DB::transaction(function () use ($req, $id) {
-            try{
+            try {
                 $admin = Admin::findOrFail(decrypt($id));
-                $validated= $req->validated();
+                $validated = $req->validated();
                 $validated['password'] = ($req->password ? $req->password : $admin->password);
                 if (isset($req->image)) {
                     $validated['image'] = $this->handleFilepondFileUpload($admin, $req->image, admin(), 'admins/');
                 }
+                $validated['role_id'] = $req->role;
                 $validated['updated_by'] = admin()->id;
                 $admin->update($validated);
                 $admin->syncRoles($admin->role->name);
@@ -173,7 +179,6 @@ class AdminController extends Controller
             } catch (\Throwable $e) {
                 session()->flash('error', 'Admin update failed!');
                 throw $e;
-
             }
         });
         return redirect()->route('am.admin.index');
@@ -202,7 +207,7 @@ class AdminController extends Controller
             session()->flash('error', 'Can not change Super Admin status!');
             return redirect()->route('am.admin.index');
         }
-        $admin->update(['status' => !$admin->status, 'updated_by'=> admin()->id]);
+        $admin->update(['status' => !$admin->status, 'updated_by' => admin()->id]);
         session()->flash('success', 'Admin status updated successfully!');
         return redirect()->route('am.admin.index');
     }
