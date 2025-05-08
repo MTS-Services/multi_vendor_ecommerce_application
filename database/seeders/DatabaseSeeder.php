@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             SubCategorySeeder::class,
 
             CountrySeeder::class,
+            BannerSeeder::class,
             StateSeeder::class,
             CitySeeder::class,
 

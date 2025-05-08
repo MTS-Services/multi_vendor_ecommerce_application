@@ -19,8 +19,10 @@ use App\Http\Controllers\Backend\Admin\AdminManagement\PermissionController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\CategoryController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\SubCategoryController;
 use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginController;
+use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
+use App\Models\Banner;
 
 // Admin Auth Routes
 Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')->group(function () {
@@ -94,6 +96,12 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         // Operation Sub Area Routes
         Route::resource('operation-sub-area', OperationSubAreaController::class);
         Route::get('operation-sub-area/status/{operation_sub_area}', [OperationSubAreaController::class, 'status'])->name('operation-sub-area.status');
+    });
+
+     // CMS Management
+     Route::group(['as' => 'cms.', 'prefix' => 'cms-management'], function () {
+        Route::resource('banner', BannerController::class);
+        Route::get('banner/status/{banner}', [BannerController::class, 'status'])->name('banner.status');
     });
 
     // Product Management

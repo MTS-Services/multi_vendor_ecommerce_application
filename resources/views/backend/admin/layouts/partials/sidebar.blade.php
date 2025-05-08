@@ -158,6 +158,23 @@
                     </div>
 
                 </li>
+                <li class="nav-item  @if ($page_slug == 'banner' || $page_slug == 'banner_package') active submenu @endif">
+                    <a data-bs-toggle="collapse" href="#banner_management"
+                        @if ($page_slug == 'seller') aria-expanded="true" @endif>
+                        <i class="icon-people"></i>
+                        <p>{{ __('CMS Management') }}</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse @if ($page_slug == 'banner' || $page_slug == 'banner_package') show @endif" id="banner_management">
+                        <ul class="nav nav-collapse">
+                            <li class="@if ($page_slug == 'banner') active @endif">
+                                <a href="{{ route('cms.banner.index') }}">
+                                    <span class="sub-item">{{ __('Banner') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
                 <li class="nav-item  @if ($page_slug == 'audits') active @endif">
                     <a href="{{ route('audit.index') }}">
