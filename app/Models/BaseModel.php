@@ -54,27 +54,26 @@ class BaseModel extends Model
     // Accessor for creater
     public function getCreaterNameAttribute()
     {
-        return optional($this->creater_admin)->name
-            ?? optional($this->creater)->name
+        return $this->creater_admin?->full_name
+            ?? $this->creater?->full_name
             ?? "System Generate";
     }
 
     // Accessor for updater
     public function getUpdaterNameAttribute()
     {
-        return optional($this->updater_admin)->name
-            ?? optional($this->updater)->name
+        return $this->updater_admin?->full_name
+            ?? $this->updater?->full_name
             ?? "Null";
     }
 
     // Accessor for deleter
     public function getDeleterNameAttribute()
     {
-        return optional($this->deleter_admin)->name
-            ?? optional($this->deleter)->name
+        return $this->deleter_admin?->full_name
+            ?? $this->deleter?->full_name
             ?? "Null";
     }
-
 
     // Accessor for created time
     public function getCreatedAtFormattedAttribute()
