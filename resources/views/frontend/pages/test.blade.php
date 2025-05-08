@@ -6,6 +6,8 @@
     <div class="container">
         <h1 class=" text-text-danger dark:text-text-white">Home</h1>
 
+        <button onclick="userLogin.showModal()">Login</button>
+
         <button class="btn-primary">Click Me <i data-lucide="user"></i></button>
         <button class="btn-secondary">Click Me</button>
         <button class="btn-paginate">1</button>
