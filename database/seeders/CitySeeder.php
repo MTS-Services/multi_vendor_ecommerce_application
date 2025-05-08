@@ -15,15 +15,14 @@ class CitySeeder extends Seeder
     public function run(): void
     {
         City::create([
-            'parent_id' => 1,
-            'parent_type' => "App\Models\State",
+            'country_id' => 4,
+            'state_id' => 1,
             'name' => 'Huntsville',
             'slug' => 'huntsville',
         ]);
 
         City::create([
-            'parent_id' => 1,
-            'parent_type' => "App\Models\Country",
+            'country_id' => 1,
             'name' => 'Dhaka',
             'slug' => 'dhaka',
         ]);

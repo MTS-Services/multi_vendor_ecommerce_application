@@ -1,15 +1,15 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'city'])
-@section('title', 'City List')
+@extends('backend.admin.layouts.master', ['page_slug' => 'operation_area'])
+@section('title', 'Operation Area List')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('City List') }}</h4>
+                    <h4 class="cart-title">{{ __('Operation Area List') }}</h4>
                     <x-backend.admin.button :datas="[
-                        'routeName' => 'setup.city.create',
+                        'routeName' => 'setup.operation-area.create',
                         'label' => 'Add New',
-                        'permissions' => ['city-create'],
+                        'permissions' => ['operation-area-create'],
                     ]" />
                 </div>
                 <div class="card-body">
@@ -18,6 +18,7 @@
                             <tr>
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Country') }}</th>
+                                <th>{{ __('City') }}</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Created By') }}</th>
@@ -42,6 +43,7 @@
         $(document).ready(function() {
             let table_columns = [
                 ['country_id', true, true],
+                ['city_id', true, true],
                 ['name', true, true],
                 ['status', true, true],
                 ['created_by', true, true],
@@ -52,10 +54,10 @@
                 table_columns: table_columns,
                 main_class: '.datatable',
                 displayLength: 10,
-                main_route: "{{ route('setup.city.index') }}",
+                main_route: "{{ route('setup.operation-area.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4,5],
-                model: 'City',
+                export_columns: [0, 1, 2, 3, 4, 5, 6],
+                model: 'OperationArea',
             };
             initializeDataTable(details);
         })
@@ -68,7 +70,7 @@
 
         $(document).on("click", ".view", function() {
             let id = $(this).data("id");
-            let route = "{{ route('setup.city.show', ['id']) }}";
+            let route = "{{ route('setup.operation-area.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
             const headers = [
                     {
@@ -78,6 +80,10 @@
                     {
                         label: "State",
                         key: "state_name"
+                    },
+                    {
+                        label: "City",
+                        key: "city_name"
                     },
                     {
                         label: "Name",
