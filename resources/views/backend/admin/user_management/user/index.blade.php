@@ -47,11 +47,11 @@
         $(document).ready(function() {
             let table_columns = [
                 //name and data, orderable, searchable
-                ['name', true, true],
+                ['first_name', true, true],
                 ['email', true, true],
                 ['status', true, true],
                 ['is_verify', true, true],
-                ['created_by', true, true],
+                ['creater_id', true, true],
                 ['created_at', false, false],
                 ['action', false, false],
             ];
@@ -77,9 +77,14 @@
             let id = $(this).data("id");
             let route = "{{ route('um.user.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
-            const headers = [{
-                    label: "Name",
-                    key: "name"
+            const headers = [
+                {
+                    label: "First Name",
+                    key: "first_name"
+                },
+                {
+                    label: "Last Name",
+                    key: "last_name"
                 },
                 {
                     label: "Username",
@@ -93,6 +98,10 @@
                 {
                     label: "Email",
                     key: "email"
+                },
+                {
+                    label: "Phone Number",
+                    key: "phone"
                 },
                 {
                     label: "Status",

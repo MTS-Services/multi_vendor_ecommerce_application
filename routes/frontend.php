@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\AuthController as FrontendAuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\FrontendController;
 
@@ -12,6 +13,7 @@ Route::group(['as' => 'frontend.'], function () {
 
   // Test Page
   Route::get('/test', [FrontendController::class, 'test'])->name('test');
-  Route::get('/index', [FrontendController::class, 'index'])->name('register');
-
 });
+
+
+Route::get('/t', [FrontendAuthController::class, 't'])->name('t');

@@ -34,7 +34,7 @@
         </div>
     </div>
     {{-- Admin Details Modal  --}}
-    <x-backend.admin.details-modal :datas="['modal_title' => 'Seller Details']" />
+    <x-backend.admin.details-modal :datas="['modal_title' => 'Banner Details']" />
 @endsection
 @push('js')
     {{-- Datatable Scripts --}}

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
@@ -28,5 +29,14 @@ class ResetPasswordController extends Controller
     protected function redirectTo()
     {
         return route('user.profile');
+    }
+
+    public function showResetForm(Request $request)
+    {
+        $token = $request->route()->parameter('token');
+
+        return view('frontend.auth.user.reset')->with(
+            ['token' => $token, 'email' => $request->email]
+        );
     }
 }

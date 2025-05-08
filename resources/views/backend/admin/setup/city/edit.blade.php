@@ -21,7 +21,7 @@
                             <select name="country" id="country" class="form-control">
                                 <option value="" selected hidden>{{__('Select Country')}}</option>
                                 @foreach ($countries as $country)
-                                    <option value="{{$country->id}}" {{ ((isset(optional($city->parent)->country) ? $city->parent->country_id : $city->parent_id) == $country->id) ? 'selected' : ''}}>{{ $country->name }}</option>
+                                    <option value="{{$country->id}}" {{ $city->country_id == $country->id ? 'selected' : ''}}>{{ $country->name }}</option>
                                 @endforeach
                             </select>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'country']" />
@@ -69,7 +69,7 @@
         // Get Country States By Axios
         $(document).ready(function() {
             let route = "{{ route('setup.axios.get-states') }}";
-            getStates($('#country').val(), route, `{{$city->parent_id}}`);
+            getStates($('#country').val(), route, `{{$city->state_id}}`);
             $('#country').on('change', function () {
                 getStates($(this).val(), route);
             });

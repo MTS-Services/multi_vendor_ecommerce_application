@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\OfferBanner;
 use App\Models\Role;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -35,6 +36,11 @@ class DatabaseSeeder extends Seeder
             CitySeeder::class,
 
             ProductAttributeSeeder::class,
+            OperationAreaSeeder::class,
+            OperationSubAreaSeeder::class,
+
+            OfferBannerSeeder::class,
+            BrandSeeder::class,
         ]);
     }
 }

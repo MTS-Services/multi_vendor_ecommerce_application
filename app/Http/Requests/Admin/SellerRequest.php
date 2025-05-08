@@ -23,7 +23,8 @@ class SellerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:50',
+            'first_name' => 'required|string|max:50',
+            'last_name' => 'required|string|max:50',
             ]
             +
             ($this->isMethod('POST') ? $this->store() : $this->update());
@@ -31,7 +32,6 @@ class SellerRequest extends FormRequest
     protected function store(): array
     {
         return [
-            'username' => 'nullable|string|unique:sellers,username|max:20',
             'email' => 'required|unique:sellers,email',
             'password' => 'required|min:6|confirmed',
         ];
@@ -41,7 +41,6 @@ class SellerRequest extends FormRequest
     protected function update(): array
     {
         return [
-            'username' => 'nullable|string|unique:sellers,username|max:20,'. decrypt($this->route('seller')),
             'email' => 'required|unique:sellers,email,' . decrypt($this->route('seller')),
             'password' => 'nullable|min:6|confirmed',
         ];
