@@ -60,7 +60,7 @@
             <div class="swiper-slide">
                 <div class="bg-bg-danger dark:bg-bg-accent/20">
                     <div class="container ">
-                        <div class="flex-row flex items-center gap-8 justify-between">
+                        <div class="flex-row flex items-center  justify-between">
                             <div class="text">
                                 <p class="text-xs md:text-base">{{ __('APPLE WATCHES COLLECTION') }}</p>
                                 <h2 class="sm:text-xl text-lg lg:text-2xl xl:text-6xl md:py-4 py-1 ">{{ __('Sale up to') }}

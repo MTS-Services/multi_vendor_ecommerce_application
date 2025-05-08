@@ -85,7 +85,7 @@
 @section('content')
     <section id="carousel">
         <div class="container">
-            <div class="carousel_section flex md:flex-row flex-col gap-x-4">
+            <div class="carousel_section flex md:flex-row flex-col gap-5">
                 <div class="slider_side flex w-1/2">
                     {{-- Thumbnails --}}
                     <div class="w-1/5 mr-4">
@@ -123,7 +123,7 @@
                 </div>
                 {{-- product details  side --}}
                 <div class="product_side w-1/2 mt-6 md:mt-0">
-                    <h1 class="text-3xl font-bold mb-2">{{ __('Ice: Small') }}</h1>
+                    <h1 class="text-3xl font-bold mb-2">{{ __('Turtleneck T-shirt') }}</h1>
                     <div class="flex items-center mb-3">
                         <div class="flex space-x-1 text-text-danger md:py-3 py-1">
                             <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
@@ -136,73 +136,120 @@
                     </div>
 
                     <div class="mb-6">
-                        <p class="text-2xl font-bold text-gray-900">{{ __('$100.00-$120.00') }}</p>
-                        <p class="text-sm">{{ __('Tax included. Shipping calculated at checkout.') }}</p>
+                        <p class="text-2xl font-bold "><span
+                                class="text-text-danger">{{ __('$100.00') }}</span>-{{ '$120.00' }}</p>
+                        <p class="flex items-center text-sm mt-3"><i data-lucide="flame"
+                                class="w-7 h-7 text-text-danger dark:text-text-gray"></i>
+                            {{ __('30 sold in last 24 hours') }}</p>
                     </div>
-
+                    {{-- Size Change --}}
                     <div class="mb-6">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-2">{{ __('Size') }}</h3>
+                        <!-- Dynamic Size Label -->
+                        <h3 id="selected-size" class="text-base font-semibold mb-2">
+                            {{ __('Size') }}:<span class="semibold text-lg">{{ __('Small') }}</span>
+                        </h3>
+
+                        <!-- Size Buttons -->
                         <div class="flex flex-wrap gap-2">
-                            <button class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">{{ __('S') }}</button>
-                            <button class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">{{ __('M') }}</button>
-                            <button class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">{{ __('L') }}</button>
+                            <button data-label="Small"
+                                class="size-btn w-14 h-14 border rounded-full text-base font-medium flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                {{ __('S') }}
+                            </button>
+                            <button data-label="Medium"
+                                class="size-btn w-14 h-14 border rounded-full text-base font-medium flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                {{ __('M') }}
+                            </button>
+                            <button data-label="Large"
+                                class="size-btn w-14 h-14 border rounded-full text-base font-medium flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                {{ __('L') }}
+                            </button>
+                            <button data-label="Extra Large"
+                                class="size-btn w-14 h-14 border rounded-full text-base font-medium flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                {{ __('XL') }}
+                            </button>
                         </div>
-                        <a href="#" class="text-sm mt-2 inline-block">{{ __('Size Guide') }}</a>
+
                     </div>
 
+                    {{-- quantity and add to cart --}}
                     <div class="mb-8">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-2">{{ __('Quantity') }}</h3>
-                        <div class="flex">
-                            <button class="p-2 border border-gray-300 rounded-l-md">
-                                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
-                                </svg>
-                            </button>
-                            <input type="number" min="1" value="1"
-                                class="p-2 w-16 text-center border-t border-b border-gray-300 focus:outline-none focus:ring-0">
-                            <button class="p-2 border border-gray-300 rounded-r-md">
-                                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+                        <div class="flex flex-wrap gap-3 items-center">
+                            <!-- Quantity Controls -->
+                            <div class="flex items-center border rounded-full overflow-hidden bg-bg-dark/10 dark:bg-bg-white/10 px-5 py-2">
+                                <button class=" quantity-decrease">
+                                    <i data-lucide="minus" class="w-4 h-4 hover:text-text-danger"></i>
+                                </button>
+                                <input type="text" min="1" value="1"
+                                    class="w-12 text-center py-1 bg-transparent focus:outline-none" id="quantity-input" />
+                                <button class=" quantity-increase">
+                                    <i data-lucide="plus" class="w-4 h-4 hover:text-text-danger"></i>
+                                </button>
+                            </div>
 
-                    <div class="flex flex-col gap-3 mb-6">
-                        <button class="w-full py-3 px-4 bg-black text-white font-medium rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800">
-                            {{ __('Add to cart') }}
-                        </button>
-                        <button class="w-full py-3 px-4 bg-pink-200 text-pink-600 font-medium rounded-md hover:bg-pink-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500">
+                            <!-- Add to Cart Button -->
+                            <button class="flex-1 px-5 py-3  btn-primary text-text-white font-medium rounded-full  ">
+                                {{ __('Add to cart') }}
+                            </button>
+
+                        </div>
+                        <button class="w-full py-3 px-4 mt-4 btn-secondary ">
                             {{ __('Buy it now') }}
                         </button>
                     </div>
 
-                    <div class="mb-6 flex gap-4">
-                        <a href="#" class="text-sm text-gray-600 hover:text-gray-900">{{ __('More payment options') }}</a>
-                        <a href="#" class="text-sm text-gray-600 hover:text-gray-900">{{ __('Add to wishlist') }}</a>
-                        <a href="#" class="text-sm text-gray-600 hover:text-gray-900">{{ __('Add to Compare') }}</a>
-                    </div>
+                    {{-- Payment System --}}
+                    <div>
+                        <p class="text-center text-sm mb-3"><a href="#"
+                                class="underline hover:text-text-danger">{{ __('More payment options') }}</a></p>
+                        <div class="mb-6 flex flex-wrap justify-center gap-6 text-sm ">
+                            <a href="#"
+                                class="flex text-base items-center gap-2 hover:text-text-danger transiction-ll">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                {{ __('Remove from wishlist') }}
+                            </a>
 
-                    <div class="mb-6 !mx-auto text-center">
-                        <h3 class="text-sm font-semibold text-gray-900 mb-2">{{ __('Guarantee Safe Checkout:') }}</h3>
-                        <div class="flex gap-2 mx-auto">
-                            <img src="{{ asset('frontend/images/footer_bank_logos (2).png') }}" alt="{{ __('Vietcombank') }}"
-                             class="h-7" />
-                            <img src="{{ asset('frontend/images/footer_bank_logos (1).png') }}" alt="{{ __('Eximbank') }}"
-                                class="h-7" />
-                            <img src="{{ asset('frontend/images/footer_bank_logos (11).png') }}" alt="{{ __('Pay') }}"
-                                class="h-7" />
-                            <img src="{{ asset('frontend/images/footer_bank_logos (3).png') }}" alt="{{ __('Techcombank') }}"
-                                class="h-7" />
-                            <img src="{{ asset('frontend/images/footer_bank_logos (4).png') }}" alt="{{ __('Vietinbank') }}"
-                                class="h-7" />
-                            <img src="{{ asset('frontend/images/footer_bank_logos (5).png') }}" alt="{{ __('BIDV') }}"
-                                class="h-7" />
-                            <img src="{{ asset('frontend/images/footer_bank_logos (6).png') }}" alt="{{ __('Sacombank') }}"
-                                class="h-7" />
+                            <a href="#"
+                                class="flex text-base items-center gap-2 hover:text-text-danger transiction-ll">
+                                <i data-lucide="stretch-horizontal" class="w-4 h-4"></i>
+                                {{ __('Already compared') }}
+                            </a>
+
+                            <a href="#"
+                                class="flex text-base items-center gap-2 hover:text-text-danger transiction-ll">
+                                <i data-lucide="help-circle" class="w-4 h-4"></i>
+                                {{ __('Ask a question') }}
+                            </a>
+
+                            <a href="#"
+                                class="flex text-base items-center gap-2 hover:text-text-danger transiction-ll">
+                                <i data-lucide="share-2" class="w-4 h-4"></i>
+                                {{ __('Share') }}
+                            </a>
                         </div>
-                    </div>
+                        <div class="mb-6 text-center">
+                            <h3 class="text-sm font-semibold text-text-gray dark:text-text-gray mb-2">
+                                {{ __('Guarantee Safe Checkout:') }}
+                            </h3>
+                            <div class="flex justify-center gap-4 flex-wrap">
+                                <img src="{{ asset('frontend/images/footer_bank_logos (2).png') }}"
+                                    alt="{{ __('Vietcombank') }}" class="h-7 border" />
+                                <img src="{{ asset('frontend/images/footer_bank_logos (1).png') }}"
+                                    alt="{{ __('Eximbank') }}" class="h-7 border" />
+                                <img src="{{ asset('frontend/images/footer_bank_logos (11).png') }}"
+                                    alt="{{ __('Pay') }}" class="h-7 border" />
+                                <img src="{{ asset('frontend/images/footer_bank_logos (3).png') }}"
+                                    alt="{{ __('Techcombank') }}" class="h-7 border" />
+                                <img src="{{ asset('frontend/images/footer_bank_logos (4).png') }}"
+                                    alt="{{ __('Vietinbank') }}" class="h-7 border" />
+                                <img src="{{ asset('frontend/images/footer_bank_logos (5).png') }}"
+                                    alt="{{ __('BIDV') }}" class="h-7 border" />
+                                <img src="{{ asset('frontend/images/footer_bank_logos (6).png') }}"
+                                    alt="{{ __('Sacombank') }}" class="h-7 border" />
+                            </div>
+                        </div>
 
+                    </div>
+                    {{-- delivery --}}
                     <div class="mb-6 space-y-2 flex justify-around mx-auto border p-6 rounded-2xl py-6">
                         <!-- Estimated Delivery Time -->
                         <div class="flex items-center border-r pr-14">
@@ -231,10 +278,11 @@
                                 <input type="checkbox"
                                     class="mr-3 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
                                 <div class="flex items-start w-full gap-3">
-                                    <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="{{ __('AirPod Pro Black') }}"
-                                        class="w-40 h-60 object-cover rounded mr-3">
+                                    <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}"
+                                        alt="{{ __('AirPod Pro Black') }}" class="w-40 h-60 object-cover rounded mr-3">
                                     <div>
-                                        <p class="text-base font-medium text-gray-900">{{ __('Single Breasted Blazer') }}</p>
+                                        <p class="text-base font-medium text-gray-900">{{ __('Single Breasted Blazer') }}
+                                        </p>
                                         <p class="text-sm py-2">
                                             <span class="text-text-danger">{{ __('$100.00') }}</span>
                                             <span class="line-through ml-1">{{ __('$120.00') }}</span>
@@ -259,10 +307,11 @@
                                 <input type="checkbox"
                                     class="mr-3 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
                                 <div class="flex items-start w-full gap-3">
-                                    <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="{{ __('AirPod Pro Black') }}"
-                                        class="w-40 h-60 object-cover rounded mr-3">
+                                    <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}"
+                                        alt="{{ __('AirPod Pro Black') }}" class="w-40 h-60 object-cover rounded mr-3">
                                     <div>
-                                        <p class="text-base font-medium text-gray-900">{{ __('Single Breasted Blazer') }}</p>
+                                        <p class="text-base font-medium text-gray-900">{{ __('Single Breasted Blazer') }}
+                                        </p>
                                         <p class="text-sm py-2">
                                             <span class="text-text-danger">{{ __('$100.00') }}</span>
                                             <span class="line-through ml-1">{{ __('$120.00') }}</span>
@@ -287,10 +336,11 @@
                                 <input type="checkbox"
                                     class="mr-3 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
                                 <div class="flex items-start w-full gap-3">
-                                    <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}" alt="{{ __('AirPod Pro Black') }}"
-                                        class="w-40 h-60 object-cover rounded mr-3">
+                                    <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}"
+                                        alt="{{ __('AirPod Pro Black') }}" class="w-40 h-60 object-cover rounded mr-3">
                                     <div>
-                                        <p class="text-base font-medium text-gray-900">{{ __('Single Breasted Blazer') }}</p>
+                                        <p class="text-base font-medium text-gray-900">{{ __('Single Breasted Blazer') }}
+                                        </p>
                                         <p class="text-sm py-2">
                                             <span class="text-text-danger">{{ __('$100.00') }}</span>
                                             <span class="line-through ml-1">{{ __('$120.00') }}</span>
@@ -313,7 +363,8 @@
                             </div>
                         </div>
                         <div class="mt-4 border-gray-200 pt-4">
-                            <p class="text-sm font-semibold text-gray-900 pb-2">{{ __('Total price: $100.00 USD $120.00 USD') }}</p>
+                            <p class="text-sm font-semibold text-gray-900 pb-2">
+                                {{ __('Total price: $100.00 USD $120.00 USD') }}</p>
                             <button class="w-full btn-secondary !px-6">{{ __('Add selected to cart') }}</button>
                         </div>
                     </div>
@@ -390,6 +441,35 @@
                 zoomResult.style.display = 'none';
                 lens.style.display = 'none';
                 zoomResult.style.backgroundImage = '';
+            });
+        });
+        // increase decrease quantity
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('quantity-input');
+            const increaseBtn = document.querySelector('.quantity-increase');
+            const decreaseBtn = document.querySelector('.quantity-decrease');
+
+            increaseBtn.addEventListener('click', () => {
+                input.value = parseInt(input.value) + 1;
+            });
+
+            decreaseBtn.addEventListener('click', () => {
+                let value = parseInt(input.value);
+                if (value > 1) {
+                    input.value = value - 1;
+                }
+            });
+        });
+        // sizee change
+        document.addEventListener('DOMContentLoaded', () => {
+            const sizeButtons = document.querySelectorAll('.size-btn');
+            const sizeLabel = document.getElementById('selected-size');
+
+            sizeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const label = button.getAttribute('data-label');
+                    sizeLabel.textContent = `Size: ${label}`;
+                });
             });
         });
     </script>
