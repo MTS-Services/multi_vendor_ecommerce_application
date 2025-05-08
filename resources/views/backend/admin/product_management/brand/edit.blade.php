@@ -8,13 +8,13 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="cart-title">{{ __('Edit Brand') }}</h4>
                 <x-backend.admin.button :datas="[
-                        'routeName' => 'setup.brand.index',
+                        'routeName' => 'pm.brand.index',
                         'label' => 'Back',
                         'permissions' => ['brand-list'],
                     ]" />
             </div>
             <div class="card-body">
-                <form action="{{ route('setup.brand.update', encrypt($brand->id)) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('pm.brand.update', encrypt($brand->id)) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -75,6 +75,7 @@
 </div>
 @endsection
 @push('js')
+<script src="{{ asset('ckEditor5/main.js') }}"></script>
 {{-- FilePond  --}}
 <script src="{{ asset('filepond/filepond.js') }}"></script>
 <script>

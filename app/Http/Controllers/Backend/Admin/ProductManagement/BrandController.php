@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Admin\Setup;
+namespace App\Http\Controllers\Backend\Admin\ProductManagement;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Setup\BrandRequest;
 use App\Http\Traits\FileManagementTrait;
 use App\Models\Brand;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\RedirectResponse as HttpFoundationRedirectResponse;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -46,7 +43,7 @@ class BrandController extends Controller
                 ->editColumn('is_featured', function ($brand) {
                     return "<span class='badge " . $brand->featured_color . "'>$brand->featured_label</span>";
                 })
-                ->editColumn('created_by', function ($brand) {
+                ->editColumn('creater_id', function ($brand) {
                     return $brand->creater_name;
                 })
                 ->editColumn('created_at', function ($brand) {
@@ -56,10 +53,10 @@ class BrandController extends Controller
                     $menuItems = $this->menuItems($brand);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'is_featured', 'created_by', 'created_at', 'action'])
+                ->rawColumns(['status', 'is_featured', 'creater_id', 'created_at', 'action'])
                 ->make(true);
         }
-        return view('backend.admin.setup.brand.index');
+        return view('backend.admin.product_management.brand.index');
     }
 
     protected function menuItems($model): array
@@ -73,25 +70,25 @@ class BrandController extends Controller
                 'permissions' => ['brand-details']
             ],
             [
-                'routeName' => 'setup.brand.edit',
+                'routeName' => 'pm.brand.edit',
                 'params' => [encrypt($model->id)],
                 'label' => 'Edit',
                 'permissions' => ['brand-edit']
             ],
             [
-                'routeName' => 'setup.brand.status',
+                'routeName' => 'pm.brand.status',
                 'params' => [encrypt($model->id)],
                 'label' => $model->status_btn_label,
                 'permissions' => ['brand-status']
             ],
             [
-                'routeName' => 'setup.brand.feature',
+                'routeName' => 'pm.brand.feature',
                 'params' => [encrypt($model->id)],
                 'label' => $model->featured_btn_label,
                 'permissions' => ['brand-feature']
             ],
             [
-                'routeName' => 'setup.brand.destroy',
+                'routeName' => 'pm.brand.destroy',
                 'params' => [encrypt($model->id)],
                 'label' => 'Delete',
                 'delete' => true,
@@ -106,7 +103,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        return view('backend.admin.setup.brand.create');
+        return view('backend.admin.product_management.brand.create');
     }
 
     /**
@@ -122,7 +119,7 @@ class BrandController extends Controller
         }
         Brand::create($validated);
         session()->flash('success', 'Brand created successfully!');
-        return redirect()->route('setup.brand.index');
+        return redirect()->route('pm.brand.index');
     }
 
     /**
@@ -140,7 +137,7 @@ class BrandController extends Controller
     public function edit(string $id)
     {
         $brand = Brand::findOrFail(decrypt($id));
-        return view('backend.admin.setup.brand.edit', compact('brand'));
+        return view('backend.admin.product_management.brand.edit', compact('brand'));
     }
 
     /**
@@ -157,7 +154,7 @@ class BrandController extends Controller
         }
         $brand->update($validated);
         session()->flash('success', 'Brabd updated successfully!');
-        return redirect()->route('setup.brand.index');
+        return redirect()->route('pm.brand.index');
     }
 
     /**
@@ -174,7 +171,7 @@ class BrandController extends Controller
 
         $brand->delete();
 
-        return redirect()->route('setup.brand.index')->with('success', 'Brand deleted successfully!');
+        return redirect()->route('pm.brand.index')->with('success', 'Brand deleted successfully!');
     }
 
 
@@ -183,7 +180,7 @@ class BrandController extends Controller
         $brand = Brand::findOrFail(decrypt($id));
         $brand->update(['status' => !$brand->status, 'updated_by' => admin()->id]);
         session()->flash('success', 'Brand status updated successfully!');
-        return redirect()->route('setup.brand.index');
+        return redirect()->route('pm.brand.index');
     }
 
     public function feature($id): HttpFoundationRedirectResponse
@@ -191,6 +188,6 @@ class BrandController extends Controller
         $brand = Brand::findOrFail(decrypt($id));
         $brand->update(['is_featured' => !$brand->featured, 'updated_by' => admin()->id]);
         session()->flash('success', 'Brand featured updated successfully!');
-        return redirect()->route('setup.brand.index');
+        return redirect()->route('pm.brand.index');
     }
 }
