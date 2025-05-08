@@ -44,7 +44,7 @@
         $(document).ready(function() {
             let table_columns = [
 
-                ['name', true, true],
+                ['first_name', true, true],
                 ['email', true, true],
                 ['status', true, true],
                 ['is_verify', true, true],

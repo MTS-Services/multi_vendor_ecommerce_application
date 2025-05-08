@@ -40,30 +40,6 @@
     <link rel="stylesheet" href="{{ asset('backend/admin/assets/css/kaiadmin.min.css') }}" />
     {{-- Custom CSS   --}}
     <link rel="stylesheet" href="{{ asset('backend/admin/css/custom.css') }}">
-
-    <style>
-        .showpassword {
-            position: absolute;
-            right: 10px;
-            bottom: 10px;
-            cursor: pointer;
-            border: none;
-            background: #00000080;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            transition: all 0.3s linear;
-        }
-
-        .showpassword:hover {
-            background: #000000cc;
-        }
-    </style>
-
     @stack('css')
 
     <!-- Scripts -->
@@ -115,7 +91,6 @@
 <!-- Kaiadmin JS -->
 <script src="{{ asset('backend/admin/assets/js/kaiadmin.min.js') }}"></script>
 @stack('js_links')
-<script src="{{ asset('frontend/js/password.js') }}"></script>
 <script src="{{ asset('backend/admin/js/functions.js') }}"></script>
 <script src="{{ asset('backend/admin/js/custom.js') }}"></script>
 @stack('js')

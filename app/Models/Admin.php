@@ -51,27 +51,15 @@ class Admin extends AuthBaseModel implements Auditable
     protected function casts(): array
     {
         return [
+            'created_by' => 'integer',
+            'updated_by' => 'integer',
+            'deleted_by' => 'integer',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'status' => 'integer',
             'is_verify' => 'integer',
             'username' => 'string',
         ];
-    }
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->appends = array_merge(parent::getAppends(), [
-
-            'status_label',
-            'status_color',
-            'status_btn_label',
-            'status_btn_color',
-            'status_labels',
-
-            'modified_image',
-        ]);
     }
 
     public function role()
