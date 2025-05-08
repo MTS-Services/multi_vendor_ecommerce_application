@@ -1,11 +1,11 @@
 <?php
 
+use App\Models\State;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Traits\AuditColumnsTrait;
-use App\Models\Country;
 
 return new class extends Migration
 {
@@ -15,25 +15,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('countries', function (Blueprint $table) {
+        Schema::create('states', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('sort_order')->default(0);
+            $table->unsignedBigInteger('country_id');
             $table->string("name")->unique();
             $table->string("slug")->unique();
+            $table->string("code")->nullable();
             $table->longText("description")->nullable();
-            $table->boolean('status')->default(Country::STATUS_ACTIVE)->comment(Country::STATUS_ACTIVE . ': Active, ' . Country::STATUS_DEACTIVE . ': Inactive');
+            $table->boolean('status')->default(State::STATUS_ACTIVE)->comment(State::STATUS_ACTIVE . ': Active, ' . State::STATUS_DEACTIVE . ': Inactive');
             $table->timestamps();
             $table->softDeletes();
             $this->addAdminAuditColumns($table);
 
-            // Indexes
-            $table->index('sort_order');
-            $table->index('name');
-            $table->index('slug');
-            $table->index('status');
-            $table->index('created_at');
-            $table->index('updated_at');
-            $table->index('deleted_at');
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -42,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('countries');
+        Schema::dropIfExists('states');
     }
 };

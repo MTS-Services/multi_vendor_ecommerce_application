@@ -43,13 +43,13 @@ return new class extends Migration
 
             // Indexes
             $table->index('sort_order');
-            $table->index('email'); // Index for email (unique constraint already exists)
-            $table->index('status'); // Index for status (frequently filtered)
-            $table->index('is_verify'); // Index for email verification status
-            $table->index('gender'); // Index for gender (optional, if queried often)
-            $table->index('created_at'); // Index for soft deletes
-            $table->index('updated_at'); // Index for soft deletes
-            $table->index('deleted_at'); // Index for soft deletes
+            $table->index('email');
+            $table->index('status');
+            $table->index('is_verify');
+            $table->index('gender');
+            $table->index('created_at');
+            $table->index('updated_at');
+            $table->index('deleted_at');
         });
     }
 

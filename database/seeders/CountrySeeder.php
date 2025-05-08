@@ -25,5 +25,9 @@ class CountrySeeder extends Seeder
             'name' => 'Pakistan',
             'slug' => 'pakistan',
         ]);
+        Country::create([
+            'name' => 'United States',
+            'slug' => 'united-states',
+        ]);
     }
 }
