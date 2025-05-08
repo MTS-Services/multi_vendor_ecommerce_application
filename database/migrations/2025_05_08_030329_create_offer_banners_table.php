@@ -5,6 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Traits\AuditColumnsTrait;
+use App\Models\OfferBanner;
 
 return new class extends Migration
 {
@@ -16,7 +17,17 @@ return new class extends Migration
     {
         Schema::create('offer_banners', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('sort_order')->default(0);
+            $table->string('title');
+            $table->string('subtitle');
+            $table->string('image');
+            $table->string('url');
+           $table->boolean('status')->default(OfferBanner::STATUS_ACTIVE)->comment(OfferBanner::STATUS_ACTIVE . ': Active, ' . OfferBanner::STATUS_DEACTIVE . ': Inactive');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
+            $table->softDeletes();
+            $this->addAdminAuditColumns($table);
         });
     }
 
