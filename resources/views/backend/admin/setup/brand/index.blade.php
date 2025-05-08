@@ -58,7 +58,7 @@
             main_class: '.datatable',
             displayLength: 10,
             main_route: "{{ route('setup.brand.index') }}",
-            order_route: "{{ route('update.sort.order') }}",
+            order_route: "{{ route('update.sort.order') }}", 
             export_columns: [0, 1, 2, 3, 4, 5],
             model: 'Brand',
         };

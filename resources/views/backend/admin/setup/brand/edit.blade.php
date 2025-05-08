@@ -75,15 +75,14 @@
 </div>
 @endsection
 @push('js')
-<script src="{{ asset('ckEditor5/main.js') }}"></script>
 {{-- FilePond  --}}
 <script src="{{ asset('filepond/filepond.js') }}"></script>
 <script>
         $(document).ready(function() {
             const existingFiles = {
-                "#image":"{{ $brand->modified_logo }}",
+                "#logo":"{{ $brand->modified_logo }}",
             };
-            file_upload(["#image"], "uploadImage", "admin", existingFiles, false);
+            file_upload(["#logo"], "uploadImage", "admin", existingFiles, false);
         });
     </script>
 {{-- FilePond  --}}

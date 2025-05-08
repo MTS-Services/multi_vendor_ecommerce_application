@@ -130,8 +130,8 @@ class BrandController extends Controller
      */
     public function show(string $id)
     {
-        $data = Brand::with(['creater_admin', 'updater_admin'])->findOrFail(decrypt($id));
-        return response()->json($data);
+        $brand = Brand::with(['creater_admin', 'updater_admin'])->findOrFail(decrypt($id));
+        return response()->json($brand);
     }
 
     /**
