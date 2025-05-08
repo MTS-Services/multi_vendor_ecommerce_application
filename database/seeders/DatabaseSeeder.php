@@ -34,6 +34,9 @@ class DatabaseSeeder extends Seeder
             BannerSeeder::class,
             StateSeeder::class,
             CitySeeder::class,
+            OperationAreaSeeder::class,
+            OperationSubAreaSeeder::class,
+
             OfferBannerSeeder::class,
         ]);
     }

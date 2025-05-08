@@ -5,16 +5,16 @@ namespace App\Models;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class State extends BaseModel
+class OperationArea extends BaseModel
 {
     protected $fillable = [
         'sort_order',
         'country_id',
+        'state_id',
+        'city_id',
         'name',
         'slug',
-        'code',
         'description',
         'status',
 
@@ -33,6 +33,8 @@ class State extends BaseModel
             'status_btn_color',
             'status_labels',
 
+            'city_name',
+            'state_name',
             'country_name',
         ]);
     }
@@ -120,35 +122,34 @@ class State extends BaseModel
         return $this->belongsTo(Country::class, 'country_id','id');
 
     }
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class, 'state_id','id');
+
+    }
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class, 'city_id','id');
+
+    }
     public function getCountryNameAttribute(): string|null
     {
-        return optional($this->country)->name;
+        return $this->country?->name;
     }
-
-    public function cities(): HasMany
+    public function getStateNameAttribute(): string|null
     {
-        return $this->hasMany(City::class,'state_id');
+        return $this->state?->name;
     }
-    public function operationAreas(): HasMany
+    public function getCityNameAttribute(): string|null
     {
-        return $this->hasMany(OperationArea::class,'state_id');
+        return $this->city?->name;
     }
     public function operationSubAreas(): HasMany
     {
-        return $this->hasMany(OperationSubArea::class,'state_id');
-    }
-    public function activeCities(): HasMany
-    {
-        return $this->cities()->active();
-    }
-    public function activeOperationAreas(): HasMany
-    {
-        return $this->operationAreas()->active();
+        return $this->hasMany(OperationSubArea::class,'city_id');
     }
     public function activeOperationSubAreas(): HasMany
     {
-        return $this->operationSubAreass()->active();
+        return $this->operationSubAreas()->active();
     }
-
-
 }
