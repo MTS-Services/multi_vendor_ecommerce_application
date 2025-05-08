@@ -35,17 +35,33 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>{{ __('Role') }} <span class="text-danger">*</span></label>
-                            <select name="role" class="form-control">
-                                <option value="" selected hidden>{{ __('Select Role') }}</option>
-                                @foreach ($roles as $role)
-                                    <option value="{{ $role->id }}"
-                                        {{ $admin->role_id == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
-                                @endforeach
-                            </select>
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'role']" />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{ __('Username') }}</label>
+                                    <input type="text" value="{{ $admin->username }}" name="username"
+                                        class="form-control username" placeholder="Enter username">
+                                    <span class="username-error invalid-feedback"></span>
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{ __('Role') }} <span class="text-danger">*</span></label>
+                                    <select name="role" class="form-control">
+                                        <option value="" selected hidden>{{ __('Select Role') }}</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}"
+                                                {{ $admin->role_id == $role->id ? 'selected' : '' }}>{{ $role->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'role']" />
+                                </div>
+                            </div>
                         </div>
+
                         <div class="form-group">
                             <label>{{ __('Image') }}</label>
                             <input type="file" accept="image/*" name="uploadImage" data-actualName="image"
@@ -95,6 +111,11 @@
                 "#image": "{{ $admin->modified_image }}",
             }
             file_upload(["#image"], "uploadImage", "admin", existingFiles, false);
+
+            // username validation
+            const username = $('.username');
+            const error = $('.username-error');
+            validateUsername(username, error);
         });
     </script>
     {{-- FilePond  --}}

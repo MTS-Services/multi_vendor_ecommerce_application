@@ -33,17 +33,33 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>{{ __('Role') }} <span class="text-danger">*</span></label>
-                            <select name="role" class="form-control">
-                                <option value="" selected hidden>{{ __('Select Role') }}</option>
-                                @foreach ($roles as $role)
-                                    <option value="{{ $role->id }}" {{ old('role') == $role->id ? 'selected' : '' }}>
-                                        {{ $role->name }}</option>
-                                @endforeach
-                            </select>
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'role']" />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{ __('Username') }}</label>
+                                    <input type="text" value="{{ old('username') }}" name="username"
+                                        class="form-control username" placeholder="Enter username">
+                                    <span class="username-error invalid-feedback"></span>
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{ __('Role') }} <span class="text-danger">*</span></label>
+                                    <select name="role" class="form-control">
+                                        <option value="" selected hidden>{{ __('Select Role') }}</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}"
+                                                {{ old('role') == $role->id ? 'selected' : '' }}>
+                                                {{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'role']" />
+                                </div>
+                            </div>
                         </div>
+
                         <div class="form-group">
                             <label>{{ __('Image') }}</label>
                             <input type="file" name="uploadImage" data-actualName="image" class="form-control filepond"
@@ -61,7 +77,7 @@
                                     <label>{{ __('Password') }} <span class="text-danger">*</span></label>
                                     <input type="password" name="password" class="form-control"
                                         placeholder="Enter password">
-                                    <button type="button" class="showpassword"><i class="fas fa-eye"></i></button>
+                                    <x-backend.show-password />
                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'password']" />
                                 </div>
                             </div>
@@ -70,7 +86,7 @@
                                     <label>{{ __('Confirm Password') }} <span class="text-danger">*</span></label>
                                     <input type="password" name="password_confirmation" class="form-control"
                                         placeholder="Enter confirm password">
-                                    <button type="button" class="showpassword"><i class="fas fa-eye"></i></button>
+                                    <x-backend.show-password />
                                 </div>
                             </div>
                         </div>
@@ -89,6 +105,11 @@
     <script>
         $(document).ready(function() {
             file_upload(["#image"], "uploadImage", "admin", [], false);
+
+            // username validation
+            const username = $('.username');
+            const error = $('.username-error');
+            validateUsername(username, error);
         });
     </script>
     {{-- FilePond  --}}

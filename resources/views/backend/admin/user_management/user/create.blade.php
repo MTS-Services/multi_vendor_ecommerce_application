@@ -15,16 +15,29 @@
                 <div class="card-body">
                     <form action="{{ route('um.user.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group">
-                            <label>{{ __('Name') }} <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ old('name') }}" name="name" class="form-control"
-                                placeholder="Enter name">
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{ __('First Name') }} <span class="text-danger">*</span></label>
+                                    <input type="text" value="{{ old('first_name') }}" name="first_name"
+                                        class="form-control" placeholder="Enter first name">
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'first_name']" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{ __('Last Name') }} <span class="text-danger">*</span></label>
+                                    <input type="text" value="{{ old('last_name') }}" name="last_name"
+                                        class="form-control" placeholder="Enter last name">
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'last_name']" />
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>{{ __('Username') }}</label>
-                            <input type="text" value="{{ old('username') }}" name="username" class="form-control"
-                                placeholder="Enter username">
+                            <input type="text" value="{{ old('username') }}" name="username"
+                                class="username form-control" placeholder="Enter username">
+                            <span class="username-error invalid-feedback"></span>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
                         </div>
                         <div class="form-group">
@@ -38,15 +51,24 @@
                             <input type="text" name="email" class="form-control" placeholder="Enter email">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
                         </div>
-                        <div class="form-group">
-                            <label>{{ __('Password') }} <span class="text-danger">*</span></label>
-                            <input type="password" name="password" class="form-control" placeholder="Enter password">
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'password']" />
-                        </div>
-                        <div class="form-group">
-                            <label>{{ __('Confirm Password') }} <span class="text-danger">*</span></label>
-                            <input type="password" name="password_confirmation" class="form-control"
-                                placeholder="Enter confirm password">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group position-relative">
+                                    <label>{{ __('Password') }} <span class="text-danger">*</span></label>
+                                    <input type="password" name="password" class="form-control"
+                                        placeholder="Enter password">
+                                    <button type="button" class="showpassword"><i class="fas fa-eye"></i></button>
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'password']" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group position-relative">
+                                    <label>{{ __('Confirm Password') }} <span class="text-danger">*</span></label>
+                                    <input type="password" name="password_confirmation" class="form-control"
+                                        placeholder="Enter confirm password">
+                                    <button type="button" class="showpassword"><i class="fas fa-eye"></i></button>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group float-end">
                             <input type="submit" class="btn btn-primary" value="Create">
@@ -64,6 +86,11 @@
         $(document).ready(function() {
             file_upload(["#image"], "uploadImage", "admin", [], false);
         });
+
+        // username validation
+        const username = $('.username');
+        const error = $('.username-error');
+        validateUsername(username, error);
     </script>
     {{-- FilePond  --}}
 @endpush

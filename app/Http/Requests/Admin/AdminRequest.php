@@ -37,6 +37,11 @@ class AdminRequest extends FormRequest
         return [
             'email' => 'required|unique:admins,email',
             'password' => 'required|min:6|confirmed',
+            'username' => [
+                'nullable',
+                'unique:admins,username',
+                'regex:/^[a-zA-Z0-9\-]+$/',
+            ],
         ];
     }
 
@@ -46,7 +51,11 @@ class AdminRequest extends FormRequest
         return [
             'email' => 'required|unique:admins,email,' . decrypt($this->route('admin')),
             'password' => 'nullable|min:6|confirmed',
-            
+            'username' => [
+                'nullable',
+                'unique:admins,username,' . decrypt($this->route('admin')),
+                'regex:/^[a-zA-Z0-9\-]+$/',
+            ],
         ];
     }
 }

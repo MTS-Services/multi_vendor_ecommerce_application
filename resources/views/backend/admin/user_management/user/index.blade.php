@@ -47,11 +47,11 @@
         $(document).ready(function() {
             let table_columns = [
                 //name and data, orderable, searchable
-                ['name', true, true],
+                ['first_name', true, true],
                 ['email', true, true],
                 ['status', true, true],
                 ['is_verify', true, true],
-                ['created_by', true, true],
+                ['creater_id', true, true],
                 ['created_at', false, false],
                 ['action', false, false],
             ];

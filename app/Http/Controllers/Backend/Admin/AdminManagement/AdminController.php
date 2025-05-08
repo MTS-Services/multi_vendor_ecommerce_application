@@ -41,7 +41,7 @@ class AdminController extends Controller
             return DataTables::eloquent($query)
 
                 ->editColumn('first_name', function ($admin) {
-                    return $admin->full_name;
+                    return $admin->full_name . ($admin->username ? " (" . $admin->username . ")" : "");
                 })
                 ->editColumn('role_id', function ($admin) {
                     return optional($admin->role)->name;
@@ -62,7 +62,7 @@ class AdminController extends Controller
                     $menuItems = $this->menuItems($admin);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['role_id', 'status', 'is_verify', 'created_by', 'created_at', 'action'])
+                ->rawColumns(['first_name', 'role_id', 'status', 'is_verify', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.admin_management.admin.index');
