@@ -3,22 +3,28 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Country extends BaseModel
+class Banner extends BaseModel
 {
+    use HasFactory;
+
+    protected $table = 'banners';
     protected $fillable = [
-        'sort_order',
-        'name',
-        'slug',
-        'description',
+        'title',
+        'subtitle',
+        'image',
+        'url',
         'status',
+        'start_date',
+        'end_date',
 
         'created_by',
         'updated_by',
         'deleted_by',
+
     ];
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -29,8 +35,12 @@ class Country extends BaseModel
             'status_btn_label',
             'status_btn_color',
             'status_labels',
+
+            'modified_image',
         ]);
     }
+
+    // ================= Status Functionality Start Here =================
     public const STATUS_ACTIVE = 1;
     public const STATUS_DEACTIVE = 0;
     // Status labels
@@ -100,23 +110,11 @@ class Country extends BaseModel
         return self::getStatusBtnColors()[$this->status] ?? 'btn btn-secondary';
     }
 
-    public function scopeActive($query): mixed
-    {
-        return $query->where('status', self::STATUS_ACTIVE);
-    }
+    // ================= Status Functionality End Here =================
 
-    public function scopeDeactive($query): mixed
+    // Modify Image
+    public function getModifiedImageAttribute()
     {
-        return $query->where('status', self::STATUS_DEACTIVE);
+        return storage_url($this->image);
     }
-
-    public function cities(): MorphMany
-    {
-        return $this->morphMany(City::class,'parent');
-    }
-    public function states(): HasMany
-    {
-        return $this->hasMany(State::class, 'country_id');
-    }
-
 }

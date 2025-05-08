@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class Country extends BaseModel
+class City extends BaseModel
 {
     protected $fillable = [
         'sort_order',
+        'parent_id',
+        'parent_type',
         'name',
         'slug',
         'description',
@@ -29,6 +30,9 @@ class Country extends BaseModel
             'status_btn_label',
             'status_btn_color',
             'status_labels',
+
+            'country_name',
+            'state_name',
         ]);
     }
     public const STATUS_ACTIVE = 1;
@@ -100,23 +104,17 @@ class Country extends BaseModel
         return self::getStatusBtnColors()[$this->status] ?? 'btn btn-secondary';
     }
 
-    public function scopeActive($query): mixed
+    public function parent(): MorphTo
     {
-        return $query->where('status', self::STATUS_ACTIVE);
+        return $this->morphTo();
     }
 
-    public function scopeDeactive($query): mixed
+    public function getCountryNameAttribute(): string|null
     {
-        return $query->where('status', self::STATUS_DEACTIVE);
+        return isset(optional($this->parent)->country) ? optional($this->parent)->country->name : optional($this->parent)->name;
     }
-
-    public function cities(): MorphMany
+    public function getStateNameAttribute(): string|null
     {
-        return $this->morphMany(City::class,'parent');
+        return isset(optional($this->parent)->country) ? optional($this->parent)->name : null;
     }
-    public function states(): HasMany
-    {
-        return $this->hasMany(State::class, 'country_id');
-    }
-
 }

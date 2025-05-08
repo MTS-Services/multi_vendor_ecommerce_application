@@ -30,7 +30,9 @@ class DatabaseSeeder extends Seeder
             SubCategorySeeder::class,
 
             CountrySeeder::class,
-            BrandSeeder::class,
+            BannerSeeder::class,
+            StateSeeder::class,
+            CitySeeder::class,
         ]);
     }
 }
