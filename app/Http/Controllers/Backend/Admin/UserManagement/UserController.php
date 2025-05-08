@@ -112,9 +112,6 @@ class UserController extends Controller
         $validated = $req->validated();
         $validated['creater_id'] = admin()->id;
         $validated['creater_type'] = get_class(admin());
-        if (isset($req->image)) {
-            $validated['image'] = $this->handleFilepondFileUpload(User::class, $req->image, admin(), 'users/');
-        }
         User::create($validated);
         session()->flash('success', 'User created successfully!');
         return redirect()->route('um.user.index');
@@ -148,9 +145,6 @@ class UserController extends Controller
         $validated['updater_id'] = admin()->id;
         $validated['password'] = ($req->password ? $req->password : $user->password);
         $validated['updater_type'] = get_class(admin());
-        if (isset($req->image)) {
-            $validated['image'] = $this->handleFilepondFileUpload($user, $req->image, admin(), 'users/');
-        }
         $user->update($validated);
         session()->flash('success', 'User updated successfully!');
         return redirect()->route('um.user.index');

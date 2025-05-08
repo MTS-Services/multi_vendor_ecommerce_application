@@ -24,7 +24,6 @@ class UserRequest extends FormRequest
         return [
             'first_name' => 'required|string|min:3',
             'last_name' => 'required|string|min:4',
-            'image' => 'nullable',
         ]
             +
             ($this->isMethod('POST') ? $this->store() : $this->update());
@@ -34,13 +33,7 @@ class UserRequest extends FormRequest
     {
         return [
             'email' => 'required|unique:users,email',
-            'username' => 'required|unique:users,username',
             'password' => 'required|min:6|confirmed',
-            'username' => [
-                'nullable',
-                'regex:/^[a-zA-Z0-9_]*$/',
-                'unique:users,username',
-            ]
         ];
     }
 
@@ -49,13 +42,7 @@ class UserRequest extends FormRequest
     {
         return [
             'email' => 'required|unique:users,email,' . decrypt($this->route('user')),
-            'username' => 'required|unique:users,username,' . decrypt($this->route('user')),
             'password' => 'nullable|min:6|confirmed',
-            'username' => [
-                'nullable',
-                'regex:/^[a-zA-Z0-9_]*$/',
-                'unique:users,username,' . decrypt($this->route('user')),
-            ]
         ];
     }
 }

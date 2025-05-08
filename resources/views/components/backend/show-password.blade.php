@@ -1,1 +1,1 @@
-<button type="button" class="showpassword"><i class="fas fa-eye"></i></button>
+<div class="input-group-text showpassword"><i class="fas fa-eye-slash"></i></div>
