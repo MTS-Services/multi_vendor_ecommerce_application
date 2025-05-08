@@ -202,17 +202,6 @@ class Category extends BaseModel
     {
         return optional($this->category)->name;
     }
-
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class, 'parent_id');
-    }
-
-    public function sub_categories(): HasMany
-    {
-        return $this->hasMany(Category::class, 'parent_id');
-    }
-
     public function scopeActive($query)
     {
         return $query->where('status', self::STATUS_ACTIVE);
@@ -231,10 +220,25 @@ class Category extends BaseModel
     }
 
     public function scopeIsCategory($query) {
-        return $query->where('parent_id', null);
+        return $query->whereNull('parent_id');
     }
     public function scopeIsSubCategory($query) {
-        return $query->where('parent_id', '!=', null);
+        return $query->whereNotNull('parent_id');
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    public function sub_categories(): HasMany
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function activeSubCategories(): HasMany
+    {
+        return $this->sub_categories()->active();
     }
 
 

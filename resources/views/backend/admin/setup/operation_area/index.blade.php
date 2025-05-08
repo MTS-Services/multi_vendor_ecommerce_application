@@ -1,15 +1,15 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'banner'])
-@section('title', 'Banner List')
+@extends('backend.admin.layouts.master', ['page_slug' => 'operation_area'])
+@section('title', 'Operation Area List')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('Banner List') }}</h4>
+                    <h4 class="cart-title">{{ __('Operation Area List') }}</h4>
                     <x-backend.admin.button :datas="[
-                        'routeName' => 'cms.banner.create',
+                        'routeName' => 'setup.operation-area.create',
                         'label' => 'Add New',
-                        'permissions' => ['banner-create'],
+                        'permissions' => ['operation-area-create'],
                     ]" />
                 </div>
                 <div class="card-body">
@@ -17,8 +17,9 @@
                         <thead>
                             <tr>
                                 <th>{{ __('SL') }}</th>
-                                <th>{{ __('Title') }}</th>
-                                <th>{{ __('Sub Title') }}</th>
+                                <th>{{ __('Country') }}</th>
+                                <th>{{ __('City') }}</th>
+                                <th>{{ __('Name') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Created By') }}</th>
                                 <th>{{ __('Created Date') }}</th>
@@ -34,19 +35,18 @@
         </div>
     </div>
     {{-- Admin Details Modal  --}}
-    <x-backend.admin.details-modal :datas="['modal_title' => 'Banner Details']" />
+    <x-backend.admin.details-modal :datas="['modal_title' => 'City Details']" />
 @endsection
 @push('js')
-    {{-- Datatable Scripts --}}
     <script src="{{ asset('datatable/main.js') }}"></script>
     <script>
         $(document).ready(function() {
             let table_columns = [
-
-                ['title', true, true],
-                ['subtitle', true, true],
+                ['country_id', true, true],
+                ['city_id', true, true],
+                ['name', true, true],
                 ['status', true, true],
-                ['creater_id', true, true],
+                ['created_by', true, true],
                 ['created_at', false, false],
                 ['action', false, false],
             ];
@@ -54,60 +54,58 @@
                 table_columns: table_columns,
                 main_class: '.datatable',
                 displayLength: 10,
-                main_route: "{{ route('cms.banner.index') }}",
+                main_route: "{{ route('setup.operation-area.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5],
-                model: 'Banner',
+                export_columns: [0, 1, 2, 3, 4, 5, 6],
+                model: 'OperationArea',
             };
             initializeDataTable(details);
         })
     </script>
 @endpush
-@push('css')
-    <link rel="stylesheet" href="{{ asset('custom_litebox/litebox.css') }}">
-@endpush
 @push('js')
-    <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
     {{-- Show details scripts --}}
     <script src="{{ asset('modal/details_modal.js') }}"></script>
      <script>
 
         $(document).on("click", ".view", function() {
             let id = $(this).data("id");
-            let route = "{{ route('cms.banner.show', ['id']) }}";
+            let route = "{{ route('setup.operation-area.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
-            const headers = [{
-                    label: "Title",
-                    key: "title"
-                },
-                {
-                    label: "Sub Title",
-                    key: "sub_title"
-                },
-                {
-                    label: "Image",
-                    key: "modified_image",
-                    type: "image"
-                },
-                {
-                    label: "Start Date",
-                    key: "start_date",
+            const headers = [
+                    {
+                        label: "Country",
+                        key: "country_name"
+                    },
+                    {
+                        label: "State",
+                        key: "state_name"
+                    },
+                    {
+                        label: "City",
+                        key: "city_name"
+                    },
+                    {
+                        label: "Name",
+                        key: "name"
+                    },
+                    {
+                        label: "Slug",
+                        key: "slug"
+                    },
+                    {
+                        label: "Status",
+                        key: "status_label",
+                        color: "status_color",
+                    },
+                    {
+                        label:"Description",
+                        key: "description",
+                    },
 
-                },
-                {
-                    label: "End Date",
-                    key: "end_date",
 
-                },
-                {
-                    label: "Status",
-                    key: "status_label",
-                    color: "status_color",
-                },
             ];
-
             fetchAndShowModal(detailsUrl, headers, "#modal_data", "myModal");
         });
     </script>
 @endpush
-

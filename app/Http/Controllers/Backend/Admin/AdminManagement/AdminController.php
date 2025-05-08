@@ -7,13 +7,13 @@ use App\Http\Requests\Admin\AdminRequest;
 use App\Models\Admin;
 use App\Http\Traits\DetailsCommonDataTrait;
 use App\Models\Role;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Traits\FileManagementTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
