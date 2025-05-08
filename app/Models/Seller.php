@@ -11,19 +11,23 @@ class Seller extends AuthBaseModel
 
     protected $fillable = [
         'sort_order',
-        'name',
+        'first_name',
+        'last_name',
+        'username',
         'email',
         'password',
-        'username',
+        'phone',
         'image',
         'status',
         'is_verify',
-        'gender',
         'otp_send_at',
-        'emergency_phone',
-        'phone',
-        'father_name',
-        'mother_name',
+
+        'shop_name',
+        'shop_slug',
+        'shop_logo',
+        'shop_banner',
+        'shop_description',
+        'business_phone',
 
         'creater_id',
         'updater_id',
@@ -42,17 +46,29 @@ class Seller extends AuthBaseModel
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'status'=> 'integer',
-        'is_verify'=> 'integer',
-        'gender'=> 'integer',
+        'status' => 'integer',
+        'is_verify' => 'integer',
         'creater_id' => 'integer',
-        'updater_id'=> 'integer',
-        'deleter_id'=> 'integer',
+        'updater_id' => 'integer',
+        'deleter_id' => 'integer',
     ];
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->appends = array_merge(parent::getAppends(), [
+            'modified_shop_logo',
+            'modified_shop_banner'
+        ]);
+    }
 
+    public function getModifiedShopLogoAttribute()
+    {
+        return storage_url($this->shop_logo);
+    }
 
-
-
+    public function getModifiedShopBannerAttribute()
+    {
+        return storage_url($this->shop_banner);
+    }
 }
-
