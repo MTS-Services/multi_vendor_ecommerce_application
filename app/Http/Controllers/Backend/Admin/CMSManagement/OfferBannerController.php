@@ -16,7 +16,8 @@ class OfferBannerController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->middleware('permission:offer-banner-list|offer-banner-create|offer-banner-edit|offer-banner-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:offer-banner-list', ['only' => ['index']]);
+        $this->middleware('permission:offer-banner-details', ['only' => ['show']]);
         $this->middleware('permission:offer-banner-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:offer-banner-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:offer-banner-delete', ['only' => ['destroy']]);
@@ -37,7 +38,6 @@ class OfferBannerController extends Controller
                 ->editColumn('status', function ($offer_banner) {
                     return "<span class='badge " . $offer_banner->status_color . "'>$offer_banner->status_label</span>";
                 })
-
                 ->editColumn('created_by', function ($offer_banner) {
                     return $offer_banner->creater_name;
                 })

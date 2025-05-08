@@ -29,6 +29,16 @@ return new class extends Migration
             $this->addAdminAuditColumns($table);
 
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade')->onUpdate('cascade');
+
+            // Indexes
+            $table->index('sort_order');
+            $table->index('country_id');
+            $table->index('name');
+            $table->index('slug');
+            $table->index('status');
+            $table->index('created_at');
+            $table->index('updated_at');
+            $table->index('deleted_at');
         });
     }
 

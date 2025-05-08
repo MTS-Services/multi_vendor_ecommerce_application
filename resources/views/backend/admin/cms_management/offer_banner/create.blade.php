@@ -28,7 +28,7 @@
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'subtitle']" />
                         </div>
                         <div class="form-group">
-                            <label>{{ __('Image') }}</label>
+                            <label>{{ __('Image') }}  <span class="text-danger">*</span></label>
                             <input type="file" name="uploadImage" data-actualName="image" class="form-control filepond"
                                 id="image" accept="image/*">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />

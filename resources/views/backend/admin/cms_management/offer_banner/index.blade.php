@@ -82,7 +82,7 @@
                 },
                 {
                     label: "Sub Title",
-                    key: "sub_title"
+                    key: "subtitle"
                 },
                 {
                     label: "Image",
