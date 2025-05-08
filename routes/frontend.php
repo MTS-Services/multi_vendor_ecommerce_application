@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\Admin\ProductManagement\ProductAttributeValueController;
 use App\Http\Controllers\Frontend\AuthController as FrontendAuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\FrontendController;
