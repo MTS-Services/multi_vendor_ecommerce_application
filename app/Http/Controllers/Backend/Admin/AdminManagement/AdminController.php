@@ -27,6 +27,9 @@ class AdminController extends Controller
         $this->middleware('permission:admin-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:admin-delete', ['only' => ['destroy']]);
         $this->middleware('permission:admin-status', ['only' => ['status']]);
+        $this->middleware('permission:admin-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:admin-restore', ['only' => ['restore']]);
+        $this->middleware('permission:admin-permanent-delete', ['only' => ['permanentDelete']]);
     }
     /**
      * Display a listing of the resource.
