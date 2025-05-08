@@ -17,6 +17,8 @@ Route::group(['as' => 'frontend.'], function () {
   Route::get('/checkout', [FrontendController::class, 'checkout'])->name('checkout');
   // Test Page
   Route::get('/profile', [FrontendController::class, 'profile'])->name('profile');
+  // Test Page
+  Route::get('/faq', [FrontendController::class, 'faq'])->name('faq');
 });
 
 

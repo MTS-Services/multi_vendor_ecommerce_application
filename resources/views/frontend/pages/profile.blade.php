@@ -1,6 +1,6 @@
-@extends('frontend.layouts.app', ['page_slug' => 'checkout'])
+@extends('frontend.layouts.app', ['page_slug' => 'user-profile'])
 
-@section('title', 'Checkout')
+@section('title', 'User Profile')
 
 @push('css')
     <style>

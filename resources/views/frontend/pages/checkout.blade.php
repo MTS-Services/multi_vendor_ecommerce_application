@@ -75,7 +75,7 @@
     <!-- Header -->
     <div class="container mx-auto px-4 py-8 text-center">
         <div class="flex flex-col items-center justify-center">
-            <h1 class="text-3xl font-semibold">Checkout</h1>
+            <h1 class="text-4xl font-semibold">Checkout</h1>
         </div>
     </div>
     {{-- Main Content Start Here --}}

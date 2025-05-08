@@ -25,4 +25,8 @@ class FrontendController extends Controller
     {
         return view('frontend.pages.profile');
     }
+    public function faq()
+    {
+        return view('frontend.pages.faq');
+    }
 }
