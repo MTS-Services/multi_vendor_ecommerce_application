@@ -180,6 +180,23 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item  @if ($page_slug == 'hub' || $page_slug == 'hub_package') active submenu @endif">
+                    <a data-bs-toggle="collapse" href="#hub_management"
+                        @if ($page_slug == 'seller') aria-expanded="true" @endif>
+                        <i class="icon-people"></i>
+                        <p>{{ __('Hub Management') }}</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse @if ($page_slug == 'hub' || $page_slug == 'hub_package') show @endif" id="hub_management">
+                        <ul class="nav nav-collapse">
+                            <li class="@if ($page_slug == 'hub') active @endif">
+                                <a href="{{ route('hm.hub.index') }}">
+                                    <span class="sub-item">{{ __('Hub') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
                 <li class="nav-item  @if ($page_slug == 'audits') active @endif">
                     <a href="{{ route('audit.index') }}">

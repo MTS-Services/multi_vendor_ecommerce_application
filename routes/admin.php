@@ -22,6 +22,7 @@ use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginControl
 use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
 use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Backend\Admin\HubManagement\HubController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
 use App\Models\Banner;
 
@@ -107,6 +108,12 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         // offer banner
         Route::resource('offer-banner', OfferBannerController::class);
         Route::get('offer-banner/status/{offer_banner}', [OfferBannerController::class, 'status'])->name('offer-banner.status');
+    });
+
+    // Hub Management
+    Route::group(['as' => 'hm.', 'prefix' => 'hm-management'], function () {
+        Route::resource('hub', HubController::class);
+        Route::get('hub/status/{hub}', [HubController::class, 'status'])->name('hub.status');
     });
 
     // Product Management
