@@ -21,7 +21,7 @@
                             <select name="country" id="country" class="form-control">
                                 <option value="" selected hidden>{{__('Select Country')}}</option>
                                 @foreach ($countries as $country)
-                                    <option value="{{$country->id}}" {{ ($operation_area->city->parent->country_id ? $operation_area->city->parent->country_id : $operation_area->city->parent->id) == $country->id ? 'selected' : ''}}>{{ $country->name }}</option>
+                                    <option value="{{$country->id}}" {{ $operation_area->country_id == $country->id ? 'selected' : ''}}>{{ $country->name }}</option>
                                 @endforeach
                             </select>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'country']" />
@@ -82,10 +82,10 @@
             $('#state').on('change', function () {
                 getCities($(this).val(), route2);
             });
-            let state_or_city_id = `{{ $operation_area->city->parent->country_id ? $operation_area->city->parent->id : $operation_area->city->id }}`;
-            getStatesOrCity($('#country').val(), route1, state_or_city_id);
-            if(`{{$operation_area->city->parent->country_id}}`){
-                getCities(`{{$operation_area->city->parent->id}}`, route2, `{{ $operation_area->city_id }}`);
+            let data_id = `{{ $operation_area->state_id ? $operation_area->state_id : $operation_area->city_id }}`;
+            getStatesOrCity($('#country').val(), route1, data_id);
+            if(`{{$operation_area->state_id}}`){
+                getCities(`{{$operation_area->state_id}}`, route2, `{{ $operation_area->city_id }}`);
             }
         });
     </script>

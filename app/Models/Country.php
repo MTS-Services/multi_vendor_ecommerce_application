@@ -100,6 +100,8 @@ class Country extends BaseModel
         return self::getStatusBtnColors()[$this->status] ?? 'btn btn-secondary';
     }
 
+
+
     public function scopeActive($query): mixed
     {
         return $query->where('status', self::STATUS_ACTIVE);
@@ -110,22 +112,41 @@ class Country extends BaseModel
         return $query->where('status', self::STATUS_DEACTIVE);
     }
 
-    public function cities(): MorphMany
+    public function cities(): HasMany
     {
-        return $this->morphMany(City::class,'parent');
+        return $this->hasMany(City::class,'country_id');
     }
     public function states(): HasMany
     {
         return $this->hasMany(State::class, 'country_id');
     }
-    public function activeCities(): MorphMany
+
+    public function operationAreas(): HasMany
+    {
+        return $this->hasMany(OperationArea::class,'country_id');
+    }
+    public function operationSubAreas(): HasMany
+    {
+        return $this->hasMany(OperationSubArea::class,'country_id');
+    }
+    public function activeCities(): HasMany
     {
         return $this->cities()->active();
     }
-
     public function activeStates(): HasMany
     {
         return $this->states()->active();
     }
+
+    public function activeOperationAreas(): HasMany
+    {
+        return $this->operationAreas()->active();
+    }
+    public function activeOperationSubAreas(): HasMany
+    {
+        return $this->operationSubAreass()->active();
+    }
+
+
 
 }

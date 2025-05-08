@@ -96,7 +96,7 @@ function getCities(stateId, route, cityId = null) {
         alert('Failed to load states.');
     });
 }
-function getCities(cityId, route, operationAreaId = null) {
+function getOperationAreas(cityId, route, operationAreaId = null) {
 
     axios.get(route, {
         params: { city_id: cityId }

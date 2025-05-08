@@ -14,13 +14,16 @@ class OperationAreaSeeder extends Seeder
     public function run(): void
     {
         OperationArea::create([
-            'city_id' => 1,
+            'country_id' => 1,
+            'city_id' => 2,
             'name' => 'Operation Area 1',
             'slug' => 'operation-area-1',
         ]);
 
         OperationArea::create([
-            'city_id' => 2,
+            'country_id'=> 4,
+            'state_id'=> 1,
+            'city_id' => 1,
             'name' => 'Operation Area 2',
             'slug' => 'operation-area-2',
         ]);

@@ -30,11 +30,11 @@ class CityController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $query = City::with(['creater_admin', 'parent'])
+            $query = City::with(['creater_admin', 'country', 'state'])
             ->orderBy('sort_order', 'asc')
             ->latest();
             return DataTables::eloquent($query)
-                ->editColumn('parent_id', function ($city) {
+                ->editColumn('country_id', function ($city) {
                     return $city->country_name  . ($city->state_name ? "(". $city->state_name .")": "");
                 })
 
@@ -51,7 +51,7 @@ class CityController extends Controller
                     $menuItems = $this->menuItems($city);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns([ 'parent_id','status', 'created_by', 'created_at', 'action'])
+                ->rawColumns([ 'country_id','status', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.setup.city.index');
@@ -106,8 +106,8 @@ class CityController extends Controller
     {
         $validated = $request->validated();
         $validated['created_by'] = admin()->id;
-        $validated['parent_id'] = $request->state ? $request->state : $request->country;
-        $validated['parent_type'] = $request->state ? State::class : Country::class;
+        $validated['country_id'] = $request->country;
+        $validated['state_id'] = $request->state;
         City::create($validated);
         session()->flash('success','City created successfully!');
         return redirect()->route('setup.city.index');
@@ -118,7 +118,7 @@ class CityController extends Controller
      */
     public function show(string $id)
     {
-        $data = City::with(['creater_admin', 'updater_admin', 'parent'])->findOrFail(decrypt($id));
+        $data = City::with(['creater_admin', 'updater_admin', 'country', 'state'])->findOrFail(decrypt($id));
         return response()->json($data);
     }
 
@@ -127,7 +127,7 @@ class CityController extends Controller
      */
     public function edit(string $id)
     {
-        $data['city'] = City::with('parent')->findOrFail(decrypt($id));
+        $data['city'] = City::findOrFail(decrypt($id));
         $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
         return view('backend.admin.setup.city.edit',$data);
     }
@@ -139,9 +139,9 @@ class CityController extends Controller
     {
         $city = City::findOrFail(decrypt($id));
         $validated = $request->validated();
-        $validated['created_by'] = admin()->id;
-        $validated['parent_id'] = $request->state ? $request->state : $request->country;
-        $validated['parent_type'] = $request->state ? State::class : Country::class;
+        $validated['country_id'] = $request->country;
+        $validated['state_id'] = $request->state;
+        $validated['updated_by'] = admin()->id;
         $city->update($validated);
         session()->flash('success','City updated successfully!');
         return redirect()->route('setup.city.index');

@@ -19,7 +19,7 @@ class AxiosRequestController extends Controller
        if($country_id){
             $country = Country::with('states')->findOrFail($country_id);
             return response()->json([
-                'states' => $country->states->active(),
+                'states' => $country->activeStates,
                 'message'=> "States fetched successfully!",
             ]);
        }
@@ -33,7 +33,7 @@ class AxiosRequestController extends Controller
 
         $country_id = $request->country_id;
         if($country_id){
-             $country = Country::with(['states.cities'])->withCount(['activeStates', 'activeCities'])->findOrFail($country_id);
+             $country = Country::with(['states','cities'])->withCount(['activeStates', 'activeCities'])->findOrFail($country_id);
              if($country->active_states_count > 0){
                 return response()->json([
                     'states' => $country->activeStates,
@@ -55,7 +55,7 @@ class AxiosRequestController extends Controller
       public function getCities(Request $request): JsonResponse{
         $state_id = $request->state_id;
         if($state_id){
-             $state = State::with('cities')->findOrFail($state_id);
+             $state = State::with('activeCities')->findOrFail($state_id);
              return response()->json([
                  'cities' => $state->activeCities,
                  'message'=> "States fetched successfully!",
@@ -68,7 +68,7 @@ class AxiosRequestController extends Controller
       public function getOperationAreas(Request $request): JsonResponse{
         $city_id = $request->city_id;
         if($city_id){
-             $city = City::with('operation_areas')->findOrFail($city_id);
+             $city = City::with('operationAreas')->findOrFail($city_id);
              return response()->json([
                  'operation_areas' => $city->activeOperationAreas,
                  'message'=> "States fetched successfully!",

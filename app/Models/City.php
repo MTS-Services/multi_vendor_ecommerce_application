@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -10,8 +11,8 @@ class City extends BaseModel
 {
     protected $fillable = [
         'sort_order',
-        'parent_id',
-        'parent_type',
+        'state_id',
+        'country_id',
         'name',
         'slug',
         'description',
@@ -114,26 +115,38 @@ class City extends BaseModel
         return $query->where('status', self::STATUS_DEACTIVE);
     }
 
-    public function parent(): MorphTo
+    public function country(): BelongsTo
     {
-        return $this->morphTo();
-    }
+        return $this->belongsTo(Country::class, 'country_id','id');
 
+    }
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class, 'state_id','id');
+
+    }
     public function getCountryNameAttribute(): string|null
     {
-        return isset(optional($this->parent)->country) ? optional($this->parent)->country_name : optional($this->parent)->name;
+        return $this->country?->name;
     }
     public function getStateNameAttribute(): string|null
     {
-        return isset(optional($this->parent)->country) ? optional($this->parent)->name : 'Null';
+        return $this->state?->name;
     }
-
     public function operationAreas(): HasMany
     {
-        return $this->hasMany(OperationArea::class);
+        return $this->hasMany(OperationArea::class,'city_id');
+    }
+    public function operationSubAreas(): HasMany
+    {
+        return $this->hasMany(OperationSubArea::class,'city_id');
     }
     public function activeOperationAreas(): HasMany
     {
         return $this->operationAreas()->active();
+    }
+    public function activeOperationSubAreas(): HasMany
+    {
+        return $this->operationSubAreass()->active();
     }
 }

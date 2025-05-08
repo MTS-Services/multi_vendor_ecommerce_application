@@ -18,6 +18,8 @@ return new class extends Migration
         Schema::create('operation_areas', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('sort_order')->default(0);
+            $table->unsignedBigInteger('country_id');
+            $table->unsignedBigInteger('state_id')->nullable();
             $table->unsignedBigInteger('city_id');
             $table->string("name")->unique();
             $table->string("slug")->unique();
@@ -27,10 +29,14 @@ return new class extends Migration
             $table->softDeletes();
             $this->addAdminAuditColumns($table);
 
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade')->onUpdate('cascade');
 
             // Indexes
             $table->index('sort_order');
+            $table->index('country_id');
+            $table->index('state_id');
             $table->index('city_id');
             $table->index('name');
             $table->index('slug');

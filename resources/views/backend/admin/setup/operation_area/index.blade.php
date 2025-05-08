@@ -18,7 +18,6 @@
                             <tr>
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Country') }}</th>
-                                <th>{{ __('State') }}</th>
                                 <th>{{ __('City') }}</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Status') }}</th>
@@ -43,9 +42,8 @@
     <script>
         $(document).ready(function() {
             let table_columns = [
-                ['country_name', true, true],
-                ['state_name', true, true],
-                ['city_name', true, true],
+                ['country_id', true, true],
+                ['city_id', true, true],
                 ['name', true, true],
                 ['status', true, true],
                 ['created_by', true, true],

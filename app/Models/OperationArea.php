@@ -10,6 +10,8 @@ class OperationArea extends BaseModel
 {
     protected $fillable = [
         'sort_order',
+        'country_id',
+        'state_id',
         'city_id',
         'name',
         'slug',
@@ -115,33 +117,39 @@ class OperationArea extends BaseModel
         return $query->where('status', self::STATUS_DEACTIVE);
     }
 
-    public function operationSubAreas(): HasMany
+    public function country(): BelongsTo
     {
-        return $this->hasMany(OperationSubArea::class, 'operation_area_id','id');
+        return $this->belongsTo(Country::class, 'country_id','id');
+
     }
-
-
-    public function activeOperationSubAreas(): HasMany
+    public function state(): BelongsTo
     {
-        return $this->operationSubAreas()->active();
-    }
+        return $this->belongsTo(State::class, 'state_id','id');
 
-    public function city():BelongsTo
+    }
+    public function city(): BelongsTo
     {
         return $this->belongsTo(City::class, 'city_id','id');
-    }
 
+    }
+    public function getCountryNameAttribute(): string|null
+    {
+        return $this->country?->name;
+    }
+    public function getStateNameAttribute(): string|null
+    {
+        return $this->state?->name;
+    }
     public function getCityNameAttribute(): string|null
     {
         return $this->city?->name;
     }
-
-    public function getStateNameAttribute(): string|null
+    public function operationSubAreas(): HasMany
     {
-        return $this->city?->state_name;
+        return $this->hasMany(OperationSubArea::class,'city_id');
     }
-    public function getCountryNameAttribute(): string|null
+    public function activeOperationSubAreas(): HasMany
     {
-        return $this->city?->country_name;
+        return $this->operationSubAreas()->active();
     }
 }

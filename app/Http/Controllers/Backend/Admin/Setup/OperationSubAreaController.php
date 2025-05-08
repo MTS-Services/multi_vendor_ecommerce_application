@@ -30,10 +30,19 @@ class OperationSubAreaController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $query = OperationSubArea::with(['creater_admin'])
+            $query = OperationSubArea::with(['creater_admin','city','country','state','operationArea'])
             ->orderBy('sort_order', 'asc')
-            ->latest();
-            return DataTables::eloquent($query)
+                ->latest();
+                return DataTables::eloquent($query)
+                ->editColumn('country_id', function ($operationSubArea) {
+                    return $operationSubArea->country_name . ($operationSubArea->state_name ? "(". $operationSubArea->state_name .")": "");
+                })
+                ->editColumn('city_id', function ($operationSubArea) {
+                    return  $operationSubArea->city_name;
+                })
+                ->editColumn('operation_area_id', function ($operationSubArea) {
+                    return  $operationSubArea->operation_area_name;
+                })
                 ->editColumn('status', function ($operationSubArea) {
                     return "<span class='badge " . $operationSubArea->status_color . "'>$operationSubArea->status_label</span>";
                 })
@@ -47,7 +56,7 @@ class OperationSubAreaController extends Controller
                     $menuItems = $this->menuItems($operationSubArea);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'created_by', 'created_at', 'action'])
+                ->rawColumns(['country_id','city_id','operation_area_id','status', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.setup.operation_sub_area.index');
@@ -101,6 +110,9 @@ class OperationSubAreaController extends Controller
     public function store(OperationSubAreaRequest $request)
     {
         $validated = $request->validated();
+        $validated['country_id'] = $request->country;
+        $validated['state_id'] = $request->state;
+        $validated['city_id'] = $request->city;
         $validated['operation_area_id'] = $request->operation_area;
         $validated['created_by'] = admin()->id;
         OperationSubArea::create($validated);
@@ -113,7 +125,7 @@ class OperationSubAreaController extends Controller
      */
     public function show(string $id)
     {
-        $data = OperationSubArea::with(['creater_admin', 'updater_admin'])->findOrFail(decrypt($id));
+        $data = OperationSubArea::with(['creater_admin', 'updater_admin','city','country','state','operationArea'])->findOrFail(decrypt($id));
         return response()->json($data);
     }
 
@@ -134,8 +146,11 @@ class OperationSubAreaController extends Controller
     {
         $operation_sub_area = OperationSubArea::findOrFail(decrypt($id));
         $validated = $request->validated();
+        $validated['country_id'] = $request->country;
+        $validated['state_id'] = $request->state;
+        $validated['city_id'] = $request->city;
         $validated['operation_area_id'] = $request->operation_area;
-        $validated['created_by'] = admin()->id;
+        $validated['updated_by'] = admin()->id;
         $operation_sub_area->update($validated);
         session()->flash('success','Operation sub area updated successfully!');
         return redirect()->route('setup.operation-sub-area.index');
