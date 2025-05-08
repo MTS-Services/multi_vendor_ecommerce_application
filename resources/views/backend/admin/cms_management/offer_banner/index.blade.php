@@ -1,15 +1,15 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'banner'])
-@section('title', 'Banner List')
+@extends('backend.admin.layouts.master', ['page_slug' => 'offer_banner'])
+@section('title', 'Offer Banner List')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('Banner List') }}</h4>
+                    <h4 class="cart-title">{{ __('Offer Banner List') }}</h4>
                     <x-backend.admin.button :datas="[
-                        'routeName' => 'cms.banner.create',
+                        'routeName' => 'cms.offer-banner.create',
                         'label' => 'Add New',
-                        'permissions' => ['banner-create'],
+                        'permissions' => ['offer-banner-create'],
                     ]" />
                 </div>
                 <div class="card-body">
@@ -34,7 +34,7 @@
         </div>
     </div>
     {{-- Admin Details Modal  --}}
-    <x-backend.admin.details-modal :datas="['modal_title' => 'Banner Details']" />
+    <x-backend.admin.details-modal :datas="['modal_title' => 'Offer Banner Details']" />
 @endsection
 @push('js')
     {{-- Datatable Scripts --}}
@@ -46,7 +46,7 @@
                 ['title', true, true],
                 ['subtitle', true, true],
                 ['status', true, true],
-                ['creater_id', true, true],
+                ['created_by', true, true],
                 ['created_at', false, false],
                 ['action', false, false],
             ];
@@ -54,10 +54,10 @@
                 table_columns: table_columns,
                 main_class: '.datatable',
                 displayLength: 10,
-                main_route: "{{ route('cms.banner.index') }}",
+                main_route: "{{ route('cms.offer-banner.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
                 export_columns: [0, 1, 2, 3, 4, 5],
-                model: 'Banner',
+                model: 'OfferBanner',
             };
             initializeDataTable(details);
         })
@@ -74,7 +74,7 @@
 
         $(document).on("click", ".view", function() {
             let id = $(this).data("id");
-            let route = "{{ route('cms.banner.show', ['id']) }}";
+            let route = "{{ route('cms.offer-banner.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
             const headers = [{
                     label: "Title",
@@ -82,7 +82,7 @@
                 },
                 {
                     label: "Sub Title",
-                    key: "sub_title"
+                    key: "subtitle"
                 },
                 {
                     label: "Image",

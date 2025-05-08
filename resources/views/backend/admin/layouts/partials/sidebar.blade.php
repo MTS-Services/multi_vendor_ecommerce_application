@@ -172,6 +172,11 @@
                                     <span class="sub-item">{{ __('Banner') }}</span>
                                 </a>
                             </li>
+                            <li class="@if ($page_slug == 'offer_banner') active @endif">
+                                <a href="{{ route('cms.offer-banner.index') }}">
+                                    <span class="sub-item">{{ __('Offer Banner') }}</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
