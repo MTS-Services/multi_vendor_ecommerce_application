@@ -14,11 +14,13 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'first_name' => 'User',
+            'first_name' => 'New',
             'last_name' => 'User',
             'username' => 'user',
             'email' => 'user@dev.com',
             'password' => 'user@dev.com',
+            'email_verified_at' => now(),
+            'is_verify' => 1
         ]);
     }
 }

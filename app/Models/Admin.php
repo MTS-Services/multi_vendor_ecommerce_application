@@ -17,12 +17,15 @@ class Admin extends AuthBaseModel implements Auditable
      */
     protected $fillable = [
         'sort_order',
-        'name',
+        'first_name',
+        'last_name',
+        'username',
         'email',
+        'phone',
+        'image',
         'role_id',
         'status',
         'is_verify',
-        'gender',
         'password',
         'created_by',
         'updated_by',
@@ -52,8 +55,23 @@ class Admin extends AuthBaseModel implements Auditable
             'password' => 'hashed',
             'status' => 'integer',
             'is_verify' => 'integer',
-            'gender' => 'integer',
+            'username' => 'string',
         ];
+    }
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->appends = array_merge(parent::getAppends(), [
+
+            'status_label',
+            'status_color',
+            'status_btn_label',
+            'status_btn_color',
+            'status_labels',
+
+            'modified_image',
+        ]);
     }
 
     public function role()

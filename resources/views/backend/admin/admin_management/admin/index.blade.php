@@ -48,7 +48,7 @@
         $(document).ready(function() {
             let table_columns = [
                 //name and data, orderable, searchable
-                ['name', true, true],
+                ['first_name', true, true],
                 ['role_id', true, true],
                 ['email', true, true],
                 ['status', true, true],

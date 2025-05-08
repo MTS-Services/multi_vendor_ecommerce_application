@@ -39,6 +39,10 @@ class AdminController extends Controller
             ->orderBy('sort_order', 'asc')
             ->latest();
             return DataTables::eloquent($query)
+
+                ->editColumn('first_name', function ($admin) {
+                    return $admin->full_name;
+                })
                 ->editColumn('role_id', function ($admin) {
                     return optional($admin->role)->name;
                 })
@@ -116,7 +120,9 @@ class AdminController extends Controller
         DB::transaction(function () use ($req) {
             try{
                 $validated= $req->validated();
+                $validated['role_id'] = $req->role;
                 $validated['created_by'] = admin()->id;
+
                 if (isset($req->image)) {
                     $validated['image'] = $this->handleFilepondFileUpload(Admin::class, $req->image, admin(), 'admins/');
                 }
@@ -166,6 +172,7 @@ class AdminController extends Controller
                 if (isset($req->image)) {
                     $validated['image'] = $this->handleFilepondFileUpload($admin, $req->image, admin(), 'admins/');
                 }
+                $validated['role_id'] = $req->role;
                 $validated['updated_by'] = admin()->id;
                 $admin->update($validated);
                 $admin->syncRoles($admin->role->name);

@@ -21,12 +21,12 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('username')->unique()->min(5)->max(20)->nullable();
             $table->string('email')->unique();
-            $table->string('avatar')->nullable();
-            $table->tinyInteger('status')->default(User::STATUS_ACTIVE)->comment(User::STATUS_ACTIVE . ': Active, ' . User::STATUS_DEACTIVE . ': Inactive');
-            $table->tinyInteger('is_verify')->default(User::UNVERIFIED)->comment(User::UNVERIFIED . ': Unverified, ' . User::VERIFIED . ': Verified');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone')->nullable();
+            $table->string('image')->nullable();
+            $table->tinyInteger('status')->default(User::STATUS_ACTIVE)->comment(User::STATUS_ACTIVE . ': Active, ' . User::STATUS_DEACTIVE . ': Inactive');
+            $table->tinyInteger('is_verify')->default(User::UNVERIFIED)->comment(User::UNVERIFIED . ': Unverified, ' . User::VERIFIED . ': Verified');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
@@ -37,6 +37,8 @@ return new class extends Migration
             $table->timestamp('otp_send_at')->nullable(); // Add this line
 
             // Indexes
+            $table->index('first_name'); // Index for first name (optional, if queried often)
+            $table->index('last_name'); // Index for last name (optional, if queried often)
             $table->index('username'); // Index for username (unique constraint already exists)
             $table->index('email'); // Index for email (unique constraint already exists)
             $table->index('status'); // Index for status (frequently filtered)
