@@ -38,22 +38,33 @@
                 }
 
                 $delete = false;
+                $pDelete = false;
                 $div_id = '';
 
                 if (isset($menuItem['delete']) && isset($menuItem['params'][0]) && $menuItem['delete'] == true) {
                     $div_id = 'delete-form-' . $menuItem['params'][0];
                     $delete = true;
                 }
+                if (isset($menuItem['p-delete']) && isset($menuItem['params'][0]) && $menuItem['p-delete'] == true) {
+                    $div_id = 'delete-form-' . $menuItem['params'][0];
+                    $pDelete = true;
+                }
             @endphp
             @if ($check)
                 <li>
                     <a target="{{ isset($menuItem['target']) ? $menuItem['target'] : '' }}"
                         title="{{ isset($menuItem['title']) ? $menuItem['title'] : '' }}"
-                        href="{{ $delete == true ? 'javascript:void(0)' : $route }}"
-                        @if ($delete == true) onclick="confirmDelete(() => document.getElementById('{{ $div_id }}').submit())" @endif
+                        href="{{ $delete == true || $pDelete == true ? 'javascript:void(0)' : $route }}"
+                        @if ($delete == true) onclick="confirmDelete(() => document.getElementById('{{ $div_id }}').submit())" @elseif($pDelete == true) onclick="confirmPermanentDelete(() => document.getElementById('{{ $div_id }}').submit())" @endif
                         class="dropdown-item {{ isset($menuItem['className']) ? $menuItem['className'] : '' }}"
                         @if (isset($menuItem['data-id'])) data-id="{{ $menuItem['data-id'] }}" @endif>{{ __($menuItem['label']) }}</a>
                     @if ($delete == true)
+                        <form id="delete-form-{{ $menuItem['params'][0] }}" action="{{ $route }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+                    @endif
+                    @if ($pDelete == true)
                         <form id="delete-form-{{ $menuItem['params'][0] }}" action="{{ $route }}" method="POST">
                             @csrf
                             @method('DELETE')
