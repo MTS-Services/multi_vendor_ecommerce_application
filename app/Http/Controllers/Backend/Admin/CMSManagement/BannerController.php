@@ -92,6 +92,62 @@ class BannerController extends Controller
         ];
     }
 
+
+    public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+
+
+            $query = Banner::with(['deleter_admin', 'role'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+
+                ->editColumn('title', function ($banner) {
+                    return $banner->full_name . ($banner->username ? " (" . $banner->username . ")" : "");
+                })
+                ->editColumn('sub_title', function ($banner) {
+                    return optional($banner->role)->name;
+                })
+                ->editColumn('status', function ($banner) {
+                    return "<span class='badge " . $banner->status_color . "'>$banner->status_label</span>";
+                })
+                ->editColumn('deleted_by', function ($banner) {
+                    return $banner->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($banner) {
+                    return $banner->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($banner) {
+                    $menuItems = $this->trashedMenuItems($banner);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['title', 'sub_title',  'status', 'deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.cms_management.banner.recycle-bin');
+    }
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'admin.cms.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['banner-restore']
+            ],
+            [
+                'routeName' => 'admin.cms.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['banner-permanent-delete']
+            ]
+
+        ];
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -167,5 +223,23 @@ class BannerController extends Controller
         $banner->update(['status' => !$banner->status, 'updated_by'=> admin()->id]);
         session()->flash('success', 'Banner status updated successfully!');
         return redirect()->route('cms.banner.index');
+    }
+
+    public function restore(string $id): RedirectResponse
+    {
+        $banner = Banner::onlyTrashed()->findOrFail(decrypt($id));
+        $banner->update(['updated_by' => $banner()->id]);
+        $banner->restore();
+        session()->flash('success', 'Banner restored successfully!');
+        return redirect()->route('admin.cms.recycle-bin');
+    }
+
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $banner = Banner::onlyTrashed()->findOrFail(decrypt($id));
+        $this->fileDelete($banner->image);
+        $banner->forceDelete();
+        session()->flash('success', 'Banner permanently deleted successfully!');
+        return redirect()->route('admin.cms.recycle-bin');
     }
 }
