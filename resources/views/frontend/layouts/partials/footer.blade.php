@@ -70,20 +70,18 @@
     {{-- logo part end --}}
 
     <!-- Main Flex Content start-->
-    <div class="container">
-
-        <div class="w-full  mx-auto flex flex-wrap">
-
+    <div class="container mx-auto">
+        <div class="w-full flex flex-wrap ">
             <!-- Column 1: Contact -->
-            <div class="w-full md:w-[30%] pr-16 py-10">
+            <div class="w-full md:w-1/3 lg:w-[30%] md:pr-16 sm:pr-9 md:py-10 py-5 pr-3">
                 <h2 class="text-xl font-semibold mb-4">{{ __('Business Contact') }}</h2>
-                <div class="space-y-3 text-base text-text-primary dark:text-text-white">
-                    <div class="flex items-center gap-2">
+                <div class="md:space-y-3 space-y-2 text-base text-text-primary dark:text-text-white">
+                    <div class="flex  items-center gap-2">
                         <div class="w-7 h-7 rounded-full border  flex items-center justify-center mt-1">
                             <i data-lucide="map-pin" class="w-4 h-4"></i>
                         </div>
                         <a href="https://maps.google.com/?q=123+Yarran+st,+Punchbowl,+NSW+2196,+Australia"
-                            target="_blank" class="text-base hover:text-text-danger transition-all duration-300">
+                            target="_blank" class="md:text-base  hover:text-text-danger transition-all duration-300">
                             {{ __('123 Yarran st, Punchbowl, NSW 2196, Australia') }}
                         </a>
                     </div>
@@ -91,7 +89,7 @@
                         <div class="w-7 h-7 rounded-full border  flex items-center justify-center">
                             <i data-lucide="phone" class="w-4 h-4"></i>
                         </div>
-                        <a href="tel:+64683421245" class="text-base hover:text-text-danger transition-all duration-300">
+                        <a href="tel:+64683421245" class="md:text-base  hover:text-text-danger transition-all duration-300">
                             {{ __('(64) 8342 1245') }}
                         </a>
                     </div>
@@ -100,20 +98,20 @@
                             <i data-lucide="mail" class="w-4 h-4"></i>
                         </div>
                         <a href="mailto:support@example.com"
-                            class="text-base hover:text-text-danger transition-all duration-300">
+                            class="md:text-base  hover:text-text-danger transition-all duration-300">
                             {{ __('support@example.com') }}
                         </a>
                     </div>
                 </div>
                 <a href="#"
-                    class="text-base text-text-tertiary mt-4 inline-block underline">{{ __('Get Direction') }}
+                    class="md:text-base text-sm  text-text-tertiary mt-4 inline-block underline">{{ __('Get Direction') }}
                     ↗</a>
             </div>
 
             <!-- Column 2: Newsletter -->
-            <div class="w-full md:w-[40%] border-x  px-[100px] py-10">
-                <h2 class="text-xl font-semibold mb-4">{{ __('Subscribe Newsletter') }}</h2>
-                <p class="text-base  mb-4">
+            <div class="w-full md:w-1/3 lg:w-[40%] md:border-x border-0  md:px-[100px] md:py-10">
+                <h2 class="text-xl  font-semibold md:mb-4 mb-2">{{ __('Subscribe Newsletter') }}</h2>
+                <p class="text-base  md:mb-4 mb-2">
                     {{ __('We invite you to register to read the latest news, offers and events about our company. We promise not spam your inbox.') }}
                 </p>
                 <form
@@ -129,13 +127,13 @@
             </div>
 
             <!-- Column 3: About Us + Resource -->
-            <div class="w-full md:w-[30%] pl-16 py-10">
-                <div class="flex md:flex-row flex-col  ">
+            <div class="w-full md:w-1/3 lg:w-[30%] md:pl-16  md:py-10 py-5">
+                <div class="flex md:flex-row flex-col ">
 
                     <!-- About Us -->
-                    <div class="md:w-1/2 justify-end">
-                        <h2 class="text-xl font-semibold mb-4">{{ __('About Us') }}</h2>
-                        <ul class="space-y-2 text-base text-text-primary dark:text-text-white">
+                    <div class="md:w-1/2 w-full justify-end mb-4">
+                        <h2 class="text-xl font-semibold md:mb-4 mb-2">{{ __('About Us') }}</h2>
+                        <ul class="md:space-y-2 space-y-1 text-base text-text-primary dark:text-text-white">
                             <li><a href="#"
                                     class="hover:text-text-danger transition-all duration-300">{{ __('About Us') }}</a>
                             </li>
@@ -152,9 +150,9 @@
                     </div>
 
                     <!-- Resource -->
-                    <div class="md:w-1/2 ">
-                        <h2 class="text-lg font-semibold mb-4">{{ __('Resource') }}</h2>
-                        <ul class="space-y-2 text-base text-text-primary dark:text-text-white">
+                    <div class="md:w-1/2 w-full ">
+                        <h2 class="text-lg font-semibold md:mb-4 mb-2">{{ __('Resource') }}</h2>
+                        <ul class="md:space-y-2 space-y-1 text-base text-text-primary dark:text-text-white">
                             <li><a href="#"
                                     class="hover:text-text-danger transition-all duration-300">{{ __('Privacy Policies') }}</a>
                             </li>
@@ -179,6 +177,7 @@
         </div>
 
     </div>
+
     {{-- Main content end --}}
 
     <!-- Footer socket -->

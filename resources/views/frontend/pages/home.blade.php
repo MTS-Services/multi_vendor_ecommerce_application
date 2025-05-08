@@ -3,6 +3,10 @@
 @section('title', 'Home')
 
 @push('css')
+    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="styles.css">
+    </noscript>
     <style>
         .swiper-pagination {
             gap: 20px !important;
@@ -51,65 +55,67 @@
 
 @section('content')
     {{-- ---------------------------------------- banner slider start -------------------- --}}
-    <section class="swiper banner">
-        <div class="swiper-wrapper relative">
+    <section class="swiper banner ">
+        <div class="swiper-wrapper relative ">
             <div class="swiper-slide">
-                <section class="bg-bg-danger dark:bg-bg-accent/20">
+                <div class="bg-bg-danger dark:bg-bg-accent/20">
                     <div class="container ">
-                        <div class="slid flex-row flex items-center justify-between">
+                        <div class="flex-row flex items-center gap-8 justify-between">
                             <div class="text">
                                 <p class="text-xs md:text-base">{{ __('APPLE WATCHES COLLECTION') }}</p>
-                                <h2 class="text-2xl md:text-6xl py-4 ">{{ __('Sale up to') }} <br>{{ __(' 15% off') }}</h2>
+                                <h2 class="sm:text-xl text-lg lg:text-2xl xl:text-6xl md:py-4 py-1 ">{{ __('Sale up to') }}
+                                    <br>{{ __(' 15% off') }}</h2>
                                 <a href="#" class="btn-primary">{{ __('Shop Now') }} <i
                                         data-lucide="chevron-right"></i></i></a>
                             </div>
-                            <div class="image">
-                                <img class="w-auto " src="{{ asset('frontend/images/slider-electronic-1.png') }}"
-                                    alt="Slider Image">
+                            <div class="image ">
+                                <img class="w-8/12 lg:w-10/12 xl:w-full"
+                                    src="{{ asset('frontend/images/slider-electronic-1.png') }}" alt="Slider Image">
                             </div>
 
                         </div>
                     </div>
-                </section>
+                </div>
             </div>
             <div class="swiper-slide">
-                <section class="bg-bg-light dark:bg-bg-danger/30">
+                <div class="bg-bg-gray/40 dark:bg-bg-danger/30">
                     <div class="container ">
-                        <div class="slid flex-row flex items-center justify-between">
+                        <div class="flex-row flex items-center justify-between">
                             <div class="text">
                                 <p class="text-xs md:text-base">{{ __('APPLE WATCHES COLLECTION') }}</p>
-                                <h2 class="text-2xl md:text-6xl py-4 ">{{ __('Sale up to') }} <br>{{ __(' 15% off') }}</h2>
+                                <h2 class="sm:text-xl text-lg lg:text-2xl xl:text-6xl md:py-4 py-1 ">{{ __('Sale up to') }}
+                                    <br>{{ __(' 15% off') }}</h2>
                                 <a href="#" class="btn-primary">{{ __('Shop Now') }} <i
                                         data-lucide="chevron-right"></i></i></a>
                             </div>
-                            <div class="image">
-                                <img class="" src="{{ asset('frontend/images/slider-electronic-1.png') }}"
-                                    alt="Slider Image">
+                            <div class="image  ">
+                                <img class="w-8/12 lg:w-10/12 xl:w-full"
+                                    src="{{ asset('frontend/images/slider-electronic-1.png') }}" alt="Slider Image">
                             </div>
 
                         </div>
                     </div>
-                </section>
+                </div>
             </div>
             <div class="swiper-slide">
-                <section class="bg-bg-danger/50 dark:bg-bg-accent/30">
+                <div class="bg-bg-danger/50 dark:bg-bg-accent/30">
                     <div class="container ">
-                        <div class="slid flex-row flex items-center justify-between">
+                        <div class="flex-row flex items-center justify-between">
                             <div class="text">
                                 <p class="text-xs md:text-base">{{ __('APPLE WATCHES COLLECTION') }}</p>
-                                <h2 class="text-2xl md:text-6xl py-4 ">{{ __('Sale up to') }} <br>{{ __(' 15% off') }}
+                                <h2 class="sm:text-xl text-lg lg:text-2xl xl:text-6xl md:py-4 py-1 ">{{ __('Sale up to') }} <br>{{ __(' 15% off') }}
                                 </h2>
                                 <a href="#" class="btn-primary">{{ __('Shop Now') }} <i
                                         data-lucide="chevron-right"></i></i></a>
                             </div>
-                            <div class="image">
-                                <img class="" src="{{ asset('frontend/images/slider-electronic-1.png') }}"
-                                    alt="Slider Image">
+                            <div class="image ">
+                                <img class="w-8/12 lg:w-10/12 xl:w-full"
+                                    src="{{ asset('frontend/images/slider-electronic-1.png') }}" alt="Slider Image">
                             </div>
 
                         </div>
                     </div>
-                </section>
+                </div>
             </div>
         </div>
         <div class="swiper-pagination  z-10"></div>
@@ -286,7 +292,7 @@
                 <h2 class="text-4xl">{{ __('Featured Products') }}</h2>
                 <p class="py-3">{{ __('Check out our featured products.') }}</p>
             </div>
-            <div class="grid grid-col md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div class="grid grid-col sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 @php
                     $collections = collect([
                         'id' => 1,
@@ -317,16 +323,15 @@
     {{--  Unmatched Performance start   --}}
     <section class="bg-bg-white dark:bg-bg-darkTertiary py-8 md:py-18">
         <div class="container">
-            <div class="main  rounded-xl bg-gradient-primary dark:bg-gradient-dark  flex items-center justify-around">
-                <div class="left_side flex flex-col lg:gap-y-4 gap-y-2">
-                    <h2 class="lg:text-4xl md:text-2xl text-xl ">{{ __('Unmatched Performance') }}</h2>
-                    <p>{{ __('Upgrade your devices with cutting-edge technology.') }}</p>
-                    <a href="#" class="btn-primary">{{ __('Shop Now') }} <i
+            <div
+                class="rounded-xl bg-gradient-primary dark:bg-gradient-dark  flex lg:flex-row flex-col-reverse items-center lg:p-6  lg:justify-around">
+                <div class="flex flex-col lg:gap-y-4 gap-y-2 py-5 text-center lg:text-left">
+                    <h2 class="text-4xl  ">{{ __('Unmatched Performance') }}</h2>
+                    <p class="text-sm sm:text-base">{{ __('Upgrade your devices with cutting-edge technology.') }}</p>
+                    <a href="#" class="btn-primary mx-auto lg:mx-0">{{ __('Shop Now') }} <i
                             data-lucide="chevron-right"></i></i></a>
                 </div>
-                <div class="right_side">
-                    <img src="{{ asset('frontend/images/home_phone.png') }}" alt="">
-                </div>
+                <img src="{{ asset('frontend/images/home_phone.png') }}" alt="" class="lg:w-10/12 xl:w-6/12">
             </div>
         </div>
     </section>
@@ -359,8 +364,8 @@
                                     </div>
                                     <p class="lg:text-sm text-xs  ">
                                         {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                top-notch.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        top-notch.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        I’ve gotten so many compliments on it. Will definitely shop here again!') }}
                                     </p>
                                 </div>
                                 <div
@@ -369,7 +374,7 @@
                                     <div class="text">
                                         <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
                                                 class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
                                         </p>
                                         <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
                                     </div>
@@ -396,8 +401,8 @@
                                     </div>
                                     <p class="lg:text-sm text-xs  ">
                                         {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                top-notch.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        top-notch.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        I’ve gotten so many compliments on it. Will definitely shop here again!') }}
                                     </p>
                                 </div>
                                 <div
@@ -406,7 +411,7 @@
                                     <div class="text">
                                         <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
                                                 class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
                                         </p>
                                         <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
                                     </div>
@@ -433,8 +438,8 @@
                                     </div>
                                     <p class="lg:text-sm text-xs  ">
                                         {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                top-notch.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        top-notch.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        I’ve gotten so many compliments on it. Will definitely shop here again!') }}
                                     </p>
                                 </div>
                                 <div
@@ -443,7 +448,7 @@
                                     <div class="text">
                                         <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
                                                 class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
                                         </p>
                                         <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
                                     </div>
@@ -470,8 +475,8 @@
                                     </div>
                                     <p class="lg:text-sm text-xs  ">
                                         {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                top-notch.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        top-notch.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        I’ve gotten so many compliments on it. Will definitely shop here again!') }}
                                     </p>
                                 </div>
                                 <div
@@ -480,7 +485,7 @@
                                     <div class="text">
                                         <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
                                                 class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
                                         </p>
                                         <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
                                     </div>
@@ -507,8 +512,8 @@
                                     </div>
                                     <p class="lg:text-sm text-xs  ">
                                         {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                top-notch.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        top-notch.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        I’ve gotten so many compliments on it. Will definitely shop here again!') }}
                                     </p>
                                 </div>
                                 <div
@@ -517,7 +522,7 @@
                                     <div class="text">
                                         <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
                                                 class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
                                         </p>
                                         <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
                                     </div>
@@ -544,8 +549,8 @@
                                     </div>
                                     <p class="lg:text-sm text-xs  ">
                                         {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                top-notch.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                I’ve gotten so many compliments on it. Will definitely shop here again!') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        top-notch.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        I’ve gotten so many compliments on it. Will definitely shop here again!') }}
                                     </p>
                                 </div>
                                 <div
@@ -554,7 +559,7 @@
                                     <div class="text">
                                         <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
                                                 class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Camera') }}</span>
                                         </p>
                                         <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
                                     </div>

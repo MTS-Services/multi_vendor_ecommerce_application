@@ -125,7 +125,7 @@
                 <div class="product_side w-1/2 mt-6 md:mt-0">
                     <h1 class="text-3xl font-bold mb-2">{{ __('Ice: Small') }}</h1>
                     <div class="flex items-center mb-3">
-                        <div class="flex space-x-1 text-text-danger md:py-5 py-2">
+                        <div class="flex space-x-1 text-text-danger md:py-3 py-1">
                             <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
                             <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
                             <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
@@ -314,7 +314,7 @@
                         </div>
                         <div class="mt-4 border-gray-200 pt-4">
                             <p class="text-sm font-semibold text-gray-900 pb-2">{{ __('Total price: $100.00 USD $120.00 USD') }}</p>
-                            <button class="btn-fill btn-primary !px-6">{{ __('Add selected to cart') }}</button>
+                            <button class="w-full btn-secondary !px-6">{{ __('Add selected to cart') }}</button>
                         </div>
                     </div>
                 </div>
