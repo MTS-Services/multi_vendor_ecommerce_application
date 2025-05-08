@@ -82,6 +82,12 @@
                 hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
                 {{ __('Singel Product') }}
             </a>
+            <a href="{{ route('frontend.store_location') }}"
+                class="capitalize text-text-primary dark:text-text-white relative
+                after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
+                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
+                {{ __('Store location') }}
+            </a>
             <a href="{{ route('frontend.test') }}"
                 class="capitalize text-text-primary dark:text-text-white relative
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent

@@ -93,7 +93,8 @@
                             <div class="swiper-wrapper flex flex-row lg:flex-col">
                                 @for ($i = 1; $i <= 10; $i++)
                                     <div class="swiper-slide mb-2 mr-2 lg:mr-0 lg:mb-2 cursor-pointer border rounded">
-                                        <img src="https://swiperjs.com/demos/images/nature-{{ $i }}.jpg" class="w-20 h-16 2xl:h-20 object-cover"/>
+                                        <img src="https://swiperjs.com/demos/images/nature-{{ $i }}.jpg"
+                                            class="w-20 h-16 2xl:h-20 object-cover" />
                                     </div>
                                 @endfor
                             </div>
@@ -106,7 +107,8 @@
                             <div class="swiper-wrapper">
                                 @for ($i = 1; $i <= 10; $i++)
                                     <div class="swiper-slide">
-                                        <img class="zoomable w-full object-cover" src="https://swiperjs.com/demos/images/nature-{{ $i }}.jpg" />
+                                        <img class="zoomable w-full object-cover"
+                                            src="https://swiperjs.com/demos/images/nature-{{ $i }}.jpg" />
                                     </div>
                                 @endfor
                             </div>
@@ -123,24 +125,29 @@
 
                 {{-- product details  side --}}
                 <div class="product_side w-full lg:w-1/2 mt-6 md:mt-0">
-                    <h1 class="text-2xl lg:text-3xl font-bold mb-2">{{ __('Turtleneck T-shirt') }}</h1>
-                    <div class="flex items-center mb-3">
-                        <div class="flex space-x-1 text-text-danger md:py-3 py-1">
-                            <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                    {{-- reating part --}}
+                    <div>
+                        <h1 class="text-2xl lg:text-3xl font-bold mb-2">{{ __('Turtleneck T-shirt') }}</h1>
+                        <div class="flex items-center mb-3">
+                            <div class="flex space-x-1 text-text-danger md:py-3 py-1">
+                                <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
+                            </div>
+                            <span class="ml-2 text-gray-600">({{ __('24 reviews') }})</span>
                         </div>
-                        <span class="ml-2 text-gray-600">({{ __('24 reviews') }})</span>
-                    </div>
 
-                    <div class="mb-6">
-                        <p class="text-xl lg:text-2xl font-bold"><span class="text-text-danger">{{ __('$100.00') }}</span>-{{ '$120.00' }}</p>
-                        <p class="flex items-center text-sm mt-3">
-                            <i data-lucide="flame" class="w-5 h-5 lg:w-7 lg:h-7 text-text-danger dark:text-text-gray"></i>
-                            {{ __('30 sold in last 24 hours') }}
-                        </p>
+                        <div class="mb-6">
+                            <p class="text-xl lg:text-2xl font-bold"><span
+                                    class="text-text-danger">{{ __('$100.00') }}</span>-{{ '$120.00' }}</p>
+                            <p class="flex items-center text-sm mt-3">
+                                <i data-lucide="flame"
+                                    class="w-5 h-5 lg:w-7 lg:h-7 text-text-danger dark:text-text-gray"></i>
+                                {{ __('30 sold in last 24 hours') }}
+                            </p>
+                        </div>
                     </div>
 
                     {{-- Size Change --}}
@@ -175,19 +182,22 @@
                     <div class="mb-8">
                         <div class="flex flex-wrap gap-3 items-center">
                             <!-- Quantity Controls -->
-                            <div class="flex items-center border rounded-full overflow-hidden bg-bg-dark/10 dark:bg-bg-white/10 px-4 lg:px-5 py-1 lg:py-2">
+                            <div
+                                class="flex items-center border rounded-full overflow-hidden bg-bg-dark/10 dark:bg-bg-white/10 px-4 lg:px-5 py-1 lg:py-2">
                                 <button class="quantity-decrease">
                                     <i data-lucide="minus" class="w-4 h-4 hover:text-text-danger"></i>
                                 </button>
                                 <input type="text" min="1" value="1"
-                                    class="w-10 lg:w-12 text-center py-1 bg-transparent focus:outline-none" id="quantity-input" />
+                                    class="w-10 lg:w-12 text-center py-1 bg-transparent focus:outline-none"
+                                    id="quantity-input" />
                                 <button class="quantity-increase">
                                     <i data-lucide="plus" class="w-4 h-4 hover:text-text-danger"></i>
                                 </button>
                             </div>
 
                             <!-- Add to Cart Button -->
-                            <button class="flex-1 px-4 lg:px-5 py-2 lg:py-3 btn-primary text-text-white font-medium rounded-full">
+                            <button
+                                class="flex-1 px-4 lg:px-5 py-2 lg:py-3 btn-primary text-text-white font-medium rounded-full">
                                 {{ __('Add to cart') }}
                             </button>
                         </div>
@@ -202,22 +212,26 @@
                             <a href="#" class="underline hover:text-text-danger">{{ __('More payment options') }}</a>
                         </p>
                         <div class="mb-6 flex flex-wrap justify-center gap-4 lg:gap-6 text-sm">
-                            <a href="#" class="flex text-sm lg:text-base items-center gap-2 hover:text-text-danger transiction-ll">
+                            <a href="#"
+                                class="flex text-sm lg:text-base items-center gap-2 hover:text-text-danger transiction-ll">
                                 <i data-lucide="trash-2" class="w-4 h-4"></i>
                                 <span class="hidden sm:inline">{{ __('Remove from wishlist') }}</span>
                             </a>
 
-                            <a href="#" class="flex text-sm lg:text-base items-center gap-2 hover:text-text-danger transiction-ll">
+                            <a href="#"
+                                class="flex text-sm lg:text-base items-center gap-2 hover:text-text-danger transiction-ll">
                                 <i data-lucide="stretch-horizontal" class="w-4 h-4"></i>
                                 <span class="hidden sm:inline">{{ __('Already compared') }}</span>
                             </a>
 
-                            <a href="#" class="flex text-sm lg:text-base items-center gap-2 hover:text-text-danger transiction-ll">
+                            <a href="#"
+                                class="flex text-sm lg:text-base items-center gap-2 hover:text-text-danger transiction-ll">
                                 <i data-lucide="help-circle" class="w-4 h-4"></i>
                                 <span class="hidden sm:inline">{{ __('Ask a question') }}</span>
                             </a>
 
-                            <a href="#" class="flex text-sm lg:text-base items-center gap-2 hover:text-text-danger transiction-ll">
+                            <a href="#"
+                                class="flex text-sm lg:text-base items-center gap-2 hover:text-text-danger transiction-ll">
                                 <i data-lucide="share-2" class="w-4 h-4"></i>
                                 <span class="hidden sm:inline">{{ __('Share') }}</span>
                             </a>
@@ -246,7 +260,8 @@
                     </div>
 
                     {{-- delivery --}}
-                    <div class="mb-6 space-y-2 flex flex-col sm:flex-row justify-around mx-auto border p-4 lg:p-6 rounded-xl lg:rounded-2xl py-4 lg:py-6">
+                    <div
+                        class="mb-6 space-y-2 flex flex-col sm:flex-row justify-around mx-auto border p-4 lg:p-6 rounded-xl lg:rounded-2xl py-4 lg:py-6">
                         <!-- Estimated Delivery Time -->
                         <div class="flex items-center sm:border-r sm:pr-6 lg:pr-14 pb-3 sm:pb-0">
                             <div class="text-center">
@@ -268,22 +283,24 @@
 
                     {{-- product cart --}}
                     <div class="mt-6 lg:mt-8 border p-4 lg:p-6 rounded-xl lg:rounded-2xl">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('Frequently Bought Together') }}</h3>
+                        <h3 class="text-lg font-semibold  mb-4">{{ __('Frequently Bought Together') }}</h3>
                         <div class="space-y-4">
                             <div class="flex items-center">
                                 <input type="checkbox"
-                                    class="mr-3 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                    class="mr-3 h-4 w-4 rounded  text-text-tertiary  focus:ring-indigo-500">
                                 <div class="flex flex-col sm:flex-row items-start w-full gap-3">
                                     <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}"
-                                        alt="{{ __('AirPod Pro Black') }}" class="w-full sm:w-32 lg:w-40 h-auto sm:h-40 lg:h-60 object-cover rounded">
+                                        alt="{{ __('AirPod Pro Black') }}"
+                                        class="w-full sm:w-32 lg:w-40 h-auto sm:h-40 lg:h-60 object-cover rounded">
                                     <div>
-                                        <p class="text-sm lg:text-base font-medium text-gray-900">{{ __('Single Breasted Blazer') }}</p>
+                                        <p class="text-sm lg:text-base font-medium ">
+                                            {{ __('Single Breasted Blazer') }}</p>
                                         <p class="text-xs lg:text-sm py-1 lg:py-2">
                                             <span class="text-text-danger">{{ __('$100.00') }}</span>
                                             <span class="line-through ml-1">{{ __('$120.00') }}</span>
                                         </p>
                                         <select id="color-size" name="color-size"
-                                            class="block w-full text-sm lg:text-base rounded-full border border-gray-300 py-1 lg:py-2 px-2 lg:px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500">
+                                            class="block w-full text-sm lg:text-base rounded-full border  py-1 lg:py-2 px-2 lg:px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500">
                                             <option value="" selected>{{ __('Black / S') }}</option>
                                             <option value="black-m">{{ __('Black / M') }}</option>
                                             <option value="black-l">{{ __('Black / L') }}</option>
@@ -301,18 +318,20 @@
                             <!-- Repeat for other product items with same responsive classes -->
                             <div class="flex items-center">
                                 <input type="checkbox"
-                                    class="mr-3 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                    class="mr-3 h-4 w-4 rounded  text-indigo-600 focus:ring-indigo-500">
                                 <div class="flex flex-col sm:flex-row items-start w-full gap-3">
                                     <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}"
-                                        alt="{{ __('AirPod Pro Black') }}" class="w-full sm:w-32 lg:w-40 h-auto sm:h-40 lg:h-60 object-cover rounded">
+                                        alt="{{ __('AirPod Pro Black') }}"
+                                        class="w-full sm:w-32 lg:w-40 h-auto sm:h-40 lg:h-60 object-cover rounded">
                                     <div>
-                                        <p class="text-sm lg:text-base font-medium text-gray-900">{{ __('Single Breasted Blazer') }}</p>
+                                        <p class="text-sm lg:text-base font-medium ">
+                                            {{ __('Single Breasted Blazer') }}</p>
                                         <p class="text-xs lg:text-sm py-1 lg:py-2">
                                             <span class="text-text-danger">{{ __('$100.00') }}</span>
                                             <span class="line-through ml-1">{{ __('$120.00') }}</span>
                                         </p>
                                         <select id="color-size" name="color-size"
-                                            class="block w-full text-sm lg:text-base rounded-full border border-gray-300 py-1 lg:py-2 px-2 lg:px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500">
+                                            class="block w-full text-sm lg:text-base rounded-full border  py-1 lg:py-2 px-2 lg:px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500">
                                             <option value="" selected>{{ __('Black / S') }}</option>
                                             <option value="black-m">{{ __('Black / M') }}</option>
                                             <option value="black-l">{{ __('Black / L') }}</option>
@@ -329,18 +348,20 @@
                             </div>
                             <div class="flex items-center">
                                 <input type="checkbox"
-                                    class="mr-3 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                    class="mr-3 h-4 w-4 rounded  text-indigo-600 focus:ring-indigo-500">
                                 <div class="flex flex-col sm:flex-row items-start w-full gap-3">
                                     <img src="{{ asset('frontend/images/airpod-pro-black.jpg') }}"
-                                        alt="{{ __('AirPod Pro Black') }}" class="w-full sm:w-32 lg:w-40 h-auto sm:h-40 lg:h-60 object-cover rounded">
+                                        alt="{{ __('AirPod Pro Black') }}"
+                                        class="w-full sm:w-32 lg:w-40 h-auto sm:h-40 lg:h-60 object-cover rounded">
                                     <div>
-                                        <p class="text-sm lg:text-base font-medium text-gray-900">{{ __('Single Breasted Blazer') }}</p>
+                                        <p class="text-sm lg:text-base font-medium ">
+                                            {{ __('Single Breasted Blazer') }}</p>
                                         <p class="text-xs lg:text-sm py-1 lg:py-2">
                                             <span class="text-text-danger">{{ __('$100.00') }}</span>
                                             <span class="line-through ml-1">{{ __('$120.00') }}</span>
                                         </p>
                                         <select id="color-size" name="color-size"
-                                            class="block w-full text-sm lg:text-base rounded-full border border-gray-300 py-1 lg:py-2 px-2 lg:px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500">
+                                            class="block w-full text-sm lg:text-base rounded-full border  py-1 lg:py-2 px-2 lg:px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500">
                                             <option value="" selected>{{ __('Black / S') }}</option>
                                             <option value="black-m">{{ __('Black / M') }}</option>
                                             <option value="black-l">{{ __('Black / L') }}</option>
@@ -356,8 +377,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-4 border-gray-200 pt-4">
-                            <p class="text-sm font-semibold text-gray-900 pb-2">
+                        <div class="mt-4  pt-4">
+                            <p class="text-sm font-semibold  pb-2">
                                 {{ __('Total price: $100.00 USD $120.00 USD') }}</p>
                             <button class="w-full btn-secondary !px-4 lg:!px-6">{{ __('Add selected to cart') }}</button>
                         </div>
