@@ -129,6 +129,7 @@ class CategoryController extends Controller
         $data = Category::with(['creater', 'updater', 'sub_categories'])->findOrFail(decrypt($id));
         return response()->json($data);
     }
+
     public function edit(string $id)
     {
         $data['category'] = Category::findOrFail(decrypt($id));
