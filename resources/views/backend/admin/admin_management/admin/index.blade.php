@@ -81,9 +81,18 @@
             let id = $(this).data("id");
             let route = "{{ route('am.admin.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
-            const headers = [{
-                    label: "Name",
-                    key: "name"
+            const headers = [
+                {
+                    label: "First Name",
+                    key: "first_name"
+                },
+                {
+                    label: "Last Name",
+                    key: "last_name"
+                },
+                {
+                    label: "Username",
+                    key: "username"
                 },
                 {
                     label: "Image",
@@ -95,6 +104,10 @@
                     key: "email"
                 },
                 {
+                    label: "Phone",
+                    key: "phone"
+                },
+                {
                     label: "Status",
                     key: "status_label",
                     color: "status_color",
@@ -103,11 +116,6 @@
                     label: "Verify Status",
                     key: "verify_label",
                     color: "verify_color",
-                },
-                {
-                    label: "Gender",
-                    key: "gender_label",
-                    color: "gender_color",
                 },
             ];
             fetchAndShowModal(detailsUrl, headers, "#modal_data", "myModal");
