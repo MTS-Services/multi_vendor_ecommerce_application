@@ -91,6 +91,7 @@
 <!-- Kaiadmin JS -->
 <script src="{{ asset('backend/admin/assets/js/kaiadmin.min.js') }}"></script>
 @stack('js_links')
+<script src="{{ asset('backend/admin/js/functions.js') }}"></script>
 <script src="{{ asset('backend/admin/js/custom.js') }}"></script>
 @stack('js')
 

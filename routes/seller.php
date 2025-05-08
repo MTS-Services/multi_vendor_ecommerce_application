@@ -22,15 +22,12 @@ Route::group(['prefix' => 'seller', 'as' => 'seller.'], function () {
 
 
 Route::group(['middleware' => 'auth:seller', 'prefix' => 'seller'], function () {
-  Route::get('/dashboard', [SellerDashboardController::class, 'dashboard'])->name('seller.dashboard');
+    Route::get('/dashboard', [SellerDashboardController::class, 'dashboard'])->name('seller.dashboard');
 
-  Route::get('/profile', [SellerDashboardController::class, 'profile'])->name('seller.profile');
+    Route::get('/profile-show', [SellerProfileController::class, 'show'])->name('seller.profile_show');
+    Route::put('/profile/update', [SellerProfileController::class, 'update'])->name('seller.profile.update');
 
-  Route::get('/profile-show', [SellerProfileController::class, 'show'])->name('seller.profile_show');
-  Route::put('/profile/update', [SellerProfileController::class, 'update'])->name('seller.profile.update');
-
-  // Password routes
-  Route::get('/profile/password', [SellerProfileController::class, 'showChangePasswordForm'])->name('seller.profile.password');
-  Route::put('/profile/password/update', [SellerProfileController::class, 'updatePassword'])->name('seller.profile.password.update');
-
+    // Password routes
+    Route::get('/profile/password', [SellerProfileController::class, 'showChangePasswordForm'])->name('seller.profile.password');
+    Route::put('/profile/password/update', [SellerProfileController::class, 'updatePassword'])->name('seller.profile.password.update');
 });

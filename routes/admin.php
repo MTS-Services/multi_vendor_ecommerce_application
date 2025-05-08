@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Backend\Admin\Setup\AxiosRequestController;
+use App\Http\Controllers\Backend\Admin\Setup\CityController;
+use App\Http\Controllers\Backend\Admin\Setup\StateController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Backend\Admin\AuditController;
@@ -14,8 +17,10 @@ use App\Http\Controllers\Backend\Admin\AdminManagement\PermissionController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\CategoryController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\SubCategoryController;
 use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginController;
+use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
+use App\Models\Banner;
 
 // Admin Auth Routes
 Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')->group(function () {
@@ -59,10 +64,31 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('seller/status/{seller}', [SellerController::class, 'status'])->name('seller.status');
     });
 
-     // Setup Country
-     Route::group(['as' => 'setup.', 'prefix' => 'country-management'], function () {
+     // Setup Routes
+     Route::group(['as' => 'setup.', 'prefix' => 'setup-management'], function () {
+        Route::controller(AxiosRequestController::class)->name('axios.')->group( function () {
+            Route::get('get-states', 'getStates')->name('get-states');
+            Route::get('get-cities', 'getCities')->name('getCities');
+            Route::get('get-areas', 'getAreas')->name('getAreas');
+            Route::get('get-sub-areas', 'getSubAreas')->name('getSubAreas');
+        });
+
+
+
         Route::resource('country', CountryController::class);
         Route::get('country/status/{country}', [CountryController::class, 'status'])->name('country.status');
+
+        Route::resource('state', StateController::class);
+        Route::get('state/status/{state}', [StateController::class, 'status'])->name('state.status');
+
+        Route::resource('city', CityController::class);
+        Route::get('city/status/{state}', [CityController::class, 'status'])->name('city.status');
+    });
+
+     // CMS Management
+     Route::group(['as' => 'cms.', 'prefix' => 'cms-management'], function () {
+        Route::resource('banner', BannerController::class);
+        Route::get('banner/status/{banner}', [BannerController::class, 'status'])->name('banner.status');
     });
 
     // Product Management
