@@ -41,7 +41,6 @@ class AdminSeeder extends Seeder
             'last_name' => 'Admin',
             'username' => 'testadmin',
             'email' => 'testadmin@dev.com',
-            'email_verified_at' => now(),
             'password' => 'testadmin@dev.com',
             'role_id' => 2
         ]);
