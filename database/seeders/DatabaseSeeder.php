@@ -31,6 +31,8 @@ class DatabaseSeeder extends Seeder
 
             CountrySeeder::class,
             BannerSeeder::class,
+            StateSeeder::class,
+            CitySeeder::class,
         ]);
     }
 }
