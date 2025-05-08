@@ -85,29 +85,28 @@
 @section('content')
     <section id="carousel">
         <div class="container">
-            <div class="carousel_section flex md:flex-row flex-col gap-5">
-                <div class="slider_side flex w-1/2">
-                    {{-- Thumbnails --}}
-                    <div class="w-1/5 mr-4">
+            <div class="carousel_section flex lg:flex-row flex-col gap-5">
+                <div class="slider_side flex flex-col-reverse 2xl:flex-row w-full lg:w-1/2">
+                    {{-- Thumbnails (below on small, left on large) --}}
+                    <div class="w-full 2xl:w-1/5 mt-4 2xl:mt-0 lg:mr-4">
                         <div thumbsSlider="" class="swiper product_slider_thumbs h-full">
-                            <div class="swiper-wrapper flex flex-col">
+                            <div class="swiper-wrapper flex flex-row lg:flex-col">
                                 @for ($i = 1; $i <= 10; $i++)
-                                    <div class="swiper-slide mb-2 cursor-pointer border rounded">
-                                        <img src="https://swiperjs.com/demos/images/nature-{{ $i }}.jpg" />
+                                    <div class="swiper-slide mb-2 mr-2 lg:mr-0 lg:mb-2 cursor-pointer border rounded">
+                                        <img src="https://swiperjs.com/demos/images/nature-{{ $i }}.jpg" class="w-20 h-16 2xl:h-20 object-cover"/>
                                     </div>
                                 @endfor
                             </div>
                         </div>
                     </div>
 
-                    {{-- Main Slider with Zoom --}}
-                    <div class="w-4/5 relative hover-wrapper">
+                    {{-- Main Slider --}}
+                    <div class="w-full 2xl:w-4/5 relative hover-wrapper">
                         <div class="swiper product_slider_image">
                             <div class="swiper-wrapper">
                                 @for ($i = 1; $i <= 10; $i++)
                                     <div class="swiper-slide">
-                                        <img class="zoomable"
-                                            src="https://swiperjs.com/demos/images/nature-{{ $i }}.jpg" />
+                                        <img class="zoomable w-full object-cover" src="https://swiperjs.com/demos/images/nature-{{ $i }}.jpg" />
                                     </div>
                                 @endfor
                             </div>
@@ -115,12 +114,13 @@
                             <div class="swiper-button-prev"></div>
                         </div>
 
-                        <!-- Zoom Result Box -->
+                        <!-- Zoom Elements -->
                         <div id="zoomResult"></div>
-                        <!-- Zoom Lens -->
                         <div id="lens"></div>
                     </div>
                 </div>
+
+
                 {{-- product details  side --}}
                 <div class="product_side w-full lg:w-1/2 mt-6 md:mt-0">
                     <h1 class="text-2xl lg:text-3xl font-bold mb-2">{{ __('Turtleneck T-shirt') }}</h1>
