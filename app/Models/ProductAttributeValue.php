@@ -5,13 +5,14 @@ namespace App\Models;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ProductAttribute extends BaseModel
+class ProductAttributeValue extends BaseModel
 {
     use HasFactory;
 
     protected $fillable = [
         'sort_order',
-        'name',
+        'product_attribute_id',
+        'value',
         'status',
 
         'creater_id',
@@ -23,9 +24,9 @@ class ProductAttribute extends BaseModel
         'deleter_type',
     ];
 
-    public function productAttributeValues()
+    public function productAttribute()
     {
-        return $this->hasMany(ProductAttributeValue::class);
+        return $this->belongsTo(ProductAttribute::class);
     }
 
     public function __construct(array $attributes = [])
@@ -38,7 +39,14 @@ class ProductAttribute extends BaseModel
             'status_btn_label',
             'status_btn_color',
             'status_labels',
+            'product_attribute_name',
         ]);
+    }
+
+
+    public function getProductAttributeNameAttribute()
+    {
+        return $this->productAttribute?->name ?? 'Null';
     }
 
 
