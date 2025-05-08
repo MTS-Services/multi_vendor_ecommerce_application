@@ -106,7 +106,8 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
 
         //Product Attribute
         Route::resource('product-attribute', ProductAttributeController::class);
-        Route::get('product-attribute/status/{product_attribute}', [ProductAttributeController::class, 'productattribute'])->name('product-attribute.status');
+        Route::get('product-attribute/status/{product_attribute}', [ProductAttributeController::class, 'status'])->name('product-attribute.status');
+        Route::get('product-attribute/show/{id}', [ProductAttributeController::class, 'show'])->name('product-attribute.show');
     });
 
     // Documentation
