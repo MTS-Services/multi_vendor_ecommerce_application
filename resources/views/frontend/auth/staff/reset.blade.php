@@ -3,41 +3,17 @@
     <section class="py-20">
         <div class="container">
             <div
-                class="flex flex-col xl:flex-row-reverse shadow-shadowPrimary shadow-shadow-dark/10 dark:shadow-shadow-light/10 rounded-2xl w-full overflow-hidden bg-bg-white dark:bg-bg-darkTertiary">
+                class="flex flex-col md:flex-row shadow-shadowPrimary shadow-shadow-dark/10 dark:shadow-shadow-light/10 rounded-2xl w-full overflow-hidden bg-bg-white dark:bg-bg-darkTertiary">
                 <!-- Left Side: Form -->
                 <div class="w-full xl:w-1/2 p-10 md:p-12 flex flex-col justify-center">
-                    <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Start Shopping with Us') }}</h2>
-                    <form class="space-y-5" action="{{ route('register') }}" method="POST">
+                    <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Reset Your Password') }}</h2>
+                    <form class="space-y-5" action="{{ route('password.update') }}" method="POST">
                         @csrf
 
-                        {{-- Name Field --}}
-                        <div>
-                            <div class="flex items-center flex-wrap lg:flex-nowrap justify-between gap-3">
-                                <div class="w-full">
-                                    <label class="w-full">
-                                        <input type="text" placeholder="First Name" name="first_name" class="input" />
-                                    </label>
-                                </div>
-                                <div class="w-full">
-                                    <label class="w-full">
-                                        <input type="text" placeholder="Last Name" name="last_name" class="input" />
-                                    </label>
-                                </div>
-                            </div>
-
-                            {{-- Name Error Box --}}
-                            <div class="flex items-center flex-wrap lg:flex-nowrap justify-between gap-3">
-                                <div class="w-full">
-                                    <x-frontend.input-error :datas="['errors' => $errors, 'field' => 'first_name']" />
-                                </div>
-                                <div class="w-full">
-                                    <x-frontend.input-error :datas="['errors' => $errors, 'field' => 'last_name']" />
-                                </div>
-                            </div>
-                        </div>
+                        <input type="hidden" name="token" value="{{ $token }}">
 
                         {{-- Email Field --}}
-                        <div class="w-full">
+                        <div>
                             <label class="input">
                                 <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none"
@@ -46,7 +22,7 @@
                                         <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                                     </g>
                                 </svg>
-                                <input type="email" placeholder="Email" name="email" />
+                                <input type="text" placeholder="email" name="email" />
                             </label>
                             <x-frontend.input-error :datas="['errors' => $errors, 'field' => 'email']" />
                         </div>
@@ -98,31 +74,9 @@
                         </div>
 
                         <div class="mt-5 flex justify-center items-center gap-5 flex-wrap">
-                            <button type="submit" class="btn-primary">{{ __('Register') }}</button>
+                            <button type="submit" class="btn-primary">{{ __('Reset Password') }}</button>
                         </div>
                     </form>
-                    <div>
-                        <div class="divider">{{ __('Or sign up with') }}</div>
-                        <div class="flex flex-wrap gap-4">
-                            <a href="#" class="btn-primary rounded-md w-full gap-3">
-                                <i class='bx bxl-google text-2xl'></i> {{ __('Google') }}
-                            </a>
-                             <a href="#" class="btn-secondary rounded-md w-full gap-3">
-                                <i class='bx bxl-facebook text-2xl'></i> {{ __('Facebook') }}
-                            </a>
-                        </div>
-
-                        <p class="text-center text-sm mt-4">
-                            {{ __('Already have an account?') }} <a href="{{ route('login') }}"
-                                class="text-text-tertiary font-medium">
-                                {{ __('Sign in') }} </a>
-                        </p>
-
-                        <div class="text-center text-sm mt-4">
-                            {{ __('Become a') }} <a href="{{ route('seller.login') }}"
-                                class="text-text-accent font-medium">{{ __('Seller') }}</a>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Right Side: Image -->

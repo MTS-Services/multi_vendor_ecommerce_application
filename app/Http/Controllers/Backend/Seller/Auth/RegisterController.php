@@ -21,7 +21,10 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        return view('backend.seller.auth.register');
+        if (Auth::guard('seller')->check()) {
+            return redirect()->route('seller.dashboard');
+        }
+        return view('frontend.auth.seller.register');
     }
 
     protected function guard()
@@ -32,7 +35,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
@@ -41,7 +45,8 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return Seller::create([
-            'name' => $data['name'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
@@ -49,10 +54,9 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        // dd($request->all());
         $valideted = $this->validator($request->all())->validate();
         $seller = $this->create($valideted);
         $this->guard()->login($seller);
-        return redirect()->route('seller.profile');
+        return redirect()->route('seller.dashboard');
     }
 }

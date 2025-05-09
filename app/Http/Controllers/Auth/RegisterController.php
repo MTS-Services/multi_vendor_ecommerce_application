@@ -37,6 +37,9 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
+        if (Auth::guard('web')->check()) {
+            return redirect()->route('user.profile');
+        }
         return view('frontend.auth.user.register');
     }
     /**
