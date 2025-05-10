@@ -1,11 +1,11 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'role'])
-@section('title', 'Role Recycle Bin')
+@extends('backend.admin.layouts.master', ['page_slug' => 'permission'])
+@section('title', 'Permission Recycle Bin')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('Role Recycle Bin') }}</h4>
+                    <h4 class="cart-title">{{ __('Permission Recycle Bin') }}</h4>
                     <div class="buttons">
                         <x-backend.admin.button :datas="[
                             'routeName' => 'am.permission.index',

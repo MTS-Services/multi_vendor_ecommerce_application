@@ -1,11 +1,11 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'role'])
-@section('title', 'Role Recycle Bin')
+@extends('backend.admin.layouts.master', ['page_slug' => 'seller'])
+@section('title', 'Seller Recycle Bin')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('Role Recycle Bin') }}</h4>
+                    <h4 class="cart-title">{{ __('Seller Recycle Bin') }}</h4>
                     <div class="buttons">
                         <x-backend.admin.button :datas="[
                             'routeName' => 'sl.seller.index',
@@ -47,7 +47,7 @@
                 ['email', true, true],
                 ['status', true, true],
                 ['is_verify', true, true],
-                ['deleted_by', true, true],
+                ['deleter_id', true, true],
                 ['deleted_at', true, true],
                 ['action', false, false],
             ];

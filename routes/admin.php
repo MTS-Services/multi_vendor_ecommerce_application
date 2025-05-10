@@ -146,6 +146,11 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         //Product Attribute
         Route::resource('product-attribute', AttributeController::class);
         Route::get('product-attribute/status/{product_attribute}', [AttributeController::class, 'status'])->name('product-attribute.status');
+        Route::get('product-attribute/recycle/bin', [AttributeController::class, 'recycleBin'])->name('product-attribute.recycle-bin');
+        Route::get('product-attribute/restore/{product_attribute}', [AttributeController::class, 'restore'])->name('product-attribute.restore');
+        Route::delete('product-attribute/permanent-delete/{product_attribute}', [AttributeController::class, 'permanentDelete'])->name('product-attribute.permanent-delete');
+
+
 
         // Brand Routes
         Route::resource('brand', BrandController::class);

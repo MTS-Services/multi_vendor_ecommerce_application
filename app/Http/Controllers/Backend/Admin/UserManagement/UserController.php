@@ -117,7 +117,7 @@ class UserController extends Controller
                 ->editColumn('is_verify', function ($user) {
                     return "<span class='badge " . $user->verify_color . "'>" . $user->verify_label . "</span>";
                 })
-                ->editColumn('deleted_by', function ($user) {
+                ->editColumn('deleter_id', function ($user) {
                     return $user->deleter_name;
                 })
                 ->editColumn('deleted_at', function ($user) {
@@ -127,7 +127,7 @@ class UserController extends Controller
                     $menuItems = $this->trashedMenuItems($user);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'is_verify', 'deleted_by', 'deleted_at', 'action'])
+                ->rawColumns(['first_name', 'status', 'is_verify', 'deleter_id', 'deleted_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.user_management.user.recycle-bin');
@@ -140,14 +140,14 @@ class UserController extends Controller
                 'routeName' => 'um.user.restore',
                 'params' => [encrypt($model->id)],
                 'label' => 'Restore',
-                'permissions' => ['role-restore']
+                'permissions' => ['user-restore']
             ],
             [
                 'routeName' => 'um.user.permanent-delete',
                 'params' => [encrypt($model->id)],
                 'label' => 'Permanent Delete',
                 'p-delete' => true,
-                'permissions' => ['role-permanent-delete']
+                'permissions' => ['user-permanent-delete']
             ]
 
         ];
@@ -226,7 +226,7 @@ class UserController extends Controller
         session()->flash('success', 'User status updated successfully!');
         return redirect()->route('um.user.index');
     }
-      public function restore(string $id): RedirectResponse
+    public function restore(string $id): RedirectResponse
     {
         $user = User::onlyTrashed()->findOrFail(decrypt($id));
         $user->update(['updated_by' => admin()->id]);

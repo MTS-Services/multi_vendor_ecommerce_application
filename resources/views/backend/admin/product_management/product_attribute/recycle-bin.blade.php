@@ -1,16 +1,16 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'user'])
-@section('title', 'User Recycle Bin')
+@extends('backend.admin.layouts.master', ['page_slug' => 'product_attribute'])
+@section('title', 'Product Attribute Recycle Bin')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('User Recycle Bin') }}</h4>
+                    <h4 class="cart-title">{{ __('Role Recycle Bin') }}</h4>
                     <div class="buttons">
                         <x-backend.admin.button :datas="[
-                            'routeName' => 'um.user.index',
+                            'routeName' => 'pm.product-attribute.index',
                             'label' => 'Back',
-                            'permissions' => ['user-list'],
+                            'permissions' => ['product-attribute-list'],
                         ]" />
                     </div>
                 </div>
@@ -20,9 +20,6 @@
                             <tr>
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Name') }}</th>
-                                <th>{{ __('Email') }}</th>
-                                <th>{{ __('Status') }}</th>
-                                <th>{{ __('Verify Status') }}</th>
                                 <th>{{ __('Deleted By') }}</th>
                                 <th>{{ __('Deleted Date') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -43,10 +40,8 @@
         $(document).ready(function() {
             let table_columns = [
                 //name and data, orderable, searchable
-                ['first_name', true, true],
-                ['email', true, true],
+                ['name', true, true],
                 ['status', true, true],
-                ['is_verify', true, true],
                 ['deleter_id', true, true],
                 ['deleted_at', true, true],
                 ['action', false, false],
@@ -55,10 +50,10 @@
                 table_columns: table_columns,
                 main_class: '.datatable',
                 displayLength: 10,
-                main_route: "{{ route('um.user.recycle-bin') }}",
+                main_route: "{{ route('pm.product-attribute.recycle-bin') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5, 6],
-                model: 'User',
+                export_columns: [0, 1, 2, 3],
+                model: 'Role',
             };
             // initializeDataTable(details);
 

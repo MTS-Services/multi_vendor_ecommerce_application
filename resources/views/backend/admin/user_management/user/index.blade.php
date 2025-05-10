@@ -11,10 +11,10 @@
                     <h4 class="cart-title">{{ __('User List') }}</h4>
                     <div class="buttons">
                         <x-backend.admin.button :datas="[
-                            'routeName' => 'sl.seller.recycle-bin',
+                            'routeName' => 'um.user.recycle-bin',
                             'label' => 'Recycle Bin',
                             'className' => 'btn-danger',
-                            'permissions' => ['permission-restore'],
+                            'permissions' => ['user-restore'],
                         ]" />
                         <x-backend.admin.button :datas="[
                             'routeName' => 'um.user.create',

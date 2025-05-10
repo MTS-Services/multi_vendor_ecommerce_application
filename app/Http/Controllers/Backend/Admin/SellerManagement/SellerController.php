@@ -118,7 +118,7 @@ class SellerController extends Controller
                 ->editColumn('is_verify', function ($seller) {
                     return "<span class='badge " . $seller->verify_color . "'>" . $seller->verify_label . "</span>";
                 })
-                ->editColumn('deleted_by', function ($seller) {
+               ->editColumn('deleter_id', function ($seller) {
                     return $seller->deleter_name;
                 })
                 ->editColumn('deleted_at', function ($seller) {
@@ -128,7 +128,7 @@ class SellerController extends Controller
                     $menuItems = $this->trashedMenuItems($seller);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'is_verify', 'deleted_by', 'deleted_at', 'action'])
+                ->rawColumns(['status', 'is_verify', 'deleter_id', 'deleted_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.seller_management.seller.recycle-bin');
