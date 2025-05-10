@@ -8,9 +8,9 @@
                     <h4 class="cart-title">{{ __('Role Recycle Bin') }}</h4>
                     <div class="buttons">
                         <x-backend.admin.button :datas="[
-                            'routeName' => 'sl.seller.index',
+                            'routeName' => 'um.user.index',
                             'label' => 'Back',
-                            'permissions' => ['seller-list'],
+                            'permissions' => ['user-list'],
                         ]" />
                     </div>
                 </div>
@@ -55,10 +55,10 @@
                 table_columns: table_columns,
                 main_class: '.datatable',
                 displayLength: 10,
-                main_route: "{{ route('sl.seller.recycle-bin') }}",
+                main_route: "{{ route('um.user.recycle-bin') }}",
                 order_route: "{{ route('update.sort.order') }}",
                 export_columns: [0, 1, 2, 3,4,5,6],
-                model: 'Seller',
+                model: 'User',
             };
             // initializeDataTable(details);
 

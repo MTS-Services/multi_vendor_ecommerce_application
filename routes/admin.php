@@ -75,6 +75,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     Route::group(['as' => 'um.', 'prefix' => 'user-management'], function () {
         Route::resource('user', UserController::class);
         Route::get('user/status/{user}', [UserController::class, 'status'])->name('user.status');
+        Route::get('user/recycle/bin', [UserController::class, 'recycleBin'])->name('user.recycle-bin');
+        Route::get('user/restore/{user}', [UserController::class, 'restore'])->name('user.restore');
+        Route::delete('user/permanent-delete/{user}', [UserController::class, 'permanentDelete'])->name('user.permanent-delete');
     });
 
     // Seller Management

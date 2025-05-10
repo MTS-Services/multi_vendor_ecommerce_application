@@ -234,7 +234,7 @@ class SellerController extends Controller
         $seller = Seller::onlyTrashed()->findOrFail(decrypt($id));
         $seller->update(['updated_by' => admin()->id]);
         $seller->restore();
-        session()->flash('success', 'Permission restored successfully!');
+        session()->flash('success', 'Seller restored successfully!');
         return redirect()->route('sl.seller.recycle-bin');
     }
 
@@ -248,7 +248,7 @@ class SellerController extends Controller
     {
         $seller = Seller::onlyTrashed()->findOrFail(decrypt($id));
         $seller->forceDelete();
-        session()->flash('success', 'Permission permanently deleted successfully!');
+        session()->flash('success', 'Seller permanently deleted successfully!');
         return redirect()->route('sl.seller.recycle-bin');
     }
 }
