@@ -24,6 +24,7 @@ use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginControl
 use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
 use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\TaxClassController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
 
 // Admin Auth Routes
@@ -136,6 +137,12 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::resource('brand', BrandController::class);
         Route::get('brand/status/{brand}', [BrandController::class, 'status'])->name('brand.status');
         Route::get('brand/feature/{brand}', [BrandController::class, 'feature'])->name('brand.feature');
+        // TaxClass
+        Route::resource('tax-class', TaxClassController::class);
+        Route::get('tax-class/status/{tax_class}', [TaxClassController::class, 'status'])->name('tax-class.status');
+        Route::get('tax-class/recycle-bin', [TaxClassController::class, 'recycleBin'])->name('tax-class.recycle-bin');
+        Route::get('tax-class/restore/{tax_class}', [TaxClassController::class, 'restore'])->name('tax-class.restore');
+        Route::delete('tax-class/permanent-delete/{tax_class}', [TaxClassController::class, 'permanentDelete'])->name('tax-class.permanent-delete');
     });
 
     // Documentation
