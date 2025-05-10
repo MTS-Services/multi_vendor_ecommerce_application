@@ -126,6 +126,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         // Operation Area Routes
         Route::resource('operation-area', OperationAreaController::class);
         Route::get('operation-area/status/{operation_area}', [OperationAreaController::class, 'status'])->name('operation-area.status');
+        Route::get('operation-area/recycle/bin', [OperationAreaController::class, 'recycleBin'])->name('operation-area.recycle-bin');
+        Route::get('operation-area/restore/{operation_area}', [OperationAreaController::class, 'restore'])->name('operation-area.restore');
+        Route::delete('operation-area/permanent-delete/{operation_area}', [OperationAreaController::class, 'permanentDelete'])->name('operation-area.permanent-delete');
 
         // Operation Sub Area Routes
         Route::resource('operation-sub-area', OperationSubAreaController::class);
