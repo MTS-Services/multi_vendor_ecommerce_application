@@ -13,32 +13,68 @@
             margin-right: 3px;
         }
 
-        /* Custom styles for the range slider */
-        .range-slider {
+        .active{
+            color: black !important;
+            opacity: 1 !important;
+        }
+
+        /* Custom styles for the range inputs */
+        .price-slider {
             position: relative;
+            width: 100%;
+            height: 4px;
+        }
+
+        .slider-track {
+            position: absolute;
+            width: 100%;
             height: 4px;
             background-color: #e5e7eb;
+            z-index: 1;
             border-radius: 9999px;
         }
 
-        .range-selected {
-            height: 100%;
-            background-color: #ff6b6b;
-            border-radius: 9999px;
+        .slider-range, .slider-ranges {
             position: absolute;
+            height: 4px;
+            background-color: #ff6b6b;
+            z-index: 2;
+            border-radius: 9999px;
         }
 
-        .range-handle {
+        /* Style the range inputs */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            position: absolute;
+            width: 100%;
+            background: transparent;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* Style the range thumb */
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background-color: white;
+            background: white;
             border: 2px solid #ff6b6b;
-            position: absolute;
-            top: 50%;
-            transform: translate(-50%, -50%);
             cursor: pointer;
-            z-index: 10;
+            pointer-events: auto;
+            margin-top: -8px;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #ff6b6b;
+            cursor: pointer;
+            pointer-events: auto;
         }
     </style>
 @endpush
@@ -65,65 +101,39 @@
             <p class="text-text-gray mx-auto mb-4">
                 Discover our carefully curated women's collection, where timeless elegance meets modern style.
             </p>
-            <button class="btn-secondary">
-                Read More
-            </button>
         </div>
     </div>
 
     <div class="container">
-        {{-- Filters --}}
-        {{-- <details class="dropdown">
-            <summary class="btn rounded-full bg-bg-transparent border border-bg-accent text-text-accent">Sort By (Default) <i data-lucide="chevron-down"></i></summary>
-            <ul class="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-                <li><a class="font-normal" href="#">Sort By (Default)</a></li>
-                <li><a class="font-normal" href="#">Title Ascending</a></li>
-                <li><a class="font-normal" href="#">Title Descending</a></li>
-                <li><a class="font-normal" href="#">Price Ascending</a></li>
-                <li><a class="font-normal" href="#">Price Descending</a></li>
-            </ul>
-          </details>
-        <div class="mt-5 mb-10">
-            <span class=" me-3"><strong>Filter:</strong></span>
-            <div class="inline-flex gap-2 justify-start items-center py-2 px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden mb-5">
-                <a href="#">Abilability</a>
-                <span class="inline-block"><i data-lucide="chevron-down"></i></span>
-            </div>
-            <div class="inline-flex gap-2 justify-start items-center py-2 px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden mb-5">
-                <a href="#">Color</a>
-                <span class="inline-block"><i data-lucide="chevron-down"></i></span>
-            </div>
-            <div class="inline-flex gap-2 justify-start items-center py-2 px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden mb-5">
-                <a href="#">Size</a>
-                <span class="inline-block"><i data-lucide="chevron-down"></i></span>
-            </div>
-        </div> --}}
-
-
         <div class="flex gap-5">
             {{-- Sidebar Start Here --}}
-            <div class="w-[20%]">
+            <div class="filter-sidebar w-100 xl:w-[25%] hidden xl:block dark:bg-bg-darkSecondary p-4 rounded-md dark:bg-opacity-30">
                 <details class="collapse collapse-arrow" open>
-                    <summary class="collapse-title font-semibold ">
-                        <span>Collections</span>
+                    <summary class="collapse-title font-semibold">
+                        <span class="">Collections</span>
                     </summary>
                     <div class="collapse-content text-sm">
                         <ul class="opacity-100">
-                            <li class="my-3"><a class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
+                            <li class="my-3"><a
+                                    class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
                                     href="#">Men's top (20)</a></li>
-                            <li class="my-3"><a class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
+                            <li class="my-3"><a
+                                    class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
                                     href="#">Men (20)</a></li>
-                            <li class="my-3"><a class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
+                            <li class="my-3"><a
+                                    class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
                                     href="#">Women (20)</a></li>
-                            <li class="my-3"><a class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
+                            <li class="my-3"><a
+                                    class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
                                     href="#">Kid (20)</a></li>
-                            <li class="my-3"><a class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
+                            <li class="my-3"><a
+                                    class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
                                     href="#">T-shirt (20)</a></li>
                         </ul>
                     </div>
                 </details>
                 <!-- Divider -->
-                <div class="border-t border-gray"></div>
+                <div class="border-t border-border-light dark:border-opacity-50"></div>
                 {{-- Availability --}}
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title font-semibold ">
@@ -131,94 +141,121 @@
                     </summary>
                     <div class="collapse-content text-sm">
                         <label for="" class="flex items-center gap-2 py-2">
-                            <input type="checkbox" name="stock-in" id="stock-in" class="checkbox checkbox-sm dark:border-white"> <span
+                            <input type="checkbox" name="availability-checkbox" id="stock-in"
+                                class="availability-checkbox checkbox checkbox-sm dark:border-white"> <span
                                 class="text-text-black dark:text-text-white">In Stock</span>
                         </label>
                         <label for="stock-out" class="flex items-center gap-2">
-                            <input type="checkbox" name="stock-out" id="stock-in" class="checkbox checkbox-sm dark:border-white"> <span
+                            <input type="checkbox" name="availability-checkbox" id="stock-out"
+                                class="availability-checkbox checkbox checkbox-sm dark:border-white"> <span
                                 class="text-text-black dark:text-text-white">Out Of Stock</span>
                         </label>
                     </div>
                 </details>
                 <!-- Divider -->
-                <div class="border-t border-gray"></div>
+                <div class="border-t border-border-light dark:border-opacity-50"></div>
                 {{-- Price --}}
                 <!-- Price header with dropdown arrow -->
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title font-semibold">Price</summary>
                     <div class="collapse-content">
-                        <!-- Range slider -->
                         <div class="mb-4">
-                            <div class="range-slider" id="price-slider">
-                                <div class="range-selected" id="selected-range"></div>
-                                <div class="range-handle" id="min-handle"></div>
-                                <div class="range-handle" id="max-handle"></div>
+                            <div class="price-slider h-6 mt-8 mb-4">
+                                <div class="slider-track"></div>
+                                <div class="slider-range" id="slider-range"></div>
+                                <input type="range" id="min-range" min="0" max="500" value="20" class="absolute">
+                                <input type="range" id="max-range" min="0" max="500" value="300" class="absolute">
                             </div>
                         </div>
+
+                        <!-- Price display -->
                         <div class="mb-6">
                             <p class="text-sm">
-                                Price: <span class="text-red-500" id="min-price">$20</span> - <span class="text-red-500"
-                                    id="max-price">$300</span>
+                                Price: <span class="text-text-danger" id="min-price">$20</span> - <span
+                                    class="text-text-danger" id="max-price">$300</span>
                             </p>
                         </div>
                     </div>
                 </details>
                 <!-- Divider -->
-                <div class="border-t border-gray"></div>
-                {{-- <div class="mb-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="font-medium">Price</h3>
-                        <i class="fa-solid fa-chevron-up text-xs"></i>
-                    </div>
-                    <div class="px-1">
-                        <div class="h-1 bg-gray-200 rounded-full mb-4 relative">
-                            <div class="absolute h-1 bg-gray-400 rounded-full left-1/4 right-1/4"></div>
-                            <div class="absolute w-3 h-3 bg-white border border-gray-400 rounded-full -mt-1 left-1/4"></div>
-                            <div class="absolute w-3 h-3 bg-white border border-gray-400 rounded-full -mt-1 right-1/4">
-                            </div>
-                        </div>
-                        <div class="flex justify-between text-sm text-text-gray">
-                            <span>Price: $50 — $150</span>
-                        </div>
-                    </div>
-                </div> --}}
-
+                <div class="border-t border-border-light dark:border-opacity-50"></div>
                 {{-- Color --}}
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title font-semibold ">Color</summary>
                     <div class="collapse-content text-sm">
-                        <div class="grid grid-cols-5 gap-2 mb-2">
-                            <div class="w-6 h-6 rounded-full bg-red-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-orange-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-yellow-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-green-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-blue-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-indigo-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-purple-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-pink-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-gray-300 border border-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-black border border-gray-200"></div>
+                        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 mb-2 pe-5">
+                            <input type="radio" name="radio-1"
+                                class="w-8 h-8 radio bg-bg-accent border-border-accent checked:bg-transparent text-text-accent" />
+                            <input type="radio" name="radio-1"
+                                class="w-8 h-8 radio bg-bg-secondary border-border-primary checked:bg-transparent text-text-tertiary" />
+                            <input type="radio" name="radio-1"
+                                class="w-8 h-8 radio bg-bg-dark border-border-dark checked:bg-transparent text-text-primary" />
+                            <input type="radio" name="radio-1"
+                                class="w-8 h-8 radio bg-bg-danger border-border-danger checked:bg-transparent text-text-danger" />
+                            <input type="radio" name="radio-1"
+                                class="w-8 h-8 radio bg-bg-accent border-border-accent checked:bg-transparent text-text-accent" />
+                            <input type="radio" name="radio-1"
+                                class="w-8 h-8 radio bg-bg-accent border-border-accent checked:bg-transparent text-text-accent" />
+                            <input type="radio" name="radio-1"
+                                class="w-8 h-8 radio bg-bg-accent border-border-accent checked:bg-transparent text-text-accent" />
                         </div>
                     </div>
                 </details>
                 <!-- Divider -->
-                <div class="border-t border-gray"></div>
+                <div class="border-t border-border-light dark:border-opacity-50"></div>
+                
 
                 {{-- Size --}}
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title font-semibold ">Size</summary>
                     <div class="collapse-content text-sm">
-                        <div class="flex flex-wrap gap-2 mb-4">
+                            <fieldset class="flex flex-wrap gap-2">
+                              <label class="cursor-pointer">
+                                <input type="radio" name="size" value="XS" class="peer sr-only" />
+                                <div class="px-4 py-2 rounded-lg border shadow-md border-border-dark border-opacity-20 peer-checked:border-border-accent peer-checked:bg-bg-accent peer-checked:text-white transition-all duration-300">
+                                  XS (10)
+                                </div>
+                              </label>
+                          
+                              <label class="cursor-pointer">
+                                <input type="radio" name="size" value="S" class="peer sr-only" />
+                                <div class="px-4 py-2 rounded-lg border shadow-md border-border-dark border-opacity-20 peer-checked:border-border-accent peer-checked:bg-bg-accent peer-checked:text-white transition-all duration-300">
+                                  S (8)
+                                </div>
+                              </label>
+                          
+                              <label class="cursor-pointer">
+                                <input type="radio" name="size" value="M" class="peer sr-only" />
+                                <div class="px-4 py-2 rounded-lg border shadow-md border-border-dark border-opacity-20 peer-checked:border-border-accent peer-checked:bg-bg-accent peer-checked:text-white transition-all duration-300">
+                                  M (10)
+                                </div>
+                              </label>
+                          
+                              <label class="cursor-pointer">
+                                <input type="radio" name="size" value="L" class="peer sr-only" />
+                                <div class="px-4 py-2 rounded-lg border shadow-md border-border-dark border-opacity-20 peer-checked:border-border-accent peer-checked:bg-bg-accent peer-checked:text-white transition-all duration-300">
+                                  L (20)
+                                </div>
+                              </label>
+                          
+                              <label class="cursor-pointer">
+                                <input type="radio" name="size" value="XL" class="peer sr-only" />
+                                <div class="px-4 py-2 rounded-lg border shadow-md border-border-dark border-opacity-20 peer-checked:border-border-accent peer-checked:bg-bg-accent peer-checked:text-white transition-all duration-300">
+                                  XL (20)
+                                </div>
+                              </label>
+                            </fieldset>
+                        {{-- <div class="flex flex-wrap gap-2 mb-4">
                             <div class="px-3 py-1 border border-gray-200 rounded text-sm">XS (20)</div>
                             <div class="px-3 py-1 border border-gray-200 rounded text-sm">S (8)</div>
                             <div class="px-3 py-1 border border-gray-200 rounded text-sm">L (20)</div>
                             <div class="px-3 py-1 border border-gray-200 rounded text-sm">M (20)</div>
                             <div class="px-3 py-1 border border-gray-200 rounded text-sm">XL (20)</div>
-                        </div>
+                        </div> --}}
                     </div>
                 </details>
                 <!-- Divider -->
-                <div class="border-t border-gray"></div>
+                <div class="border-t border-border-light dark:border-opacity-50"></div>
                 {{-- Brand --}}
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title font-semibold ">Brand</summary>
@@ -231,14 +268,15 @@
                                 <span class="text-text-gray">(1)</span>
                             </li>
                             <li class="flex items-center gap-2">
-                                <input type="checkbox" class="brand-checkbox checkbox checkbox-sm dark:border-white" name="brand-checkbox">
+                                <input type="checkbox" class="brand-checkbox checkbox checkbox-sm dark:border-white"
+                                    name="brand-checkbox">
                                 <span>Zara</span>
                                 <span class="text-text-gray">(20)</span>
                             </li>
                     </div>
                 </details>
                 <!-- Divider -->
-                <div class="border-t border-gray"></div>
+                <div class="border-t border-border-light dark:border-opacity-50"></div>
                 <!-- On Sale -->
                 <div class="mb-6">
                     <h3 class="font-medium mb-4">On sale</h3>
@@ -258,13 +296,12 @@
                         </div>
                         <div class="flex gap-3 mt-5">
                             <div class="w-20 h-100 shrink-0 rounded-sm overflow-hidden">
-                                <img src="{{ asset('frontend/images/on-sale.jpg') }}" alt="Loose Fit Tee"
-                                    class="img-fluid">
+                                <img src="{{ asset('frontend/images/on-sale.jpg') }}" alt="Loose Fit Tee" class="img-fluid">
                             </div>
                             <div>
                                 <h4 class="text-base font-medium">Loose Fit Tee</h4>
                                 <div class="flex gap-2 items-center mt-1">
-                                    <span class="text-sm font-medium text-text-danger font-medium">$130.00</span>
+                                    <span class="text-sm font-medium text-text-danger">$130.00</span>
                                 </div>
                                 <p class="text-sm text-text-gray mt-1">3 color available</p>
                             </div>
@@ -272,25 +309,66 @@
                     </div>
                 </div>
                 <!-- Divider -->
-                <div class="border-t border-gray"></div>
+                <div class="border-t border-border-light dark:border-opacity-50"></div>
                 {{-- Elavate --}}
-                <div class="relative mt-3 rounded-md overflow-hidden">
+                <div class="relative mt-10 rounded-md overflow-hidden">
                     <div class="hover:scale-110 transition-all duration-500">
                         <img src="{{ asset('frontend/images/sb-banner.jpg') }}" alt="Elevate">
                     </div>
-                    <div
-                        class="flex flex-col justify-center items-center p-10 absolute bottom-0 left-0 w-full text-center">
+                    <div class="flex flex-col justify-center items-center p-10 absolute bottom-0 left-0 w-full text-center">
                         <h3 class="font-medium mb-4 capitalize text-4xl text-text-white z-10">Elevate your style</h3>
                         <button class="btn-primary">Shop Now</button>
                     </div>
                 </div>
 
             </div>
+            @include('frontend.includes.filter_sidebar')
+
             {{-- Sidebar Section End Here --}}
 
             {{-- Shop Card Section Start Here --}}
-            <div class="w-[80%]">
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5">
+            <div class="w-full xl:w-[75%]">
+                <div class="flex items-center justify-between">
+                    <div class="w-full flex items-center gap-3">
+                        <button class="openFilterSidebar btn rounded-full bg-bg-transparent border border-bg-accent text-text-accent xl:hidden">
+                            <span><i data-lucide="sliders-horizontal" class="w-5 h-5"></i></span>
+                            <span class="ml-2 text-base">Filter</span>
+                        </button>
+                        <details class="dropdown">
+                            <summary class="btn rounded-full bg-bg-transparent dark:bg-bg-darkSecondary border border-bg-accent text-text-accent dark:text-text-white text-base min-w-[200px]">
+                                Sort By (Default) <i data-lucide="chevron-down"></i></summary>
+                            <ul class="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                                <li><a class="font-normal" href="#">Sort By (Default)</a></li>
+                                <li><a class="font-normal" href="#">Title Ascending</a></li>
+                                <li><a class="font-normal" href="#">Title Descending</a></li>
+                                <li><a class="font-normal" href="#">Price Ascending</a></li>
+                                <li><a class="font-normal" href="#">Price Descending</a></li>
+                            </ul>
+                        </details>
+                    </div>
+                    <div class="w-full">
+                        <div class="flex items-center gap-4 justify-end p-2">
+                            <div data-grid="1"
+                                class="layout-btn opacity-30 hover:opacity-100 transition-all duration-300">
+                                <i data-lucide="tally-2" class="rotate-90 mt-3"></i>
+                            </div>
+                            <div data-grid="2"
+                                class="layout-btn opacity-30 hover:opacity-100 transition-all duration-300">
+                               <i data-lucide="tally-2" class="ms-2"></i>
+                            </div>
+                            <div data-grid="3"
+                                class="layout-btn opacity-30 hover:opacity-100 transition-all duration-300">
+                               <i data-lucide="tally-3" class="ms-1"></i>
+                            </div>
+                            <div data-grid="4"
+                                class="layout-btn opacity-30 text-center hover:opacity-100 transition-all duration-300 active">
+                               <i data-lucide="tally-4" class=""></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="productGrid"
+                    class="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 gap-y-10 mt-5">
 
                         @php
                             $collections = collect([
@@ -352,7 +430,7 @@
     </div>
 
     <!-- Footer -->
-    <div class="border-t mt-16">
+    <div class="border-t mt-16 dark:bg-bg-darkSecondary dark:border-none">
         <div class="container mx-auto px-4 py-12">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div>
@@ -382,113 +460,111 @@
     {{-- Shop Card Section End Here --}}
 @endsection
 @push('js')
+<script src="{{ asset('frontend/js/filterSidebar.js') }}"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const slider = document.getElementById('price-slider');
-            const selectedRange = document.getElementById('selected-range');
-            const minHandle = document.getElementById('min-handle');
-            const maxHandle = document.getElementById('max-handle');
-            const minPrice = document.getElementById('min-price');
-            const maxPrice = document.getElementById('max-price');
-
-            const minValue = 0;
-            const maxValue = 1000;
-            let currentMinValue = 20;
-            let currentMaxValue = 300;
-
-            // Initialize slider positions
-            updateSlider();
-
-            // Handle dragging functionality
-            let isDragging = false;
-            let currentHandle = null;
+        $(document).ready(function () {
+            const $minRange = $('#min-range');
+            const $maxRange = $('#max-range');
+            const $sliderRange = $('#slider-range');
+            const $minPrice = $('#min-price');
+            const $maxPrice = $('#max-price');
 
             function updateSlider() {
-                const sliderWidth = slider.offsetWidth;
-                const minPosition = ((currentMinValue - minValue) / (maxValue - minValue)) * 100;
-                const maxPosition = ((currentMaxValue - minValue) / (maxValue - minValue)) * 100;
+                const minVal = parseInt($minRange.val());
+                const maxVal = parseInt($maxRange.val());
+                const minPercent = (minVal / parseInt($minRange.attr('max'))) * 100;
+                const maxPercent = (maxVal / parseInt($maxRange.attr('max'))) * 100;
 
-                minHandle.style.left = `${minPosition}%`;
-                maxHandle.style.left = `${maxPosition}%`;
-                selectedRange.style.left = `${minPosition}%`;
-                selectedRange.style.width = `${maxPosition - minPosition}%`;
+                $sliderRange.css({
+                    left: minPercent + '%',
+                    width: (maxPercent - minPercent) + '%'
+                });
 
-                minPrice.textContent = `$${currentMinValue}`;
-                maxPrice.textContent = `$${currentMaxValue}`;
+                $minPrice.text('$' + minVal);
+                $maxPrice.text('$' + maxVal);
             }
 
-            function startDrag(e, handle) {
-                isDragging = true;
-                currentHandle = handle;
-                document.addEventListener('mousemove', onDrag);
-                document.addEventListener('mouseup', stopDrag);
-                document.addEventListener('touchmove', onDrag);
-                document.addEventListener('touchend', stopDrag);
-            }
+            // Set initial positions
+            updateSlider();
 
-            function onDrag(e) {
-                if (!isDragging) return;
-
-                const sliderRect = slider.getBoundingClientRect();
-                const sliderWidth = sliderRect.width;
-
-                // Get position (handle mouse or touch events)
-                let clientX;
-                if (e.type === 'touchmove') {
-                    clientX = e.touches[0].clientX;
-                } else {
-                    clientX = e.clientX;
+            // Event listeners
+            $minRange.on('input', function () {
+                if (parseInt($minRange.val()) > parseInt($maxRange.val()) - 10) {
+                    $minRange.val(parseInt($maxRange.val()) - 10);
                 }
-
-                let position = (clientX - sliderRect.left) / sliderWidth;
-                position = Math.max(0, Math.min(1, position));
-
-                const value = Math.round(minValue + position * (maxValue - minValue));
-
-                if (currentHandle === minHandle) {
-                    currentMinValue = Math.min(value, currentMaxValue - 10);
-                } else {
-                    currentMaxValue = Math.max(value, currentMinValue + 10);
-                }
-
                 updateSlider();
-            }
+            });
 
-            function stopDrag() {
-                isDragging = false;
-                document.removeEventListener('mousemove', onDrag);
-                document.removeEventListener('mouseup', stopDrag);
-                document.removeEventListener('touchmove', onDrag);
-                document.removeEventListener('touchend', stopDrag);
-            }
+            $maxRange.on('input', function () {
+                if (parseInt($maxRange.val()) < parseInt($minRange.val()) + 10) {
+                    $maxRange.val(parseInt($minRange.val()) + 10);
+                }
+                updateSlider();
+            });
 
-            // Add event listeners
-            minHandle.addEventListener('mousedown', (e) => startDrag(e, minHandle));
-            maxHandle.addEventListener('mousedown', (e) => startDrag(e, maxHandle));
-            minHandle.addEventListener('touchstart', (e) => startDrag(e, minHandle));
-            maxHandle.addEventListener('touchstart', (e) => startDrag(e, maxHandle));
+            // Checkbox group 1 - availability
+            $('.availability-checkbox').on('change', function () {
+                if ($(this).is(':checked')) {
+                    $('.availability-checkbox').not(this).prop('checked', false);
+                }
+            });
 
-            //Checkbox event
-            const checkboxe1 = document.querySelectorAll('.availability-checkbox');
-            checkboxe1.forEach(checkbox => {
-                checkbox.addEventListener('change', () => {
-                    if (checkbox.checked) {
-                        checkboxes.forEach(cb => {
-                            if (cb !== checkbox) cb.checked = false;
-                        });
+            // Checkbox group 2 - brand
+            $('.brand-checkbox').on('change', function () {
+                if ($(this).is(':checked')) {
+                    $('.brand-checkbox').not(this).prop('checked', false);
+                }
+            });
+
+            $('.layout-btn').on('click', function () {
+                const cols = $(this).data('grid');
+
+                $('.layout-btn').removeClass('active')
+                $(this).addClass('active')
+
+                const grid = $('#productGrid');
+                grid.removeClass('grid-cols-1 grid-cols-2 grid-cols-3 grid-cols-4 lg:grid-cols-3 2xl:grid-cols-4');
+                grid.addClass(`grid-cols-${cols}`);
+            });
+
+            function updateLayoutButtonStyle() {
+                const width = $(window).width();
+
+                $('.layout-btn').each(function () {
+                    const grid = $(this).attr('data-grid');
+
+                    if (width > 1200) {
+                        // Show all
+                        $(this).removeClass('hidden');
+                    } else if (width <= 768) {
+                        // Show only grid 1 and 2
+                        if (grid === '1' || grid === '2') {
+                            $(this).removeClass('hidden');
+                        } else {
+                            $(this).addClass('hidden');
+                        }
+                    } else if (width <= 1200) {
+                        // Show grid 1, 2, 3
+                        if (grid === '1' || grid === '2' || grid === '3') {
+                            $(this).removeClass('hidden');
+                        } else {
+                            $(this).addClass('hidden');
+                        }
+                    } else {
+                        // Fallback
+                        $(this).addClass('hidden');
                     }
                 });
-            });
-            const checkboxs2 = document.querySelectorAll('.brand-checkbox');
-            checkboxs2.forEach(checkbox2 => {
-                checkbox2.addEventListener('change', () => {
-                    if (checkbox2.checked) {
-                        checkboxs2.forEach(cb => {
-                            if (cb !== checkbox2) cb.checked = false;
-                        });
-                    }
-                });
-            });
+            }
+
+
+            // Run on load
+            updateLayoutButtonStyle();
+
+            // Run on window resize
+            $(window).resize(updateLayoutButtonStyle);
+
         });
     </script>
+
 @endpush
