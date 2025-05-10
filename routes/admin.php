@@ -46,21 +46,30 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     })->name('permissions.export');
 
 
-  // Admin Management
-  Route::group(['as' => 'am.', 'prefix' => 'admin-management'], function () {
-    Route::resource('admin', AdminController::class);
-    Route::get('admin/status/{admin}', [AdminController::class, 'status'])->name('admin.status');
-    Route::get('admin/recycle/bin', [AdminController::class, 'recycleBin'])->name('admin.recycle-bin');
-    Route::get('admin/restore/{admin}', [AdminController::class, 'restore'])->name('admin.restore');
-    Route::delete('admin/permanent-delete/{admin}', [AdminController::class, 'permanentDelete'])->name('admin.permanent-delete');
+    // Admin Management
+    Route::group(['as' => 'am.', 'prefix' => 'admin-management'], function () {
+        Route::resource('admin', AdminController::class);
+        Route::get('admin/status/{admin}', [AdminController::class, 'status'])->name('admin.status');
+        Route::get('admin/recycle/bin', [AdminController::class, 'recycleBin'])->name('admin.recycle-bin');
+        Route::get('admin/restore/{admin}', [AdminController::class, 'restore'])->name('admin.restore');
+        Route::delete('admin/permanent-delete/{admin}', [AdminController::class, 'permanentDelete'])->name('admin.permanent-delete');
 
 
+        // Role Management
+        Route::resource('role', RoleController::class);
+        Route::get('role/status/{role}', [RoleController::class, 'status'])->name('role.status');
+        Route::get('role/recycle/bin', [RoleController::class, 'recycleBin'])->name('role.recycle-bin');
+        Route::get('role/restore/{role}', [RoleController::class, 'restore'])->name('role.restore');
+        Route::delete('role/permanent-delete/{role}', [RoleController::class, 'permanentDelete'])->name('role.permanent-delete');
 
-    Route::resource('role', RoleController::class);
-    Route::get('role/status/{role}', [RoleController::class, 'status'])->name('role.status');
-    Route::resource('permission', PermissionController::class);
-    Route::get('permission/status/{permission}', [PermissionController::class, 'status'])->name('permission.status');
-  });
+
+        // permission Management
+        Route::resource('permission', PermissionController::class);
+        Route::get('permission/status/{permission}', [PermissionController::class, 'status'])->name('permission.status');
+        Route::get('permission/recycle/bin', [PermissionController::class, 'recycleBin'])->name('permission.recycle-bin');
+        Route::get('permission/restore/{permission}', [PermissionController::class, 'restore'])->name('permission.restore');
+        Route::delete('permission/permanent-delete/{permission}', [PermissionController::class, 'permanentDelete'])->name('permission.permanent-delete');
+    });
 
     // User Management
     Route::group(['as' => 'um.', 'prefix' => 'user-management'], function () {
