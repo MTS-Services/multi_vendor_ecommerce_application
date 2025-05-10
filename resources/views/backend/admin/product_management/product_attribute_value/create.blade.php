@@ -17,13 +17,6 @@
                         @csrf
 
                         <div class="form-group">
-                            <label>{{ __('Value') }}  <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ old('value') }}" id="title" name="value" class="form-control"
-                                placeholder="Enter value">
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'value']" />
-                        </div>
-
-                        <div class="form-group">
                             <label>{{ __(' Attribute Name') }}  <span class="text-danger">*</span></label>
                             <select name="product_attribute_id" class="form-control">
                                 <option value="" selected disabled>{{ __('Select Attribute Name') }}</option>
@@ -34,6 +27,15 @@
                             </select>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'product_attribute_id']" />
                         </div>
+
+                        <div class="form-group">
+                            <label>{{ __('Value') }}  <span class="text-danger">*</span></label>
+                            <input type="text" value="{{ old('value') }}" id="title" name="value" class="form-control"
+                                placeholder="Enter value">
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'value']" />
+                        </div>
+
+
                         <div class="form-group float-end">
                             <input type="submit" class="btn btn-primary" value="Create">
                         </div>

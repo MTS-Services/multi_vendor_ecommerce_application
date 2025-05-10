@@ -10,6 +10,7 @@ use App\Models\ProductAttributeValue;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\View;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Http\RedirectResponse;
 
 class AttributeValueController extends Controller
 {
@@ -133,7 +134,7 @@ class AttributeValueController extends Controller
      */
     public function show(string $id)
     {
-        $data = ProductAttributeValue::with(['creater', 'updater'])->findOrFail(decrypt($id));
+        $data = ProductAttributeValue::with(['creater', 'updater', 'product_attribute_value'])->findOrFail(decrypt($id));
         return response()->json($data);
     }
 
@@ -170,6 +171,17 @@ class AttributeValueController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product_attribute_value = ProductAttributeValue::findOrFail(decrypt($id));
+        $product_attribute_value->update(['updater_id' => admin()->id, 'updater_type' => get_class(admin())]);
+        $product_attribute_value->delete();
+        session()->flash('success', 'Product Attribute Value deleted successfully!');
+        return redirect()->route('pm.product-attribute-value.index');
+    }
+    public function status(string $id): RedirectResponse
+    {
+        $product_attribute_value = ProductAttributeValue::findOrFail(decrypt($id));
+        $product_attribute_value->update(['status' => !$product_attribute_value->status, 'updated_by' => admin()->id]);
+        session()->flash('success', 'Product Attribute Value status updated successfully!');
+        return redirect()->route('pm.product-attribute-value.index');
     }
 }
