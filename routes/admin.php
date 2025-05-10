@@ -133,6 +133,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         // Operation Sub Area Routes
         Route::resource('operation-sub-area', OperationSubAreaController::class);
         Route::get('operation-sub-area/status/{operation_sub_area}', [OperationSubAreaController::class, 'status'])->name('operation-sub-area.status');
+        Route::get('operation-sub-area/recycle/bin', [OperationSubAreaController::class, 'recycleBin'])->name('operation-sub-area.recycle-bin');
+        Route::get('operation-sub-area/restore/{operation_sub_area}', [OperationSubAreaController::class, 'restore'])->name('operation-sub-area.restore');
+        Route::delete('operation-sub-area/permanent-delete/{operation_sub_area}', [OperationSubAreaController::class, 'permanentDelete'])->name('operation-sub-area.permanent-delete');
     });
 
     // CMS Management
