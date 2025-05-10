@@ -81,6 +81,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     Route::group(['as' => 'sl.', 'prefix' => 'seller-management'], function () {
         Route::resource('seller', SellerController::class);
         Route::get('seller/status/{seller}', [SellerController::class, 'status'])->name('seller.status');
+        Route::get('seller/recycle/bin', [SellerController::class, 'recycleBin'])->name('seller.recycle-bin');
+        Route::get('seller/restore/{seller}', [SellerController::class, 'restore'])->name('seller.restore');
+        Route::delete('seller/permanent-delete/{seller}', [SellerController::class, 'permanentDelete'])->name('seller.permanent-delete');
     });
 
     // Setup Routes

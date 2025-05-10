@@ -8,7 +8,7 @@
                     <h4 class="cart-title">{{ __('Role Recycle Bin') }}</h4>
                     <div class="buttons">
                         <x-backend.admin.button :datas="[
-                            'routeName' => 'am.permission.index',
+                            'routeName' => 'sl.seller.index',
                             'label' => 'Back',
                             'permissions' => ['role-list'],
                         ]" />
@@ -19,8 +19,10 @@
                         <thead>
                             <tr>
                                 <th>{{ __('SL') }}</th>
-                                <th>{{ __('Prefix') }}</th>
-                                <th>{{ __('Permisson') }}</th>
+                               <th>{{ __('Name') }}</th>
+                                <th>{{ __('Email') }}</th>
+                                <th>{{ __('Status') }}</th>
+                                <th>{{ __('Verify Status') }}</th>
                                 <th>{{ __('Deleted By') }}</th>
                                 <th>{{ __('Deleted Date') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -41,8 +43,10 @@
         $(document).ready(function() {
             let table_columns = [
                 //name and data, orderable, searchable
-                 ['prefix', true, true],
-                ['name', true, true],
+                ['first_name', true, true],
+                ['email', true, true],
+                ['status', true, true],
+                ['is_verify', true, true],
                 ['deleted_by', true, true],
                 ['deleted_at', true, true],
                 ['action', false, false],
@@ -51,10 +55,10 @@
                 table_columns: table_columns,
                 main_class: '.datatable',
                 displayLength: 10,
-                main_route: "{{ route('am.permission.recycle-bin') }}",
+                main_route: "{{ route('sl.seller.recycle-bin') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3,4],
-                model: 'Permission',
+                export_columns: [0, 1, 2, 3,4,5,6],
+                model: 'Seller',
             };
             // initializeDataTable(details);
 
@@ -62,3 +66,4 @@
         })
     </script>
 @endpush
+
