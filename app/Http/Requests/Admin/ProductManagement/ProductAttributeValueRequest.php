@@ -22,8 +22,8 @@ class ProductAttributeValueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_attribute_id' => 'required|integer',
-            'value' => 'required|string|min:3',            
+            'product_attribute_id' => 'required|exists:product_attributes,id',
+            'value' => 'required|string|min:3',
         ];
     }
 }
