@@ -5,26 +5,29 @@ namespace App\Models;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Banner extends BaseModel
+class ProductAttributeValue extends BaseModel
 {
     use HasFactory;
 
-    protected $table = 'banners';
     protected $fillable = [
         'sort_order',
-        'title',
-        'subtitle',
-        'image',
-        'url',
+        'product_attribute_id',
+        'value',
         'status',
-        'start_date',
-        'end_date',
 
-        'created_by',
-        'updated_by',
-        'deleted_by',
+        'creater_id',
+        'updater_id',
+        'deleter_id',
 
+        'creater_type',
+        'updater_type',
+        'deleter_type',
     ];
+
+    public function productAttribute()
+    {
+        return $this->belongsTo(ProductAttribute::class);
+    }
 
     public function __construct(array $attributes = [])
     {
@@ -36,12 +39,17 @@ class Banner extends BaseModel
             'status_btn_label',
             'status_btn_color',
             'status_labels',
-
-            'modified_image',
+            'product_attribute_name',
         ]);
     }
 
-    // ================= Status Functionality Start Here =================
+
+    public function getProductAttributeNameAttribute()
+    {
+        return $this->productAttribute?->name ?? 'Null';
+    }
+
+
     public const STATUS_ACTIVE = 1;
     public const STATUS_DEACTIVE = 0;
     // Status labels
@@ -109,13 +117,5 @@ class Banner extends BaseModel
     public function getStatusBtnColorAttribute(): string
     {
         return self::getStatusBtnColors()[$this->status] ?? 'btn btn-secondary';
-    }
-
-    // ================= Status Functionality End Here =================
-
-    // Modify Image
-    public function getModifiedImageAttribute()
-    {
-        return storage_url($this->image);
     }
 }

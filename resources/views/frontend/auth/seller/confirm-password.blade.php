@@ -6,22 +6,14 @@
                 class="flex flex-col md:flex-row shadow-shadowPrimary shadow-shadow-dark/10 dark:shadow-shadow-light/10 rounded-2xl w-full overflow-hidden bg-bg-white dark:bg-bg-darkTertiary">
                 <!-- Left Side: Form -->
                 <div class="w-full xl:w-1/2 p-10 md:p-12 flex flex-col justify-center">
-                    <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Admin Login - Secure Area') }}</h2>
-                    <form class="space-y-5" action="{{ route('admin.login.submit') }}" method="POST">
+                    <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Confirm Password') }}</h2>
+                    <form class="space-y-5" action="{{ route('password.confirm') }}" method="POST">
                         @csrf
-                        <div>
-                            <label class="input">
-                                <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none"
-                                        stroke="currentColor">
-                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
-                                    </g>
-                                </svg>
-                                <input type="text" placeholder="Username or email" name="login" />
-                            </label>
-                            <x-frontend.input-error :datas="['errors' => $errors, 'field' => 'login']" />
-                        </div>
+
+                        <p class="text-sm text-text-primary dark:text-text-light">
+                            {{ __('Please confirm your password before continuing.') }}
+                        </p>
+                        {{-- Password Field --}}
                         <div>
                             <label class="input relative">
                                 <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -33,7 +25,8 @@
                                         <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
                                     </g>
                                 </svg>
-                                <input type="password" placeholder="Password" name="password" />
+                                <input type="password" placeholder="Password" name="password"
+                                    autocomplete="current-password" required />
                                 <button type="button"
                                     class="showpassword absolute top-1/2 right-1 transform -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full text-text-white bg-bg-accent bg-opacity-70 hover:bg-opacity-100 hover:text-text-white transition-all duration-300 ease-linear">
                                     <i data-lucide="eye-off" class="w-4 h-4"></i>
@@ -43,12 +36,14 @@
                         </div>
 
                         <div class="mt-5 flex justify-center sm:justify-between items-center gap-5 flex-wrap">
-                            <button type="submit" class="btn-primary">{{ __('Login') }}</button>
-                            <p class="text-center text-sm mt-4">
-                                {{ __('Forgot password?') }} <a href="javascript:void(0)"
-                                    class="text-text-tertiary font-medium">
-                                    {{ __('Reset password') }} </a>
-                            </p>
+                            <button type="submit" class="btn-primary">{{ __('Confirm Password') }}</button>
+                            @if (Route::has('password.request'))
+                                <p class="text-center text-sm mt-4">
+                                    {{ __('Forgot password?') }} <a href="{{ route('password.request') }}"
+                                        class="text-text-tertiary font-medium">
+                                        {{ __('Reset password') }} </a>
+                                </p>
+                            @endif
                         </div>
                     </form>
                 </div>

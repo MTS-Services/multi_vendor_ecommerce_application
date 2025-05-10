@@ -22,6 +22,7 @@ class FrontendController extends Controller
     {
         return view('frontend.pages.singel_product');
     }
+    
     public function store_location()
     {
         return view('frontend.pages.store_location');
