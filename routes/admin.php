@@ -25,6 +25,7 @@ use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
 use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
+use App\Http\Controllers\Backend\Admin\AdminProfileContoller;
 
 // Admin Auth Routes
 Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')->group(function () {
@@ -33,11 +34,22 @@ Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')-
     Route::post('/logout', 'logout')->name('logout'); // Admin Logout
 });
 
-
+Route::controller(AxiosRequestController::class)->name('setup.axios.')->prefix('setup-management')->group(function () {
+    Route::get('get-states', 'getStates')->name('get-states');
+    Route::get('get-states-or-cities', 'getStatesOrCities')->name('get-states-or-cities');
+    Route::get('get-cities', 'getCities')->name('get-cities');
+    Route::get('get-operation-areas', 'getOperationAreas')->name('get-operation-areas');
+    Route::get('get-sub-areas', 'getSubAreas')->name('get-sub-areas');
+});
 
 Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
 
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
+    
+    // Admin Profile
+    Route::get('profile', [AdminProfileContoller::class, 'profile'])->name('admin.profile');
+    Route::post('profile/update', [AdminProfileContoller::class, 'profile_update'])->name('admin.profile.update');
+
     //Developer Routes
     Route::get('/export-permissions', function () {
         $filename = 'permissions.csv';
@@ -46,21 +58,21 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     })->name('permissions.export');
 
 
-  // Admin Management
-  Route::group(['as' => 'am.', 'prefix' => 'admin-management'], function () {
-    Route::resource('admin', AdminController::class);
-    Route::get('admin/status/{admin}', [AdminController::class, 'status'])->name('admin.status');
-    Route::get('admin/recycle/bin', [AdminController::class, 'recycleBin'])->name('admin.recycle-bin');
-    Route::get('admin/restore/{admin}', [AdminController::class, 'restore'])->name('admin.restore');
-    Route::delete('admin/permanent-delete/{admin}', [AdminController::class, 'permanentDelete'])->name('admin.permanent-delete');
+    // Admin Management
+    Route::group(['as' => 'am.', 'prefix' => 'admin-management'], function () {
+        Route::resource('admin', AdminController::class);
+        Route::get('admin/status/{admin}', [AdminController::class, 'status'])->name('admin.status');
+        Route::get('admin/recycle/bin', [AdminController::class, 'recycleBin'])->name('admin.recycle-bin');
+        Route::get('admin/restore/{admin}', [AdminController::class, 'restore'])->name('admin.restore');
+        Route::delete('admin/permanent-delete/{admin}', [AdminController::class, 'permanentDelete'])->name('admin.permanent-delete');
 
 
 
-    Route::resource('role', RoleController::class);
-    Route::get('role/status/{role}', [RoleController::class, 'status'])->name('role.status');
-    Route::resource('permission', PermissionController::class);
-    Route::get('permission/status/{permission}', [PermissionController::class, 'status'])->name('permission.status');
-  });
+        Route::resource('role', RoleController::class);
+        Route::get('role/status/{role}', [RoleController::class, 'status'])->name('role.status');
+        Route::resource('permission', PermissionController::class);
+        Route::get('permission/status/{permission}', [PermissionController::class, 'status'])->name('permission.status');
+    });
 
     // User Management
     Route::group(['as' => 'um.', 'prefix' => 'user-management'], function () {
@@ -76,13 +88,13 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
 
     // Setup Routes
     Route::group(['as' => 'setup.', 'prefix' => 'setup-management'], function () {
-        Route::controller(AxiosRequestController::class)->name('axios.')->group(function () {
-            Route::get('get-states', 'getStates')->name('get-states');
-            Route::get('get-states-or-cities', 'getStatesOrCities')->name('get-states-or-cities');
-            Route::get('get-cities', 'getCities')->name('get-cities');
-            Route::get('get-operation-areas', 'getOperationAreas')->name('get-operation-areas');
-            Route::get('get-sub-areas', 'getSubAreas')->name('get-sub-areas');
-        });
+        // Route::controller(AxiosRequestController::class)->name('axios.')->group(function () {
+        //     Route::get('get-states', 'getStates')->name('get-states');
+        //     Route::get('get-states-or-cities', 'getStatesOrCities')->name('get-states-or-cities');
+        //     Route::get('get-cities', 'getCities')->name('get-cities');
+        //     Route::get('get-operation-areas', 'getOperationAreas')->name('get-operation-areas');
+        //     Route::get('get-sub-areas', 'getSubAreas')->name('get-sub-areas');
+        // });
 
 
         // Country Routes

@@ -22,9 +22,6 @@ class AddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'profile_id' => 'required|integer',
-            'profile_type' => 'required|string',
-            'type' => 'required|string',
             'name' => 'nullable|string',
             'email' => 'nullable|email',
             'phone' => 'nullable|string',

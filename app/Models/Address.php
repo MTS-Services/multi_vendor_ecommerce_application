@@ -216,4 +216,21 @@ class Address extends BaseModel
     {
         return self::getDefaultLabels()[$this->is_default] ?? 'Unknown';
     }
+
+    public function scopeSelfAddresses($query)
+    {
+        return $query->where('profile_id', seller()->id)->where('profile_type', get_class(seller()));
+    }
+
+    public function scopePersonal(){
+        return $this->where('type', self::TYPE_PERSONAL);
+    }
+
+    public function scopeBilling(){
+        return $this->where('type', self::TYPE_BILLING);
+    }
+
+    public function scopeShipping(){
+        return $this->where('type', self::TYPE_SHIPPING);
+    }
 }

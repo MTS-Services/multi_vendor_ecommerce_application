@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth:seller', 'prefix' => 'seller'], function () 
 
     Route::get('/profile-show', [SellerProfileController::class, 'show'])->name('seller.profile_show');
     Route::put('/profile/update', [SellerProfileController::class, 'update'])->name('seller.profile.update');
+    Route::put('/profile/address/update', [SellerProfileController::class, 'addressUpdate'])->name('seller.address.update');
 
     // Password routes
     Route::get('/profile/password', [SellerProfileController::class, 'showChangePasswordForm'])->name('seller.profile.password');

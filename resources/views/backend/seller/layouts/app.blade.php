@@ -70,6 +70,8 @@
     </div>
     <!--   Core JS Files   -->
     <script src="{{ asset('backend/admin/assets/js/core/jquery-3.7.1.min.js') }}"></script>
+
+    <script src="{{ asset('backend/admin/js/functions.js') }}"></script>
     <script src="{{ asset('backend/seller/assets/js/scripts.js') }}"></script>
 
     {{-- Custom JS --}}

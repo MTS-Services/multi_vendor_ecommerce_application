@@ -7,9 +7,9 @@
                 <div class="sb-sidenav-menu-heading">Core</div>
 
 
-                <a class="nav-link @if (isset($page_slug) && $page_slug == 'dashboard') active @endif" href="{{ route('seller.dashboard') }}">
+                <a class="nav-link @if (isset($page_slug) && $page_slug == 'dashboard'|| $page_slug == 'seller_profile') active @endif" href="{{ route('seller.dashboard') }}">
                     <div class="sb-nav-link-icon"><i class='bx bxs-grid-alt'></i></div>
-                    Profile
+                    {{ __('Dashboard') }}
                 </a>
 
                 {{-- Single Item --}}
