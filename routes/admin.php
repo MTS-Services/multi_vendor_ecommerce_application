@@ -104,6 +104,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         // Country Routes
         Route::resource('country', CountryController::class);
         Route::get('country/status/{country}', [CountryController::class, 'status'])->name('country.status');
+        Route::get('country/recycle/bin', [CountryController::class, 'recycleBin'])->name('country.recycle-bin');
+        Route::get('country/restore/{country}', [CountryController::class, 'restore'])->name('country.restore');
+        Route::delete('country/permanent-delete/{country}', [CountryController::class, 'permanentDelete'])->name('country.permanent-delete');
 
 
         // State Routes

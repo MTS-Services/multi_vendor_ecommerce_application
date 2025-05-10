@@ -21,6 +21,9 @@ class CountryController extends Controller
         $this->middleware('permission:country-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:country-delete', ['only' => ['destroy']]);
         $this->middleware('permission:country-status', ['only' => ['status']]);
+        $this->middleware('permission:country-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:country-restore', ['only' => ['restore']]);
+        $this->middleware('permission:country-permanent-delete', ['only' => ['permanentDelete']]);
     }
 
     /**
@@ -85,7 +88,54 @@ class CountryController extends Controller
 
         ];
     }
+       public function recycleBin(Request $request)
+    {
 
+        if ($request->ajax()) {
+            $query = Country::with(['deleter'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+            ->editColumn('status', function ($country) {
+                    return "<span class='badge " . $country->status_color . "'>$country->status_label</span>";
+                })
+
+               ->editColumn('deleted_by', function ($country) {
+                    return $country->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($country) {
+                    return $country->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($country) {
+                    $menuItems = $this->trashedMenuItems($country);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['status', 'deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.setup.country.recycle-bin');
+    }
+
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'setup.country.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['country-restore']
+            ],
+            [
+                'routeName' => 'setup.country.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['Country-permanent-delete']
+            ]
+
+        ];
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -156,5 +206,27 @@ class CountryController extends Controller
         $country->update(['status' => !$country->status, 'updated_by'=> admin()->id]);
         session()->flash('success', 'Country status updated successfully!');
         return redirect()->route('setup.country.index');
+    }
+          public function restore(string $id): RedirectResponse
+    {
+        $country = Country::onlyTrashed()->findOrFail(decrypt($id));
+        $country->update(['updated_by' => admin()->id]);
+        $country->restore();
+        session()->flash('success', 'country restored successfully!');
+        return redirect()->route('setup.country.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $country = Country::onlyTrashed()->findOrFail(decrypt($id));
+        $country->forceDelete();
+        session()->flash('success', 'Country permanently deleted successfully!');
+        return redirect()->route('setup.country.recycle-bin');
     }
 }
