@@ -121,7 +121,7 @@ class AttributeController extends Controller
                     $menuItems = $this->trashedMenuItems($product_attribute);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'is_verify', 'deleted_id', 'deleted_at', 'action'])
+                ->rawColumns(['status', 'deleter_id', 'deleted_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.product_management.product_attribute.recycle-bin');

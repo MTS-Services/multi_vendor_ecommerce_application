@@ -25,6 +25,7 @@ use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
 use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
+use App\Models\Brand;
 
 // Admin Auth Routes
 Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')->group(function () {
@@ -138,6 +139,10 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::resource('category', CategoryController::class);
         Route::get('category/status/{category}', [CategoryController::class, 'status'])->name('category.status');
         Route::get('category/feature/{category}', [CategoryController::class, 'feature'])->name('category.feature');
+        Route::get('category/recycle/bin', [CategoryController::class, 'recycleBin'])->name('category.recycle-bin');
+        Route::get('category/restore/{category}', [CategoryController::class, 'restore'])->name('category.restore');
+        Route::delete('category/permanent-delete/{category}', [CategoryController::class, 'permanentDelete'])->name('category.permanent-delete');
+        
         // Sub Category Routes
         Route::resource('sub-category', SubCategoryController::class);
         Route::get('sub-category/status/{sub_category}', [SubCategoryController::class, 'status'])->name('sub-category.status');
@@ -156,6 +161,14 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::resource('brand', BrandController::class);
         Route::get('brand/status/{brand}', [BrandController::class, 'status'])->name('brand.status');
         Route::get('brand/feature/{brand}', [BrandController::class, 'feature'])->name('brand.feature');
+        Route::get('brand/recycle/bin', [BrandController::class, 'recycleBin'])->name('brand.recycle-bin');
+        Route::get('brand/restore/{brand}', [BrandController::class, 'restore'])->name('brand.restore');
+        Route::delete('brand/permanent-delete/{brand}', [BrandController::class, 'permanentDelete'])->name('brand.permanent-delete');
+
+
+
+
+
     });
 
     // Documentation
