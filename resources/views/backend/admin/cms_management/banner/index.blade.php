@@ -46,7 +46,7 @@
                 ['title', true, true],
                 ['subtitle', true, true],
                 ['status', true, true],
-                ['creater_id', true, true],
+                ['created_by', true, true],
                 ['created_at', false, false],
                 ['action', false, false],
             ];
