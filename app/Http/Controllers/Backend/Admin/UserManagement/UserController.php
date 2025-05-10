@@ -34,9 +34,12 @@ class UserController extends Controller
 
         if ($request->ajax()) {
             $query = User::with(['creater'])
-            ->orderBy('sort_order', 'asc')
-            ->latest();
+                ->orderBy('sort_order', 'asc')
+                ->latest();
             return DataTables::eloquent($query)
+                ->editColumn('first_name', function ($user) {
+                    return $user->full_name . ($user->username ? " (" . $user->username . ")" : "");
+                })
                 ->editColumn('status', function ($user) {
                     return "<span class='badge " . $user->status_color . "'>" . $user->status_label . "</span>";
                 })
@@ -46,14 +49,14 @@ class UserController extends Controller
                 ->editColumn('created_at', function ($user) {
                     return $user->created_at_formatted;
                 })
-                ->editColumn('created_by', function ($user) {
+                ->editColumn('creater_id', function ($user) {
                     return $user->creater_name;
                 })
                 ->editColumn('action', function ($user) {
                     $menuItems = $this->menuItems($user);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'is_verify', 'created_at', 'created_by', 'action'])
+                ->rawColumns(['first_name', 'status', 'is_verify', 'created_at', 'creater_id', 'action'])
                 ->make(true);
         }
         return view('backend.admin.user_management.user.index');
@@ -109,9 +112,6 @@ class UserController extends Controller
         $validated = $req->validated();
         $validated['creater_id'] = admin()->id;
         $validated['creater_type'] = get_class(admin());
-        if (isset($req->image)) {
-            $validated['image'] = $this->handleFilepondFileUpload(User::class, $req->image, admin(), 'users/');
-        }
         User::create($validated);
         session()->flash('success', 'User created successfully!');
         return redirect()->route('um.user.index');
@@ -143,10 +143,8 @@ class UserController extends Controller
         $user = User::findOrFail(decrypt($id));
         $validated = $req->validated();
         $validated['updater_id'] = admin()->id;
+        $validated['password'] = ($req->password ? $req->password : $user->password);
         $validated['updater_type'] = get_class(admin());
-        if (isset($req->image)) {
-            $validated['image'] = $this->handleFilepondFileUpload($user, $req->image, admin(), 'users/');
-        }
         $user->update($validated);
         session()->flash('success', 'User updated successfully!');
         return redirect()->route('um.user.index');
@@ -167,7 +165,7 @@ class UserController extends Controller
     public function status(string $id): RedirectResponse
     {
         $user = User::findOrFail(decrypt($id));
-        $user->update(['status' => !$user->status, 'updater_id'=> admin()->id,'updater_type'=> get_class(admin())]);
+        $user->update(['status' => !$user->status, 'updater_id' => admin()->id, 'updater_type' => get_class(admin())]);
         session()->flash('success', 'User status updated successfully!');
         return redirect()->route('um.user.index');
     }

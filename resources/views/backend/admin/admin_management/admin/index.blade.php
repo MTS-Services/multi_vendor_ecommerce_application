@@ -9,11 +9,19 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Admin List') }}</h4>
-                    <x-backend.admin.button :datas="[
-                        'routeName' => 'am.admin.create',
-                        'label' => 'Add New',
-                        'permissions' => ['admin-create'],
-                    ]" />
+                    <div class="buttons">
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'am.admin.recycle-bin',
+                            'label' => 'Recycle Bin',
+                            'className' => 'btn-danger',
+                            'permissions' => ['admin-restore'],
+                        ]" />
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'am.admin.create',
+                            'label' => 'Add New',
+                            'permissions' => ['admin-create'],
+                        ]" />
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-striped datatable">
@@ -48,7 +56,7 @@
         $(document).ready(function() {
             let table_columns = [
                 //name and data, orderable, searchable
-                ['name', true, true],
+                ['first_name', true, true],
                 ['role_id', true, true],
                 ['email', true, true],
                 ['status', true, true],
@@ -81,9 +89,18 @@
             let id = $(this).data("id");
             let route = "{{ route('am.admin.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
-            const headers = [{
-                    label: "Name",
-                    key: "name"
+            const headers = [
+                {
+                    label: "First Name",
+                    key: "first_name"
+                },
+                {
+                    label: "Last Name",
+                    key: "last_name"
+                },
+                {
+                    label: "Username",
+                    key: "username"
                 },
                 {
                     label: "Image",
@@ -95,6 +112,10 @@
                     key: "email"
                 },
                 {
+                    label: "Phone",
+                    key: "phone"
+                },
+                {
                     label: "Status",
                     key: "status_label",
                     color: "status_color",
@@ -103,11 +124,6 @@
                     label: "Verify Status",
                     key: "verify_label",
                     color: "verify_color",
-                },
-                {
-                    label: "Gender",
-                    key: "gender_label",
-                    color: "gender_color",
                 },
             ];
             fetchAndShowModal(detailsUrl, headers, "#modal_data", "myModal");

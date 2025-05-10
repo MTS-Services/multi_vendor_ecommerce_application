@@ -44,7 +44,7 @@
         $(document).ready(function() {
             let table_columns = [
 
-                ['name', true, true],
+                ['first_name', true, true],
                 ['email', true, true],
                 ['status', true, true],
                 ['is_verify', true, true],
@@ -72,19 +72,27 @@
     <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
     {{-- Show details scripts --}}
     <script src="{{ asset('modal/details_modal.js') }}"></script>
-     <script>
-
+    <script>
         $(document).on("click", ".view", function() {
             let id = $(this).data("id");
             let route = "{{ route('sl.seller.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
             const headers = [{
-                    label: "Name",
-                    key: "name"
+                    label: "First Name",
+                    key: "first_name"
+                },
+                {
+                    label: "Last Name",
+                    key: "last_name"
                 },
                 {
                     label: "Username",
                     key: "username"
+                },
+                {
+                    label: "Image",
+                    key: "modified_image",
+                    type: "image"
                 },
                 {
                     label: "Email",
@@ -94,24 +102,6 @@
                     label: "Phone",
                     key: "phone"
                 },
-                {
-                    label: "Emergency Phone",
-                    key: "emergency_phone"
-                },
-                {
-                    label: "Father Name",
-                    key: "father_name"
-                },
-                {
-                    label: "Mother Name",
-                    key: "mother_name"
-                },
-                {
-                    label: "Image",
-                    key: "modified_image",
-                    type: "image"
-                },
-
                 {
                     label: "Status",
                     key: "status_label",
@@ -123,13 +113,33 @@
                     color: "verify_color",
                 },
                 {
-                    label: "Gender",
-                    key: "gender_label",
-                    color: "gender_color",
+                    label: "Shop Name",
+                    key: "shop_name"
+                },
+                {
+                    label: "Shop Slug",
+                    key: "shop_slug"
+                },
+                {
+                    label: "Shop Logo",
+                    key: "modified_shop_logo",
+                    type: "image"
+                },
+                {
+                    label: "Shop Banner",
+                    key: "modified_shop_banner",
+                    type: "image"
+                },
+                {
+                    label: "Business Phone Number",
+                    key: "business_phone"
+                },
+                {
+                    label: "Shop Description",
+                    key: "shop_description"
                 },
             ];
             fetchAndShowModal(detailsUrl, headers, "#modal_data", "myModal");
         });
     </script>
 @endpush
-

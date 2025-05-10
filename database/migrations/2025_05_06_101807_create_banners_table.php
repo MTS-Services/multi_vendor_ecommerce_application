@@ -32,7 +32,9 @@ return new class extends Migration
             // Indexes
             $table->index('sort_order');
             $table->index('title');
+            $table->index('subtitle');
             $table->index('status');
+            $table->index('url');
             $table->index('start_date');
             $table->index('end_date');
             $table->index('created_at');
