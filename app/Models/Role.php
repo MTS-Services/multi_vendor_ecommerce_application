@@ -23,17 +23,17 @@ class Role extends SpatieRole implements Auditable
 
     public function creater_admin()
     {
-        return $this->belongsTo(Admin::class, 'created_by')->select(['id', 'name']);
+        return $this->belongsTo(Admin::class, 'created_by')->select(['id', 'frist_name', 'last_name']);
     }
 
     public function updater_admin()
     {
-        return $this->belongsTo(Admin::class, 'updated_by')->select(['id', 'name']);
+        return $this->belongsTo(Admin::class, 'updated_by')->select(['id', 'frist_name', 'last_name']);
     }
 
     public function deleter_admin()
     {
-        return $this->belongsTo(Admin::class, 'deleted_by')->select(['id', 'name']);
+        return $this->belongsTo(Admin::class, 'deleted_by')->select(['id', 'frist_name', 'last_name']);
     }
 
     protected $appends = [
