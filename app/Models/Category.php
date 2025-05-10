@@ -29,9 +29,6 @@ class Category extends BaseModel
         'updater_type',
         'deleter_type',
 
-        'modified_image',
-
-
     ];
     public function __construct(array $attributes = [])
     {

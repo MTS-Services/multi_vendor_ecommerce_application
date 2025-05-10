@@ -11,6 +11,7 @@ class Banner extends BaseModel
 
     protected $table = 'banners';
     protected $fillable = [
+        'sort_order',
         'title',
         'subtitle',
         'image',

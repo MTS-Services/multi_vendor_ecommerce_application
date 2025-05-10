@@ -11,17 +11,17 @@ class AuthBaseModel extends Authenticatable
     use HasFactory, SoftDeletes;
     public function creater_admin()
     {
-        return $this->belongsTo(Admin::class, 'created_by')->select(['id', 'name']);
+        return $this->belongsTo(Admin::class, 'created_by')->select(['id', 'first_name', 'last_name']);
     }
 
     public function updater_admin()
     {
-        return $this->belongsTo(Admin::class, 'updated_by')->select(['id', 'name']);
+        return $this->belongsTo(Admin::class, 'updated_by')->select(['id', 'first_name', 'last_name']);
     }
 
     public function deleter_admin()
     {
-        return $this->belongsTo(Admin::class, 'deleted_by')->select(['id', 'name']);
+        return $this->belongsTo(Admin::class, 'deleted_by')->select(['id', 'first_name', 'last_name']);
     }
 
     public function creater()
@@ -55,6 +55,8 @@ class AuthBaseModel extends Authenticatable
         'status_btn_color',
         'status_labels',
         'modified_image',
+
+        'full_name',
 
         'verify_label',
         'verify_color',
@@ -246,24 +248,24 @@ class AuthBaseModel extends Authenticatable
     // Accessor for creater
     public function getCreaterNameAttribute()
     {
-        return optional($this->creater_admin)->name
-            ?? optional($this->creater)->name
+        return $this->creater_admin?->full_name
+            ?? $this->creater?->full_name
             ?? "System Generate";
     }
 
     // Accessor for updater
     public function getUpdaterNameAttribute()
     {
-        return optional($this->updater_admin)->name
-            ?? optional($this->updater)->name
+        return $this->updater_admin?->full_name
+            ?? $this->updater?->full_name
             ?? "Null";
     }
 
     // Accessor for deleter
     public function getDeleterNameAttribute()
     {
-        return optional($this->deleter_admin)->name
-            ?? optional($this->deleter)->name
+        return $this->deleter_admin?->full_name
+            ?? $this->deleter?->full_name
             ?? "Null";
     }
 
@@ -309,4 +311,9 @@ class AuthBaseModel extends Authenticatable
         return auth_storage_url($this->image, $this->gender);
     }
 
+    // Get Full Name
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

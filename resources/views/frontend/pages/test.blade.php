@@ -11,7 +11,6 @@
         <button class="btn-primary">Click Me <i data-lucide="user"></i></button>
         <button class="btn-secondary">Click Me</button>
         <button class="btn-paginate">1</button>
-
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 
             @php
@@ -94,7 +93,7 @@
 
 @push('js')
     <script type="module">
-      import Swiper from '/frontend/js/swiper.min.js';
+        import Swiper from '/frontend/js/swiper.min.js';
 
         $(document).ready(function() {
             const filterOptionSwiper = new Swiper('.swiper', {

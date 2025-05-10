@@ -25,13 +25,14 @@ class User extends AuthBaseModel implements MustVerifyEmail
      */
     protected $fillable = [
         'sort_order',
-        'name',
+        'first_name',
+        'last_name',
+        'username',
         'email',
         'password',
         'status',
         'image',
         'is_verify',
-        'gender',
 
         'creater_id',
         'updater_id',
@@ -60,8 +61,7 @@ class User extends AuthBaseModel implements MustVerifyEmail
         'updater_id' => 'integer',
         'deleter_id' => 'integer',
         'status' => 'integer',
-        'is_verify' => 'integer',
-        'gender' => 'integer',
+        'is_verify' => 'integer',        
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];

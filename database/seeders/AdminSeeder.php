@@ -14,18 +14,36 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         $superadmin = Admin::create([
-            'name' => 'Super Admin',
+            'first_name' => 'Super',
+            'last_name' => 'Admin',
+            'username' => 'superadmin',
             'email' => 'superadmin@dev.com',
+            'email_verified_at' => now(),
+            'is_verify' => 1,
             'password' => 'superadmin@dev.com',
             'role_id' => 1
         ]);
         $superadmin->assignRole($superadmin->role->name);
         $admin = Admin::create([
-            'name' => 'Admin',
+            'first_name' => 'New',
+            'last_name' => 'Admin',
+            'username' => 'admin',
             'email' => 'admin@dev.com',
+            'email_verified_at' => now(),
+            'is_verify' => 1,
             'password' => 'admin@dev.com',
             'role_id' => 2
         ]);
         $admin->assignRole($admin->role->name);
+
+        $test = Admin::create([
+            'first_name' => 'Test',
+            'last_name' => 'Admin',
+            'username' => 'testadmin',
+            'email' => 'testadmin@dev.com',
+            'password' => 'testadmin@dev.com',
+            'role_id' => 2
+        ]);
+        $test->assignRole($test->role->name);
     }
 }
