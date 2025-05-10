@@ -209,7 +209,7 @@
     </section>
     {{-- ===================== Categories Section End ===================== --}}
 
-    {{-- Featured Products  start --}}
+    {{-- ===================== Featured Products ===================== --}}
     <section class="bg-bg-gray dark:bg-bg-darkSecondary py-8 md:py-18">
         <div class="container">
             <div class="header pb-6">
@@ -244,9 +244,9 @@
         </div>
     </section>
 
-    {{--    Featured Products  end --}}
+    {{--  =====================  Featured Products end  ===================== --}}
 
-    {{--  Offer Banner Section   --}}
+    {{-- ===================== Offer Banner Section  ===================== --}}
     <section class="bg-bg-white dark:bg-bg-darkTertiary py-8 md:py-18">
         <div class="container">
             <div
@@ -257,153 +257,28 @@
                     <a href="#" class="btn-primary mx-auto lg:mx-0">{{ __('Shop Now') }} <i
                             data-lucide="chevron-right"></i></i></a>
                 </div>
-                <img src="{{ asset('frontend/images/home_phone.png') }}" alt="" class="w-full sm:w-1/2 lg:w-10/12 xl:w-6/12">
+                <img src="{{ asset('frontend/images/home_phone.png') }}" alt=""
+                    class="w-full sm:w-1/2 lg:w-10/12 xl:w-6/12">
             </div>
         </div>
     </section>
-    {{--  Offer Banner Section end --}}
+    {{-- ===================== Offer Banner Section end ===================== --}}
 
-    {{-- Testimonials start --}}
-    <section class="dark:bg-bg-accent/20">
+    {{-- ===================== Testimonials start ===================== --}}
+    @php
+        $testimonials = [[1], [2], [3], [4], [5], [6]];
+    @endphp
+    <section>
         <div class="container py-10 md:py-18">
-            <div class="headaer">
-                <h2 class="text-4xl pb-5">{{ __('Happy Customers') }}</h2>
-            </div>
+            <h2 class="text-4xl pb-5">{{ __('Happy Customers') }}</h2>
             <div class="relative">
                 <div class="swiper testimonial static">
-                    <div class="swiper-wrapper relative">
-                        {{-- card 1 --}}
-                        <div class="swiper-slide">
-                            <div
-                                class=" card mx-auto bg-bg-white border dark:bg-bg-dark/50 dark:shadow-sm rounded-xl  space-y-4">
-                                <div class="md:px-6 px-3 md:py-4 py-2">
-                                    <div class="flex items-center space-x-1 pt-2">
-                                        <h4>{{ __('Jessica M.') }}</h4>
-                                        <i data-lucide="badge-check" class="w-4 h-4"></i>
-                                        <span class="text-xs">{{ __('Verified Buyer') }}</span>
-                                    </div>
-                                    <div class="flex space-x-1 text-text-danger md:py-5 py-2">
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                    </div>
-                                    <p class="lg:text-sm text-xs  ">
-                                        {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is top-notch. I’ve gotten so many compliments on it. Will definitely shop here again!') }}
-                                    </p>
-                                </div>
-                                <div class=" border-t flex items-center space-x-4 gap-1 md:gap-3 md:px-6 px-3 md:py-4 py-2">
-                                    <img src="{{ asset('frontend/images/author-electric1.jpg') }}" alt="">
-                                    <div class="text">
-                                        <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
-                                                class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12 Camera') }}</span>
-                                        </p>
-                                        <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
-                                    </div>
-
-                                </div>
+                    <div class="swiper-wrapper">
+                        @foreach ($testimonials as $testimonial)
+                            <div class="swiper-slide">
+                                <x-frontend.testimonial :testimonial="$testimonial" />
                             </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div
-                                class=" card mx-auto bg-bg-white border dark:bg-bg-dark/50 dark:shadow-sm rounded-xl  space-y-4">
-                                <div class="md:px-6 px-3 md:py-4 py-2">
-                                    <div class="flex items-center space-x-1 pt-2">
-                                        <h4>{{ __('Jessica M.') }}</h4>
-                                        <i data-lucide="badge-check" class="w-4 h-4"></i>
-                                        <span class="text-xs">{{ __('Verified Buyer') }}</span>
-                                    </div>
-                                    <div class="flex space-x-1 text-text-danger md:py-5 py-2">
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                    </div>
-                                    <p class="lg:text-sm text-xs  ">
-                                        {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is top-notch. I’ve gotten so many compliments on it. Will definitely shop here again!') }}
-                                    </p>
-                                </div>
-                                <div
-                                    class=" border-t flex items-center space-x-4 gap-1 md:gap-3 md:px-6 px-3 md:py-4 py-2">
-                                    <img src="{{ asset('frontend/images/author-electric1.jpg') }}" alt="">
-                                    <div class="text">
-                                        <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
-                                                class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12 Camera') }}</span>
-                                        </p>
-                                        <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div
-                                class=" card mx-auto bg-bg-white border dark:bg-bg-dark/50 dark:shadow-sm rounded-xl  space-y-4">
-                                <div class="md:px-6 px-3 md:py-4 py-2">
-                                    <div class="flex items-center space-x-1 pt-2">
-                                        <h4>{{ __('Jessica M.') }}</h4>
-                                        <i data-lucide="badge-check" class="w-4 h-4"></i>
-                                        <span class="text-xs">{{ __('Verified Buyer') }}</span>
-                                    </div>
-                                    <div class="flex space-x-1 text-text-danger md:py-5 py-2">
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                    </div>
-                                    <p class="lg:text-sm text-xs  ">
-                                        {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is top-notch. I’ve gotten so many compliments on it. Will definitely shop here again!') }}
-                                    </p>
-                                </div>
-                                <div
-                                    class=" border-t flex items-center space-x-4 gap-1 md:gap-3 md:px-6 px-3 md:py-4 py-2">
-                                    <img src="{{ asset('frontend/images/author-electric1.jpg') }}" alt="">
-                                    <div class="text">
-                                        <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
-                                                class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12 Camera') }}</span>
-                                        </p>
-                                        <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div
-                                class=" card mx-auto bg-bg-white border dark:bg-bg-dark/50 dark:shadow-sm rounded-xl  space-y-4">
-                                <div class="md:px-6 px-3 md:py-4 py-2">
-                                    <div class="flex items-center space-x-1 pt-2">
-                                        <h4>{{ __('Jessica M.') }}</h4>
-                                        <i data-lucide="badge-check" class="w-4 h-4"></i>
-                                        <span class="text-xs">{{ __('Verified Buyer') }}</span>
-                                    </div>
-                                    <div class="flex space-x-1 text-text-danger md:py-5 py-2">
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                        <i data-lucide="star" class="w-4 h-4 fill-text-danger"></i>
-                                    </div>
-                                    <p class="lg:text-sm text-xs  ">
-                                        {{ __('  I love the gadget I purchased! The build quality is excellent, and the performance is top-notch. I’ve gotten so many compliments on it. Will definitely shop here again!') }}
-                                    </p>
-                                </div>
-                                <div
-                                    class=" border-t flex items-center space-x-4 gap-1 md:gap-3 md:px-6 px-3 md:py-4 py-2">
-                                    <img src="{{ asset('frontend/images/author-electric1.jpg') }}" alt="">
-                                    <div class="text">
-                                        <p class="text-xs pb-2">{{ __('Item purchased: ') }}<span
-                                                class=" text-sm font-semibold hover:text-text-danger ">{{ __('Instax Mini 12 Camera') }}</span>
-                                        </p>
-                                        <p class="text-sm font-semibold">{{ __('$130.00') }}</p>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
 
                     <div class="swiper-pagination z-10 !-bottom-6 lg:!-bottom-8"></div>
@@ -419,45 +294,28 @@
             </div>
         </div>
     </section>
-    {{-- testimonial section end --}}
-    {{-- Brand items start --}}
-    <section class="dark:bg-bg-darkTertiary">
-        <div class="container relative md:py-13 py-6">
+    {{-- ===================== testimonial section end ===================== --}}
+
+    {{-- ===================== Brand items start ===================== --}}
+
+    @php
+        $brands = [[1], [2], [3], [4], [5], [6], [7], [8], [9], [10]];
+    @endphp
+    <section class="bg-bg-gray dark:bg-bg-darkSecondary md:py-13 py-6">
+        <div class="container relative">
             <div class="swiper brand">
                 <div class="swiper-wrapper">
-                    {{-- <div class="images flex items-center justify-center"> --}}
-                    <div class="swiper-slide">
-                        <div class="imag border shadow-sm">
-                            <img class="" src="{{ asset('frontend/images/zara.png') }}" alt="zara">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="imag border shadow-sm">
-                            <img class="" src="{{ asset('frontend/images/bear.png') }}" alt="pulbear">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="imag border shadow-sm">
-                            <img class="" src="{{ asset('frontend/images/nike.png') }}" alt="nike">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="imag border shadow-sm">
-                            <img class="" src="{{ asset('frontend/images/asos.png') }}" alt="asos">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="imag border shadow-sm">
-                            <img class="" src="{{ asset('frontend/images/burberry.png') }}" alt="burberry">
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="imag border shadow-sm">
-                            <img class="" src="{{ asset('frontend/images/forever.png') }}" alt="forever">
-                        </div>
-                    </div>
 
-                    {{-- </div> --}}
+                    @foreach ($brands as $brand)
+                        <div class="swiper-slide w-auto !mb-3">
+                            <div
+                                class="shadow-card bg-bg-white dark:bg-bg-black rounded-lg p-3 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 ease-linear ">
+                                <img class="" src="{{ asset('frontend/images/bear.png') }}" alt="pulbear"
+                                    class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    @endforeach
+
                 </div>
                 <div class="swiper-pagination z-10 !-bottom-8"></div>
             </div>
@@ -490,7 +348,7 @@
         });
 
         // Arrivals Slider
-        const loopingSlider = new Swiper('.arrivals', {
+        new Swiper('.arrivals', {
             slidesPerView: "auto",
             loop: true,
             speed: 10000,
@@ -550,6 +408,7 @@
         // Testimonial Slider
         new Swiper('.testimonial', {
             slidesPerView: 3,
+            loop: true,
             autoplay: {
                 delay: 3000,
                 disableOnInteraction: false,
@@ -572,20 +431,24 @@
                     slidesPerView: 2,
                     spaceBetween: 20,
                 },
-                1024: {
+                1200: {
                     slidesPerView: 3,
                     spaceBetween: 20,
                 },
-
-
             },
         });
+
         // brand Slider
         new Swiper('.brand', {
-            slidesPerView: 3,
+            slidesPerView: 'auto',
+            speed: 1000,
+            disableOnInteraction: false,
+            spaceBetween: 50,
+            loop: true,
             autoplay: {
                 delay: 3000,
                 disableOnInteraction: false,
+                pauseOnMouseEnter: true,
             },
             spaceBetween: 20,
             pagination: {
@@ -610,8 +473,6 @@
                     slidesPerView: 6,
                     spaceBetween: 20,
                 }
-
-
             },
         });
     </script>
