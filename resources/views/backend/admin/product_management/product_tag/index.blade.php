@@ -20,10 +20,8 @@
                     <thead>
                         <tr>
                             <th>{{ __('SL') }}</th>
-                            <th>{{ __('Sort Order') }}</th>
                             <th>{{ __('Name') }}</th>
                             <th>{{ __('Slug') }}</th>
-                            <th>{{ __('Description') }}</th>
                             <th>{{ __('Created By') }}</th>
                             <th>{{ __('Created Date') }}</th>
                             <th>{{ __('Action') }}</th>
@@ -47,10 +45,8 @@
     $(document).ready(function() {
         let table_columns = [
 
-            ['sort_order', true, true],
             ['name', true, true],
             ['slug', true, true],
-            ['description', true, true],
             ['creater_id', true, true],
             ['created_at', false, false],
             ['action', false, false],
@@ -61,7 +57,7 @@
             displayLength: 10,
             main_route: "{{ route('pm.product-tags.index') }}",
             order_route: "{{ route('update.sort.order') }}",
-            export_columns: [0, 1, 2, 3, 4, 5],
+            export_columns: [0, 1, 2, 3],
             model: 'ProductTag',
         };
         initializeDataTable(details);
@@ -74,7 +70,7 @@
 <script>
     $(document).on("click", ".view", function() {
         let id = $(this).data("id");
-        let route = "{{ route('pm.product_tags.show', ['id']) }}";
+        let route = "{{ route('pm.product-tags.show', ['id']) }}";
         const detailsUrl = route.replace("id", id);
         const headers = [
             {

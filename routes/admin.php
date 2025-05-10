@@ -24,8 +24,8 @@ use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginControl
 use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
 use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\ProductTagController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
-use App\Models\ProductTag;
 
 // Admin Auth Routes
 Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')->group(function () {
@@ -139,7 +139,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('brand/feature/{brand}', [BrandController::class, 'feature'])->name('brand.feature');
 
         // ProductTag Routes
-        Route::resource('product-tags', ProductTag::class);
+        Route::resource('product-tags', ProductTagController::class);
     });
 
     // Documentation
