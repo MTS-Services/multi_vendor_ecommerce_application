@@ -24,6 +24,9 @@ class StateController extends Controller
         $this->middleware('permission:state-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:state-delete', ['only' => ['destroy']]);
         $this->middleware('permission:state-status', ['only' => ['status']]);
+        $this->middleware('permission:state-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:state-restore', ['only' => ['restore']]);
+        $this->middleware('permission:state-permanent-delete', ['only' => ['permanentDelete']]);
     }
 
     /**
@@ -87,6 +90,58 @@ class StateController extends Controller
                 'label' => 'Delete',
                 'delete' => true,
                 'permissions' => ['state-delete']
+            ]
+
+        ];
+    }
+
+        public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $query = State::with(['deleter'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+              ->editColumn('country_id', function ($state) {
+                    return $state->country_name;
+                })
+            ->editColumn('status', function ($state) {
+                    return "<span class='badge " . $state->status_color . "'>$state->status_label</span>";
+                })
+
+               ->editColumn('deleted_by', function ($state) {
+                    return $state->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($state) {
+                    return $state->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($state) {
+                    $menuItems = $this->trashedMenuItems($state);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['country_id','status', 'deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.setup.state.recycle-bin');
+    }
+
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'setup.state.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['state-restore']
+            ],
+            [
+                'routeName' => 'setup.state.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['state-permanent-delete']
             ]
 
         ];
@@ -165,4 +220,27 @@ class StateController extends Controller
         session()->flash('success', ' state status updated successfully!');
         return redirect()->route('setup.state.index');
     }
+           public function restore(string $id): RedirectResponse
+    {
+        $state = State::onlyTrashed()->findOrFail(decrypt($id));
+        $state->update(['updated_by' => admin()->id]);
+        $state->restore();
+        session()->flash('success', 'State restored successfully!');
+        return redirect()->route('setup.state.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $state = State::onlyTrashed()->findOrFail(decrypt($id));
+        $state->forceDelete();
+        session()->flash('success', 'State permanently deleted successfully!');
+        return redirect()->route('setup.state.recycle-bin');
+    }
 }
+
