@@ -58,15 +58,14 @@ return new class extends Migration
             $table->index('country_id');
             $table->index('state_id');
             $table->index('city_id');
-            $table->index('area_id');
-            $table->index('sub_area_id');
+            $table->index('operation_area_id');
+            $table->index('operation_sub_area_id');
             $table->index('address_line_1');
             $table->index('address_line_2');
             $table->index('postal_code');
             $table->index('latitude');
             $table->index('longitude');
-            $table->index('is_default_shipping');
-            $table->index('is_default_billing');
+            $table->index('is_default');
             $table->index('status');
 
             $table->index('created_at');
