@@ -17,31 +17,29 @@
                         enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
-
                         <div class="form-group">
                             <label>{{ __('Question') }} <span class="text-danger">*</span></label>
                             <input type="text" value="{{ $faq->question }}" id="title" name="question"
                                 class="form-control" placeholder="Enter question">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'question']" />
                         </div>
-                       <div class="form-group">
-                                <label>{{ __('Answer') }} <span class="text-danger">*</span></label>
-                                <input type="text" value="{{ $faq->answer }}" id="title" name="answer"
-                                class="form-control" placeholder="Enter answer">
-                               <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'answer']" />
-                            </div>
                         <div class="form-group">
-                                <label>{{ __('Type') }} <span class="text-danger">*</span></label>
-                                <select name="type" class="form-control">
-                                    @foreach (App\Models\Faq::getTypeLabels() as $key => $value)
-                                        <option value="{{ $key }}"
-                                            {{ old('type') == $key ? 'selected' : '' }}>{{ $value }}
-                                        </option>
-
-                                    @endforeach
-                                </select>
-                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'type']" />
-                            </div>
+                            <label>{{ __('Answer') }} <span class="text-danger">*</span></label>
+                            <input type="text" value="{{ $faq->answer }}" id="title" name="answer"
+                                class="form-control" placeholder="Enter answer">
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'answer']" />
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('Type') }} <span class="text-danger">*</span></label>
+                            <select name="type" class="form-control">
+                                @foreach (App\Models\Faq::getTypeLabels() as $key => $value)
+                                    <option value="{{ $key }}" {{ old('type') == $key ? 'selected' : '' }}>
+                                        {{ $value }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'type']" />
+                        </div>
 
                         <div class="form-group float-end">
                             <input type="submit" class="btn btn-primary" value="Update">
