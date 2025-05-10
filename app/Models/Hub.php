@@ -4,18 +4,25 @@ namespace App\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class State extends BaseModel
+class Hub extends BaseModel
 {
+    protected $table = 'hubs';
+
     protected $fillable = [
         'sort_order',
         'country_id',
+        'state_id',
+        'city_id',
+        'operation_area_id',
         'name',
         'slug',
-        'code',
+        'address',
+        'latitude',
+        'longitude',
         'description',
+        'meta_title',
+        'meta_description',
         'status',
 
         'created_by',
@@ -32,8 +39,6 @@ class State extends BaseModel
             'status_btn_label',
             'status_btn_color',
             'status_labels',
-
-            'country_name',
         ]);
     }
     public const STATUS_ACTIVE = 1;
@@ -120,43 +125,19 @@ class State extends BaseModel
         return $this->belongsTo(Country::class, 'country_id','id');
 
     }
-    public function getCountryNameAttribute(): string|null
+    public function state(): BelongsTo
     {
-        return optional($this->country)->name;
-    }
+        return $this->belongsTo(State::class, 'state_id','id');
 
-    public function cities(): HasMany
-    {
-        return $this->hasMany(City::class,'state_id');
     }
-    public function operationAreas(): HasMany
+    public function city(): BelongsTo
     {
-        return $this->hasMany(OperationArea::class,'state_id');
-    }
-    public function operationSubAreas(): HasMany
-    {
-        return $this->hasMany(OperationSubArea::class,'state_id');
-    }
-    public function hubs(): HasMany
-    {
-        return $this->hasMany(Hub::class,'state_id');
-    }
-    public function activeCities(): HasMany
-    {
-        return $this->cities()->active();
-    }
-    public function activeOperationAreas(): HasMany
-    {
-        return $this->operationAreas()->active();
-    }
-    public function activeOperationSubAreas(): HasMany
-    {
-        return $this->operationSubAreass()->active();
-    }
-    public function activeHubs(): HasMany
-    {
-        return $this->hubs()->active();
-    }
+        return $this->belongsTo(City::class, 'city_id','id');
 
+    }
+    public function operationArea(): BelongsTo
+    {
+        return $this->belongsTo(OperationArea::class, 'operation_area_id','id');
 
+    }
 }
