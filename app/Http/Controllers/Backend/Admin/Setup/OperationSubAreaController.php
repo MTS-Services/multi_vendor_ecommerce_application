@@ -17,7 +17,7 @@ class OperationSubAreaController extends Controller
     {
         $this->middleware('auth:admin');
         $this->middleware('permission:operation-sub-area-list', ['only' => ['index']]);
-        $this->middleware('permission:operation-sub-area-list', ['only' => ['details']]);
+        $this->middleware('permission:operation-sub-area-details', ['only' => ['details']]);
         $this->middleware('permission:operation-sub-area-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:operation-sub-area-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:operation-sub-area-delete', ['only' => ['destroy']]);
