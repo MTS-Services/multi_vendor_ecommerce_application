@@ -22,8 +22,8 @@
                             <th>{{ __('Title') }}</th>
                             <th>{{ __('Sub Title') }}</th>
                             <th>{{ __('Status') }}</th>
-                            <th>{{ __('Created By') }}</th>
-                            <th>{{ __('Created Date') }}</th>
+                            <th>{{ __('Deleted By') }}</th>
+                            <th>{{ __('Deleted Date') }}</th>
                             <th>{{ __('Action') }}</th>
                         </tr>
                     </thead>
@@ -42,8 +42,8 @@
     $(document).ready(function() {
         let table_columns = [
             //name and data, orderable, searchable
-            ['Title', true, true],
-            ['Sub Title', true, true],
+            ['title', true, true],
+            ['subtitle', true, true],
             ['status', true, true],
             ['deleted_by', true, true],
             ['deleted_at', true, true],
@@ -56,7 +56,7 @@
             main_route: "{{ route('cms.banner.recycle-bin') }}",
             order_route: "{{ route('update.sort.order') }}",
             export_columns: [0, 1, 2, 3, 4, 5],
-            model: 'Admin',
+            model: 'Banner',
         };
         // initializeDataTable(details);
 
