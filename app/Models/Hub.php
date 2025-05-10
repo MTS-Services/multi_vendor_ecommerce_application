@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Hub extends BaseModel
 {
     protected $table = 'hubs';
-    
+
     protected $fillable = [
         'sort_order',
         'country_id',
@@ -39,12 +39,6 @@ class Hub extends BaseModel
             'status_btn_label',
             'status_btn_color',
             'status_labels',
-
-            'operation_area_name',
-            'city_name',
-            'state_name',
-            'country_name',
-
         ]);
     }
     public const STATUS_ACTIVE = 1;
@@ -145,21 +139,5 @@ class Hub extends BaseModel
     {
         return $this->belongsTo(OperationArea::class, 'operation_area_id','id');
 
-    }
-    public function getCountryNameAttribute(): string|null
-    {
-        return $this->country?->name;
-    }
-    public function getStateNameAttribute(): string|null
-    {
-        return $this->state?->name;
-    }
-    public function getCityNameAttribute(): string|null
-    {
-        return $this->city?->name;
-    }
-    public function getOperationAreaNameAttribute(): string|null
-    {
-        return $this->operationArea?->name;
     }
 }

@@ -23,10 +23,13 @@ class HubRequest extends FormRequest
     {
         return [
             'name'=> 'required|string',
+            'meta_title'=> 'nullable|string',
+            'meta_description'=> 'nullable|string',
+            'address'=> 'required|string',
             'description' => 'nullable|string',
             'country' => 'required|exists:countries,id',
             'state' => 'nullable|exists:states,id',
-            'city' => 'nullable|exists:cities,id',
+            'city' => 'required|exists:cities,id',
             'operation_area' => 'nullable|exists:operation_areas,id',
 
         ]

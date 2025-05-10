@@ -41,7 +41,7 @@
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city']" />
                         </div>
                         <div class="form-group">
-                            <label>{{ __('Operation Area') }} <span class="text-danger">*</span></label>
+                            <label>{{ __('Operation Area') }}</label>
                             <select name="operation_area" id="operation_area" class="form-control" disabled>
                                 <option value="" selected hidden>{{__('Select Operation Area')}}</option>
                             </select>
