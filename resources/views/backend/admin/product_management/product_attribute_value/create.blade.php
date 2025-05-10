@@ -18,7 +18,7 @@
 
                         <div class="form-group">
                             <label>{{ __(' Attribute Name') }}  <span class="text-danger">*</span></label>
-                            <select name="product_attribute_id" class="form-control">
+                            <select name="product_attribute_id" id="product_attribute_id" class="form-control">
                                 <option value="" selected disabled>{{ __('Select Attribute Name') }}</option>
                                 @foreach ($product_attribute as $product_attribute_value)
                                     <option value="{{ $product_attribute_value->id }}" {{ old('product_attribute_id') == $product_attribute_value->id ? 'selected' : '' }}>
@@ -30,7 +30,7 @@
 
                         <div class="form-group">
                             <label>{{ __('Value') }}  <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ old('value') }}" id="title" name="value" class="form-control"
+                            <input type="text" value="{{ old('value') }}" id="value" name="value" class="form-control"
                                 placeholder="Enter value">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'value']" />
                         </div>
@@ -45,3 +45,4 @@
         </div>
     </div>
 @endsection
+

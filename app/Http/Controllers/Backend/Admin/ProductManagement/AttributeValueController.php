@@ -39,16 +39,8 @@ class AttributeValueController extends Controller
                     return "<span class='badge " . $product_attribute_value->status_color . "'>$product_attribute_value->status_label</span>";
                 })
                 ->editColumn('product_attribute_id', function ($product_attribute_value) {
-                    return $product_attribute_value->product_attribute_name;
+                    return $product_attribute_value->productAttribute?->name;
                 })
-
-                ->editColumn('value', function ($product_attribute_value) {
-                    return $product_attribute_value->value;
-                })
-
-                // ->editColumn('is_featured', function ($product_attribute_value) {
-                //     return "<span class='badge " . $product_attribute_value->featured_color . "'>" . $product_attribute_value->featured_label . "</span>";
-                // })
                 ->editColumn('creater_id', function ($product_attribute_value) {
                     return $product_attribute_value->creater_name;
                 })
@@ -59,7 +51,7 @@ class AttributeValueController extends Controller
                     $menuItems = $this->menuItems($product_attribute_value);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['value', 'attribute_name', 'status', 'creater_id', 'created_at', 'action'])
+                ->rawColumns(['value', 'product_attribute_id', 'status', 'creater_id', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.product_management.product_attribute_value.index');
@@ -87,12 +79,6 @@ class AttributeValueController extends Controller
                 'label' => $model->status_btn_label,
                 'permissions' => ['product-attribute-value-status']
             ],
-            // [
-            //     'routeName' => 'pm.product-attribute.feature',
-            //     'params' => [encrypt($model->id)],
-            //     'label' => $model->featured_btn_label,
-            //     'permissions' => ['product-attribute-value-feature']
-            // ],
             [
                 'routeName' => 'pm.product-attribute-value.destroy',
                 'params' => [encrypt($model->id)],
@@ -109,7 +95,7 @@ class AttributeValueController extends Controller
      */
     public function create()
     {
-        $product_attribute = ProductAttribute::all();
+        $product_attribute = ProductAttribute::active()->orderBy('name', 'asc')->get();
         return view('backend.admin.product_management.product_attribute_value.create', compact('product_attribute'));
     }
 
@@ -135,6 +121,7 @@ class AttributeValueController extends Controller
     public function show(string $id)
     {
         $data = ProductAttributeValue::with(['creater', 'updater'])->findOrFail(decrypt($id));
+        $data['attribute_name'] = $data->productAttribute?->name;
         return response()->json($data);
     }
 
@@ -144,8 +131,7 @@ class AttributeValueController extends Controller
     public function edit(string $id)
     {
         $data['product_attribute_value'] = ProductAttributeValue::findOrFail(decrypt($id));
-        $data['product_attribute'] = ProductAttribute::where('status', 1)->get(); // or whatever filter you need
-
+        $data['product_attribute'] = ProductAttribute::active()->orderBy('name', 'asc')->get();
         return view('backend.admin.product_management.product_attribute_value.edit', $data);
     }
 
@@ -158,11 +144,8 @@ class AttributeValueController extends Controller
         $validated = $request->validated();
         $validated['updater_id'] = admin()->id;
         $validated['updater_type'] = get_class(admin());
-        if (isset($request->image)) {
-            $validated['image'] = $this->handleFilepondFileUpload($product_attribute_value, $request->image, admin(), 'product_attribute_value/');
-        }
         $product_attribute_value->update($validated);
-        session()->flash('success', 'Product Attribute updated successfully!');
+        session()->flash('success', 'Product attribute updated successfully!');
         return redirect()->route('pm.product-attribute-value.index');
     }
 
@@ -172,16 +155,16 @@ class AttributeValueController extends Controller
     public function destroy(string $id)
     {
         $product_attribute_value = ProductAttributeValue::findOrFail(decrypt($id));
-        $product_attribute_value->update(['updater_id' => admin()->id, 'updater_type' => get_class(admin())]);
+        $product_attribute_value->update(['deleter_id' => admin()->id, 'deleter_type' => get_class(admin())]);
         $product_attribute_value->delete();
-        session()->flash('success', 'Product Attribute Value deleted successfully!');
+        session()->flash('success', 'Product attribute value deleted successfully!');
         return redirect()->route('pm.product-attribute-value.index');
     }
     public function status(string $id): RedirectResponse
     {
         $product_attribute_value = ProductAttributeValue::findOrFail(decrypt($id));
         $product_attribute_value->update(['status' => !$product_attribute_value->status, 'updated_by' => admin()->id]);
-        session()->flash('success', 'Product Attribute Value status updated successfully!');
+        session()->flash('success', 'Product attribute value status updated successfully!');
         return redirect()->route('pm.product-attribute-value.index');
     }
 }

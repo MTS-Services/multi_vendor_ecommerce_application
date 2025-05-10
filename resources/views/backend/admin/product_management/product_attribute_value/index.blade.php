@@ -1,8 +1,5 @@
 @extends('backend.admin.layouts.master', ['page_slug' => 'product_attribute_value'])
 @section('title', 'Product Attribute Value List')
-@push('css')
-    <link rel="stylesheet" href="{{ asset('custom_litebox/litebox.css') }}">
-@endpush
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -20,8 +17,8 @@
                         <thead>
                             <tr>
                                 <th>{{ __('SL') }}</th>
+                                <th>{{ __('Attribute Name') }}</th>
                                 <th>{{ __('Value') }}</th>
-                                <th>{{ __('Attibute Name') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Created By') }}</th>
                                 <th>{{ __('Created Date') }}</th>
@@ -39,14 +36,11 @@
     <x-backend.admin.details-modal :datas="['modal_title' => 'Product Attribute Value Details']" />
 @endsection
 @push('js')
-    <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
-    {{-- Datatable Scripts --}}
     <script src="{{ asset('datatable/main.js') }}"></script>
     <script>
         $(document).ready(function() {
             let table_columns = [
                 //name and data, orderable, searchable
-
                 ['product_attribute_id', true, true],
                 ['value', true, true],
                 ['status', true, true],
@@ -77,19 +71,16 @@
             let route = "{{ route('pm.product-attribute-value.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
             const headers = [{
-                    label: "Name",
-                    key: "name"
+                    label: "Attibute Name",
+                    key: "attribute_name",
+
                 },
                 {
                     label: "Value",
                     key: "value",
 
-                }
-                {
-                    label: "Attibute Name",
-                    key: "product_attribute_id",
+                },
 
-                }
                 {
                     label: "Status",
                     key: "status_label",
