@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Traits\AuditColumnsTrait;
-use App\Models\Banner;
+use App\Models\ProductAttributeValue;
 
 return new class extends Migration
 {
@@ -15,31 +15,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('banners', function (Blueprint $table) {
+        Schema::create('product_attribute_values', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('sort_order')->default(0);
-            $table->string('title');
-            $table->string('subtitle');
-            $table->string('image');
-            $table->string('url');
-            $table->boolean('status')->default(Banner::STATUS_ACTIVE)->comment(Banner::STATUS_ACTIVE . ': Active, ' . Banner::STATUS_DEACTIVE . ': Inactive');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->unsignedBigInteger('product_attribute_id');
+            $table->string('value');
+            $table->boolean('status')->default(ProductAttributeValue::STATUS_ACTIVE)->comment(ProductAttributeValue::STATUS_ACTIVE . ': Active, ' . ProductAttributeValue::STATUS_DEACTIVE . ': Inactive');
             $table->timestamps();
             $table->softDeletes();
-            $this->addAdminAuditColumns($table);
+            $this->addMorphedAuditColumns($table);
 
             // Indexes
             $table->index('sort_order');
-            $table->index('title');
-            $table->index('subtitle');
+            $table->index('value');
             $table->index('status');
-            $table->index('url');
-            $table->index('start_date');
-            $table->index('end_date');
             $table->index('created_at');
             $table->index('updated_at');
             $table->index('deleted_at');
+
+            $table->foreign('product_attribute_id')->references('id')->on('product_attributes')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -48,6 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('banners');
+        Schema::dropIfExists('product_attribute_values');
     }
 };

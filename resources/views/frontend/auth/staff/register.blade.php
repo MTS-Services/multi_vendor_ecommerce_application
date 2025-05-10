@@ -6,7 +6,7 @@
                 class="flex flex-col xl:flex-row-reverse shadow-shadowPrimary shadow-shadow-dark/10 dark:shadow-shadow-light/10 rounded-2xl w-full overflow-hidden bg-bg-white dark:bg-bg-darkTertiary">
                 <!-- Left Side: Form -->
                 <div class="w-full xl:w-1/2 p-10 md:p-12 flex flex-col justify-center">
-                    <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Start Shopping with Us') }}</h2>
+                    <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Register your account') }}</h2>
                     <form class="space-y-5" action="{{ route('register') }}" method="POST">
                         @csrf
 
@@ -119,7 +119,7 @@
                         </p>
 
                         <div class="text-center text-sm mt-4">
-                            {{ __('Become a') }} <a href="{{ route('seller.login') }}"
+                            {{ __('Become a') }} <a href="#"
                                 class="text-text-accent font-medium">{{ __('Seller') }}</a>
                         </div>
                     </div>

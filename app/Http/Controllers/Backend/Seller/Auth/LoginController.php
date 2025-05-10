@@ -14,7 +14,7 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
-        return route("seller.profile");
+        return route("seller.dashboard");
     }
 
 
@@ -29,9 +29,35 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         if ($this->guard()->check()) {
-            return redirect()->route('seller.profile');
+            return redirect()->route('seller.dashboard');
         }
-        return view('backend.seller.auth.login');
+        return view('frontend.auth.seller.login');
+    }
+
+    public function username()
+    {
+        return 'login';
+    }
+
+    protected function credentials(Request $request)
+    {
+        $login = $request->input('login');
+
+        // Detect if input is an email or username
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        return [
+            $field => $login,
+            'password' => $request->input('password'),
+        ];
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            'login' => 'required|string',
+            'password' => 'required|string',
+        ]);
     }
 
     /**

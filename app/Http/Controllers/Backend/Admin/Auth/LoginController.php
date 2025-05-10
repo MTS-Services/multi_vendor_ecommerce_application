@@ -35,7 +35,33 @@ class LoginController extends Controller
         if ($this->guard()->check()) {
             return redirect()->route('admin.dashboard');
         }
-        return view('backend.admin.auth.login');
+        return view('frontend.auth.admin.login');
+    }
+
+    public function username()
+    {
+        return 'login';
+    }
+
+    protected function credentials(Request $request)
+    {
+        $login = $request->input('login');
+
+        // Detect if input is an email or username
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        return [
+            $field => $login,
+            'password' => $request->input('password'),
+        ];
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            'login' => 'required|string',
+            'password' => 'required|string',
+        ]);
     }
 
     /**
