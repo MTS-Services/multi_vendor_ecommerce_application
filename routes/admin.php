@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeValueController;
 use App\Http\Controllers\Backend\Admin\Setup\AxiosRequestController;
 use App\Http\Controllers\Backend\Admin\Setup\CityController;
 use App\Http\Controllers\Backend\Admin\Setup\OperationAreaController;
@@ -138,6 +139,11 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         //Product Attribute
         Route::resource('product-attribute', AttributeController::class);
         Route::get('product-attribute/status/{product_attribute}', [AttributeController::class, 'status'])->name('product-attribute.status');
+
+        //Product Attribute Value
+        Route::resource('product-attribute-value', AttributeValueController::class);
+        Route::get('product-attribute-value/status/{product_attribute_value}', [AttributeValueController::class, 'status'])->name('product-attribute-value.status');
+
 
         // Brand Routes
         Route::resource('brand', BrandController::class);

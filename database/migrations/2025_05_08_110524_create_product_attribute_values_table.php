@@ -25,6 +25,8 @@ return new class extends Migration
             $table->softDeletes();
             $this->addMorphedAuditColumns($table);
 
+            $table->unique(['product_attribute_id','value'],name: 'product_attribute_value_unique');
+
             // Indexes
             $table->index('sort_order');
             $table->index('value');

@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SubCategoryRequest;
 use App\Models\Category;
+use App\Models\ProductAttribute;
+use App\Models\ProductAttributeValue;
 use Yajra\DataTables\Facades\DataTables;
 
 
@@ -136,9 +138,9 @@ class SubCategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $data['categories'] = Category::isCategory()->active()->latest()->get();
-        $data['subcategory'] = Category::findOrFail(decrypt($id));
-        return view('backend.admin.product_management.sub_category.edit', $data);
+        $data['product_attribute_value'] = ProductAttributeValue::findOrFail(decrypt($id));
+    $data['product_attribute'] = ProductAttribute::all(); // <-- Add this line
+    return view('backend.admin.product_management.product_attribute_value.edit', $data);
     }
 
     /**
