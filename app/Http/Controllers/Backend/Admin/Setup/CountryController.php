@@ -92,7 +92,7 @@ class CountryController extends Controller
     {
 
         if ($request->ajax()) {
-            $query = Country::with(['deleter'])
+            $query = Country::with(['deleter_admin'])
                 ->onlyTrashed()
                 ->orderBy('sort_order', 'asc')
                 ->latest();

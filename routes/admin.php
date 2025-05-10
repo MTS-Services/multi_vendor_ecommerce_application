@@ -119,6 +119,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         // City Routes
         Route::resource('city', CityController::class);
         Route::get('city/status/{state}', [CityController::class, 'status'])->name('city.status');
+        Route::get('city/recycle/bin', [CityController::class, 'recycleBin'])->name('city.recycle-bin');
+        Route::get('city/restore/{city}', [CityController::class, 'restore'])->name('city.restore');
+        Route::delete('city/permanent-delete/{city}', [CityController::class, 'permanentDelete'])->name('city.permanent-delete');
 
         // Operation Area Routes
         Route::resource('operation-area', OperationAreaController::class);

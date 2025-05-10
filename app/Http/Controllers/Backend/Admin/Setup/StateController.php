@@ -99,7 +99,7 @@ class StateController extends Controller
     {
 
         if ($request->ajax()) {
-            $query = State::with(['deleter'])
+            $query = State::with(['deleter_admin'])
                 ->onlyTrashed()
                 ->orderBy('sort_order', 'asc')
                 ->latest();
