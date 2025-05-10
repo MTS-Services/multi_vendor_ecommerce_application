@@ -15,6 +15,14 @@ class Faq extends BaseModel
         'answer',
         'type',
         'status',
+
+        'creater_id',
+        'updater_id',
+        'deleter_id',
+
+        'creater_type',
+        'updater_type',
+        'deleter_type',
     ];
 
     public function __construct(array $attributes = [])
