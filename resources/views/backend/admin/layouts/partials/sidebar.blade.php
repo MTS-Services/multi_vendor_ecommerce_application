@@ -4,7 +4,7 @@
         <div class="logo-header" data-background-color="dark">
             <a href="{{ route('admin.dashboard') }}" class="logo">
                 <div class="title_" style="line-height: 1; color: #fff;">
-                    {{config('app.short_name', 'KaiAdmin')}}
+                    {{ config('app.short_name', 'KaiAdmin') }}
                 </div>
             </a>
             <div class="nav-toggle">
@@ -97,14 +97,26 @@
                 </li>
 
                 {{-- Product Management --}}
-                <li class="nav-item  @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute') active submenu @endif">
+                <li class="nav-item  @if (
+                    $page_slug == 'category' ||
+                        $page_slug == 'subcategory' ||
+                        $page_slug == 'brand' ||
+                        $page_slug == 'product_attribute'|| $page_slug == 'product_attribute_value') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#product_management"
-                        @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute') aria-expanded="true" @endif>
+                        @if (
+                            $page_slug == 'category' ||
+                                $page_slug == 'subcategory' ||
+                                $page_slug == 'brand' ||
+                                $page_slug == 'product_attribute' || $page_slug == 'product_attribute_value') aria-expanded="true" @endif>
                         <i class="icon-people"></i>
                         <p>{{ __('Product Management') }}</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute') show @endif" id="product_management">
+                    <div class="collapse @if (
+                        $page_slug == 'category' ||
+                            $page_slug == 'subcategory' ||
+                            $page_slug == 'brand' ||
+                            $page_slug == 'product_attribute' || $page_slug == 'product_attribute_value') show @endif" id="product_management">
                         <ul class="nav nav-collapse">
                             <li class="@if ($page_slug == 'brand') active @endif">
                                 <a href="{{ route('pm.brand.index') }}">
@@ -126,6 +138,15 @@
                                     <span class="sub-item">{{ __('Product Attribute') }}</span>
                                 </a>
                             </li>
+
+                            <li class="@if ($page_slug == 'product_attribute_value') active @endif">
+                                <a href="{{ route('pm.product-attribute-value.index') }}">
+                                    <span class="sub-item">{{ __('Product Attribute Value') }}</span>
+                                </a>
+                            </li>
+
+
+
                         </ul>
                     </div>
                 </li>
