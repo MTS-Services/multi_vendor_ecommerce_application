@@ -104,11 +104,16 @@
                         <p>{{ __('Product Management') }}</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute') show @endif" id="product_management">
+                    <div class="collapse @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'brand' || $page_slug == 'product' || $page_slug == 'product_attribute') show @endif" id="product_management">
                         <ul class="nav nav-collapse">
                             <li class="@if ($page_slug == 'brand') active @endif">
                                 <a href="{{ route('pm.brand.index') }}">
                                     <span class="sub-item">{{ __('Brand') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'product') active @endif">
+                                <a href="{{ route('pm.product-tags.index') }}">
+                                    <span class="sub-item">{{ __('Product Tag') }}</span>
                                 </a>
                             </li>
                             <li class="@if ($page_slug == 'category') active @endif">
