@@ -19,6 +19,7 @@ class Country extends BaseModel
         'updated_by',
         'deleted_by',
     ];
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -101,6 +102,7 @@ class Country extends BaseModel
     }
 
 
+    // Relations
 
     public function scopeActive($query): mixed
     {
@@ -129,6 +131,11 @@ class Country extends BaseModel
     {
         return $this->hasMany(OperationSubArea::class,'country_id');
     }
+
+
+
+    // End Relations
+
     public function activeCities(): HasMany
     {
         return $this->cities()->active();
