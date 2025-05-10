@@ -1,5 +1,5 @@
 @extends('backend.admin.layouts.master', ['page_slug' => 'product_attribute_value'])
-@section('title', 'Create Product_Attribute_Value')
+@section('title', 'Create Product Attribute Value')
 @section('content')
     <div class="row">
         <div class="col-12">

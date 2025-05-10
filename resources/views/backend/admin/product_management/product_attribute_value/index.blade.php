@@ -87,7 +87,7 @@
                 }
                 {
                     label: "Attibute Name",
-                    key: "product_attibute_name",
+                    key: "product_attribute_id",
 
                 }
                 {

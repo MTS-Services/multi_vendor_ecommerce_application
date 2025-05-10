@@ -134,7 +134,7 @@ class AttributeValueController extends Controller
      */
     public function show(string $id)
     {
-        $data = ProductAttributeValue::with(['creater', 'updater', 'product_attribute_value'])->findOrFail(decrypt($id));
+        $data = ProductAttributeValue::with(['creater', 'updater'])->findOrFail(decrypt($id));
         return response()->json($data);
     }
 
