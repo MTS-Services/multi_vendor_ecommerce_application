@@ -9,11 +9,19 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Sub Category List') }}</h4>
-                    <x-backend.admin.button :datas="[
-                        'routeName' => 'pm.sub-category.create',
-                        'label' => 'Add New',
-                        'permissions' => ['subcategory-create'],
-                    ]" />
+                    <div class="buttons">
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'pm.sub-category.recycle-bin',
+                            'label' => 'Recycle Bin',
+                            'className' => 'btn-danger',
+                            'permissions' => ['sub-category-restore'],
+                        ]" />
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'pm.sub-category.create',
+                            'label' => 'Add New',
+                            'permissions' => ['subcategory-create'],
+                        ]" />
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-striped datatable">
@@ -77,8 +85,7 @@
             let id = $(this).data("id");
             let route = "{{ route('pm.sub-category.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
-            const headers = [
-                {
+            const headers = [{
                     label: "Name",
                     key: "name"
                 },
@@ -123,4 +130,3 @@
         });
     </script>
 @endpush
-

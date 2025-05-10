@@ -142,11 +142,14 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('category/recycle/bin', [CategoryController::class, 'recycleBin'])->name('category.recycle-bin');
         Route::get('category/restore/{category}', [CategoryController::class, 'restore'])->name('category.restore');
         Route::delete('category/permanent-delete/{category}', [CategoryController::class, 'permanentDelete'])->name('category.permanent-delete');
-        
+
         // Sub Category Routes
         Route::resource('sub-category', SubCategoryController::class);
         Route::get('sub-category/status/{sub_category}', [SubCategoryController::class, 'status'])->name('sub-category.status');
         Route::get('sub-category/feature/{sub_category}', [SubCategoryController::class, 'feature'])->name('sub-category.feature');
+        Route::get('sub-category/recycle/bin', [SubCategoryController::class, 'recycleBin'])->name('sub-category.recycle-bin');
+        Route::get('sub-category/restore/{sub_category}', [SubCategoryController::class, 'restore'])->name('sub-category.restore');
+        Route::delete('sub-category/permanent-delete/{sub_category}', [SubCategoryController::class, 'permanentDelete'])->name('sub-category.permanent-delete');
 
         //Product Attribute
         Route::resource('product-attribute', AttributeController::class);
