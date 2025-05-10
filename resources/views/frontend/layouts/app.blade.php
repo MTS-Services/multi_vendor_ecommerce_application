@@ -88,6 +88,58 @@
     {{-- Toggle search form --}}
     <script src="{{ asset('frontend/js/toggleSearchForm.js') }}"></script>
 
+    {{-- Footer Accordion --}}
+    <script>
+        $(document).ready(function() {
+            const $faqItems = $('.faq-item');
+
+            $faqItems.each(function(index) {
+                const $item = $(this);
+                const $button = $item.find('.faq-question');
+                const $answer = $item.find('.faq-answer');
+                const $faqIcon = $item.find('.faq-icon');
+
+                $button.on('click', function() {
+                    // Collapse all other items
+                    $faqItems.each(function(otherIndex) {
+                        if (otherIndex !== index) {
+                            const $otherItem = $(this);
+                            $otherItem.find('.faq-answer').css('max-height', null);
+                            $otherItem.removeClass('pb-5');
+                            $otherItem.find('.faq-icon')
+                                .removeClass('fa-minus text-t-primary')
+                                .addClass('fa-plus');
+                        }
+                    });
+
+                    // Toggle this item
+                    if ($answer.css('max-height') !== 'none' && $answer.css('max-height') !==
+                        '0px') {
+                        // Collapse current
+                        $answer.css('max-height', null);
+                        $item.removeClass('pb-5');
+                        $faqIcon.removeClass('fa-minus text-t-primary').addClass('fa-plus');
+                    } else {
+                        // Expand current
+                        const scrollHeight = $answer.prop('scrollHeight') + 20;
+                        $answer.css('max-height', scrollHeight + 'px');
+                        $item.addClass('pb-5');
+                        $faqIcon.removeClass('fa-plus').addClass('fa-minus text-t-primary');
+                    }
+                });
+            });
+
+            // Initialize first item expanded
+            const $firstItem = $faqItems.first();
+            const $firstAnswer = $firstItem.find('.faq-answer');
+            const $firstIcon = $firstItem.find('.faq-icon');
+
+            $firstAnswer.css('max-height', $firstAnswer.prop('scrollHeight') + 20 + 'px');
+            $firstItem.addClass('pb-5');
+            $firstIcon.removeClass('fa-plus').addClass('fa-minus text-t-primary');
+        });
+    </script>
+
     {{-- Custom JS --}}
     @stack('js')
 </body>
