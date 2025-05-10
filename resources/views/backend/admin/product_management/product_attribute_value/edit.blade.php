@@ -13,29 +13,31 @@
                     ]" />
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('pm.product-attribute-value.update', encrypt($$product_attribute_value->id)) }}" method="POST"
+                    <form action="{{ route('pm.product-attribute-value.update', encrypt($product_attribute_value->id)) }}" method="POST"
                         enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
-
-                        <div class="form-group">
-                            <label>{{ __('Name') }}  <span class="text-danger">*</span></label>
-                            <input type="text" value="{{ $$product_attribute_value->name }}" id="title" name="name" class="form-control"
-                                placeholder="Enter name">
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
-                        </div>
 
                         <div class="form-group">
                             <label>{{ __('Product Attribute Value Name') }}  <span class="text-danger">*</span></label>
                             <select name="product_attribute_id" class="form-control">
                                 <option value="" selected disabled>{{ __('Select Attribute Value Name') }}</option>
                                 @foreach ($product_attribute as $product_attribute_value_two)
-                                    <option value="{{ $product_attribute_value_two->id }}" {{ $product_attribute_value->parent_id == $$product_attribute_value_two->id ? 'selected' : '' }}>
-                                        {{ $$product_attribute_value_two->name }}</option>
+                                    <option value="{{ $product_attribute_value_two->id }}" {{ $product_attribute_value->product_attribute_id == $product_attribute_value_two->id ? 'selected' : '' }}>
+                                        {{ $product_attribute_value_two->name }}</option>
                                 @endforeach
                             </select>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'parent_id']" />
                         </div>
+
+                        <div class="form-group">
+                            <label>{{ __('Value') }}  <span class="text-danger">*</span></label>
+                            <input type="text" value="{{ $product_attribute_value->value }}" id="title" name="value" class="form-control"
+                                placeholder="Enter value">
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'value']" />
+                        </div>
+
+
                         <div class="form-group float-end">
                             <input type="submit" class="btn btn-primary" value="Update">
                         </div>

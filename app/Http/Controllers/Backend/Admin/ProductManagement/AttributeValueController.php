@@ -58,7 +58,7 @@ class AttributeValueController extends Controller
                     $menuItems = $this->menuItems($product_attribute_value);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['value', 'attribute_name' ,'status', 'creater_id', 'created_at', 'action'])
+                ->rawColumns(['value', 'attribute_name', 'status', 'creater_id', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.product_management.product_attribute_value.index');
@@ -108,8 +108,8 @@ class AttributeValueController extends Controller
      */
     public function create()
     {
-    $product_attribute = ProductAttribute::all();
-    return view('backend.admin.product_management.product_attribute_value.create', compact('product_attribute'));
+        $product_attribute = ProductAttribute::all();
+        return view('backend.admin.product_management.product_attribute_value.create', compact('product_attribute'));
     }
 
     /**
@@ -126,7 +126,6 @@ class AttributeValueController extends Controller
         ProductAttributeValue::create($validated);
         session()->flash('success', 'Product Attribute Value created successfully!');
         return redirect()->route('pm.product-attribute-value.index');
-
     }
 
     /**
@@ -144,6 +143,8 @@ class AttributeValueController extends Controller
     public function edit(string $id)
     {
         $data['product_attribute_value'] = ProductAttributeValue::findOrFail(decrypt($id));
+        $data['product_attribute'] = ProductAttribute::where('status', 1)->get(); // or whatever filter you need
+
         return view('backend.admin.product_management.product_attribute_value.edit', $data);
     }
 
