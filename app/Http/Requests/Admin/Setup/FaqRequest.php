@@ -22,8 +22,8 @@ class FaqRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'question' => 'required|string|min:3',
-            'answer' => 'required|string|min:3',
+            'question' => 'required|string|min:6',
+            'answer' => 'required|string|min:20',
             'type' => 'required|integer',
         ];
     }
