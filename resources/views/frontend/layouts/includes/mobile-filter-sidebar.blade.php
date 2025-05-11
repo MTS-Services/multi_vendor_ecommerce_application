@@ -61,9 +61,9 @@
                             <div class="absolute w-full h-1 bg-bg-dark bg-opacity-40 z-[1] rounded-full"></div>
                             <div class="absolute h-1 z-[2] rounded-full bg-bg-orange slider-range"></div>
                             <input type="range" min="0" max="500" value="20"
-                                class="absolute p-0 top-1/2 -translate-y-1/2 w-full z-[3] pointer-events-none min-range">
+                                class="absolute p-0 top-1/2 -translate-y-1/2 w-full z-[3] pointer-events-none appearance-none min-range">
                             <input type="range" min="0" max="500" value="300"
-                                class="absolute p-0 top-1/2 -translate-y-1/2 w-full z-[3] pointer-events-none max-range">
+                                class="absolute p-0 top-1/2 -translate-y-1/2 w-full z-[3] pointer-events-none appearance-none max-range">
                         </div>
                     </div>
 
