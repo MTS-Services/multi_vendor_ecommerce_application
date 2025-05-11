@@ -1,5 +1,5 @@
 @extends('backend.admin.layouts.master', ['page_slug' => 'country'])
-@section('title', 'Create Country')
+@section('title', 'Edit Country')
 @section('content')
     <div class="row">
         <div class="col-12">
