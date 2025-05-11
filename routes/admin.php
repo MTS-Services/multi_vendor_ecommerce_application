@@ -25,6 +25,7 @@ use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
 use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\TaxClassController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\TaxRateController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
 
 // Admin Auth Routes
@@ -143,6 +144,13 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('tax-class/recycle-bin', [TaxClassController::class, 'recycleBin'])->name('tax-class.recycle-bin');
         Route::get('tax-class/restore/{tax_class}', [TaxClassController::class, 'restore'])->name('tax-class.restore');
         Route::delete('tax-class/permanent-delete/{tax_class}', [TaxClassController::class, 'permanentDelete'])->name('tax-class.permanent-delete');
+
+        // TaxRate
+        Route::resource('tax-rate', TaxRateController::class);
+        Route::get('tax-rate/status/{tax_rate}', [TaxRateController::class, 'status'])->name('tax-rate.status');
+        Route::get('tax-rate/priority/{tax_rate}', [TaxRateController::class, 'priority'])->name('tax-rate.priority');
+        Route::get('tax-rate/compound/{tax_rate}', [TaxRateController::class, 'compound'])->name('tax-rate.compound');
+
     });
 
     // Documentation

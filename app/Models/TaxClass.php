@@ -108,4 +108,9 @@ class TaxClass extends BaseModel
     {
         return $query->where('status', self::STATUS_DEACTIVE);
     }
+
+    public function taxrate()
+    {
+        return $this->hasMany(TaxRate::class, 'tax_class_id', 'id');
+    }
 }

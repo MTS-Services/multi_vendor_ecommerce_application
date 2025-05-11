@@ -22,8 +22,8 @@ class TaxClassSeeder extends Seeder
             'description' => 'Tax Class 2',
         ]);
         TaxClass::create([
-            'name' => 'Tax Class 2',
-            'description' => 'Tax Class 2',
+            'name' => 'Tax Class 3',
+            'description' => 'Tax Class 3',
         ]);
     }
 }

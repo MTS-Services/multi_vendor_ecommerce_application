@@ -149,4 +149,10 @@ class City extends BaseModel
     {
         return $this->operationSubAreass()->active();
     }
+    public function taxrate(): HasMany
+    {
+        return $this->hasMany(TaxRate::class, 'city_id', 'id');
+    }
 }
+
+

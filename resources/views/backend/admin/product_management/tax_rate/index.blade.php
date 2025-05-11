@@ -1,24 +1,24 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'tax_class'])
-@section('title', 'Tax Class List')
+@extends('backend.admin.layouts.master', ['page_slug' => 'tax_rate'])
+@section('title', 'Tax Rate List')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('Tax Class List') }}</h4>
+                    <h4 class="cart-title">{{ __('Tax Rate List') }}</h4>
                     <div class="buttons">
-                        <x-backend.admin.button :datas="[
-                            'routeName' => 'pm.tax-class.recycle-bin',
+                        {{-- <x-backend.admin.button :datas="[
+                            'routeName' => 'pm.tax-rate.recycle-bin',
                             'label' => 'Recycle Bin',
                             'className' => 'btn-danger',
-                            'permissions' => ['tax-class-restore'],
-                        ]" />
+                            'permissions' => ['tax-rate-restore'],
+                        ]" /> --}}
                         <x-backend.admin.button :datas="[
-                            'routeName' => 'pm.tax-class.create',
+                            'routeName' => 'pm.tax-rate.create',
                             'label' => 'Add New',
-                            'permissions' => ['tax-class-create'],
+                            'permissions' => ['tax-rate-create'],
                         ]" />
-                    </div>;
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-striped datatable">
@@ -26,7 +26,13 @@
                             <tr>
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Name') }}</th>
+                                <th>{{ __('Tax Class') }}</th>
+                                <th>{{ __('Tax Rate') }}</th>
+                                <th>{{ __('Country') }}</th>
+                                <th>{{ __('City') }}</th>
                                 <th>{{ __('Status') }}</th>
+                                <th>{{ __('Priority') }}</th>
+                                <th>{{ __('Compound') }}</th>
                                 <th>{{ __('Created By') }}</th>
                                 <th>{{ __('Created Date') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -41,7 +47,7 @@
         </div>
     </div>
     {{-- Admin Details Modal  --}}
-    <x-backend.admin.details-modal :datas="['modal_title' => 'tax-class Details']" />
+    <x-backend.admin.details-modal :datas="['modal_title' => 'tax-rate Details']" />
 @endsection
 @push('js')
     <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
@@ -51,7 +57,13 @@
             let table_columns = [
 
                 ['name', true, true],
+                ['tax_class_id', true, true],
+                ['rate', true, true],
+                ['country_id', true, true],
+                ['city_id', true, true],
+                ['priority', false, false],
                 ['status', true, true],
+                ['compound', true, true],
                 ['created_by', true, true],
                 ['created_at', false, false],
                 ['action', false, false],
@@ -60,10 +72,10 @@
                 table_columns: table_columns,
                 main_class: '.datatable',
                 displayLength: 10,
-                main_route: "{{ route('pm.tax-class.index') }}",
+                main_route: "{{ route('pm.tax-rate.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4],
-                model: 'TaxClass',
+                export_columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                model: 'TaxRate',
             };
             initializeDataTable(details);
         })
@@ -75,7 +87,7 @@
     <script>
         $(document).on("click", ".view", function() {
             let id = $(this).data("id");
-            let route = "{{ route('pm.tax-class.show', ['id']) }}";
+            let route = "{{ route('pm.tax-rate.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
             const headers = [{
                     label: "Name",
@@ -83,14 +95,42 @@
                 },
 
                 {
-                    label: "Description",
-                    key: "description",
+                    label: "Tax Class",
+                    key: "tax_class"
                 },
+                {
+                    label: "Tax Rate",
+                    key: "tax_rate"
+                },
+                {
+                    label: "Country",
+                    key: "country"
+                },
+                {
+                    label: "State",
+                    key: "state"
+                },
+                {
+                    label: "City",
+                    key: "city"
+                },
+                {
+                    label: "Priority",
+                    key: "priority",
+                    color: "priority_color",
+                },
+
                 {
                     label: "Status",
                     key: "status_label",
                     color: "status_color",
                 },
+                {
+                    label: "Compound",
+                    key: "compound_label",
+                    color: "compound_color",
+                },
+
 
 
             ];

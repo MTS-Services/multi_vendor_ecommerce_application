@@ -42,6 +42,7 @@ class DatabaseSeeder extends Seeder
             OfferBannerSeeder::class,
             BrandSeeder::class,
             TaxClassSeeder::class,
+            TaxRateSeeder::class,
         ]);
     }
 }
