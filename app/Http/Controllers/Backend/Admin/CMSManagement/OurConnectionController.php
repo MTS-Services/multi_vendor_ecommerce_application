@@ -8,10 +8,13 @@ use App\Models\OurConnection;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Traits\FileManagementTrait;
 
 
 class OurConnectionController extends Controller
 {
+    use FileManagementTrait;
+
     public function __construct()
     {
         $this->middleware('auth:admin');
@@ -47,7 +50,7 @@ class OurConnectionController extends Controller
                 $menuItems = $this->menuItems($our_connection);
                 return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
             })
-            ->rawColumns(['name','description','image','website','status','created_by', 'created_at', 'action'])
+            ->rawColumns(['status','creater_id', 'created_at', 'action'])
             ->make(true);
     }
         return view('backend.admin.cms_management.our_connection.index');
@@ -100,7 +103,7 @@ class OurConnectionController extends Controller
     public function store(OurConnectionRequest $request):RedirectResponse
     {
         $validated = $request->validated();
-        $validated['created_by'] = admin()->id;
+        $validated['creater_id'] = admin()->id;
         if(isset($request->image)) {
             $validated['image'] = $this->handleFilepondFileUpload(OurConnection::class, $request->image, admin(), 'our_connection/');
         }

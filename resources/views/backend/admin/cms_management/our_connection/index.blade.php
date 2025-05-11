@@ -43,7 +43,7 @@
 
                 ['name', true, true],
                 ['status', true, true],
-                ['created_by', true, true],
+                ['creater_id', true, true],
                 ['created_at', false, false],
                 ['action', false, false],
             ];
@@ -89,7 +89,7 @@
                     label: "Image",
                     key: "modified_image",
                     type: "image"
-                },,
+                },
                 {
                     label: "Status",
                     key: "status_label",

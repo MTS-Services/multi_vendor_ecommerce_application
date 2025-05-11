@@ -23,7 +23,7 @@ class OurConnectionRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'url' => 'required|string|max:255',
+            'website' => 'required|url',
             'description' => 'nullable|string',
         ]+ ($this->isMethod('POST') ? $this->store() : $this->update());
     }

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->softDeletes();
             $this->addMorphedAuditColumns($table);
 
+
             // Indexes
             $table->index('name');
             $table->index('sort_order');

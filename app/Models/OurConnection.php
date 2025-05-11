@@ -15,9 +15,9 @@ class OurConnection extends BaseModel
         'image',
         'website',
         'description',
-        'created_by',
-        'updated_by',
-        'deleted_by',
+        'creater_id',
+        'updater_id',
+        'deleter_id',
 
     ];
 

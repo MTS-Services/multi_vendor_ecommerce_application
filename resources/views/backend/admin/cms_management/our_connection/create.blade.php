@@ -9,7 +9,7 @@
                 <x-backend.admin.button :datas="[
                         'routeName' => 'cms.our-connection.index',
                         'label' => 'Back',
-                        'permissions' => ['our_connection-list'],
+                        'permissions' => ['our_connection-list' ,'our_connection-details', 'our_connection-delete', 'our_connection-status'],
                     ]" />
             </div>
             <div class="card-body">
@@ -31,7 +31,7 @@
                     {{-- Website --}}
                     <div class="form-group">
                         <label>{{__('Website')}}</label>
-                        <input type="url" value="{{ old('website') }}" id="website" name="website" class="form-control"
+                        <input type="url" value="{{ old('website') }}" name="website" class="form-control"
                             placeholder="Enter website">
                         <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'website']" />
                     </div>
