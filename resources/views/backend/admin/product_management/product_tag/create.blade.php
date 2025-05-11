@@ -51,12 +51,6 @@
 @endsection
 @push('js')
 <script src="{{ asset('ckEditor5/main.js') }}"></script>
-{{-- FilePond  --}}
-<script src="{{ asset('filepond/filepond.js') }}"></script>
-<script>
-    $(document).ready(function() {
-        file_upload(["#image"], "uploadImage", "admin", [], false);
-    });
-</script>
+
 {{-- FilePond  --}}
 @endpush

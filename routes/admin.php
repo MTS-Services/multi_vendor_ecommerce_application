@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeValueController;
 use App\Http\Controllers\Backend\Admin\Setup\AxiosRequestController;
 use App\Http\Controllers\Backend\Admin\Setup\CityController;
 use App\Http\Controllers\Backend\Admin\Setup\OperationAreaController;
@@ -133,6 +134,11 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::resource('product-attribute', AttributeController::class);
         Route::get('product-attribute/status/{product_attribute}', [AttributeController::class, 'status'])->name('product-attribute.status');
 
+        //Product Attribute Value
+        Route::resource('product-attribute-value', AttributeValueController::class);
+        Route::get('product-attribute-value/status/{product_attribute_value}', [AttributeValueController::class, 'status'])->name('product-attribute-value.status');
+
+
         // Brand Routes
         Route::resource('brand', BrandController::class);
         Route::get('brand/status/{brand}', [BrandController::class, 'status'])->name('brand.status');
@@ -140,6 +146,8 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
 
         // ProductTag Routes
         Route::resource('product-tags', ProductTagController::class);
+        Route::get('product-tags/status/{product_tags}', [ProductTagController::class, 'status'])->name('product-tags.status');
+        Route::get('product-tags/slug/{product_tags}', [ProductTagController::class, 'slug'])->name('product-tags.slug');
     });
 
     // Documentation

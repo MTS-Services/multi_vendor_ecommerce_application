@@ -47,7 +47,7 @@
 
             ['name', true, true],
             ['slug', true, true],
-            ['creater_id', true, true],
+            ['creater_by', true, true],
             ['created_at', false, false],
             ['action', false, false],
         ];
