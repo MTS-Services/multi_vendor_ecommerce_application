@@ -154,6 +154,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         // offer banner
         Route::resource('offer-banner', OfferBannerController::class);
         Route::get('offer-banner/status/{offer_banner}', [OfferBannerController::class, 'status'])->name('offer-banner.status');
+        Route::get('offer-banner/recycle/bin', [OfferBannerController::class, 'recycleBin'])->name('offer-banner.recycle-bin');
+        Route::get('offer-banner/restore/{offer_banner}', [OfferBannerController::class, 'restore'])->name('offer-banner.restore');
+        Route::delete('offer-banner/permanent-delete/{offer_banner}', [OfferBannerController::class, 'permanentDelete'])->name('offer-banner.permanent-delete');
     });
 
     // Product Management
