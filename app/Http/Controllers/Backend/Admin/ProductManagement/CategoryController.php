@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend\Admin\ProductManagement;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\CategoryRequest;
+use App\Http\Requests\Admin\ProductManagement\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -36,10 +36,13 @@ class CategoryController extends Controller
     public function index(Request $request): JsonResponse|View
     {
         if ($request->ajax()) {
-            $query = Category::isCategory()->with(['creater', 'sub_categories'])->withCount(['sub_categories'])
+            $query = Category::isMainCategory()->with(['creater'])->withCount(['activeChildrens'])
             ->orderBy('sort_order', 'asc')
             ->latest();
             return DataTables::eloquent($query)
+                ->editColumn('name', function ($category) {
+                    return $category->name ."<sup class='badge bg-info'>$category->active_childrens_count</sup>";
+                })
                 ->editColumn('status', function ($category) {
                     return "<span class='badge " . $category->status_color . "'>$category->status_label</span>";
                 })
@@ -56,7 +59,7 @@ class CategoryController extends Controller
                     $menuItems = $this->menuItems($category);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'is_featured', 'creater_id', 'created_at', 'action'])
+                ->rawColumns(['name','status', 'is_featured', 'creater_id', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.product_management.category.index');
@@ -106,11 +109,16 @@ class CategoryController extends Controller
 
         if ($request->ajax()) {
             $query = Category::with(['deleter'])
+                ->withCount(['activeChildrens'])
                 ->onlyTrashed()
+                ->isMainCategory()
                 ->orderBy('sort_order', 'asc')
                 ->latest();
             return DataTables::eloquent($query)
-            ->editColumn('status', function ($category) {
+                ->editColumn('name', function ($category) {
+                        return $category->name ."<sup class='badge bg-info'>$category->active_childrens_count</sup>";
+                })
+                ->editColumn('status', function ($category) {
                     return "<span class='badge " . $category->status_color . "'>$category->status_label</span>";
                 })
                   ->editColumn('is_featured', function ($category) {
@@ -126,7 +134,7 @@ class CategoryController extends Controller
                     $menuItems = $this->trashedMenuItems($category);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'is_featured', 'deleter_id', 'deleted_at', 'action'])
+                ->rawColumns(['name','status', 'is_featured', 'deleter_id', 'deleted_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.product_management.category.recycle-bin');
@@ -180,7 +188,7 @@ class CategoryController extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        $data = Category::with(['creater', 'updater', 'sub_categories'])->findOrFail(decrypt($id));
+        $data = Category::with(['creater', 'updater'])->withCount(['activeChildrens'])->findOrFail(decrypt($id));
         return response()->json($data);
     }
 
@@ -249,6 +257,9 @@ class CategoryController extends Controller
     public function permanentDelete(string $id): RedirectResponse
     {
         $category = Category::onlyTrashed()->findOrFail(decrypt($id));
+        if($category->image){
+            $this->fileDelete($category->image);
+        }
         $category->forceDelete();
         session()->flash('success', 'Category permanently deleted successfully!');
         return redirect()->route('pm.category.recycle-bin');

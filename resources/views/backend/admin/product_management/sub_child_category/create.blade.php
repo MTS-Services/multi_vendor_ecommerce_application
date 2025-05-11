@@ -1,28 +1,35 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'subcategory'])
-@section('title', 'Create Sub Category')
+@extends('backend.admin.layouts.master', ['page_slug' => 'subchildcategory'])
+@section('title', 'Create Sub Child Category')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('Create Sub Category') }}</h4>
+                    <h4 class="cart-title">{{ __('Create Sub Child Category') }}</h4>
                     <x-backend.admin.button :datas="[
-                        'routeName' => 'pm.sub-category.index',
+                        'routeName' => 'pm.sub-child-category.index',
                         'label' => 'Back',
-                        'permissions' => ['sub-category-list'],
+                        'permissions' => ['sub-child-category-list'],
                     ]" />
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('pm.sub-category.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('pm.sub-child-category.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label>{{ __('Category') }}  <span class="text-danger">*</span></label>
-                            <select name="parent_id" class="form-control">
+                            <label>{{ __('Main Category') }}  <span class="text-danger">*</span></label>
+                            <select name="category_id" id="category_id" class="form-control">
                                 <option value="" selected disabled>{{ __('Select Category') }}</option>
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}" {{ old('parent_id') == $category->id ? 'selected' : '' }}>
+                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
                                         {{ $category->name }}</option>
                                 @endforeach
+                            </select>
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'category_id']" />
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('Sub Category') }}  <span class="text-danger">*</span></label>
+                            <select id="childrens" name="parent_id" class="form-control" disabled>
+                                <option value="" selected disabled>{{ __('Select Sub Category') }}</option>
                             </select>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'parent_id']" />
                         </div>
@@ -77,6 +84,12 @@
     <script>
         $(document).ready(function() {
             file_upload(["#image"], "uploadImage", "admin", [], false);
+
+
+            $('#category_id').on('change', function() {
+                let route = "{{ route('axios.get-sub-categories') }}";
+                getSubCategories(this.value, route);
+            })
         });
     </script>
     {{-- FilePond  --}}

@@ -19,7 +19,7 @@
                         <x-backend.admin.button :datas="[
                             'routeName' => 'pm.sub-category.create',
                             'label' => 'Add New',
-                            'permissions' => ['subcategory-create'],
+                            'permissions' => ['sub-category-create'],
                         ]" />
                     </div>
                 </div>
@@ -28,8 +28,8 @@
                         <thead>
                             <tr>
                                 <th>{{ __('SL') }}</th>
+                                <th>{{ __('Main Category') }}</th>
                                 <th>{{ __('Name') }}</th>
-                                <th>{{ __('Category') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Featured') }}</th>
                                 <th>{{ __('Created By') }}</th>
@@ -55,8 +55,8 @@
         $(document).ready(function() {
             let table_columns = [
                 //name and data, orderable, searchable
-                ['name', true, true],
                 ['parent_id', true, true],
+                ['name', true, true],
                 ['status', true, true],
                 ['is_featured', true, true],
                 ['creater_id', true, true],
@@ -85,18 +85,23 @@
             let id = $(this).data("id");
             let route = "{{ route('pm.sub-category.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
-            const headers = [{
-                    label: "Name",
-                    key: "name"
+            const headers = [
+                {
+                    label: "Main Category",
+                    key: "parent_name"
                 },
                 {
-                    label: "Category",
-                    key: "category_name"
+                    label: "Name",
+                    key: "name"
                 },
 
                 {
                     label: "Slug",
                     key: "slug"
+                },
+                {
+                    label: "Total Children",
+                    key: "active_childrens_count"
                 },
                 {
                     label: "Image",

@@ -47,7 +47,6 @@ class Category extends BaseModel
             'featured_btn_color',
 
             'modified_image',
-            'category_name',
         ]);
     }
 
@@ -206,40 +205,104 @@ class Category extends BaseModel
     {
         return $query->where('status', self::STATUS_ACTIVE);
     }
+
     public function scopeDeactive($query)
     {
         return $query->where('status', self::STATUS_DEACTIVE);
     }
+
     public function scopeFeatured($query)
     {
-        return $query->where('status', self::FEATURED);
+        return $query->where('is_featured', self::FEATURED);
     }
+
     public function scopeNotFeatured($query)
     {
-        return $query->where('status', self::NOT_FEATURED);
+        return $query->where('is_featured', self::NOT_FEATURED);
     }
 
-    public function scopeIsCategory($query) {
+    // Hierarchy-related scopes
+    public function scopeIsMainCategory($query)
+    {
         return $query->whereNull('parent_id');
     }
-    public function scopeIsSubCategory($query) {
-        return $query->whereNotNull('parent_id');
+
+    public function scopeIsSubCategory($query)
+    {
+        return $query->whereHas('parent', function($q) {
+            $q->whereNull('parent_id');
+        });
     }
 
-    public function category(): BelongsTo
+    public function scopeIsSubChildCategory($query)
+    {
+        return $query->whereHas('parent', function($q) {
+            $q->whereNotNull('parent_id');
+        });
+    }
+
+    // Relationships
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
-    public function sub_categories(): HasMany
+    public function childrens(): HasMany
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
 
-    public function activeSubCategories(): HasMany
+    public function activeChildrens(): HasMany
     {
-        return $this->sub_categories()->active();
+        return $this->childrens()->active();
     }
 
+    // Get the top-level parent of this category
+    public function getMainCategory()
+    {
+        if ($this->parent_id === null) {
+            return $this;
+        }
+
+        $parent = $this->parent;
+        while ($parent->parent_id !== null) {
+            $parent = $parent->parent;
+        }
+
+        return $parent;
+    }
+
+    // Get the level in the hierarchy (0 for main, 1 for sub, 2 for sub-sub)
+    public function getLevel()
+    {
+        if ($this->parent_id === null) {
+            return 0; // Main category
+        }
+
+        $parent = $this->parent;
+        if ($parent->parent_id === null) {
+            return 1; // Sub category
+        }
+
+        return 2; // Sub-sub category
+    }
+
+    // Check if this is a main category
+    public function mainCategory()
+    {
+        return $this->parent_id === null;
+    }
+
+    // Check if this is a sub category
+    public function subCategory()
+    {
+        return $this->parent_id !== null && $this->parent->parent_id === null;
+    }
+
+    // Check if this is a sub-sub category
+    public function subSubCategory()
+    {
+        return $this->parent_id !== null && $this->parent->parent_id !== null;
+    }
 
 }

@@ -264,6 +264,9 @@ class BrandController extends Controller
     public function permanentDelete(string $id): RedirectResponse
     {
         $product_attribute = Brand::onlyTrashed()->findOrFail(decrypt($id));
+        if($product_attribute->logo){
+            $this->fileDelete($product_attribute->logo);
+        }
         $product_attribute->forceDelete();
         session()->flash('success', 'Brand permanently deleted successfully!');
         return redirect()->route('pm.brand.recycle-bin');
