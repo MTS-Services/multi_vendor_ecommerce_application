@@ -388,7 +388,7 @@
             </div>
         </div>
     </section>
-    <section class="bg-bg-gray dark:bg-bg-darkSecondary py-8 md:py-18 ">
+    <section class=" dark:bg-bg-darkSecondary py-8 md:py-18 ">
         <div class="container">
             <div class="header pb-6 text-center">
                 <h2 class="text-4xl">{{ __('People Also Bought') }}</h2>
@@ -412,7 +412,7 @@
             </div>
         </div>
     </section>
-    <section class="bg-bg-gray dark:bg-bg-darkSecondary py-8 md:py-18">
+    <section class=" dark:bg-bg-darkSecondary py-8 md:py-18">
         <div class="container">
             <div class="header pb-6 text-center">
                 <h2 class="text-4xl">{{ __('Recently Viewed') }}</h2>
