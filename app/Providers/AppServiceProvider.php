@@ -25,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($admin, $ability) {
             return $admin->hasRole('Super Admin') ? true : null;
         });
-        App::setLocale(Session::get('locale', config('app.locale')));
+        if(Session::has('locale')) {
+            App::setLocale(Session::get('locale'));
+        }
     }
 }
