@@ -6,11 +6,19 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Offer Banner List') }}</h4>
+                    <div>
+                    <x-backend.admin.button :datas="[
+                        'routeName' => 'cms.offer-banner.recycle-bin',
+                        'label' => 'Recycle Bin',
+                        'className' => 'btn-danger',
+                        'permissions' => ['offer-banner-restore'],
+                    ]" />
                     <x-backend.admin.button :datas="[
                         'routeName' => 'cms.offer-banner.create',
                         'label' => 'Add New',
                         'permissions' => ['offer-banner-create'],
                     ]" />
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-striped datatable">

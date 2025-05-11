@@ -6,10 +6,11 @@ use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Permission extends SpatiePermission implements Auditable
 {
-    use HasFactory, \OwenIt\Auditing\Auditable;
+    use HasFactory, \OwenIt\Auditing\Auditable, SoftDeletes;
 
     protected $fillables = [
         'sort_order',
@@ -22,7 +23,7 @@ class Permission extends SpatiePermission implements Auditable
     ];
 
 
-    public function creater_admin()
+  public function creater_admin()
     {
         return $this->belongsTo(Admin::class, 'created_by')->select(['id', 'first_name', 'last_name']);
     }

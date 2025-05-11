@@ -22,6 +22,9 @@ class CityController extends Controller
         $this->middleware('permission:city-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:city-delete', ['only' => ['destroy']]);
         $this->middleware('permission:city-status', ['only' => ['status']]);
+        $this->middleware('permission:city-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:city-restore', ['only' => ['restore']]);
+        $this->middleware('permission:city-permanent-delete', ['only' => ['permanentDelete']]);
     }
 
     /**
@@ -89,6 +92,57 @@ class CityController extends Controller
         ];
     }
 
+       public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $query = City::with(['deleter_admin'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+              ->editColumn('country_id', function ($city) {
+                    return $city->country_name;
+                })
+            ->editColumn('status', function ($city) {
+                    return "<span class='badge " . $city->status_color . "'>$city->status_label</span>";
+                })
+
+               ->editColumn('deleted_by', function ($city) {
+                    return $city->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($city) {
+                    return $city->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($city) {
+                    $menuItems = $this->trashedMenuItems($city);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['country_id','status', 'deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.setup.city.recycle-bin');
+    }
+
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'setup.city.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['city-restore']
+            ],
+            [
+                'routeName' => 'setup.city.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['city-permanent-delete']
+            ]
+
+        ];
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -162,5 +216,27 @@ class CityController extends Controller
         $city->update(['status' => !$city->status, 'updated_by'=> admin()->id]);
         session()->flash('success', 'City status updated successfully!');
         return redirect()->route('setup.city.index');
+    }
+            public function restore(string $id): RedirectResponse
+    {
+        $city = City::onlyTrashed()->findOrFail(decrypt($id));
+        $city->update(['updated_by' => admin()->id]);
+        $city->restore();
+        session()->flash('success', 'City restored successfully!');
+        return redirect()->route('setup.city.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $city = City::onlyTrashed()->findOrFail(decrypt($id));
+        $city->forceDelete();
+        session()->flash('success', 'City permanently deleted successfully!');
+        return redirect()->route('setup.city.recycle-bin');
     }
 }

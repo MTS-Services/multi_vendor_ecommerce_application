@@ -136,3 +136,26 @@ function validateUsername(usernameInput, errorField, errorMsg = 'Username may on
         }
     });
 }
+
+function getSubCategories(parentId, route, childId = null) {
+
+    axios.get(route, {
+        params: { parent_id: parentId }
+    })
+        .then(function (response) {
+            if (response.data.childrens.length > 0) {
+                $('#childrens').html(`<option value="" selected hidden>Select Sub Category</option>`);
+                response.data.childrens.forEach(function (children) {
+                    $('#childrens').append(`<option value="${children.id}" ${children.id == childId ? 'selected' : ''}>${children.name}</option>`);
+                });
+                $('#childrens').prop('disabled', false);
+            } else {
+                $('#childrens').html(`<option value="" selected hidden>Select Sub Category</option>`).prop('disabled', true);
+            }
+        })
+        .catch(function (error) {
+            console.error(error);
+            $('#childrens').html(`<option value="" selected hidden>Select Sub Category</option>`).prop('disabled', true);
+            alert('Failed to load sub categories.');
+        });
+}
