@@ -106,11 +106,11 @@
                 <summary class="collapse-title font-semibold ">Size</summary>
                 <div class="collapse-content text-sm">
                     <div class="flex flex-wrap gap-2 mb-4">
-                        <div class="px-3 py-1 border border-gray-200 rounded text-sm">XS (20)</div>
-                        <div class="px-3 py-1 border border-gray-200 rounded text-sm">S (8)</div>
-                        <div class="px-3 py-1 border border-gray-200 rounded text-sm">L (20)</div>
-                        <div class="px-3 py-1 border border-gray-200 rounded text-sm">M (20)</div>
-                        <div class="px-3 py-1 border border-gray-200 rounded text-sm">XL (20)</div>
+                        <div class="px-3 py-1 shadow-shadowPrimary bg-bg-gray dark:bg-bg-darkTertiary rounded text-sm">XS (20)</div>
+                        <div class="px-3 py-1 shadow-shadowPrimary bg-bg-gray dark:bg-bg-darkTertiary rounded text-sm">S (8)</div>
+                        <div class="px-3 py-1 shadow-shadowPrimary bg-bg-gray dark:bg-bg-darkTertiary rounded text-sm">L (20)</div>
+                        <div class="px-3 py-1 shadow-shadowPrimary bg-bg-gray dark:bg-bg-darkTertiary rounded text-sm">M (20)</div>
+                        <div class="px-3 py-1 shadow-shadowPrimary bg-bg-gray dark:bg-bg-darkTertiary rounded text-sm">XL (20)</div>
                     </div>
                 </div>
             </details>

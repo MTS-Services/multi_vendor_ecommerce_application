@@ -3,15 +3,15 @@
     class="sidebar fixed top-0 right-0 min-h-screen h-full w-2/3 translate-x-full transition-all duration-300 ease-in-out bg-bg-light dark:bg-bg-darkTertiary shadow-lg z-[99999999999]">
 
     <div class="h-full p-5">
-        <div class="flex justify-between items-center border-b border-b-border-light pb-5">
-            <a href="{{ route('frontend.home') }}" class="">
+        <div class="flex justify-end items-center border-b border-b-border-light pb-5">
+            {{-- <a href="{{ route('frontend.home') }}" class="">
                 <span class="dark-mode-logo hidden">
                     <img src="{{ asset('frontend/images/logo-light.png') }}" alt="Logo">
                 </span>
                 <span class="light-mode-logo">
                     <img src="{{ asset('frontend/images/logo.png') }}" alt="Logo">
                 </span>
-            </a>
+            </a> --}}
             <button class="closeSidebar" title="Close Sidebar">
                 <span class="w-10 h-10 flex items-center justify-center bg-bg-secondary rounded-full text-text-white">
                     <i data-lucide="x" class="text-lg"></i>
