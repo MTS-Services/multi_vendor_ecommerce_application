@@ -1,7 +1,7 @@
 <div
     class="relative group overflow-hidden rounded-md shadow-shadowPrimary w-full h-64 lg:h-72 bg-bg-white dark:bg-bg-black dark:bg-opacity-60">
 
-    <img src="{{ asset($category['image']) }}" alt="{{ $category['title'] }}"
+    <img src="{{ asset($category->modified_image) }}" alt="{{ $category->name }}"
         class="absolute top-0 left-0 w-full h-full object-cover" />
 
     <h2

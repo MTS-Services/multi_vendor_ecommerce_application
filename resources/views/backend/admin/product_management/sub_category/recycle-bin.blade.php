@@ -1,4 +1,4 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'sub_category'])
+@extends('backend.admin.layouts.master', ['page_slug' => 'subcategory'])
 @section('title', 'Sub Category Recycle Bin')
 @section('content')
     <div class="row">
@@ -19,8 +19,8 @@
                         <thead>
                             <tr>
                                 <th>{{ __('SL') }}</th>
+                                <th>{{ __('Main Category') }}</th>
                                 <th>{{ __('Name') }}</th>
-                                <th>{{ __('Category') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Featured') }}</th>
                                 <th>{{ __('Deleted By') }}</th>
@@ -43,8 +43,8 @@
         $(document).ready(function() {
             let table_columns = [
                 //name and data, orderable, searchable
-                ['name', true, true],
                 ['parent_id', true, true],
+                ['name', true, true],
                 ['status', true, true],
                 ['is_featured', true, true],
                 ['deleter_id', true, true],

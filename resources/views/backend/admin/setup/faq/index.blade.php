@@ -57,7 +57,7 @@
                 ['question', true, true],
                 ['type', true, true],
                 ['status', true, true],
-                ['created_by', true, true],
+                ['creater_id', true, true],
                 ['created_at', true, true],
                 ['action', false, false],
             ];
@@ -91,8 +91,8 @@
                     key: "question"
                 },
                 {
-                    label: "Answare",
-                    key: "answare"
+                    label: "Answer",
+                    key: "answer"
                 },
                 {
                     label: "Type",
@@ -102,11 +102,6 @@
                     label: "Status",
                     key: "status_label",
                     color: "status_color",
-                },
-                {
-                    label: "Verify Status",
-                    key: "verify_label",
-                    color: "verify_color",
                 },
             ];
             fetchAndShowModal(detailsUrl, headers, "#modal_data", "myModal");

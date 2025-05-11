@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeValueController;
-use App\Http\Controllers\Backend\Admin\Setup\AxiosRequestController;
+use App\Http\Controllers\Backend\Admin\AxiosRequestController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\SubChildCategoryController;
 use App\Http\Controllers\Backend\Admin\Setup\CityController;
 use App\Http\Controllers\Backend\Admin\Setup\FaqController;
 use App\Http\Controllers\Backend\Admin\Setup\OperationAreaController;
@@ -26,6 +27,7 @@ use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginControl
 use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
 use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Backend\Admin\HubManagement\HubController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
 
 // Admin Auth Routes
@@ -33,6 +35,16 @@ Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')-
     Route::get('/login', 'showLoginForm')->name('login'); // Admin Login Form
     Route::post('/login', 'login')->name('login.submit'); // Admin Login Submit (Handled by AuthenticatesUsers)
     Route::post('/logout', 'logout')->name('logout'); // Admin Logout
+});
+
+Route::controller(AxiosRequestController::class)->name('axios.')->group(function () {
+    Route::get('get-states', 'getStates')->name('get-states');
+    Route::get('get-states-or-cities', 'getStatesOrCities')->name('get-states-or-cities');
+    Route::get('get-cities', 'getCities')->name('get-cities');
+    Route::get('get-operation-areas', 'getOperationAreas')->name('get-operation-areas');
+    Route::get('get-sub-areas', 'getSubAreas')->name('get-sub-areas');
+
+    Route::get('get-sub-categories','getSubCategories')->name('get-sub-categories');
 });
 
 
@@ -93,13 +105,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
 
     // Setup Routes
     Route::group(['as' => 'setup.', 'prefix' => 'setup-management'], function () {
-        Route::controller(AxiosRequestController::class)->name('axios.')->group(function () {
-            Route::get('get-states', 'getStates')->name('get-states');
-            Route::get('get-states-or-cities', 'getStatesOrCities')->name('get-states-or-cities');
-            Route::get('get-cities', 'getCities')->name('get-cities');
-            Route::get('get-operation-areas', 'getOperationAreas')->name('get-operation-areas');
-            Route::get('get-sub-areas', 'getSubAreas')->name('get-sub-areas');
-        });
+
 
 
         // FAQ Routes
@@ -159,6 +165,12 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::delete('offer-banner/permanent-delete/{offer_banner}', [OfferBannerController::class, 'permanentDelete'])->name('offer-banner.permanent-delete');
     });
 
+    // Hub Management
+    Route::group(['as' => 'hm.', 'prefix' => 'hm-management'], function () {
+        Route::resource('hub', HubController::class);
+        Route::get('hub/status/{hub}', [HubController::class, 'status'])->name('hub.status');
+    });
+
     // Product Management
     Route::group(['as' => 'pm.', 'prefix' => 'product-management'], function () {
         // Category Routes
@@ -176,6 +188,14 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('sub-category/recycle/bin', [SubCategoryController::class, 'recycleBin'])->name('sub-category.recycle-bin');
         Route::get('sub-category/restore/{sub_category}', [SubCategoryController::class, 'restore'])->name('sub-category.restore');
         Route::delete('sub-category/permanent-delete/{sub_category}', [SubCategoryController::class, 'permanentDelete'])->name('sub-category.permanent-delete');
+
+        // Sub Child Category Routes
+        Route::resource('sub-child-category', SubChildCategoryController::class);
+        Route::get('sub-child-category/status/{sub_child_category}', [SubChildCategoryController::class, 'status'])->name('sub-child-category.status');
+        Route::get('sub-child-category/feature/{sub_child_category}', [SubChildCategoryController::class, 'feature'])->name('sub-child-category.feature');
+        Route::get('sub-child-category/recycle/bin', [SubChildCategoryController::class, 'recycleBin'])->name('sub-child-category.recycle-bin');
+        Route::get('sub-child-category/restore/{sub_child_category}', [SubChildCategoryController::class, 'restore'])->name('sub-child-category.restore');
+        Route::delete('sub-child-category/permanent-delete/{sub_child_category}', [SubChildCategoryController::class, 'permanentDelete'])->name('sub-child-category.permanent-delete');
 
         //Product Attribute
         Route::resource('product-attribute', AttributeController::class);
