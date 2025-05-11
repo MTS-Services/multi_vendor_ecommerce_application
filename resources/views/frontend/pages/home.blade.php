@@ -53,12 +53,14 @@
         </div>
         <div class="swiper-pagination z-10 hiddin lg:block"></div>
         <!-- Navigation buttons -->
-        <div class="swiper-button swiper-button-prev hidden lg:block">
-            <i data-lucide="chevron-left" class="w-5 h-5"></i>
-        </div>
+        <div class="hidden lg:block">
+            <div class="swiper-button swiper-button-prev hidden lg:block">
+                <i data-lucide="chevron-left" class="w-5 h-5"></i>
+            </div>
 
-        <div class="swiper-button swiper-button-next hidden lg:block">
-            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+            <div class="swiper-button swiper-button-next hidden lg:block">
+                <i data-lucide="chevron-right" class="w-5 h-5"></i>
+            </div>
         </div>
     </section>
     {{-- ===================== banner Section end ===================== --}}
@@ -281,17 +283,17 @@
                         @endforeach
                     </div>
 
-                   <div class="hidden xl:block">
-                     <div class="swiper-pagination z-10 !-bottom-6 lg:!-bottom-8"></div>
-                    <!-- Navigation buttons -->
-                    <div class="swiper-button swiper-button-prev 3xl:-left-13 2xl:-left-9">
-                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
-                    </div>
+                    <div class="hidden xl:block">
+                        <div class="swiper-pagination z-10 !-bottom-6 lg:!-bottom-8"></div>
+                        <!-- Navigation buttons -->
+                        <div class="swiper-button swiper-button-prev 3xl:-left-13 2xl:-left-9">
+                            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                        </div>
 
-                    <div class="swiper-button swiper-button-next 3xl:-right-13 2xl:-right-9">
-                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                        <div class="swiper-button swiper-button-next 3xl:-right-13 2xl:-right-9">
+                            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                        </div>
                     </div>
-                   </div>
                 </div>
             </div>
         </div>
