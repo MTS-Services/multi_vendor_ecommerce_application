@@ -124,7 +124,7 @@
 
     <section class="md:py-22 py-11 relative  dark:bg-opacity-50">
         <div class="container">
-            <h2 class="text-2xl md:text-4xl md:pb-8 pb-4 font-bold">{{__('Categories')}}</h2>
+            <h2 class="text-2xl md:text-4xl md:pb-8 pb-4 font-bold">{{ __('Categories') }}</h2>
             <div class="relative">
                 <div class="swiper categories static">
                     <div class="swiper-wrapper">
@@ -273,7 +273,8 @@
         import Swiper from '/frontend/js/swiper.min.js';
 
         // Banner Slider
-        new Swiper('.banner', {
+        const bannerEl = document.querySelector('.banner');
+        new Swiper(bannerEl, {
             slidesPerView: 1,
             loop: true,
             autoplay: {
@@ -289,6 +290,11 @@
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
+            on: {
+                init: function() {
+                    hideControlsIfNotEnoughSlides(bannerEl, this, 1);
+                }
+            }
         });
 
         // Arrivals Slider
@@ -305,14 +311,16 @@
         });
 
         // Categories Slider
-        new Swiper('.categories', {
-            slidesPerView: 6,
+
+        const categorySwiperEl = document.querySelector('.categories');
+        new Swiper(categorySwiperEl, {
             loop: true,
+            slidesPerView: 6,
+            spaceBetween: 20,
             autoplay: {
                 delay: 3000,
                 disableOnInteraction: false,
             },
-            spaceBetween: 20,
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true,
@@ -323,34 +331,34 @@
             },
             breakpoints: {
                 0: {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
+                    slidesPerView: 1
                 },
                 450: {
-                    slidesPerView: 2,
-                    spaceBetween: 20,
+                    slidesPerView: 2
                 },
                 768: {
-                    slidesPerView: 3,
-                    spaceBetween: 20,
+                    slidesPerView: 3
                 },
                 1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 20,
+                    slidesPerView: 4
                 },
                 1280: {
-                    slidesPerView: 5,
-                    spaceBetween: 20,
+                    slidesPerView: 5
                 },
                 1536: {
-                    slidesPerView: 6,
-                    spaceBetween: 20,
-                }
+                    slidesPerView: 6
+                },
             },
+            on: {
+                init: function() {
+                    hideControlsIfNotEnoughSlides(categorySwiperEl, this, () => this.params.slidesPerView);
+                }
+            }
         });
 
         // Testimonial Slider
-        new Swiper('.testimonial', {
+        const testimonialEl = document.querySelector('.testimonial');
+        new Swiper(testimonialEl, {
             slidesPerView: 3,
             loop: true,
             autoplay: {
@@ -380,10 +388,16 @@
                     spaceBetween: 20,
                 },
             },
+            on: {
+                init: function() {
+                    hideControlsIfNotEnoughSlides(testimonialEl, this, () => this.params.slidesPerView);
+                }
+            }
         });
 
         // brand Slider
-        new Swiper('.brand', {
+        const brandEl = document.querySelector('.brand');
+        new Swiper(brandEl, {
             slidesPerView: 'auto',
             speed: 1000,
             disableOnInteraction: false,
@@ -426,6 +440,11 @@
                     spaceBetween: 20,
                 },
             },
+            on: {
+                init: function() {
+                    hideControlsIfNotEnoughSlides(brandEl, this, () => this.params.slidesPerView);
+                }
+            }
         });
     </script>
 @endpush

@@ -89,72 +89,6 @@
     <script src="{{ asset('frontend/js/toggleSearchForm.js') }}"></script>
 
     {{-- Footer Accordion --}}
-    {{-- <script>
-        $(document).ready(function() {
-            const faqItems = $('.footer-accordion');
-
-            let currentMode = null;
-
-            function setupAccordion() {
-                const isMobile = window.innerWidth <= 640;
-
-                if (isMobile && currentMode !== 'mobile') {
-                    currentMode = 'mobile';
-
-                    // Collapse all initially
-                    faqItems.each(function() {
-                        const item = $(this);
-                        const answer = item.find('.footer-accordion-content');
-                        const button = item.find('.footer-accordion-title');
-                        const icon = item.find('.footer-accordion-icon');
-
-                        answer.css('max-height', '0');
-                        item.removeClass('pb-5');
-                        button.off('click').on('click', function() {
-                            const isOpen = answer.css('max-height') !== '0px';
-
-                            faqItems.each(function() {
-                                const otherItem = $(this);
-                                const otherAnswer = otherItem.find(
-                                    '.footer-accordion-content');
-                                otherAnswer.css('max-height', '0');
-                                otherItem.removeClass('pb-5');
-
-                            });
-
-                            if (!isOpen) {
-                                const scrollHeight = answer.prop('scrollHeight') + 20;
-                                answer.css('max-height', scrollHeight + 'px');
-                                item.addClass('pb-5');
-                            }
-                        });
-                    });
-
-                } else if (!isMobile && currentMode !== 'desktop') {
-                    currentMode = 'desktop';
-
-                    // Show all content and remove accordion behavior
-                    $faqItems.each(function() {
-                        const item = $(this);
-                        const answer = item.find('.footer-accordion-content');
-                        const button = item.find('.footer-accordion-title');
-
-                        $answer.css('max-height', 'none');
-                        $item.addClass('pb-5');
-                        $button.off('click'); // remove toggle behavior
-                    });
-                }
-            }
-
-            // Initial setup
-            setupAccordion();
-
-            // Re-run on window resize
-            $(window).on('resize', function() {
-                setupAccordion();
-            });
-        });
-    </script> --}}
     <script>
         $(document).ready(function() {
             const faqItems = $('.footer-accordion');
@@ -232,6 +166,27 @@
                 setupAccordion();
             });
         });
+    </script>
+
+    {{-- Hide or Show Swiper Navigation Buttons Controller --}}
+    <script>
+        function hideControlsIfNotEnoughSlides(swiperEl, swiperInstance, getSlidesPerView = 1) {
+            const originalSlides = swiperEl.querySelectorAll('.swiper-slide:not(.swiper-slide-duplicate)');
+            const realSlideCount = originalSlides.length;
+
+            // Determine current slidesPerView
+            let currentSlidesPerView = typeof getSlidesPerView === 'function' ? getSlidesPerView() : getSlidesPerView;
+
+            if (realSlideCount <= currentSlidesPerView) {
+                const navNext = swiperEl.querySelector('.swiper-button-next');
+                const navPrev = swiperEl.querySelector('.swiper-button-prev');
+                const pagination = swiperEl.querySelector('.swiper-pagination');
+
+                if (navNext) navNext.style.display = 'none';
+                if (navPrev) navPrev.style.display = 'none';
+                if (pagination) pagination.style.display = 'none';
+            }
+        }
     </script>
 
 

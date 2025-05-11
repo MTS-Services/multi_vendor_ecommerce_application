@@ -41,6 +41,7 @@ class CategorySeeder extends Seeder
             'slug' => 'category-7',
             'is_featured' => 1,
         ]);
-       
+
+        // Category::factory(50)->create();
     }
 }
