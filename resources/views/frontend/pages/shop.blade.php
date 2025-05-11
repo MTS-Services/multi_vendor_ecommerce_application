@@ -183,7 +183,7 @@
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title font-semibold ">Color</summary>
                     <div class="collapse-content text-sm">
-                        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 mb-2 pe-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 mb-2 pe-5">
                             <input type="radio" name="radio-1"
                                 class="w-8 h-8 radio bg-bg-accent border-border-accent checked:bg-transparent text-text-accent" />
                             <input type="radio" name="radio-1"
@@ -203,7 +203,7 @@
                 </details>
                 <!-- Divider -->
                 <div class="border-t border-border-light dark:border-opacity-50"></div>
-                
+
 
                 {{-- Size --}}
                 <details class="collapse collapse-arrow" open>
@@ -216,28 +216,28 @@
                                   XS (10)
                                 </div>
                               </label>
-                          
+
                               <label class="cursor-pointer">
                                 <input type="radio" name="size" value="S" class="peer sr-only" />
                                 <div class="px-4 py-2 rounded-lg border shadow-md border-border-dark border-opacity-20 peer-checked:border-border-accent peer-checked:bg-bg-accent peer-checked:text-white transition-all duration-300">
                                   S (8)
                                 </div>
                               </label>
-                          
+
                               <label class="cursor-pointer">
                                 <input type="radio" name="size" value="M" class="peer sr-only" />
                                 <div class="px-4 py-2 rounded-lg border shadow-md border-border-dark border-opacity-20 peer-checked:border-border-accent peer-checked:bg-bg-accent peer-checked:text-white transition-all duration-300">
                                   M (10)
                                 </div>
                               </label>
-                          
+
                               <label class="cursor-pointer">
                                 <input type="radio" name="size" value="L" class="peer sr-only" />
                                 <div class="px-4 py-2 rounded-lg border shadow-md border-border-dark border-opacity-20 peer-checked:border-border-accent peer-checked:bg-bg-accent peer-checked:text-white transition-all duration-300">
                                   L (20)
                                 </div>
                               </label>
-                          
+
                               <label class="cursor-pointer">
                                 <input type="radio" name="size" value="XL" class="peer sr-only" />
                                 <div class="px-4 py-2 rounded-lg border shadow-md border-border-dark border-opacity-20 peer-checked:border-border-accent peer-checked:bg-bg-accent peer-checked:text-white transition-all duration-300">
