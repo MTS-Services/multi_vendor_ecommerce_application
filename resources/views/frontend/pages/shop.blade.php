@@ -21,7 +21,7 @@
                             <button
                                 class="openFilterSidebar btn px-2 py-0 rounded-full bg-transparent border border-bg-accent text-text-accent text-xs font-medium xs:text-sm xs:px-5 xs:py-2 lg:text-base w-fit text-nowrap xl:hidden">
                                 <span><i data-lucide="sliders-horizontal" class="w-5 h-5"></i></span>
-                                <span class="ml-2 text-base">Filter</span>
+                                <span class="ml-2 text-base">{{ __('Filter') }}</span>
                             </button>
                             <details class="dropdown">
                                 <summary
@@ -29,9 +29,9 @@
                                     Sort By<i data-lucide="chevron-down"></i></summary>
                                 <ul
                                     class="menu dropdown-content bg-bg-gray dark:bg-bg-darkSecondary rounded-box z-1 w-fit p-2 shadow-sm text-sm lg:text-base">
-                                    <li><a class="font-normal" href="#">Default</a></li>
-                                    <li><a class="font-normal" href="#">Price High</a></li>
-                                    <li><a class="font-normal" href="#">Price Low</a></li>
+                                    <li><a class="font-normal" href="#">{{ __('Default') }}</a></li>
+                                    <li><a class="font-normal" href="#">{{ __('Price High') }}</a></li>
+                                    <li><a class="font-normal" href="#">{{ __('Price Low') }}</a></li>
                                 </ul>
                             </details>
                         </div>
@@ -103,19 +103,18 @@
     <section class="bg-bg-white dark:bg-bg-darkSecondary py-10">
         <div class="container">
             <p class="md:text-center max-w-8xl mx-auto text-text-gray">
-                Our women's collection brings you a unique blend of classic sophistication and the latest fashion
+                {{ __("Our women's collection brings you a unique blend of classic sophistication and the latest fashion
                 trends. Whether you're looking for versatile daywear, stylish work attire, or statement pieces for
                 special occasions, this collection has it all. Each garment is thoughtfully crafted with attention to
                 detail, using high-quality fabrics to ensure lasting comfort and a flawless fit. From chic blouses and
                 tailored pants to stunning dresses and outerwear, you'll find pieces that seamlessly blend elegance with
                 practicality. Our collection is designed to empower women with confidence and style, no matter the
-                occasion.
-            </p>
+                occasion.") }}</p>
             <p class="mt-5 md:text-center max-w-8xl mx-auto text-text-gray">
-                Looking for more? Don’t miss out on our other exciting collections for
-                <a href="#" class="text-text-danger font-medium underline">BAGS</a>
-                and
-                <a href="#" class="text-text-danger font-medium underline">ACCESSORIES.</a>
+                {{ __("Looking for more? Don’t miss out on our other exciting collections for") }}
+                <a href="#" class="text-text-danger font-medium underline">{{__("BAGS") }}</a>
+                {{ __("and") }}
+                <a href="#" class="text-text-danger font-medium underline">{{__("ACCESSORIES.") }}</a>
             </p>
         </div>
 
@@ -127,22 +126,22 @@
                     <div class="flex justify-center mb-3">
                         <i class="fa-solid fa-box text-xl"></i>
                     </div>
-                    <h3 class="font-medium mb-2">Free Shipping</h3>
-                    <p class="text-sm text-text-gray">Enjoy free shipping on all orders over $100</p>
+                    <h3 class="font-medium mb-2">{{ __('Free Shipping') }}</h3>
+                    <p class="text-sm text-text-gray">{{ __("Enjoy free shipping on all orders over $100") }}</p>
                 </div>
                 <div>
                     <div class="flex justify-center mb-3">
                         <i class="fa-solid fa-rotate text-xl"></i>
                     </div>
-                    <h3 class="font-medium mb-2">Easy Returns</h3>
-                    <p class="text-sm text-text-gray">Hassle-free returns within 30 days of shipping experience</p>
+                    <h3 class="font-medium mb-2">{{ __("Easy Returns") }}</h3>
+                    <p class="text-sm text-text-gray">{{ __("Hassle-free returns within 30 days of shipping experience") }}</p>
                 </div>
                 <div>
                     <div class="flex justify-center mb-3">
                         <i class="fa-solid fa-headset text-xl"></i>
                     </div>
-                    <h3 class="font-medium mb-2">24/7 Support</h3>
-                    <p class="text-sm text-text-gray">Shop with confidence backed by our year warranty</p>
+                    <h3 class="font-medium mb-2">{{ __("24/7 Support") }}</h3>
+                    <p class="text-sm text-text-gray">{{ __("Shop with confidence backed by our year warranty") }}</p>
                 </div>
             </div>
         </div>
