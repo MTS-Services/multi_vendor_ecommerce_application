@@ -9,9 +9,9 @@ use Illuminate\Contracts\View\View;
 
 class Category extends Component
 {
-    public array|Collection $category;
+    public object $category;
 
-    public function __construct(array|Collection $category)
+    public function __construct(object $category)
     {
         $this->category = $category;
     }
