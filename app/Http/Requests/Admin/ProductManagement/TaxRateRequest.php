@@ -28,6 +28,8 @@ class TaxRateRequest extends FormRequest
            'country' => 'required|exists:countries,id',
             'state' => 'nullable|exists:states,id',
             'city' => 'required|exists:cities,id',
+
+
         ];
     }
 }

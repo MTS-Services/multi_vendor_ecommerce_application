@@ -27,7 +27,7 @@ return new class extends Migration
             $table->decimal('rate', 8, 2);
             $table->string('name');
             $table->tinyInteger('priority')->default(0)->comment(TaxRate::PRIORITY_URGENT . ': Urgent, ' . TaxRate::PRIORITY_HIGH . ': High, ' . TaxRate::PRIORITY_NORMAL . ': Normal, ' . TaxRate::PRIORITY_LOW . ': Low');
-            $table->boolean('compound');
+            $table->boolean('compound')->default(TaxRate::COMPOUND_TRUE)->comment(TaxRate::COMPOUND_TRUE . ': True, ' . TaxRate::COMPOUND_FALSE . ': False');
             $table->timestamps();
             $table->softDeletes();
 

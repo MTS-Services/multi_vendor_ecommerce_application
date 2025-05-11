@@ -61,7 +61,7 @@
                 ['rate', true, true],
                 ['country_id', true, true],
                 ['city_id', true, true],
-                ['priority', false, false],
+                ['priority', true, true],
                 ['status', true, true],
                 ['compound', true, true],
                 ['created_by', true, true],

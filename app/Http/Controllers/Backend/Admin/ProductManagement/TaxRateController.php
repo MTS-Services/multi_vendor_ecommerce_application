@@ -111,7 +111,7 @@ class TaxRateController extends Controller
                 'label' => 'Delete',
                 'delete' => true,
                 'permissions' => ['tax-rate-delete']
-            ]
+            ],
 
         ];
     }
@@ -131,6 +131,7 @@ class TaxRateController extends Controller
      */
     public function store(TaxRateRequest $request)
     {
+
          $validated = $request->validated();
         $validated['tax_class_id'] = $request->tax_class;
         $validated['country_id'] = $request->country;
@@ -147,7 +148,8 @@ class TaxRateController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data = TaxRate::with(['tax_class_id', 'country_id', 'city_id','creater_admin', 'updater_admin'])->findOrFail(decrypt($id));
+        return response()->json($data);
     }
 
     /**
@@ -155,15 +157,28 @@ class TaxRateController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+        $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
+        $data['tax_classes'] = TaxClass::active()->select('id','name')->orderBy('name')->get();
+        $data['tax_rate'] = TaxRate::findOrFail(decrypt($id));
+        return view('backend.admin.product_management.tax_rate.edit',$data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TaxRateRequest $request, string $id)
     {
-        //
+         $tax_rate = TaxRate::findOrFail(decrypt($id));
+        $validated = $request->validated();
+        $validated['tax_class_id'] = $request->tax_class;
+        $validated['country_id'] = $request->country;
+        $validated['state_id'] = $request->state;
+        $validated['city_id'] = $request->city;
+        $validated['updated_by'] = admin()->id;
+        $tax_rate->update($validated);
+        session()->flash('success','Tax rate updated successfully!');
+        return redirect()->route('pm.tax-rate.index');
     }
 
     /**
