@@ -101,6 +101,7 @@
 
         @apply hover:after:-left-full;
     }
+
     .btn-secondary {
         @apply py-1 px-4 sm:py-2 sm:px-5 md:py-2 md:px-6 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden flex flex-row items-center justify-center w-fit;
 
@@ -108,6 +109,7 @@
 
         @apply hover:after:-left-full hover:text-text-white hover:bg-bg-accent;
     }
+
     .btn-paginate {
         @apply w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-text-accent bg-transparent border border-bg-accent rounded-full font-medium transition-all duration-300 relative overflow-hidden;
 
@@ -126,12 +128,15 @@
     .product figure {
         @apply relative py-5 bg-transparent h-64;
     }
+
     .product figure img {
         @apply transition-all duration-300 ease-linear h-full w-auto mx-auto;
     }
+
     .product:hover figure img {
         @apply scale-105;
     }
+
     .product .product-title {
         @apply text-base font-semibold text-center mb-2 text-text-primary dark:text-text-white;
     }
@@ -139,9 +144,11 @@
     .product .product-prices {
         @apply flex items-center justify-center gap-2 font-inter;
     }
+
     .product .product-price {
         @apply font-semibold text-sm md:text-base text-text-primary dark:text-text-white;
     }
+
     .product .product-old-price {
         @apply line-through text-text-light text-xs md:text-sm;
     }
@@ -157,14 +164,34 @@
     .product .product-actions .btn-product {
         @apply relative;
     }
+
     .product .product-actions .btn-product i {
         @apply text-xs bg-bg-dark dark:bg-bg-darkSecondary bg-opacity-10 dark:bg-opacity-50 text-text-primary dark:text-text-white rounded-full !w-10 h-10 flex items-center justify-center transition-all duration-300 ease-linear;
         @apply hover:bg-opacity-100 hover:text-text-accent;
     }
+
     .product .product-actions .btn-product span {
         @apply absolute top-1/2 -translate-y-1/2 transform text-nowrap px-2 bg-bg-dark text-text-white rounded text-sm transition-all duration-300 ease-linear right-full opacity-0 invisible;
     }
+
     .product .product-actions .btn-product:hover span {
         @apply opacity-100 visible right-[120%];
     }
+}
+
+/* Swiper Js */
+.swiper-button {
+    @apply after:content-none text-text-accent w-10 h-10 bg-bg-dark bg-opacity-10 dark:bg-bg-light dark:bg-opacity-10 rounded-full flex items-center justify-center transition-all duration-300 ease-linear;
+    @apply hover:bg-opacity-30;
+}
+.swiper-button svg {
+    @apply w-full;
+}
+
+.swiper-pagination-bullet {
+    @apply w-2 h-2 bg-bg-accent dark:bg-bg-light;
+}
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+    @apply relative !mx-3;
+    @apply after:content-[''] after:absolute after:!w-[250%] after:!h-[250%] after:bg-transparent after:border-2 after:border-t-transparent after:border-bg-accent after:rounded-full after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:z-[1] after:animate-dotRotate;
 }

@@ -9,19 +9,27 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Sub Category List') }}</h4>
-                    <x-backend.admin.button :datas="[
-                        'routeName' => 'pm.sub-category.create',
-                        'label' => 'Add New',
-                        'permissions' => ['subcategory-create'],
-                    ]" />
+                    <div class="buttons">
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'pm.sub-category.recycle-bin',
+                            'label' => 'Recycle Bin',
+                            'className' => 'btn-danger',
+                            'permissions' => ['sub-category-restore'],
+                        ]" />
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'pm.sub-category.create',
+                            'label' => 'Add New',
+                            'permissions' => ['sub-category-create'],
+                        ]" />
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-striped datatable">
                         <thead>
                             <tr>
                                 <th>{{ __('SL') }}</th>
+                                <th>{{ __('Main Category') }}</th>
                                 <th>{{ __('Name') }}</th>
-                                <th>{{ __('Category') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Featured') }}</th>
                                 <th>{{ __('Created By') }}</th>
@@ -47,8 +55,8 @@
         $(document).ready(function() {
             let table_columns = [
                 //name and data, orderable, searchable
-                ['name', true, true],
                 ['parent_id', true, true],
+                ['name', true, true],
                 ['status', true, true],
                 ['is_featured', true, true],
                 ['creater_id', true, true],
@@ -79,17 +87,21 @@
             const detailsUrl = route.replace("id", id);
             const headers = [
                 {
-                    label: "Name",
-                    key: "name"
+                    label: "Main Category",
+                    key: "parent_name"
                 },
                 {
-                    label: "Category",
-                    key: "category_name"
+                    label: "Name",
+                    key: "name"
                 },
 
                 {
                     label: "Slug",
                     key: "slug"
+                },
+                {
+                    label: "Total Children",
+                    key: "active_childrens_count"
                 },
                 {
                     label: "Image",
@@ -123,4 +135,3 @@
         });
     </script>
 @endpush
-
