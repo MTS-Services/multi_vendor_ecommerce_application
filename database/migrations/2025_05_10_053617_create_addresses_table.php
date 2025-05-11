@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('profile_type');
             $table->tinyInteger('type')->default(Address::TYPE_OTHER)->comment(Address::TYPE_PERSONAL . ': Personal, ' . Address::TYPE_BILLING . ': Billing, ' . Address::TYPE_SHIPPING . ': Shipping', Address::TYPE_OTHER . ': Other');
             $table->string('name')->nullable();
-            $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->unsignedBigInteger('country_id');
             $table->unsignedBigInteger('state_id')->nullable();

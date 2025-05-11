@@ -56,9 +56,9 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="d-flex justify-content-around align-items-center gap-5 py-5 text-center">
-                    <p class="nav-item w-100 py-2 active" data-bs-target="profile">profile</p>
+                    <p class="nav-item w-100 py-2" data-bs-target="profile">profile</p>
                     <p class="nav-item w-100 py-2" data-bs-target="shop-details">Shop Details</p>
-                    <p class="nav-item w-100 py-2" data-bs-target="address">Address</p>
+                    <p class="nav-item w-100 py-2 active" data-bs-target="address">Address</p>
                     <p class="nav-item w-100 py-2" data-bs-target="change-password">Change Password</p>
                 </div>
             </div>
@@ -81,7 +81,7 @@
                                         @method('PUT')
 
                                         <div class="row">
-                                            <div class="form-group mb-3 mb-3">
+                                            <div class="form-group mb-3">
                                                 <label>{{ __('First Name') }} <span class="text-danger">*</span></label>
                                                 <input type="text" name="first_name" class="form-control"
                                                     placeholder="Enter first name">
@@ -190,36 +190,40 @@
                                 <h4 class="mb-0 py-2 text-white">{{ __('Profile Address') }}</h4>
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('seller.address.update', encrypt($address->id)) }}" method="POST">
+                                <form action="{{ route('seller.address.update', encrypt($address->id)) }}"
+                                    method="POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="row">
                                         <div class="col-md-12 mb-3">
-                                            <label>{{ __('Name') }}</label>
-                                            <input type="text" name="name" value="{{ $address->name }}"
-                                                placeholder="Enter name" class="form-control">
-                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
-                                        </div>
-                                        <div class="col-md-12 mb-3">
-                                            <label>{{ __('Email') }}</label>
-                                            <input type="email" name="email" value="{{ $address->email }}"
-                                                placeholder="Enter email" class="form-control">
-                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
-                                        </div>
-                                        <div class="col-md-12 mb-3">
-                                            <label>{{ __('Phone') }}</label>
-                                            <input type="text" name="phone" value="{{ $address->phone }}"
-                                                placeholder="Enter phone number" class="form-control">
-                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'phone']" />
+                                            <div class="row">
+                                                <div class="col-6 form-group">
+                                                        <label>{{ __('Receiver Name') }} <span class="text-danger">*</span></label>
+                                                        <input type="text" name="name"
+                                                            value="{{ $address->name }}" placeholder="Enter name"
+                                                            class="form-control">
+                                                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
+                                                </div>
+                                                <div class="col-6 form-group">
+                                                        <label>{{ __('Receiver Phone') }} <span class="text-danger">*</span></label>
+                                                        <input type="text" name="phone"
+                                                            value="{{ $address->phone }}"
+                                                            placeholder="Enter phone number" class="form-control">
+                                                        <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'phone']" />
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <div class="row">
                                                 <div class="col-6 form-group">
                                                     <label>{{ __('Country') }} <span class="text-danger">*</span></label>
                                                     <select name="country_id" id="country" class="form-control">
-                                                        <option value="" selected hidden>{{__('Select Country')}}</option>
+                                                        <option value="" selected hidden>{{ __('Select Country') }}
+                                                        </option>
                                                         @foreach ($countries as $country)
-                                                            <option value="{{$country->id}}" {{ $address->country_id == $country->id ? 'selected' : ''}}>{{ $country->name }}</option>
+                                                            <option value="{{ $country->id }}"
+                                                                {{ $address->country_id == $country->id ? 'selected' : '' }}>
+                                                                {{ $country->name }}</option>
                                                         @endforeach
                                                     </select>
                                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'country_id']" />
@@ -227,7 +231,8 @@
                                                 <div class="col-6 form-group">
                                                     <label>{{ __('State') }}</label>
                                                     <select name="state" id="state" class="form-control" disabled>
-                                                        <option value="" selected hidden>{{__('Select State')}}</option>
+                                                        <option value="" selected hidden>{{ __('Select State') }}
+                                                        </option>
                                                     </select>
                                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'state']" />
                                                 </div>
@@ -238,49 +243,40 @@
                                                 <div class="col-6 form-group">
                                                     <label>{{ __('City') }} <span class="text-danger">*</span></label>
                                                     <select name="city_id" id="city" class="form-control" disabled>
-                                                        <option value="" selected hidden>{{__('Select City')}}</option>
+                                                        <option value="" selected hidden>{{ __('Select City') }}
+                                                        </option>
                                                     </select>
                                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city_id']" />
                                                 </div>
                                                 <div class="col-6 form-group">
                                                     <label>{{ __('Area') }} <span class="text-danger">*</span></label>
-                                                    <select name="operation_area" id="operation_area" class="form-control" disabled>
-                                                        <option value="" selected hidden>{{__('Select Area')}}</option>
+                                                    <select name="operation_area" id="operation_area"
+                                                        class="form-control" disabled>
+                                                        <option value="" selected hidden>{{ __('Select Area') }}
+                                                        </option>
                                                     </select>
                                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'operation_area']" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12 mb-3">
-                                            <label>{{ __('Address Line 1') }}</label>
-                                            <textarea name="address_line_1" class="form-control" id="address_line_1" cols="30" rows="10">{{ $address->address_line_1 }}</textarea>
+                                            <label>{{ __('Address Line 1') }} <span class="text-danger">*</span></label>
+                                            <textarea name="address_line_1" class="form-control no-ckeditor5" id="address_line_1" cols="30"
+                                                rows="10">{{ $address->address_line_1 }}</textarea>
                                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'address_line_1']" />
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label>{{ __('Address Line 2') }}</label>
-                                            <textarea name="address_line_2" class="form-control" id="address_line_2" cols="30" rows="10">{{ $address->address_line_2 }}</textarea>
+                                            <textarea name="address_line_2" class="form-control no-ckeditor5" id="address_line_2" cols="30"
+                                                rows="10">{{ $address->address_line_2 }}</textarea>
                                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'address_line_2']" />
                                         </div>
                                         {{-- postal code --}}
-                                        <div class="col-md-12 mb-3">
-                                            <label>{{ __('Postal Code') }}</label>
+                                        <div class="col-6 mb-3">
+                                            <label>{{ __('Postal Code') }} <span class="text-danger">*</span></label>
                                             <input type="text" name="postal_code" value="{{ $address->postal_code }}"
                                                 placeholder="Enter postal code" class="form-control">
                                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'postal_code']" />
-                                        </div>
-                                        {{-- latitude --}}
-                                        <div class="col-md-12 mb-3">
-                                            <label>{{ __('Latitude') }}</label>
-                                            <input type="text" name="latitude" value="{{ $address->latitude }}"
-                                                placeholder="Enter latitude" class="form-control">
-                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'latitude']" />
-                                        </div>
-                                        {{-- longitude --}}
-                                        <div class="col-md-12 mb-3">
-                                            <label>{{ __('Longitude') }}</label>
-                                            <input type="text" name="longitude" value="{{ $address->longitude }}"
-                                                placeholder="Enter longitude" class="form-control">
-                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'longitude']" />
                                         </div>
                                     </div>
                                     <div class="text-right">

@@ -26,7 +26,7 @@
             font-size: 0.875rem;
         }
 
-        .btn-item {
+        .btn_item {
             background: linear-gradient(to right, #8a41d8, #a201ffcb);
             color: white;
             border: 1px solid transparent;
@@ -36,12 +36,12 @@
             transition: all 0.3s ease-in-out;
         }
 
-        .nav-item:hover {
+        .btn_item:hover {
             opacity: 0.8;
             cursor: pointer
         }
 
-        .active.nav-item {
+        .active.btn_item {
             background: linear-gradient(to right, #DC2626, #a201ffcb);
         }
 
@@ -56,26 +56,234 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="d-flex justify-content-around align-items-center gap-5 py-5 text-center">
-                    <p class="btn-item w-100 py-2 active" data-bs-target="profile">profile</p>
-                    <p class="btn-item w-100 py-2" data-bs-target="address">Address</p>
-                    <p class="btn-item w-100 py-2" data-bs-target="change-password">Change Password</p>
+                    <p class="btn_item w-100 py-2" data-bs-target="profile">profile</p>
+                    <p class="btn_item w-100 py-2" data-bs-target="shop-details">Shop Details</p>
+                    <p class="btn_item w-100 py-2 active" data-bs-target="address">Address</p>
+                    <p class="btn_item w-100 py-2" data-bs-target="change-password">Change Password</p>
                 </div>
             </div>
         </div>
 
-        
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="tab-content">
+                    <div id="profile" class="tab-pane">
+                        {{-- Profile Edit Card --}}
+                        <div class="col-lg-12 mb-4">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-header">
+                                    <h4 class="mb-0 py-2 text-white">Profile</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form action="{{ route('seller.profile.update') }}" method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <div class="row">
+                                            {{-- Profile Details --}}
+                                        </div>
+
+                                        <div class="text-right mt-4">
+                                            <button class="btn btn-primary px-4">{{ __('Update Profile') }}</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Shop Details Card --}}
+                    <div id="shop-details" class="tab-pane">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header">
+                                <h4 class="mb-0 py-2 text-white">{{ __('Shop Details') }}</h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="#" method="POST">
+                                    @csrf
+                                    <div class="row">
+                                        {{-- Shop details --}}
+                                    </div>
+                                    <div class="text-right">
+                                        <button class="btn btn-success px-4">{{ __('Update') }}</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Profile Address --}}
+                    <div id="address" class="tab-pane active">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header">
+                                <h4 class="mb-0 py-2 text-white">{{ __('Profile Address') }}</h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ route('seller.address.update', encrypt($address->id)) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label>{{ __('Name') }}</label>
+                                            <input type="text" name="name" value="{{ $address->name }}"
+                                                placeholder="Enter name" class="form-control">
+                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label>{{ __('Email') }}</label>
+                                            <input type="email" name="email" value="{{ $address->email }}"
+                                                placeholder="Enter email" class="form-control">
+                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label>{{ __('Phone') }}</label>
+                                            <input type="text" name="phone" value="{{ $address->phone }}"
+                                                placeholder="Enter phone number" class="form-control">
+                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'phone']" />
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <div class="row">
+                                                <div class="col-6 form-group">
+                                                    <label>{{ __('Country') }} <span class="text-danger">*</span></label>
+                                                    <select name="country_id" id="country" class="form-control">
+                                                        <option value="" selected hidden>{{ __('Select Country') }}
+                                                        </option>
+                                                        @foreach ($countries as $country)
+                                                            <option value="{{ $country->id }}"
+                                                                {{ $address->country_id == $country->id ? 'selected' : '' }}>
+                                                                {{ $country->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'country_id']" />
+                                                </div>
+                                                <div class="col-6 form-group">
+                                                    <label>{{ __('State') }}</label>
+                                                    <select name="state" id="state" class="form-control" disabled>
+                                                        <option value="" selected hidden>{{ __('Select State') }}
+                                                        </option>
+                                                    </select>
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'state']" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <div class="row">
+                                                <div class="col-6 form-group">
+                                                    <label>{{ __('City') }} <span class="text-danger">*</span></label>
+                                                    <select name="city_id" id="city" class="form-control" disabled>
+                                                        <option value="" selected hidden>{{ __('Select City') }}
+                                                        </option>
+                                                    </select>
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city_id']" />
+                                                </div>
+                                                <div class="col-6 form-group">
+                                                    <label>{{ __('Area') }} <span class="text-danger">*</span></label>
+                                                    <select name="operation_area" id="operation_area" class="form-control"
+                                                        disabled>
+                                                        <option value="" selected hidden>{{ __('Select Area') }}
+                                                        </option>
+                                                    </select>
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'operation_area']" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label>{{ __('Address Line 1') }}</label>
+                                            <textarea name="address_line_1" class="form-control" id="address_line_1" cols="30" rows="10">{{ $address->address_line_1 }}</textarea>
+                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'address_line_1']" />
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label>{{ __('Address Line 2') }}</label>
+                                            <textarea name="address_line_2" class="form-control" id="address_line_2" cols="30" rows="10">{{ $address->address_line_2 }}</textarea>
+                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'address_line_2']" />
+                                        </div>
+                                        {{-- postal code --}}
+                                        <div class="col-md-12 mb-3">
+                                            <label>{{ __('Postal Code') }}</label>
+                                            <input type="text" name="postal_code" value="{{ $address->postal_code }}"
+                                                placeholder="Enter postal code" class="form-control">
+                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'postal_code']" />
+                                        </div>
+                                        {{-- latitude --}}
+                                        <div class="col-md-12 mb-3">
+                                            <label>{{ __('Latitude') }}</label>
+                                            <input type="text" name="latitude" value="{{ $address->latitude }}"
+                                                placeholder="Enter latitude" class="form-control">
+                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'latitude']" />
+                                        </div>
+                                        {{-- longitude --}}
+                                        <div class="col-md-12 mb-3">
+                                            <label>{{ __('Longitude') }}</label>
+                                            <input type="text" name="longitude" value="{{ $address->longitude }}"
+                                                placeholder="Enter longitude" class="form-control">
+                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'longitude']" />
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <button class="btn btn-success px-4">{{ __('Update') }}</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Password Change Card --}}
+                    <div id="change-password" class="tab-pane">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header">
+                                <h4 class="mb-0 py-2 text-white">{{ __('Change Password') }}</h4>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ route('seller.profile.password.update') }}" method="POST">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label>{{ __('Current Password') }} <span class="text-danger">*</span></label>
+                                            <input type="password" name="current_password" class="form-control">
+                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'current_password']" />
+                                        </div>
+
+
+                                        <div class="col-md-12 mb-3">
+                                            <label>{{ __('New Password') }}</label>
+                                            <input type="password" name="new_password" class="form-control">
+                                            @error('new_password')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label>{{ __('Confirm New Password') }}</label>
+                                            <input type="password" name="new_password_confirmation" class="form-control">
+                                            @error('new_password_confirmation')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <button class="btn btn-success px-4">{{ __('Change Password') }}</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 @push('js-links')
     {{-- FilePond  --}}
     <script src="{{ asset('ckEditor5/main.js') }}"></script>
     <script src="{{ asset('filepond/filepond.js') }}"></script>
+@endpush
+@push('js')
     <script>
         $(document).ready(function() {
             // Handle click on nav items
-            $('.nav-item').on('click', function() {
+            $('.btn_item').on('click', function() {
                 // Remove 'active' from all nav items
-                $('.nav-item').removeClass('active');
+                $('.btn_item').removeClass('active');
 
                 // Add 'active' to the clicked nav item
                 $(this).addClass('active');
@@ -90,30 +298,30 @@
                 $('#' + target).addClass('active');
             });
         });
-        // Get Country States By Axios
-        $(document).ready(function() {
-            let route1 = "{{ route('setup.axios.get-states-or-cities') }}";
-            $('#country').on('change', function() {
-                getStatesOrCity($(this).val(), route1);
-            });
-            let route2 = "{{ route('setup.axios.get-cities') }}";
-            $('#state').on('change', function() {
-                getCities($(this).val(), route2);
-            });
-            let route3 = "{{ route('setup.axios.get-operation-areas') }}";
-            $('#city').on('change', function() {
-                getOperationAreas($(this).val(), route3);
-            });
+        // // Get Country States By Axios
+        // $(document).ready(function() {
+        //     let route1 = "{{ route('setup.axios.get-states-or-cities') }}";
+        //     $('#country').on('change', function() {
+        //         getStatesOrCity($(this).val(), route1);
+        //     });
+        //     let route2 = "{{ route('setup.axios.get-cities') }}";
+        //     $('#state').on('change', function() {
+        //         getCities($(this).val(), route2);
+        //     });
+        //     let route3 = "{{ route('setup.axios.get-operation-areas') }}";
+        //     $('#city').on('change', function() {
+        //         getOperationAreas($(this).val(), route3);
+        //     });
 
-            let data_id =
-                `{{ $address->state_id ? $address->state_id : $address->city_id }}`;
-            getStatesOrCity($('#country').val(), route1, data_id);
-            if (`{{ $address->state_id }}`) {
-                getCities(`{{ $address->state_id }}`, route2, `{{ $address->city_id }}`);
-            }
-            getOperationAreas(`{{ $address->city_id }}`, route3,
-                `{{ $address->operation_area_id }}`);
-        });
+        //     let data_id =
+        //         `{{ $address->state_id ? $address->state_id : $address->city_id }}`;
+        //     getStatesOrCity($('#country').val(), route1, data_id);
+        //     if (`{{ $address->state_id }}`) {
+        //         getCities(`{{ $address->state_id }}`, route2, `{{ $address->city_id }}`);
+        //     }
+        //     getOperationAreas(`{{ $address->city_id }}`, route3,
+        //         `{{ $address->operation_area_id }}`);
+        // });
     </script>
     {{-- FilePond  --}}
 @endpush

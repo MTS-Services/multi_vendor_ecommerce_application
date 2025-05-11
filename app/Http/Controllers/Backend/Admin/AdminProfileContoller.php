@@ -12,8 +12,6 @@ class AdminProfileContoller extends Controller
 {
     public function profile()
     {
-        // dd('here');
-        // $data['address'] = Address::selfAddresses()->personal()->first();
         $data['address'] = Address::all()->first();
         $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
         return view('backend.admin.profile_management.profile', $data);
