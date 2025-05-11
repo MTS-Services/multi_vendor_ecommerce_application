@@ -209,6 +209,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         //Product Attribute Value
         Route::resource('product-attribute-value', AttributeValueController::class);
         Route::get('product-attribute-value/status/{product_attribute_value}', [AttributeValueController::class, 'status'])->name('product-attribute-value.status');
+        Route::get('product-attribute-value/recycle/bin', [AttributeValueController::class, 'recycleBin'])->name('product-attribute-value.recycle-bin');
+        Route::get('product-attribute-value/restore/{product_attribute_value}', [AttributeValueController::class, 'restore'])->name('product-attribute-value.restore');
+        Route::delete('product-attribute-value/permanent-delete/{product_attribute_value}', [AttributeValueController::class, 'permanentDelete'])->name('product-attribute-value.permanent-delete');
 
 
         // Brand Routes
