@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\Backend\Admin\ProductManagement\ProductAttributeValueController;
-use App\Http\Controllers\Frontend\AuthController as FrontendAuthController;
+
 use App\Http\Controllers\Frontend\HomePageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\FrontendController;
@@ -22,9 +21,8 @@ Route::group(['as' => 'frontend.'], function () {
   //Cart Page
   Route::get('/cart', [FrontendController::class, 'cart'])->name('cart');
 
-// Singel Product
+  // Singel Product
   Route::get('/singel-product', [FrontendController::class, 'singel_product'])->name('singel_product');
-//   Store location
+  //   Store location
   Route::get('/store-location', [FrontendController::class, 'store_location'])->name('store_location');
 });
-

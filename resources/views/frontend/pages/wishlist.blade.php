@@ -20,10 +20,10 @@
     <div class="container mx-auto px-4 py-4 text-sm">
         <ul class="flex items-center gap-2 ">
             <li>
-                <a href="#" class="text-text-gray hover:text-text-accent">Home</a>
+                <a href="#" class="text-text-gray hover:text-text-accent">{{ __("Home") }}</a>
             </li>
             <li class="relative bracamb-dot capitalize">
-                <span class="font-midium">Accoute</span>
+                <span class="font-midium">{{ __("Accoute") }}</span>
             </li>
         </ul>
     </div>
@@ -31,7 +31,7 @@
     <!-- Header -->
     <div class="container mx-auto px-4 py-8 text-center">
         <div class="flex flex-col items-center justify-center">
-            <h1 class="text-4xl font-medium mb-3 font-bold capitalize">My Wishlist</h1>
+            <h1 class="text-4xl font-medium mb-3 capitalize">{{ __("My Wishlist") }}</h1>
         </div>
     </div>
     {{-- Produts --}}
@@ -55,8 +55,8 @@
         </div>
         {{-- Page inner --}}
         <div class="flex justify-center items-center gap-2 mt-10">
-            <button class="btn-paginate">1</button>
-            <button class="btn-paginate">2</button>
+            <button class="btn-paginate">{{ __('1') }}</button>
+            <button class="btn-paginate">{{ __('2') }}</button>
             <button class="btn-paginate"><span class="text-center"><i class="text-sm ms-2"
                         data-lucide="chevron-right"></i></span></button>
         </div>

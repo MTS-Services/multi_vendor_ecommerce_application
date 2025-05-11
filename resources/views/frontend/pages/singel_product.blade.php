@@ -266,8 +266,8 @@
                         <div class="flex items-center sm:border-r sm:pr-6 lg:pr-14 pb-3 sm:pb-0">
                             <div class="text-center">
                                 <i data-lucide="car" class="w-5 h-5 lg:w-7 lg:h-7 mx-auto"></i>
-                                <p class="text-sm lg:text-base font-medium">Estimated delivery time: 3-5 days</p>
-                                <p class="text-xs text-text-primary/50 dark:text-text-white">International</p>
+                                <p class="text-sm lg:text-base font-medium">{{ __("Estimated delivery time: 3-5 days") }}</p>
+                                <p class="text-xs text-text-primary/50 dark:text-text-white">{{ __("International") }}</p>
                             </div>
                         </div>
 
@@ -275,8 +275,8 @@
                         <div class="flex items-center">
                             <div class="text-center">
                                 <i data-lucide="box" class="w-5 h-5 lg:w-7 lg:h-7 mx-auto"></i>
-                                <p class="text-sm lg:text-base font-medium">Free shipping on all orders</p>
-                                <p class="text-xs text-text-primary/50 dark:text-text-white">Over $150</p>
+                                <p class="text-sm lg:text-base font-medium">{{ __("Free shipping on all orders") }}</p>
+                                <p class="text-xs text-text-primary/50 dark:text-text-white">{{ __("Over $150") }}</p>
                             </div>
                         </div>
                     </div>

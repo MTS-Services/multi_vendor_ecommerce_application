@@ -25,23 +25,17 @@
                     </span>
 
                     <a href="javaScript:void(0)" class="text-2xl">
-                        <i data-lucide="user-round" class="text-text-primary dark:text-text-white hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"
+                        <i data-lucide="user-round"
+                            class="text-text-primary dark:text-text-white hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"
                             onclick="my_modal_1.showModal()"></i>
                     </a>
                     <a href="{{ route('frontend.whishlist') }}" class="text-2xl relative">
-                        <i data-lucide="heart" class="text-text-primary dark:text-text-white hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"></i>
-                        <span
-                            class="text-text-white text-xs absolute -top-2 -right-2 z-10 bg-bg-secondary w-4 h-4 rounded-full flex items-center justify-center">{{ __('2') }}</span>
-                    </a>
-                    <a href="javascript:void(0)" class="openCartSidebar text-2xl relative">
-                        <i data-lucide="shopping-basket" class="text-text-primary dark:text-text-white  hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"></i>
-                    <a href="#" class="text-2xl relative">
                         <i data-lucide="heart"
                             class="text-text-primary dark:text-text-white hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"></i>
                         <span
                             class="text-text-white text-xs absolute -top-2 -right-2 z-10 bg-bg-secondary w-4 h-4 rounded-full flex items-center justify-center">{{ __('2') }}</span>
                     </a>
-                    <a href="#" class="text-2xl relative">
+                    <a href="" class="text-2xl relative">
                         <i data-lucide="shopping-basket"
                             class="text-text-primary dark:text-text-white  hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"></i>
                         <span
@@ -59,54 +53,55 @@
         <div class="w-full h-0.5 bg-gradient-light my-2 hidden lg:block"></div>
 
         <div class="items-center justify-center gap-5 pb-4 hidden lg:flex">
-        <div class="flex items-center justify-center gap-5 pb-4">
-            <a href="{{ route('frontend.home') }}"
-                class="capitalize text-text-primary dark:text-text-white relative
+            <div class="flex items-center justify-center gap-5 pb-4">
+                <a href="{{ route('frontend.home') }}"
+                    class="capitalize text-text-primary dark:text-text-white relative
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
                 hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == 'home') after:w-full @else after:w-0 @endif">
-                {{ __('Home') }}
-            </a>
-            <a href="{{ route('frontend.shop') }}"
-                class="capitalize text-text-primary dark:text-text-white relative 
+                    {{ __('Home') }}
+                </a>
+                <a href="{{ route('frontend.shop') }}"
+                    class="capitalize text-text-primary dark:text-text-white relative 
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent 
             <a href="#"
-                class="capitalize text-text-primary dark:text-text-white relative
+                    class="capitalize text-text-primary dark:text-text-white relative
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
                 hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
-                {{ __('Shop') }}
-            </a>
-            <a href="#"
-                class="capitalize text-text-primary dark:text-text-white relative
+                    {{ __('Shop') }}
+                </a>
+
+                <a href="#"
+                    class="capitalize text-text-primary dark:text-text-white relative
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
                 hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
-                {{ __('Contact') }}
-            </a>
-            <a href="#"
-                class="capitalize text-text-primary dark:text-text-white relative
+                    {{ __('Contact') }}
+                </a>
+                <a href="#"
+                    class="capitalize text-text-primary dark:text-text-white relative
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
                 hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
-                {{ __('Faq') }}
-            </a>
-            <a href="{{ route('frontend.singel_product') }}"
-                class="capitalize text-text-primary dark:text-text-white relative
+                    {{ __('Faq') }}
+                </a>
+                <a href="{{ route('frontend.singel_product') }}"
+                    class="capitalize text-text-primary dark:text-text-white relative
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
                 hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
-                {{ __('Singel Product') }}
-            </a>
-            <a href="{{ route('frontend.store_location') }}"
-                class="capitalize text-text-primary dark:text-text-white relative
+                    {{ __('Singel Product') }}
+                </a>
+                <a href="{{ route('frontend.store_location') }}"
+                    class="capitalize text-text-primary dark:text-text-white relative
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
                 hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
-                {{ __('Store location') }}
-            </a>
-            <a href="{{ route('frontend.test') }}"
-                class="capitalize text-text-primary dark:text-text-white relative
+                    {{ __('Store location') }}
+                </a>
+                <a href="{{ route('frontend.test') }}"
+                    class="capitalize text-text-primary dark:text-text-white relative
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
                 hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
-                {{ __('Test') }}
-            </a>
+                    {{ __('Test') }}
+                </a>
+            </div>
         </div>
-    </div>
 </header>
 
 
@@ -120,35 +115,3 @@
         form.classList.toggle('opacity-100');
     }
 </script>
-
-<button class="openSidebar text-2xl" title="Open Sidebar">
-    <i data-lucide="menu"></i>
-</button>
-
-<!-- Sidebar -->
-<div
-    class="sidebar fixed top-0 right-0 h-screen w-2/3 translate-x-full transition-all duration-300 ease-in-out bg-c-dark shadow-lg shadow-c-primary z-[99999999999]">
-
-    <div class="justify-between items-center border-b border-b-c-primary">
-        <a href="{{ route('frontend.home') }}" class="">
-            <span class="dark-mode-logo hidden">
-                <img src="{{ asset('frontend/images/logo-light.png') }}" alt="Logo">
-            </span>
-            <span class="light-mode-logo">
-                <img src="{{ asset('frontend/images/logo.png') }}" alt="Logo">
-            </span>
-        </a>
-        <button class="closeSidebar" title="Close Sidebar">
-            <i data-lucide="x"
-                class="w-10 h-10 flex items-center justify-center bg-c-primary rounded-full text-c-light"></i>
-        </button>
-    </div>
-    <ul class="menu p-0 pt-6">
-        <li><a href=""
-                class="text-lg px-10 text-c-light font-semibold rounded-none border-b border-b-c-primary transition-colors duration-300 hover:bg-c-light/5 hover:text-c-primary @if (isset($page_slug) && $page_slug == 'home')  @endif">Home</a>
-        </li>
-        <li><a href="{{ route('frontend.shop') }}"
-                class="text-lg px-10 text-c-light font-semibold rounded-none border-b border-b-c-primary transition-colors duration-300 hover:bg-c-light/5 hover:text-c-primary @if (isset($page_slug) && $page_slug == 'shop')  @endif">Shop</a>
-        </li>
-    </ul>
-</div>
