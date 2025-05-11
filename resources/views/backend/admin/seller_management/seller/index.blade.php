@@ -6,11 +6,19 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Seller List') }}</h4>
-                    <x-backend.admin.button :datas="[
-                        'routeName' => 'sl.seller.create',
-                        'label' => 'Add New',
-                        'permissions' => ['seller-create'],
-                    ]" />
+                    <div class="buttons">
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'sl.seller.recycle-bin',
+                            'label' => 'Recycle Bin',
+                            'className' => 'btn-danger',
+                            'permissions' => ['permission-restore'],
+                        ]" />
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'sl.seller.create',
+                            'label' => 'Add New',
+                            'permissions' => ['seller-create'],
+                        ]" />
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-striped datatable">

@@ -6,11 +6,19 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('State List') }}</h4>
+                    <div class="buttons">
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'setup.state.recycle-bin',
+                            'label' => 'Recycle Bin',
+                            'className' => 'btn-danger',
+                            'permissions' => ['state-restore'],
+                        ]" />
                     <x-backend.admin.button :datas="[
                         'routeName' => 'setup.state.create',
                         'label' => 'Add New',
                         'permissions' => ['state-create'],
                     ]" />
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-striped datatable">

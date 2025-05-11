@@ -31,8 +31,8 @@ class OfferBannerController extends Controller
     {
         if ($request->ajax()) {
             $query = OfferBanner::with(['creater_admin'])
-            ->orderBy('sort_order', 'asc')
-            ->latest();
+                ->orderBy('sort_order', 'asc')
+                ->latest();
             return DataTables::eloquent($query)
 
                 ->editColumn('status', function ($offer_banner) {
@@ -48,7 +48,7 @@ class OfferBannerController extends Controller
                     $menuItems = $this->menuItems($offer_banner);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns([ 'status','created_by', 'created_at', 'action'])
+                ->rawColumns(['status', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.cms_management.offer_banner.index');
@@ -88,6 +88,56 @@ class OfferBannerController extends Controller
         ];
     }
 
+    public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+
+
+            $query = OfferBanner::with(['deleter_admin'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+                ->editColumn('status', function ($offer_banner) {
+                    return "<span class='badge " . $offer_banner->status_color . "'>$offer_banner->status_label</span>";
+                })
+
+                ->editColumn('deleted_by', function ($offer_banner) {
+                    return $offer_banner->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($offer_banner) {
+                    return $offer_banner->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($offer_banner) {
+                    $menuItems = $this->trashedMenuItems($offer_banner);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['status', 'deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        };
+        return view('backend.admin.cms_management.offer_banner.recycle-bin');
+    }
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'cms.offer-banner.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['offer-banner-restore']
+            ],
+            [
+                'routeName' => 'cms.offer-banner.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['offer-banner-permanent-delete']
+            ]
+
+        ];
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -103,11 +153,11 @@ class OfferBannerController extends Controller
     {
         $validated = $request->validated();
         $validated['created_by'] = admin()->id;
-        if(isset($request->image)) {
+        if (isset($request->image)) {
             $validated['image'] = $this->handleFilepondFileUpload(OfferBanner::class, $request->image, admin(), 'offer_banners/');
         }
         OfferBanner::create($validated);
-        session()->flash('success','Offer banner created successfully!');
+        session()->flash('success', 'Offer banner created successfully!');
         return redirect()->route('cms.offer-banner.index');
     }
 
@@ -137,11 +187,11 @@ class OfferBannerController extends Controller
         $offer_banner = OfferBanner::findOrFail(decrypt($id));
         $validated = $request->validated();
         $validated['updated_by'] = admin()->id;
-        if(isset($request->image)) {
+        if (isset($request->image)) {
             $validated['image'] = $this->handleFilepondFileUpload($offer_banner, $request->image, admin(), 'offer_banners/');
         }
         $offer_banner->update($validated);
-        session()->flash('success','Offer banner updated successfully!');
+        session()->flash('success', 'Offer banner updated successfully!');
         return redirect()->route('cms.offer-banner.index');
     }
 
@@ -160,8 +210,26 @@ class OfferBannerController extends Controller
     public function status(string $id): RedirectResponse
     {
         $offer_banner = OfferBanner::findOrFail(decrypt($id));
-        $offer_banner->update(['status' => !$offer_banner->status, 'updated_by'=> admin()->id]);
+        $offer_banner->update(['status' => !$offer_banner->status, 'updated_by' => admin()->id]);
         session()->flash('success', 'offer banner status updated successfully!');
         return redirect()->route('cms.offer-banner.index');
+    }
+
+    public function restore(string $id): RedirectResponse
+    {
+        $offer_banner = OfferBanner::onlyTrashed()->findOrFail(decrypt($id));
+        $offer_banner->update(['updated_by' => admin()->id]);
+        $offer_banner->restore();
+        session()->flash('success', 'offer banner restored successfully!');
+        return redirect()->route('cms.offer-banner.recycle-bin');
+    }
+
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $offer_banner = OfferBanner::onlyTrashed()->findOrFail(decrypt($id));
+        $this->fileDelete($offer_banner->image);
+        $offer_banner->forceDelete();
+        session()->flash('success', 'offer banner permanently deleted successfully!');
+        return redirect()->route('cms.offer-banner.recycle-bin');
     }
 }
