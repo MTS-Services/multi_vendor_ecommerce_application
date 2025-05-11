@@ -13,11 +13,15 @@ class ProductTagController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index', 'show']]);
-        $this->middleware('permission:product-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:product-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
-        $this->middleware('permission:product-status', ['only' => ['status']]);
+        $this->middleware('permission:product-tag-list', ['only' => ['index']]);
+        $this->middleware('permission:product-tag-details', ['only' => ['show']]);
+        $this->middleware('permission:product-tag-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:product-tag-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:product-tag-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:product-tag-status', ['only' => ['status']]);
+        $this->middleware('permission:product-tag-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:product-tag-restore', ['only' => ['restore']]);
+        $this->middleware('permission:product-tag-permanent-delete', ['only' => ['permanentDelete']]);
     }
 
     /**
@@ -30,10 +34,9 @@ class ProductTagController extends Controller
                 ->orderBy('sort_order', 'asc')
                 ->latest();
             return DataTables::eloquent($query)
-                ->editColumn('slug', function ($product_tag) {
-                    return "<span class='badge " . $product_tag->slug_color . "'>$product_tag->slug_label</span>";
+                ->editColumn('status', function ($product_tag) {
+                    return "<span class='badge " . $product_tag->status_color . "'>$product_tag->status_label</span>";
                 })
-
                 ->editColumn('creater_by', function ($product_tag) {
                     return $product_tag->creater_name;
                 })
@@ -44,13 +47,13 @@ class ProductTagController extends Controller
                     $menuItems = $this->menuItems($product_tag);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['Slug', 'creater_id', 'created_at', 'action'])
+                ->rawColumns(['status', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.product_management.product_tag.index');
     }
 
-       protected function menuItems($model): array
+    protected function menuItems($model): array
     {
         return [
             [
@@ -101,15 +104,10 @@ class ProductTagController extends Controller
      */
     public function store(ProductTagRequest $request)
     {
-         ProductTag::create([
-            'name' => $request->name,
-            'slug' => $request->slug,
-        ]);
-
-         $validated = $request->validated();
+        $validated = $request->validated();
         $validated['creater_by'] = admin()->id;
         ProductTag::create($validated);
-        session()->flash('success', 'Product Product Tag created successfully!');
+        session()->flash('success', 'Product Tag created successfully!');
         return redirect()->route('pm.product-tags.index');
     }
 
@@ -118,7 +116,8 @@ class ProductTagController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $productTag = ProductTag::with(['creater', 'updater'])->findOrFail(decrypt($id));
+        return response()->json($productTag);
     }
 
     /**
@@ -126,15 +125,25 @@ class ProductTagController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $productTag = ProductTag::findOrFail(decrypt($id));
+        return view('backend.admin.product_management.product_tag.edit', compact('productTag'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProductTagRequest $request, string $id)
     {
-        //
+
+        $productTag = ProductTag::findOrFail($id);
+
+        $productTag->name = $request->name;
+        $productTag->slug = $request->slug;
+        $productTag->description = $request->description;
+        $productTag->save();
+
+        return redirect()->route('pm.product-tags.index')
+            ->with('success', 'Product Tag updated successfully!');
     }
 
     /**

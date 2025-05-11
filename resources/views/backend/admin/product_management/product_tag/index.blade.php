@@ -22,6 +22,7 @@
                             <th>{{ __('SL') }}</th>
                             <th>{{ __('Name') }}</th>
                             <th>{{ __('Slug') }}</th>
+                            <th>{{ __('Status') }}</th>
                             <th>{{ __('Created By') }}</th>
                             <th>{{ __('Created Date') }}</th>
                             <th>{{ __('Action') }}</th>
@@ -47,6 +48,7 @@
 
             ['name', true, true],
             ['slug', true, true],
+            ['status', true, true],
             ['creater_by', true, true],
             ['created_at', false, false],
             ['action', false, false],
@@ -57,7 +59,7 @@
             displayLength: 10,
             main_route: "{{ route('pm.product-tags.index') }}",
             order_route: "{{ route('update.sort.order') }}",
-            export_columns: [0, 1, 2, 3],
+            export_columns: [0, 1, 2, 3, 4],
             model: 'ProductTag',
         };
         initializeDataTable(details);

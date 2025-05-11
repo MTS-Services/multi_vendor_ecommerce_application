@@ -23,13 +23,17 @@ class ProductTagRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:3',
-            'slug' => 'required|string|min:3',
-        ];
+             Rule::unique('product_tags')
+                ->where(fn ($query) => $query->where('product_tags_id', $this->input('product_tags_id')))
+
+        ] + ($this->isMethod('POST') ? $this->store() : $this->update());
     }
     protected function store(): array
     {
         return [
+            'name' => 'required|string|min:3|unique:product_tags,name',
+            'slug' => 'required|string|max:3|unique:product_tags,slug,',
+            'description' => 'nullable|string',
             'value' => [
                 Rule::unique('product_tags')
                     ->where(fn($query) => $query->where('product_tags_id', $this->input('product_tags_id')))
@@ -39,6 +43,8 @@ class ProductTagRequest extends FormRequest
     protected function update(): array
     {
         return [
+            'name' => 'required|string|min:3|unique:product_tags,name' . decrypt($this->route('product_tags')),
+            'slug' => 'required|unique:product_tags,slug' . decrypt($this->route('product_tags')),
             'value' => [
                 Rule::unique('product_tags')
                     ->ignore(decrypt($this->route('product_tags')))
