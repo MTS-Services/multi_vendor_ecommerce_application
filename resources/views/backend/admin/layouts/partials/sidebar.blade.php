@@ -160,9 +160,9 @@
                 </li>
 
                 {{-- Setup Management  --}}
-                <li class="nav-item  @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city' || $page_slug == 'operation_area' || $page_slug == 'operation_sub_area' || $page_slug == 'faq') active submenu @endif">
+                <li class="nav-item  @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city' || $page_slug == 'operation_area' || $page_slug == 'operation_sub_area' || $page_slug == 'faq' || $page_slug == 'latest_offer') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#setup_management"
-                        @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city' || $page_slug == 'operation_area' || $page_slug == 'operation_sub_area' || $page_slug == 'faq') aria-expanded="true" @endif>
+                        @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city' || $page_slug == 'operation_area' || $page_slug == 'operation_sub_area' || $page_slug == 'faq' || $page_slug == 'latest_offer') aria-expanded="true" @endif>
                         <i class="icon-people"></i>
                         <p>{{ __('Setup') }}</p>
                         <span class="caret"></span>
@@ -198,6 +198,11 @@
                             <li class="@if ($page_slug == 'faq') active @endif">
                                 <a href="{{ route('setup.faq.index') }}">
                                     <span class="sub-item">{{ __('Faq') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'latest_offer') active @endif">
+                                <a href="{{ route('setup.latest-offer.index') }}">
+                                    <span class="sub-item">{{ __('Latest Offer') }}</span>
                                 </a>
                             </li>
 

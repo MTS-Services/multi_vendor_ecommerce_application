@@ -1,34 +1,35 @@
 <?php
 
-use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeController;
-use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeValueController;
-use App\Http\Controllers\Backend\Admin\AxiosRequestController;
-use App\Http\Controllers\Backend\Admin\ProductManagement\SubChildCategoryController;
-use App\Http\Controllers\Backend\Admin\Setup\CityController;
-use App\Http\Controllers\Backend\Admin\Setup\FaqController;
-use App\Http\Controllers\Backend\Admin\Setup\OperationAreaController;
-use App\Http\Controllers\Backend\Admin\Setup\OperationSubAreaController;
-use App\Http\Controllers\Backend\Admin\Setup\StateController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Backend\Admin\AuditController;
 use App\Http\Controllers\Backend\Admin\TempFileController;
+use App\Http\Controllers\Backend\Admin\Setup\FaqController;
+use App\Http\Controllers\Backend\Admin\Setup\CityController;
+use App\Http\Controllers\Backend\Admin\Setup\StateController;
 use App\Http\Controllers\Backend\Admin\SiteSettingController;
+use App\Http\Controllers\Backend\Admin\AxiosRequestController;
 use App\Http\Controllers\Backend\Admin\DocumentationController;
+use App\Http\Controllers\Backend\Admin\Setup\CountryController;
+use App\Http\Controllers\Backend\Admin\HubManagement\HubController;
+use App\Http\Controllers\Backend\Admin\Setup\LatestOfferController;
+use App\Http\Controllers\Backend\Admin\Setup\OperationAreaController;
 use App\Http\Controllers\Backend\Admin\UserManagement\UserController;
 use App\Http\Controllers\Backend\Admin\AdminManagement\RoleController;
+use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
 use App\Http\Controllers\Backend\Admin\AdminManagement\AdminController;
+use App\Http\Controllers\Backend\Admin\Setup\OperationSubAreaController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\BrandController;
 use App\Http\Controllers\Backend\Admin\SellerManagement\SellerController;
+use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
 use App\Http\Controllers\Backend\Admin\AdminManagement\PermissionController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\CategoryController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\SubCategoryController;
-use App\Http\Controllers\Backend\Admin\ProductManagement\BrandController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeValueController;
 use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginController;
-use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
-use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\SubChildCategoryController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Backend\Admin\HubManagement\HubController;
-use App\Http\Controllers\Backend\Admin\Setup\CountryController;
 
 // Admin Auth Routes
 Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')->group(function () {
@@ -150,6 +151,14 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('operation-sub-area/recycle/bin', [OperationSubAreaController::class, 'recycleBin'])->name('operation-sub-area.recycle-bin');
         Route::get('operation-sub-area/restore/{operation_sub_area}', [OperationSubAreaController::class, 'restore'])->name('operation-sub-area.restore');
         Route::delete('operation-sub-area/permanent-delete/{operation_sub_area}', [OperationSubAreaController::class, 'permanentDelete'])->name('operation-sub-area.permanent-delete');
+
+
+        //Latest Offer Routes
+        Route::resource('latest-offer', LatestOfferController::class);
+        Route::get('latest-offer/status/{latest_offer}', [LatestOfferController::class, 'status'])->name('latest-offer.status');
+        Route::get('latest-offer/recycle/bin', [LatestOfferController::class, 'recycleBin'])->name('latest-offer.recycle-bin');
+        Route::get('latest-offer/restore/{latest_offer}', [LatestOfferController::class, 'restore'])->name('latest-offer.restore');
+        Route::delete('latest-offer/permanent-delete/{latest_offer}', [LatestOfferController::class, 'permanentDelete'])->name('latest-offer.permanent-delete');
     });
 
     // CMS Management
