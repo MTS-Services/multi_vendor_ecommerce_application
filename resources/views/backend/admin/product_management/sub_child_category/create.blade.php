@@ -88,7 +88,7 @@
 
             $('#category_id').on('change', function() {
                 let route = "{{ route('axios.get-sub-categories') }}";
-                getSubCategories(this.value, route);
+                getSubCategories($(this).val(), route);
             })
         });
     </script>

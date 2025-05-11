@@ -138,6 +138,7 @@ function validateUsername(usernameInput, errorField, errorMsg = 'Username may on
 }
 
 function getSubCategories(parentId, route, childId = null) {
+
     axios.get(route, {
         params: { parent_id: parentId }
     })
