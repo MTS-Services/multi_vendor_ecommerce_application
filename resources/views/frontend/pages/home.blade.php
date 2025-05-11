@@ -25,13 +25,13 @@
 
 @section('content')
     {{-- ===================== banner Section ===================== --}}
-    <section class="swiper banner bg-bg-gray dark:bg-bg-darkSecondary dark:bg-opacity-70">
+    <section class="swiper banner bg-bg-gray dark:bg-bg-darkSecondary dark:bg-opacity-70 ">
         <div class="swiper-wrapper relative">
             @foreach ($banners as $banner)
                 <div class="swiper-slide group/banner">
                     <div class="lg:container {{ $loop->iteration % 2 == 0 ? 'pl-0 pr-4 lg:p-4' : 'pr-0 pl-4 lg:p-4' }}">
                         <div
-                            class="item flex {{ $loop->iteration % 2 == 0 ? 'flex-row-reverse' : 'flex-row' }} items-center justify-between relative overflow-hidden min-h-80">
+                            class="item flex {{ $loop->iteration % 2 == 0 ? 'flex-row-reverse' : 'flex-row' }} items-center justify-between relative overflow-hidden min-h-80 lg:min-h-96 2xl:min-h-[500px]">
                             <div
                                 class="w-full md:basis-1/2 relative z-[2] {{ $loop->iteration % 2 == 0 ? 'flex flex-col items-end text-end' : '' }}">
                                 <p class="text-xs md:text-base">{{ $banner['title'] }}</p>
