@@ -39,7 +39,7 @@ class FaqController extends Controller
         if ($request->ajax()) {
 
 
-            $query = Faq::with(['creater_admin'])
+            $query = Faq::with(['creater'])
                 ->orderBy('sort_order', 'asc')
                 ->latest();
             return DataTables::eloquent($query)
@@ -49,7 +49,7 @@ class FaqController extends Controller
                 ->editColumn('status', function ($faq) {
                     return "<span class='badge " . $faq->status_color . "'>$faq->status_label</span>";
                 })
-                ->editColumn('created_by', function ($faq) {
+                ->editColumn('creater_id', function ($faq) {
                     return $faq->creater_name;
                 })
                 ->editColumn('created_at', function ($faq) {
@@ -59,7 +59,7 @@ class FaqController extends Controller
                     $menuItems = $this->menuItems($faq);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['question', 'type', 'status', 'created_by', 'created_at', 'action'])
+                ->rawColumns(['type', 'status', 'creater_id', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.setup.faq.index');
@@ -107,7 +107,7 @@ class FaqController extends Controller
         if ($request->ajax()) {
 
 
-            $query = Faq::with(['deleter_admin'])
+            $query = Faq::with(['deleter'])
                 ->onlyTrashed()
                 ->orderBy('sort_order', 'asc')
                 ->latest();
@@ -119,7 +119,7 @@ class FaqController extends Controller
                 ->editColumn('status', function ($faq) {
                     return "<span class='badge " . $faq->status_color . "'>$faq->status_label</span>";
                 })
-                ->editColumn('deleted_by', function ($faq) {
+                ->editColumn('deleter_id', function ($faq) {
                     return $faq->deleter_name;
                 })
                 ->editColumn('deleted_at', function ($faq) {
@@ -129,7 +129,7 @@ class FaqController extends Controller
                     $menuItems = $this->trashedMenuItems($faq);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['question', 'type',  'status',  'deleted_by', 'deleted_at', 'action'])
+                ->rawColumns(['type',  'status',  'deleter_id', 'deleted_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.setup.faq.recycle-bin');
@@ -172,7 +172,8 @@ class FaqController extends Controller
     {
 
         $validated = $req->validated();
-        $validated['created_by'] = admin()->id;
+        $validated['creater_id'] = admin()->id;
+        $validated['creater_type'] = get_class(admin());
         Faq::create($validated);
         session()->flash('success', 'FAQ created successfully!');
         return redirect()->route('setup.faq.index');
@@ -183,8 +184,8 @@ class FaqController extends Controller
      */
     public function show(string $id)
     {
-        $data['faq'] = Faq::with(['creater_admin'])->findOrFail(decrypt($id));
-        return view('backend.admin.setup.faq.show', $data);
+        $data = Faq::with(['creater','updater'])->findOrFail(decrypt($id));
+        return response()->json($data);
     }
 
     /**
@@ -216,6 +217,7 @@ class FaqController extends Controller
     public function destroy(string $id)
     {
         $faq = Faq::findOrFail(decrypt($id));
+        $faq->update(['deleter_id' => admin()->id, 'deleter_type' => get_class(admin())]);
         $faq->delete();
         session()->flash('success', 'FAQ deleted successfully!');
         return redirect()->route('setup.faq.index');
@@ -224,7 +226,7 @@ class FaqController extends Controller
     public function restore(string $id)
     {
         $faq = Faq::withTrashed()->findOrFail(decrypt($id));
-        $faq->restore();
+        $faq->restore(['updater_id'=> admin()->id,'updater_type'=> get_class(admin())]);
         session()->flash('success', 'FAQ restored successfully!');
         return redirect()->route('setup.faq.recycle-bin');
     }
@@ -238,8 +240,7 @@ class FaqController extends Controller
     public function status(string $id)
     {
         $faq = Faq::findOrFail(decrypt($id));
-        $faq->status = !$faq->status;
-        $faq->save();
+        $faq->update(['status' => !$faq->status,'updater_id'=> admin()->id,'updater_type'=> get_class(admin())]);
         session()->flash('success', 'FAQ status updated successfully!');
         return redirect()->route('setup.faq.index');
     }
