@@ -44,7 +44,7 @@ class SellerProfileController extends Controller
     
     public function addressUpdate(AddressRequest $request)
     {
-        $validated = $request->validated();
+         $validated = $request->validated();
         $validated['country_id'] = $request->country_id;
         $validated['state_id'] = $request->state;
         $validated['city_id'] = $request->city_id;
@@ -52,10 +52,17 @@ class SellerProfileController extends Controller
         $validated['operation_sub_area_id'] = $request->operation_sub_area;
         $validated['updater_id'] = seller()->id;
         $validated['updater_type'] = get_class(seller());
-        $validated['updater_id'] = seller()->id;
-        $validated['updater_type'] = get_class(seller());
+        $validated['profile_id'] = seller()->id;
+        $validated['profile_type'] = get_class(seller());
+
+        $validated['type'] = Address::TYPE_PERSONAL;
         $address = Address::personal()->sellerAddresses()->first();
-        $address->update($validated);
+        if(!$address) {
+            Address::create($validated);
+        }
+        else {
+            $address->update($validated);
+        }
         session()->flash('success', 'Address updated successfully.');
         return redirect()->back();
     }

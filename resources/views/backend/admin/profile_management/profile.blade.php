@@ -57,7 +57,6 @@
             <div class="col-lg-12">
                 <div class="d-flex justify-content-around align-items-center gap-5 py-5 text-center">
                     <p class="btn_item w-100 py-2" data-bs-target="profile">profile</p>
-                    <p class="btn_item w-100 py-2" data-bs-target="shop-details">Shop Details</p>
                     <p class="btn_item w-100 py-2 active" data-bs-target="address">Address</p>
                     <p class="btn_item w-100 py-2" data-bs-target="change-password">Change Password</p>
                 </div>
@@ -92,27 +91,6 @@
                             </div>
                         </div>
                     </div>
-
-                    {{-- Shop Details Card --}}
-                    <div id="shop-details" class="tab-pane">
-                        <div class="card shadow-sm border-0">
-                            <div class="card-header">
-                                <h4 class="mb-0 py-2 text-white">{{ __('Shop Details') }}</h4>
-                            </div>
-                            <div class="card-body">
-                                <form action="#" method="POST">
-                                    @csrf
-                                    <div class="row">
-                                        {{-- Shop details --}}
-                                    </div>
-                                    <div class="text-right">
-                                        <button class="btn btn-success px-4">{{ __('Update') }}</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
                     {{-- Profile Address --}}
                     <div id="address" class="tab-pane active">
                         <div class="card shadow-sm border-0">

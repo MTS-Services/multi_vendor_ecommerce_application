@@ -34,7 +34,13 @@ class AdminProfileContoller extends Controller
         $validated['profile_type'] = get_class(admin());
 
         $validated['type'] = Address::TYPE_PERSONAL;
-        Address::personal()->adminAddresses()->firstOrCreate($validated);
+        $address = Address::personal()->adminAddresses()->first();
+        if(!$address) {
+            Address::create($validated);
+        }
+        else {
+            $address->update($validated);
+        }
 
         session()->flash('success', 'Address updated successfully.');
         return redirect()->back();
