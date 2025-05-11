@@ -17,12 +17,19 @@ class FrontendController extends Controller
     {
         return view('frontend.pages.test');
     }
-
+    public function shop()
+    {
+        return view('frontend.pages.shop');
+    }
+    public function wishlist()
+    {
+        return view('frontend.pages.wishlist');
+    }
     public function singel_product()
     {
         return view('frontend.pages.singel_product');
     }
-    
+
     public function store_location()
     {
         return view('frontend.pages.store_location');
