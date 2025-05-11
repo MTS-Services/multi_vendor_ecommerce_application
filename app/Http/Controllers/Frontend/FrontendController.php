@@ -13,13 +13,18 @@ class FrontendController extends Controller
     }
 
     public function test()
-    
+
     {
         return view('frontend.pages.test');
     }
 
-    public function index()
+    public function singel_product()
     {
-        return view('frontend.auth.user.register');
+        return view('frontend.pages.singel_product');
+    }
+    
+    public function store_location()
+    {
+        return view('frontend.pages.store_location');
     }
 }
