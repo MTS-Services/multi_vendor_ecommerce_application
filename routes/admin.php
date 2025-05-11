@@ -26,6 +26,7 @@ use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginControl
 use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
 use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Backend\Admin\HubManagement\HubController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
 
 // Admin Auth Routes
@@ -157,6 +158,12 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('offer-banner/recycle/bin', [OfferBannerController::class, 'recycleBin'])->name('offer-banner.recycle-bin');
         Route::get('offer-banner/restore/{offer_banner}', [OfferBannerController::class, 'restore'])->name('offer-banner.restore');
         Route::delete('offer-banner/permanent-delete/{offer_banner}', [OfferBannerController::class, 'permanentDelete'])->name('offer-banner.permanent-delete');
+    });
+
+    // Hub Management
+    Route::group(['as' => 'hm.', 'prefix' => 'hm-management'], function () {
+        Route::resource('hub', HubController::class);
+        Route::get('hub/status/{hub}', [HubController::class, 'status'])->name('hub.status');
     });
 
     // Product Management
