@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -28,8 +26,23 @@ class DatabaseSeeder extends Seeder
             SellerSeeder::class,
             CategorySeeder::class,
             SubCategorySeeder::class,
+            SubChildCategorySeeder::class,
 
             CountrySeeder::class,
+            BannerSeeder::class,
+            StateSeeder::class,
+            CitySeeder::class,
+
+            ProductAttributeSeeder::class,
+            ProductAttributeValueSeeder::class,
+            OperationAreaSeeder::class,
+            OperationSubAreaSeeder::class,
+
+            OfferBannerSeeder::class,
+
+            HubSeeder::class,
+            BrandSeeder::class,
+            FaqSeeder::class,
         ]);
     }
 }

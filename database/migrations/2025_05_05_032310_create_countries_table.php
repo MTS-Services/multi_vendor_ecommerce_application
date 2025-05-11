@@ -25,6 +25,15 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
             $this->addAdminAuditColumns($table);
+
+            // Indexes
+            $table->index('sort_order');
+            $table->index('name');
+            $table->index('slug');
+            $table->index('status');
+            $table->index('created_at');
+            $table->index('updated_at');
+            $table->index('deleted_at');
         });
     }
 

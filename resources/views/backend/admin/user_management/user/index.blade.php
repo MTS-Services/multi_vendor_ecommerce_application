@@ -9,11 +9,19 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('User List') }}</h4>
-                    <x-backend.admin.button :datas="[
-                        'routeName' => 'um.user.create',
-                        'label' => 'Add New',
-                        'permissions' => ['user-create'],
-                    ]" />
+                    <div class="buttons">
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'um.user.recycle-bin',
+                            'label' => 'Recycle Bin',
+                            'className' => 'btn-danger',
+                            'permissions' => ['user-restore'],
+                        ]" />
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'um.user.create',
+                            'label' => 'Add New',
+                            'permissions' => ['user-create'],
+                        ]" />
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-striped datatable">
@@ -47,11 +55,11 @@
         $(document).ready(function() {
             let table_columns = [
                 //name and data, orderable, searchable
-                ['name', true, true],
+                ['first_name', true, true],
                 ['email', true, true],
                 ['status', true, true],
                 ['is_verify', true, true],
-                ['created_by', true, true],
+                ['creater_id', true, true],
                 ['created_at', false, false],
                 ['action', false, false],
             ];
@@ -78,8 +86,12 @@
             let route = "{{ route('um.user.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
             const headers = [{
-                    label: "Name",
-                    key: "name"
+                    label: "First Name",
+                    key: "first_name"
+                },
+                {
+                    label: "Last Name",
+                    key: "last_name"
                 },
                 {
                     label: "Username",
@@ -93,6 +105,10 @@
                 {
                     label: "Email",
                     key: "email"
+                },
+                {
+                    label: "Phone Number",
+                    key: "phone"
                 },
                 {
                     label: "Status",

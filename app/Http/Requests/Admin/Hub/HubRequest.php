@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\Admin\Hub;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryRequest extends FormRequest
+class HubRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,15 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-
-            'meta_title' => 'nullable|string',
-            'meta_description' => 'nullable|string',
+            'name'=> 'required|string',
+            'meta_title'=> 'nullable|string',
+            'meta_description'=> 'nullable|string',
+            'address'=> 'required|string',
             'description' => 'nullable|string',
-            'image' => 'nullable',
+            'country' => 'required|exists:countries,id',
+            'state' => 'nullable|exists:states,id',
+            'city' => 'required|exists:cities,id',
+            'operation_area' => 'nullable|exists:operation_areas,id',
 
         ]
             +
@@ -36,8 +40,7 @@ class CategoryRequest extends FormRequest
     protected function store(): array
     {
         return [
-            'name' => 'required|string|unique:categories,name',
-            'slug' => 'required|string|unique:categories,slug',
+            'slug' => 'required|unique:hubs,slug',
         ];
     }
 
@@ -45,9 +48,7 @@ class CategoryRequest extends FormRequest
     protected function update(): array
     {
         return [
-            'name' => 'required|string|unique:categories,name,' . decrypt($this->route('category')),
-            'slug' => 'required|string|unique:categories,slug,' . decrypt($this->route('category')),
-
+            'slug' => 'required|unique:hubs,slug,' . decrypt($this->route('hub')),
         ];
     }
 }
