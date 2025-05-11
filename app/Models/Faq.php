@@ -5,13 +5,15 @@ namespace App\Models;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ProductAttribute extends BaseModel
+class Faq extends BaseModel
 {
     use HasFactory;
 
     protected $fillable = [
         'sort_order',
-        'name',
+        'question',
+        'answer',
+        'type',
         'status',
 
         'creater_id',
@@ -23,11 +25,6 @@ class ProductAttribute extends BaseModel
         'deleter_type',
     ];
 
-    public function productAttributeValues()
-    {
-        return $this->hasMany(ProductAttributeValue::class);
-    }
-
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -38,10 +35,12 @@ class ProductAttribute extends BaseModel
             'status_btn_label',
             'status_btn_color',
             'status_labels',
+
+            'type_label',
         ]);
     }
 
-
+    // ================= Status Functionality Start Here =================
     public const STATUS_ACTIVE = 1;
     public const STATUS_DEACTIVE = 0;
     // Status labels
@@ -111,12 +110,37 @@ class ProductAttribute extends BaseModel
         return self::getStatusBtnColors()[$this->status] ?? 'btn btn-secondary';
     }
 
-    public function scopeActive($query)
+    // ================= Status Functionality End Here =================
+
+    // ================= Type Functionality End Here =================
+
+    public const TYPE_GENERAL = 1;
+    public const TYPE_PRIVACY = 2;
+    public const TYPE_TERMS = 3;
+    public const TYPE_CONTACT = 4;
+    public const TYPE_ABOUT = 5;
+    public const TYPE_PRODUCT = 6;
+
+    public static function getTypeLabels(): array
     {
-        return $query->where('status', self::STATUS_ACTIVE);
+        return [
+            self::TYPE_GENERAL => 'General',
+            self::TYPE_PRIVACY => 'Privacy',
+            self::TYPE_TERMS => 'Terms',
+            self::TYPE_CONTACT => 'Contact',
+            self::TYPE_ABOUT => 'About',
+            self::TYPE_PRODUCT => 'Product',
+        ];
     }
-    public function scopeDeactive($query)
+
+    public function getTypeLabelsAttribute(): array
     {
-        return $query->where('status', self::STATUS_DEACTIVE);
+        return self::getTypeLabels();
     }
+
+    public function getTypeLabelAttribute(): string
+    {
+        return self::getTypeLabels()[$this->type] ?? 'Unknown';
+    }
+
 }

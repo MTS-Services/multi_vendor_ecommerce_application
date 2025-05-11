@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeValueController;
 use App\Http\Controllers\Backend\Admin\Setup\AxiosRequestController;
 use App\Http\Controllers\Backend\Admin\Setup\CityController;
+use App\Http\Controllers\Backend\Admin\Setup\FaqController;
 use App\Http\Controllers\Backend\Admin\Setup\OperationAreaController;
 use App\Http\Controllers\Backend\Admin\Setup\OperationSubAreaController;
 use App\Http\Controllers\Backend\Admin\Setup\StateController;
@@ -25,6 +27,7 @@ use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
 use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
+use App\Models\Faq;
 
 // Admin Auth Routes
 Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')->group(function () {
@@ -85,6 +88,13 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         });
 
 
+        // FAQ Routes
+        Route::resource('faq', FaqController::class);
+        Route::get('faq/status/{faq}', [FaqController::class, 'status'])->name('faq.status');
+        Route::get('faq/recycle/bin', [FaqController::class, 'recycleBin'])->name('faq.recycle-bin');
+        Route::get('faq/restore/{faq}', [FaqController::class, 'restore'])->name('faq.restore');
+        Route::delete('faq/permanent-delete/{faq}', [FaqController::class, 'permanentDelete'])->name('faq.permanent-delete');
+
         // Country Routes
         Route::resource('country', CountryController::class);
         Route::get('country/status/{country}', [CountryController::class, 'status'])->name('country.status');
@@ -134,6 +144,11 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         //Product Attribute
         Route::resource('product-attribute', AttributeController::class);
         Route::get('product-attribute/status/{product_attribute}', [AttributeController::class, 'status'])->name('product-attribute.status');
+
+        //Product Attribute Value
+        Route::resource('product-attribute-value', AttributeValueController::class);
+        Route::get('product-attribute-value/status/{product_attribute_value}', [AttributeValueController::class, 'status'])->name('product-attribute-value.status');
+
 
         // Brand Routes
         Route::resource('brand', BrandController::class);
