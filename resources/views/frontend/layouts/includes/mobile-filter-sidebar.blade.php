@@ -106,11 +106,38 @@
                 <summary class="collapse-title font-semibold ">Size</summary>
                 <div class="collapse-content text-sm">
                     <div class="flex flex-wrap gap-2 mb-4">
-                        <div class="px-3 py-1 shadow-shadowPrimary bg-bg-gray dark:bg-bg-darkTertiary rounded text-sm">XS (20)</div>
-                        <div class="px-3 py-1 shadow-shadowPrimary bg-bg-gray dark:bg-bg-darkTertiary rounded text-sm">S (8)</div>
-                        <div class="px-3 py-1 shadow-shadowPrimary bg-bg-gray dark:bg-bg-darkTertiary rounded text-sm">L (20)</div>
-                        <div class="px-3 py-1 shadow-shadowPrimary bg-bg-gray dark:bg-bg-darkTertiary rounded text-sm">M (20)</div>
-                        <div class="px-3 py-1 shadow-shadowPrimary bg-bg-gray dark:bg-bg-darkTertiary rounded text-sm">XL (20)</div>
+                        @php
+                            $sizes = [
+                                [
+                                    'size' => 'S',
+                                    'stock' => '20',
+                                ],
+                                [
+                                    'size' => 'M',
+                                    'stock' => '20',
+                                ],
+                                [
+                                    'size' => 'L',
+                                    'stock' => '20',
+                                ],
+                                [
+                                    'size' => 'XL',
+                                    'stock' => '20',
+                                ],
+                                [
+                                    'size' => 'XXL',
+                                    'stock' => '20',
+                                ],
+                                [
+                                    'size' => 'XXXL',
+                                    'stock' => '5',
+                                ],
+                            ];
+                        @endphp
+
+                        @foreach ($sizes as $size)
+                            <x-frontend.size :datas="$size" />
+                        @endforeach
                     </div>
                 </div>
             </details>
@@ -120,68 +147,30 @@
             <details class="collapse collapse-arrow" open>
                 <summary class="collapse-title font-semibold ">Brand</summary>
                 <div class="collapse-content text-sm">
-                    <ul class="space-y-2 text-sm">
-                        <li class="flex items-center gap-2">
-                            <input type="checkbox" class="brand-checkbox checkbox checkbox-sm dark:border-white"
-                                name="brand-checkbox">
-                            <span>Vintea</span>
-                            <span class="text-text-gray">(1)</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <input type="checkbox" class="brand-checkbox checkbox checkbox-sm dark:border-white"
-                                name="brand-checkbox">
-                            <span>Zara</span>
-                            <span class="text-text-gray">(20)</span>
-                        </li>
+                    <div class="flex flex-col gap-3">
+                        @php
+                            $brands = [
+                                [
+                                    'brand' => 'Apple',
+                                    'stock' => '20',
+                                ],
+                                [
+                                    'brand' => 'Samsung',
+                                    'stock' => '20',
+                                ],
+                                [
+                                    'brand' => 'One Plus',
+                                    'stock' => '20',
+                                ],
+                            ];
+                        @endphp
+
+                        @foreach ($brands as $brand)
+                            <x-frontend.brand :datas="$brand" />
+                        @endforeach
+                    </div>
                 </div>
             </details>
-
-            <div class="divider m-0"></div>
-            <!-- On Sale -->
-            <div class="mb-6">
-                <h3 class="font-medium mb-4">On sale</h3>
-                <div class="space-y-4">
-                    <div class="flex gap-3">
-                        <div class="w-20 h-100 shrink-0 rounded-sm overflow-hidden">
-                            <img src="{{ asset('frontend/images/on-sale.jpg') }}" alt="Turtleneck T-shirt">
-                        </div>
-                        <div>
-                            <h4 class="text-base font-medium">Turtleneck T-shirt</h4>
-                            <div class="flex gap-2 items-center mt-1">
-                                <span class="text-sm text-text-danger font-medium">$100.00</span>
-                                <span class="text-sm font-medium line-through text-text-gray">$130.00</span>
-                            </div>
-                            <p class="text-sm text-text-gray mt-1">3 color available</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-3 mt-5">
-                        <div class="w-20 h-100 shrink-0 rounded-sm overflow-hidden">
-                            <img src="{{ asset('frontend/images/on-sale.jpg') }}" alt="Loose Fit Tee"
-                                class="img-fluid">
-                        </div>
-                        <div>
-                            <h4 class="text-base font-medium">Loose Fit Tee</h4>
-                            <div class="flex gap-2 items-center mt-1">
-                                <span class="text-sm font-medium text-text-danger">$130.00</span>
-                            </div>
-                            <p class="text-sm text-text-gray mt-1">3 color available</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="divider m-0"></div>
-            {{-- Elavate --}}
-            <div class="relative mt-3 rounded-md overflow-hidden">
-                <div class="hover:scale-110 transition-all duration-500">
-                    <img src="{{ asset('frontend/images/sb-banner.jpg') }}" alt="Elevate">
-                </div>
-                <div
-                    class="flex flex-col justify-center items-center p-10 absolute bottom-0 left-0 w-full text-center">
-                    <h3 class="font-medium mb-4 capitalize text-4xl text-text-white z-10">Elevate your style</h3>
-                    <a href="" class="btn-primary">Shop Now</a>
-                </div>
-            </div>
 
         </div>
     </div>

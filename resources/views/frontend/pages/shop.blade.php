@@ -10,186 +10,8 @@
         <div class="container">
             <div class="flex gap-5">
                 {{-- Sidebar Start Here --}}
-                <div
-                    class="filter-sidebar w-100 xl:w-[25%] hidden xl:block bg-bg-gray h-fit dark:bg-bg-darkSecondary p-4 rounded-md dark:bg-opacity-30">
-                    <details class="collapse collapse-arrow" open>
-                        <summary class="collapse-title pb-0 font-semibold">
-                            <span class="">Collections</span>
-                        </summary>
-                        <div class="collapse-content text-sm">
-                            <ul class="opacity-100">
-                                <li class="my-3"><a
-                                        class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
-                                        href="#">Men's top (20)</a></li>
-                                <li class="my-3"><a
-                                        class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
-                                        href="#">Men (20)</a></li>
-                                <li class="my-3"><a
-                                        class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
-                                        href="#">Women (20)</a></li>
-                                <li class="my-3"><a
-                                        class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
-                                        href="#">Kid (20)</a></li>
-                                <li class="my-3"><a
-                                        class="text-text-black dark:text-text-white hover:text-text-accent font-font-md"
-                                        href="#">T-shirt (20)</a></li>
-                            </ul>
-                        </div>
-                    </details>
-                    <!-- Divider -->
-                    <div class="divider m-0"></div>
-                    {{-- Availability --}}
-                    <details class="collapse collapse-arrow" open>
-                        <summary class="collapse-title pb-0 font-semibold ">
-                            <span>Availability</span>
-                        </summary>
-                        <div class="collapse-content text-sm">
-                            <label for="" class="flex items-center gap-2 py-2">
-                                <input type="checkbox" name="availability-checkbox" id="stock-in"
-                                    class="availability-checkbox checkbox checkbox-sm dark:border-white"> <span
-                                    class="text-text-black dark:text-text-white">In Stock</span>
-                            </label>
-                            <label for="stock-out" class="flex items-center gap-2">
-                                <input type="checkbox" name="availability-checkbox" id="stock-out"
-                                    class="availability-checkbox checkbox checkbox-sm dark:border-white"> <span
-                                    class="text-text-black dark:text-text-white">Out Of Stock</span>
-                            </label>
-                        </div>
-                    </details>
-                    <!-- Divider -->
-                    <div class="divider m-0"></div>
-                    {{-- Price --}}
-                    <details class="collapse collapse-arrow" open>
-                        <summary class="collapse-title pb-0 font-semibold">Price</summary>
-                        <div class="collapse-content">
-                            <div class="mb-4">
-                                <div class="relative w-full price-slider">
-                                    <div class="absolute w-full h-1 bg-bg-dark bg-opacity-40 z-[1] rounded-full"></div>
-                                    <div class="absolute h-1 z-[2] rounded-full bg-bg-orange slider-range"></div>
-                                    <input type="range" min="0" max="500" value="20"
-                                        class="absolute p-0 top-1/2 -translate-y-1/2 w-full z-[3] pointer-events-none min-range">
-                                    <input type="range" min="0" max="500" value="300"
-                                        class="absolute p-0 top-1/2 -translate-y-1/2 w-full z-[3] pointer-events-none max-range">
-                                </div>
-                            </div>
-
-                            <!-- Price display -->
-                            <div class="pt-8">
-                                <p class="text-sm">
-                                    Price: <span class="text-text-danger min-price">$20</span> -
-                                    <span class="text-text-danger max-price">$300</span>
-                                </p>
-                            </div>
-                        </div>
-                    </details>
-
-                    <!-- Divider -->
-                    <div class="divider m-0"></div>
-                    {{-- Color --}}
-                    <details class="collapse collapse-arrow" open>
-                        <summary class="collapse-title pb-0 font-semibold ">Color</summary>
-                        <div class="collapse-content text-sm">
-                            <div class="flex flex-wrap gap-3">
-                                <x-frontend.color-input color="red" />
-                                <x-frontend.color-input color="#000" />
-                                <x-frontend.color-input color="red" />
-                                <x-frontend.color-input color="#000" />
-                                <x-frontend.color-input color="red" />
-                                <x-frontend.color-input color="#000" />
-                                <x-frontend.color-input color="red" />
-                                <x-frontend.color-input color="#000" />
-                                <x-frontend.color-input color="red" />
-                                <x-frontend.color-input color="#000" />
-                            </div>
-                        </div>
-                    </details>
-                    <!-- Divider -->
-                    <div class="divider m-0"></div>
-
-                    {{-- Size --}}
-                    <details class="collapse collapse-arrow" open>
-                        <summary class="collapse-title pb-0 font-semibold ">Size</summary>
-                        <div class="collapse-content text-sm">
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <div
-                                    class="px-3 py-1 shadow-shadowPrimary bg-bg-white dark:bg-bg-darkTertiary rounded text-sm">
-                                    XS (20)</div>
-                                <div
-                                    class="px-3 py-1 shadow-shadowPrimary bg-bg-white dark:bg-bg-darkTertiary rounded text-sm">
-                                    S
-                                    (8)</div>
-                                <div
-                                    class="px-3 py-1 shadow-shadowPrimary bg-bg-white dark:bg-bg-darkTertiary rounded text-sm">
-                                    L
-                                    (20)</div>
-                                <div
-                                    class="px-3 py-1 shadow-shadowPrimary bg-bg-white dark:bg-bg-darkTertiary rounded text-sm">
-                                    M
-                                    (20)</div>
-                                <div
-                                    class="px-3 py-1 shadow-shadowPrimary bg-bg-white dark:bg-bg-darkTertiary rounded text-sm">
-                                    XL (20)</div>
-                            </div>
-                        </div>
-                    </details>
-                    <!-- Divider -->
-                    <div class="divider m-0"></div>
-                    {{-- Brand --}}
-                    <details class="collapse collapse-arrow" open>
-                        <summary class="collapse-title pb-0 font-semibold ">Brand</summary>
-                        <div class="collapse-content text-sm">
-                            <ul class="space-y-2 text-sm">
-                                <li class="flex items-center gap-2">
-                                    <input type="checkbox" class="brand-checkbox checkbox checkbox-sm dark:border-white"
-                                        name="brand-checkbox">
-                                    <span>Vintea</span>
-                                    <span class="text-text-gray">(1)</span>
-                                </li>
-                                <li class="flex items-center gap-2">
-                                    <input type="checkbox" class="brand-checkbox checkbox checkbox-sm dark:border-white"
-                                        name="brand-checkbox">
-                                    <span>Zara</span>
-                                    <span class="text-text-gray">(20)</span>
-                                </li>
-                        </div>
-                    </details>
-                    <!-- Divider -->
-                    <div class="divider m-0"></div>
-                    <!-- On Sale -->
-                    <div class="mb-6">
-                        <h4 class="font-semibold p-4 text-lg">On sale</h3>
-                            <div class="space-y-4">
-                                <div class="flex gap-3">
-                                    <div class="w-20 h-100 shrink-0 rounded-sm overflow-hidden">
-                                        <img src="{{ asset('frontend/images/on-sale.jpg') }}" alt="Turtleneck T-shirt">
-                                    </div>
-                                    <div>
-                                        <h4 class="text-base font-medium">Turtleneck T-shirt</h4>
-                                        <div class="flex gap-2 items-center mt-1">
-                                            <span class="text-sm text-text-danger font-medium">$100.00</span>
-                                            <span class="text-sm font-medium line-through text-text-gray">$130.00</span>
-                                        </div>
-                                        <p class="text-sm text-text-gray mt-1">3 color available</p>
-                                    </div>
-                                </div>
-                                <div class="flex gap-3 mt-5">
-                                    <div class="w-20 h-100 shrink-0 rounded-sm overflow-hidden">
-                                        <img src="{{ asset('frontend/images/on-sale.jpg') }}" alt="Loose Fit Tee"
-                                            class="img-fluid">
-                                    </div>
-                                    <div>
-                                        <h4 class="text-base font-medium">Loose Fit Tee</h4>
-                                        <div class="flex gap-2 items-center mt-1">
-                                            <span class="text-sm font-medium text-text-danger">$130.00</span>
-                                        </div>
-                                        <p class="text-sm text-text-gray mt-1">3 color available</p>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-
-                </div>
-                @include('frontend.includes.filter_sidebar')
+                @include('frontend.layouts.includes.desktop-filter-sidebar')
+                @include('frontend.layouts.includes.mobile-filter-sidebar')
                 {{-- Sidebar Section End Here --}}
 
                 {{-- Shop Card Section Start Here --}}
@@ -264,47 +86,42 @@
                         <x-frontend.product :items="$collections" />
 
                     </div>
-                    {{-- Pagination --}}
-                    <div class="flex justify-center items-center gap-2 mt-10">
-                        <button class="btn-paginate">1</button>
-                        <button class="btn-paginate">2</button>
-                        <button class="btn-paginate">3</button>
-                        <button class="btn-paginate">
-                            <i data-lucide="chevron-right"></i>
-                        </button>
-                    </div>
                 </div>
                 {{-- Shop Card Section End Here --}}
             </div>
-        </div>
-    </section>
-
-    <section>
-        <div class="container">
-            {{-- Description --}}
-            <div class="mt-16 text-center max-w-8xl mx-auto text-text-gray text-base">
-                <p class="">
-                    Our women's collection brings you a unique blend of classic sophistication and the latest fashion
-                    trends. Whether you're looking for versatile daywear, stylish work attire, or statement pieces for
-                    special occasions, this collection has it all. Each garment is thoughtfully crafted with attention to
-                    detail, using high-quality fabrics to ensure lasting comfort and a flawless fit. From chic blouses and
-                    tailored pants to stunning dresses and outerwear, you'll find pieces that seamlessly blend elegance with
-                    practicality. Our collection is designed to empower women with confidence and style, no matter the
-                    occasion.
-                </p>
-                <p>
-                    Looking for more? Don’t miss out on our other exciting collections for
-                    <a href="#" class="text-text-danger font-medium underline">BAGS</a>
-                    and
-                    <a href="#" class="text-text-danger font-medium underline">ACCESSORIES.</a>
-                </p>
+            <div class="flex justify-center items-center gap-2 mt-10">
+                <button class="btn-paginate active">1</button>
+                <button class="btn-paginate">2</button>
+                <button class="btn-paginate">3</button>
+                <button class="btn-paginate">
+                    <i data-lucide="chevron-right"></i>
+                </button>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <div class="border-t mt-16 dark:bg-bg-darkSecondary dark:border-none">
-        <div class="container mx-auto px-4 py-12">
+    <section class="bg-bg-white dark:bg-bg-darkSecondary py-10">
+        <div class="container">
+            <p class="md:text-center max-w-8xl mx-auto text-text-gray">
+                Our women's collection brings you a unique blend of classic sophistication and the latest fashion
+                trends. Whether you're looking for versatile daywear, stylish work attire, or statement pieces for
+                special occasions, this collection has it all. Each garment is thoughtfully crafted with attention to
+                detail, using high-quality fabrics to ensure lasting comfort and a flawless fit. From chic blouses and
+                tailored pants to stunning dresses and outerwear, you'll find pieces that seamlessly blend elegance with
+                practicality. Our collection is designed to empower women with confidence and style, no matter the
+                occasion.
+            </p>
+            <p class="mt-5 md:text-center max-w-8xl mx-auto text-text-gray">
+                Looking for more? Don’t miss out on our other exciting collections for
+                <a href="#" class="text-text-danger font-medium underline">BAGS</a>
+                and
+                <a href="#" class="text-text-danger font-medium underline">ACCESSORIES.</a>
+            </p>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="container">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div>
                     <div class="flex justify-center mb-3">
@@ -329,7 +146,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
     {{-- Shop Card Section End Here --}}
 @endsection
 @push('js')

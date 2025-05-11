@@ -123,6 +123,10 @@
 
         @apply hover:after:-left-full hover:text-text-white hover:bg-bg-accent;
     }
+
+    .btn-paginate.active {
+        @apply bg-bg-accent text-text-white;
+    }
 }
 
 /* Products Component */
