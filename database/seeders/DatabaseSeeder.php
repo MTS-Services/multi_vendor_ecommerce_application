@@ -39,6 +39,8 @@ class DatabaseSeeder extends Seeder
             OperationSubAreaSeeder::class,
 
             OfferBannerSeeder::class,
+
+            HubSeeder::class,
             BrandSeeder::class,
             FaqSeeder::class,
         ]);
