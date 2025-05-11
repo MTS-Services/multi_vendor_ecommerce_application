@@ -2,7 +2,7 @@
 
 @section('title', 'Home')
 
-@php
+{{-- @php
     $banners = [
         [
             'title' => 'APPLE WATCHES COLLECTION',
@@ -21,7 +21,7 @@
             'subtitle' => 'Sale up to 10% off',
         ],
     ];
-@endphp
+@endphp --}}
 
 @section('content')
     {{-- ===================== banner Section ===================== --}}
@@ -43,8 +43,7 @@
                             </div>
                             <div
                                 class="md:basis-1/2 md:relative absolute z-[1] w-64 top-1/2 md:top-0 -translate-y-1/2 md:translate-y-0 {{ $loop->iteration % 2 == 0 ? '-left-1/3 md:left-0' : '-right-1/3 sm:-right-1/4 md:right-0' }}">
-                                <img class="" src="{{ asset('frontend/images/slider-electronic-1.png') }}"
-                                    alt="Slider Image">
+                              <img src="{{ $banner->image }}" alt="{{ $banner->title }}">
                             </div>
                         </div>
                     </div>
