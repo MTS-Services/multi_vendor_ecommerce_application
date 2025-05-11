@@ -21,7 +21,7 @@ return new class extends Migration
             $table->bigInteger("sort_order")->default(0);
             $table->boolean('status')->default(ProductAttribute::STATUS_ACTIVE)->comment(ProductAttribute::STATUS_ACTIVE . ': Active, ' . ProductAttribute::STATUS_DEACTIVE . ': Inactive');
             $table->string('image');
-            $table->string('url');
+            $table->string('website')->nullable();
             $table->longText("description")->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -16,20 +16,20 @@ class OurConnectionSeeder extends Seeder
        OurConnection::create([
             'name' => 'ourconnection 1',
             'image' => 'ourconnections/1.jpg',
-            'url' => '#',
+            'website' => '#',
         ]);
 
         OurConnection::create([
             'name' => 'ourconnection 2',
             'image' => 'ourconnections/2.jpg',
-            'url' => '#',
+            'website' => '#',
 
         ]);
 
         OurConnection::create([
             'name' => 'ourconnection 3',
             'image' => 'ourconnections/3.jpg',
-            'url' => '#',
+            'website' => '#',
         ]);
     }
 }

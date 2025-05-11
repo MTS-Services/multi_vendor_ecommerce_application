@@ -13,7 +13,7 @@ class OurConnection extends BaseModel
         'sort_order',
         'status',
         'image',
-        'url',
+        'website',
         'description',
         'created_by',
         'updated_by',
@@ -33,7 +33,6 @@ class OurConnection extends BaseModel
             'status_labels',
 
             'modified_image',
-            'name'
         ]);
     }
 

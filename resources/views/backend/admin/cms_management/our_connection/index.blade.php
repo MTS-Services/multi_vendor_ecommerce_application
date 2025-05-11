@@ -18,7 +18,6 @@
                             <tr>
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Name') }}</th>
-                                <th>{{ __('Description') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Created By') }}</th>
                                 <th>{{ __('Created Date') }}</th>
@@ -43,7 +42,6 @@
             let table_columns = [
 
                 ['name', true, true],
-                ['description', true, true],
                 ['status', true, true],
                 ['created_by', true, true],
                 ['created_at', false, false],
@@ -56,7 +54,7 @@
                 main_route: "{{ route('cms.our-connection.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
                 export_columns: [0, 1, 2, 3, 4, 5],
-                model: 'Banner',
+                model: 'our_connection',
             };
             initializeDataTable(details);
         })
@@ -82,6 +80,10 @@
                 {
                     label: "Description",
                     key: "description"
+                },
+                {
+                    label: "Website",
+                    key: "website"
                 },
                 {
                     label: "Image",
