@@ -29,7 +29,7 @@
     {{-- BoxIcons --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css" />
 
-    @vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css','resources/js/axios.js'])
 
     {{-- Custom CSS --}}
     @stack('css')
@@ -234,9 +234,19 @@
         });
     </script>
 
+<script>
+$('#langSwitcher').on('change', function () {
+    const selectedLang = $(this).val();
 
-
-
+    axios.get('/set-locale?locale=' + selectedLang)
+        .then(response => {
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Failed to switch language:', error);
+        });
+});
+</script>
 
     {{-- Custom JS --}}
     @stack('js')

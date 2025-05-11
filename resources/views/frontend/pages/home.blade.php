@@ -182,7 +182,7 @@
     @endphp --}}
     <section class="md:py-22 py-11 relative  dark:bg-opacity-50">
         <div class="container">
-            <h2 class="text-2xl md:text-4xl md:pb-8 pb-4 font-bold">{{__('Categories')}}</h2>
+            <h2 class="text-2xl md:text-4xl md:pb-8 pb-4 font-bold">{{__("Categories")}}</h2>
             <div class="relative">
                 <div class="swiper categories static">
                     <div class="swiper-wrapper">

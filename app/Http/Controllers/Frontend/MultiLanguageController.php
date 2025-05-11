@@ -8,13 +8,17 @@ use Illuminate\Support\Facades\App;
 
 class MultiLanguageController extends Controller
 {
-    public function langSwitch(Request $request)
+    public function setLocale(Request $request)
     {
-        $lang = $request->lang;
-        if (in_array($lang, ['en', 'bn'])) {
-            App::setLocale($request->lang);
-            session()->put('language', $lang);
+         $locale = $request->locale;
+
+        if (!in_array($locale, ['en', 'bn'])) {
+            return response()->json(['success' => false, 'message' => 'Invalid language'], 400);
         }
-        return redirect()->back();
+
+        session(['locale' => $locale]);
+        app()->setLocale($locale);
+
+        return response()->json(['success' => true, 'message' => 'Language switched successfully!']);
     }
 }

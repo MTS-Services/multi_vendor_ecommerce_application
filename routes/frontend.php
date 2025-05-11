@@ -6,11 +6,8 @@ use App\Http\Controllers\Frontend\HomePageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\MultiLanguageController;
-use PhpParser\Node\Expr\AssignOp\Mul;
 
 Route::group(['as' => 'frontend.'], function () {
-
-
   // Home Page
   Route::get('/', [HomePageController::class, 'home'])->name('home');
 
@@ -21,5 +18,12 @@ Route::group(['as' => 'frontend.'], function () {
     Route::get('/singel-product', [FrontendController::class, 'singel_product'])->name('singel_product');
     //   Store location
     Route::get('/store-location', [FrontendController::class, 'store_location'])->name('store_location');
+
+
+    Route::get('/set-locale', [MultiLanguageController::class,'setLocale'])->name('langSwitch');
+
+
+
 });
+
 
