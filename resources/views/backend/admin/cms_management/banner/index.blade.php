@@ -6,11 +6,19 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Banner List') }}</h4>
-                    <x-backend.admin.button :datas="[
-                        'routeName' => 'cms.banner.create',
-                        'label' => 'Add New',
-                        'permissions' => ['banner-create'],
-                    ]" />
+                    <div class="buttons">
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'cms.banner.recycle-bin',
+                            'label' => 'Recycle Bin',
+                            'className' => 'btn-danger',
+                            'permissions' => ['banner-restore'],
+                        ]" />
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'cms.banner.create',
+                            'label' => 'Add New',
+                            'permissions' => ['banner-create'],
+                        ]" />
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-striped datatable">
@@ -70,8 +78,7 @@
     <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
     {{-- Show details scripts --}}
     <script src="{{ asset('modal/details_modal.js') }}"></script>
-     <script>
-
+    <script>
         $(document).on("click", ".view", function() {
             let id = $(this).data("id");
             let route = "{{ route('cms.banner.show', ['id']) }}";
@@ -110,4 +117,3 @@
         });
     </script>
 @endpush
-

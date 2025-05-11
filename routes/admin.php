@@ -156,6 +156,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     Route::group(['as' => 'cms.', 'prefix' => 'cms-management'], function () {
         Route::resource('banner', BannerController::class);
         Route::get('banner/status/{banner}', [BannerController::class, 'status'])->name('banner.status');
+        Route::get('banner/recycle/bin', [BannerController::class, 'recycleBin'])->name('banner.recycle-bin');
+        Route::get('banner/restore/{banner}', [BannerController::class, 'restore'])->name('banner.restore');
+        Route::delete('banner/permanent-delete/{banner}', [BannerController::class, 'permanentDelete'])->name('banner.permanent-delete');
 
         // offer banner
         Route::resource('offer-banner', OfferBannerController::class);
