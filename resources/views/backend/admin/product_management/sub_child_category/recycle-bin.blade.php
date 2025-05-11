@@ -1,16 +1,16 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'faq'])
-@section('title', 'Faq Recycle Bin')
+@extends('backend.admin.layouts.master', ['page_slug' => 'subchildcategory'])
+@section('title', 'Sub Category Recycle Bin')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('Faq Recycle Bin') }}</h4>
+                    <h4 class="cart-title">{{ __('Sub Category Recycle Bin') }}</h4>
                     <div class="buttons">
                         <x-backend.admin.button :datas="[
-                            'routeName' => 'setup.faq.index',
+                            'routeName' => 'pm.sub-child-category.index',
                             'label' => 'Back',
-                            'permissions' => ['faq-list'],
+                            'permissions' => ['sub-child-category-list'],
                         ]" />
                     </div>
                 </div>
@@ -19,9 +19,10 @@
                         <thead>
                             <tr>
                                 <th>{{ __('SL') }}</th>
-                                <th>{{ __('Question') }}</th>
-                                <th>{{ __('Type') }}</th>
+                                <th>{{ __('Main Category') }}</th>
+                                <th>{{ __('Name') }}</th>
                                 <th>{{ __('Status') }}</th>
+                                <th>{{ __('Featured') }}</th>
                                 <th>{{ __('Deleted By') }}</th>
                                 <th>{{ __('Deleted Date') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -42,9 +43,10 @@
         $(document).ready(function() {
             let table_columns = [
                 //name and data, orderable, searchable
-                ['question', true, true],
-                ['type', true, true],
+                ['parent_id', true, true],
+                ['name', true, true],
                 ['status', true, true],
+                ['is_featured', true, true],
                 ['deleter_id', true, true],
                 ['deleted_at', true, true],
                 ['action', false, false],
@@ -53,10 +55,10 @@
                 table_columns: table_columns,
                 main_class: '.datatable',
                 displayLength: 10,
-                main_route: "{{ route('setup.faq.recycle-bin') }}",
+                main_route: "{{ route('pm.sub-child-category.recycle-bin') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5, 6, 7],
-                model: 'Admin',
+                export_columns: [0, 1, 2, 3,4,5,6],
+                model: 'Category',
             };
             // initializeDataTable(details);
 
@@ -64,3 +66,4 @@
         })
     </script>
 @endpush
+
