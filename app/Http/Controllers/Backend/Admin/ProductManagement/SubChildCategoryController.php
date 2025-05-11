@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Admin\ProductManagement;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductManagement\SubChildCategoryRequest;
+use App\Http\Traits\FileManagementTrait;
 use App\Models\Category;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -13,6 +14,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class SubChildCategoryController extends Controller
 {
+    use FileManagementTrait;
 
     public function __construct()
     {
