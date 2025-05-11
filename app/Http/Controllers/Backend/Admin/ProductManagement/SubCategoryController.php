@@ -173,7 +173,7 @@ class SubCategoryController extends Controller
 
     public function create(): View
     {
-        $data['categories'] = Category::isCategory()->active()->latest()->get();
+        $data['categories'] = Category::isMainCategory()->active()->latest()->get();
         return view('backend.admin.product_management.sub_category.create', $data);
     }
 
