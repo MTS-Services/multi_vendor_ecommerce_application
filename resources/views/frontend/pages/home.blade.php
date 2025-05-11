@@ -43,7 +43,7 @@
                             </div>
                             <div
                                 class="md:basis-1/2 md:relative absolute z-[1] w-64 top-1/2 md:top-0 -translate-y-1/2 md:translate-y-0 {{ $loop->iteration % 2 == 0 ? '-left-1/3 md:left-0' : '-right-1/3 sm:-right-1/4 md:right-0' }}">
-                              <img src="{{ $banner->image }}" alt="{{ $banner->title }}">
+                              <img src="{{ $banner->modified_image }}" alt="{{ $banner->title }}">
                             </div>
                         </div>
                     </div>
