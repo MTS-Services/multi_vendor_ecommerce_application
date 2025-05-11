@@ -28,6 +28,7 @@ use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
 use App\Http\Controllers\Backend\Admin\AdminProfileContoller;
+use App\Models\Admin;
 use App\Models\Faq;
 
 // Admin Auth Routes
@@ -50,8 +51,12 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
     
     // Admin Profile
-    Route::get('profile', [AdminProfileContoller::class, 'profile'])->name('admin.profile');
-    Route::post('profile/update', [AdminProfileContoller::class, 'profile_update'])->name('admin.profile.update');
+    Route::controller( AdminProfileContoller::class)->name('admin.')->group(function () {
+        Route::get('/profile', 'profile')->name('profile');
+        Route::put('/profile/update', 'profileUpdate')->name('profile.update');
+        Route::put('/address/update', 'addressUpdate')->name('address.update');
+        Route::put('/password/update', 'passwordUpdate')->name('password.update');
+    });
 
     //Developer Routes
     Route::get('/export-permissions', function () {

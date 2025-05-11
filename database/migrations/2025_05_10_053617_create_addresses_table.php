@@ -50,20 +50,13 @@ return new class extends Migration
             $table->index('sort_order');
             $table->index('profile_id');
             $table->index('profile_type');
-            $table->index('name');
-            $table->index('email');
-            $table->index('phone');
             $table->index('type');
             $table->index('country_id');
             $table->index('state_id');
             $table->index('city_id');
             $table->index('operation_area_id');
             $table->index('operation_sub_area_id');
-            $table->index('address_line_1');
-            $table->index('address_line_2');
             $table->index('postal_code');
-            $table->index('latitude');
-            $table->index('longitude');
             $table->index('is_default');
             $table->index('status');
 

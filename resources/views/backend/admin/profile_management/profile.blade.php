@@ -120,38 +120,20 @@
                                 <h4 class="mb-0 py-2 text-white">{{ __('Profile Address') }}</h4>
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('seller.address.update', encrypt($address->id)) }}" method="POST">
+                                <form action="{{ route('admin.address.update') }}" method="POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="row">
-                                        <div class="col-md-12 mb-3">
-                                            <label>{{ __('Name') }}</label>
-                                            <input type="text" name="name" value="{{ $address->name }}"
-                                                placeholder="Enter name" class="form-control">
-                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
-                                        </div>
-                                        <div class="col-md-12 mb-3">
-                                            <label>{{ __('Email') }}</label>
-                                            <input type="email" name="email" value="{{ $address->email }}"
-                                                placeholder="Enter email" class="form-control">
-                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
-                                        </div>
-                                        <div class="col-md-12 mb-3">
-                                            <label>{{ __('Phone') }}</label>
-                                            <input type="text" name="phone" value="{{ $address->phone }}"
-                                                placeholder="Enter phone number" class="form-control">
-                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'phone']" />
-                                        </div>
                                         <div class="col-md-12 mb-3">
                                             <div class="row">
                                                 <div class="col-6 form-group">
                                                     <label>{{ __('Country') }} <span class="text-danger">*</span></label>
                                                     <select name="country_id" id="country" class="form-control">
-                                                        <option value="" selected hidden>{{ __('Select Country') }}
+                                                        <option value="{{ $address?->country_id }}" selected hidden>{{ __('Select Country') }}
                                                         </option>
                                                         @foreach ($countries as $country)
                                                             <option value="{{ $country->id }}"
-                                                                {{ $address->country_id == $country->id ? 'selected' : '' }}>
+                                                                {{ $address?->country_id == $country->id ? 'selected' : '' }}>
                                                                 {{ $country->name }}</option>
                                                         @endforeach
                                                     </select>
@@ -178,7 +160,7 @@
                                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city_id']" />
                                                 </div>
                                                 <div class="col-6 form-group">
-                                                    <label>{{ __('Area') }} <span class="text-danger">*</span></label>
+                                                    <label>{{ __('Operation Area') }} <span class="text-danger">*</span></label>
                                                     <select name="operation_area" id="operation_area" class="form-control"
                                                         disabled>
                                                         <option value="" selected hidden>{{ __('Select Area') }}
@@ -189,35 +171,22 @@
                                             </div>
                                         </div>
                                         <div class="col-md-12 mb-3">
-                                            <label>{{ __('Address Line 1') }}</label>
-                                            <textarea name="address_line_1" class="form-control" id="address_line_1" cols="30" rows="10">{{ $address->address_line_1 }}</textarea>
+                                            <label>{{ __('Address Line 1') }} <span class="text-danger">*</span></label>
+                                            <textarea name="address_line_1" class="form-control no-ckeditor5" id="address_line_1" cols="30" rows="10">{{ $address->address_line_1 ?? old('address_line_1') }}</textarea>
                                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'address_line_1']" />
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label>{{ __('Address Line 2') }}</label>
-                                            <textarea name="address_line_2" class="form-control" id="address_line_2" cols="30" rows="10">{{ $address->address_line_2 }}</textarea>
+                                            <textarea name="address_line_2" class="form-control no-ckeditor5" id="address_line_2" cols="30"
+                                                rows="10">{{ $address->address_line_2 ?? old('address_line_2') }}</textarea>
                                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'address_line_2']" />
                                         </div>
                                         {{-- postal code --}}
-                                        <div class="col-md-12 mb-3">
-                                            <label>{{ __('Postal Code') }}</label>
-                                            <input type="text" name="postal_code" value="{{ $address->postal_code }}"
+                                        <div class="col-6 mb-3">
+                                            <label>{{ __('Postal Code') }} <span class="text-danger">*</span></label>
+                                            <input type="text" name="postal_code" value="{{ $address->postal_code ?? old('postal_code') }}"
                                                 placeholder="Enter postal code" class="form-control">
                                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'postal_code']" />
-                                        </div>
-                                        {{-- latitude --}}
-                                        <div class="col-md-12 mb-3">
-                                            <label>{{ __('Latitude') }}</label>
-                                            <input type="text" name="latitude" value="{{ $address->latitude }}"
-                                                placeholder="Enter latitude" class="form-control">
-                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'latitude']" />
-                                        </div>
-                                        {{-- longitude --}}
-                                        <div class="col-md-12 mb-3">
-                                            <label>{{ __('Longitude') }}</label>
-                                            <input type="text" name="longitude" value="{{ $address->longitude }}"
-                                                placeholder="Enter longitude" class="form-control">
-                                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'longitude']" />
                                         </div>
                                     </div>
                                     <div class="text-right">
@@ -298,30 +267,35 @@
                 $('#' + target).addClass('active');
             });
         });
-        // // Get Country States By Axios
-        // $(document).ready(function() {
-        //     let route1 = "{{ route('setup.axios.get-states-or-cities') }}";
-        //     $('#country').on('change', function() {
-        //         getStatesOrCity($(this).val(), route1);
-        //     });
-        //     let route2 = "{{ route('setup.axios.get-cities') }}";
-        //     $('#state').on('change', function() {
-        //         getCities($(this).val(), route2);
-        //     });
-        //     let route3 = "{{ route('setup.axios.get-operation-areas') }}";
-        //     $('#city').on('change', function() {
-        //         getOperationAreas($(this).val(), route3);
-        //     });
+        // Get Country States By Axios
+        $(document).ready(function() {
+            let route1 = "{{ route('setup.axios.get-states-or-cities') }}";
+            $('#country').on('change', function() {
+                getStatesOrCity($(this).val(), route1);
+            });
+            let route2 = "{{ route('setup.axios.get-cities') }}";
+            $('#state').on('change', function() {
+                getCities($(this).val(), route2);
+            });
+            let route3 = "{{ route('setup.axios.get-operation-areas') }}";
+            $('#city').on('change', function() {
+                getOperationAreas($(this).val(), route3);
+            });
 
-        //     let data_id =
-        //         `{{ $address->state_id ? $address->state_id : $address->city_id }}`;
-        //     getStatesOrCity($('#country').val(), route1, data_id);
-        //     if (`{{ $address->state_id }}`) {
-        //         getCities(`{{ $address->state_id }}`, route2, `{{ $address->city_id }}`);
-        //     }
-        //     getOperationAreas(`{{ $address->city_id }}`, route3,
-        //         `{{ $address->operation_area_id }}`);
-        // });
+            let data_id =
+                `{{ $address?->state_id ? $address?->state_id : $address?->city_id }}`;
+            if(data_id){
+                 getStatesOrCity($('#country').val(), route1, data_id);
+            }
+           
+            if (`{{ $address?->state_id }}`) {
+                getCities(`{{ $address?->state_id }}`, route2, `{{ $address?->city_id }}`);
+            }
+            if(`{{ $address?->city_id }}`){
+            getOperationAreas(`{{ $address?->city_id }}`, route3,
+                `{{ $address?->operation_area_id }}`);
+            }
+        });
     </script>
     {{-- FilePond  --}}
 @endpush

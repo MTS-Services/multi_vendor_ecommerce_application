@@ -217,10 +217,22 @@ class Address extends BaseModel
         return self::getDefaultLabels()[$this->is_default] ?? 'Unknown';
     }
 
-    public function scopeSelfAddresses($query)
+    public function scopeSellerAddresses($query)
     {
         return $query->where('profile_id', seller()->id)->where('profile_type', get_class(seller()));
     }
+    public function scopeAdminAddresses($query)
+    {
+        return $query->where('profile_id', admin()->id)->where('profile_type', get_class(admin()));
+    }
+    public function scopeUserAddresses($query)
+    {
+        return $query->where('profile_id', user()->id)->where('profile_type', get_class(user()));
+    }
+    // public function scopeStaffAddresses($query)
+    // {
+    //     return $query->where('profile_id', staff()->id)->where('profile_type', get_class(staff()));
+    // }
 
     public function scopePersonal(){
         return $this->where('type', self::TYPE_PERSONAL);

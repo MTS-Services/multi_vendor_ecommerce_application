@@ -17,8 +17,8 @@ class SellerProfileController extends Controller
     use FileManagementTrait;
     public function show()
     {
-        $data['seller'] = Seller::all()->findOrFail(seller()->id);
-        $data['address'] = Address::selfAddresses()->personal()->first();
+        $data['seller'] = Seller::findOrFail(seller()->id);
+        $data['address'] = Address::personal()->sellerAddresses()->first();
         $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
         return view('backend.seller.profile_management.profile', $data);
     }
@@ -47,7 +47,7 @@ class SellerProfileController extends Controller
         $validated = $request->validated();
         $validated['updater_id'] = seller()->id;
         $validated['updater_type'] = get_class(seller());
-        $address = Address::selfAddresses()->personal()->first();
+        $address = Address::personal()->sellerAddresses()->first();
         $address->update($validated);
         session()->flash('success', 'Address updated successfully.');
         return redirect()->back();
@@ -58,9 +58,15 @@ class SellerProfileController extends Controller
     {
         $seller = Seller::findOrFail(seller()->id);
         $validated = $request->validated();
+        $validated['country_id'] = $request->country_id;
+        $validated['state_id'] = $request->state;
+        $validated['city_id'] = $request->city_id;
+        $validated['operation_area_id'] = $request->operation_area;
+        $validated['operation_sub_area_id'] = $request->operation_sub_area;
         $validated['updater_id'] = seller()->id;
         $validated['updater_type'] = get_class(seller());
-        $seller->update($validated);
+
+        $seller->updatOrCreate($validated);
         session()->flash('success', 'Password updated successfully.');
         return redirect()->back();
     }
