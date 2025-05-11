@@ -3,7 +3,7 @@
 @section('title', 'Shop')
 @section('content')
 
-    <x-frontend.bread-crumb />
+    
 
 
     <section class="py-5">
@@ -90,9 +90,9 @@
                 {{-- Shop Card Section End Here --}}
             </div>
             <div class="flex justify-center items-center gap-2 mt-10">
-                <button class="btn-paginate active">1</button>
-                <button class="btn-paginate">2</button>
-                <button class="btn-paginate">3</button>
+                <button class="btn-paginate active">{{ __('1') }}</button>
+                <button class="btn-paginate">{{ __('2') }}</button>
+                <button class="btn-paginate">{{ __('3') }}</button>
                 <button class="btn-paginate">
                     <i data-lucide="chevron-right"></i>
                 </button>
