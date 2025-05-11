@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
             OfferBannerSeeder::class,
             BrandSeeder::class,
             AddressSeeder::class,
+            FaqSeeder::class,
         ]);
     }
 }
