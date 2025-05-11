@@ -45,6 +45,13 @@ class SellerProfileController extends Controller
     public function addressUpdate(AddressRequest $request)
     {
         $validated = $request->validated();
+        $validated['country_id'] = $request->country_id;
+        $validated['state_id'] = $request->state;
+        $validated['city_id'] = $request->city_id;
+        $validated['operation_area_id'] = $request->operation_area;
+        $validated['operation_sub_area_id'] = $request->operation_sub_area;
+        $validated['updater_id'] = seller()->id;
+        $validated['updater_type'] = get_class(seller());
         $validated['updater_id'] = seller()->id;
         $validated['updater_type'] = get_class(seller());
         $address = Address::personal()->sellerAddresses()->first();
@@ -58,15 +65,7 @@ class SellerProfileController extends Controller
     {
         $seller = Seller::findOrFail(seller()->id);
         $validated = $request->validated();
-        $validated['country_id'] = $request->country_id;
-        $validated['state_id'] = $request->state;
-        $validated['city_id'] = $request->city_id;
-        $validated['operation_area_id'] = $request->operation_area;
-        $validated['operation_sub_area_id'] = $request->operation_sub_area;
-        $validated['updater_id'] = seller()->id;
-        $validated['updater_type'] = get_class(seller());
-
-        $seller->updatOrCreate($validated);
+        $seller->update($validated);
         session()->flash('success', 'Password updated successfully.');
         return redirect()->back();
     }

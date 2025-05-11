@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddressRequest;
+use App\Http\Requests\Admin\AdminPasswordUpdateRequest;
 use App\Models\Address;
 use App\Models\Admin;
 use App\Models\Country;
@@ -38,5 +39,12 @@ class AdminProfileContoller extends Controller
         session()->flash('success', 'Address updated successfully.');
         return redirect()->back();
     }
-    public function passwordUpdate($request) {}
+    public function passwordUpdate(AdminPasswordUpdateRequest $request)
+    {
+        $admin = Admin::findOrFail(admin()->id);
+        $validated = $request->validated();
+        $admin->update($validated);
+        session()->flash('success', 'Password updated successfully.');
+        return redirect()->back();
+    }
 }
