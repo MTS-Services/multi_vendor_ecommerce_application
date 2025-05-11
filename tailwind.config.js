@@ -48,6 +48,7 @@ module.exports = {
           white: '#ffffff',
           black: '#000000',
           danger: '#DC2626',
+          orange : "#ff6b6b",
         },
 
         bg: {
@@ -62,6 +63,7 @@ module.exports = {
           white: '#ffffff',
           black: '#000000',
           danger: '#DC2626',
+          orange : "#ff6b6b",
         },
 
         border: {
@@ -72,6 +74,7 @@ module.exports = {
           danger: '#DC2626',
           white: '#ffffff',
           black: '#000000',
+          orange : "#ff6b6b",
         },
 
         outline: {
@@ -82,6 +85,7 @@ module.exports = {
           danger: '#DC2626',
           white: '#ffffff',
           black: '#000000',
+          orange : "#ff6b6b",
         },
 
         focus: {
@@ -91,6 +95,7 @@ module.exports = {
           danger: '#DC2626',
           white: '#ffffff',
           black: '#000000',
+          orange : "#ff6b6b",
         },
 
         shadow: {
@@ -106,6 +111,7 @@ module.exports = {
           gray: '#F3F4F6',
           lightSecondary: '#F9FAFB',
           lightTertiary: '#F3F4F6',
+          orange : "#ff6b6b",
         }
       },
       fontFamily: {

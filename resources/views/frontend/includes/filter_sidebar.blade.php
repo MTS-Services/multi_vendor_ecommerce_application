@@ -31,8 +31,7 @@
                             href="#">T-shirt (20)</a></li>
                 </ul>
             </div>
-            <!-- Divider -->
-            <div class="border-t border-gray"></div>
+            <div class="divider m-0"></div>
             {{-- Availability --}}
             <details class="collapse collapse-arrow" open>
                 <summary class="collapse-title font-semibold ">
@@ -51,54 +50,37 @@
                     </label>
                 </div>
             </details>
-            <!-- Divider -->
-            <div class="border-t border-gray"></div>
+
+            <div class="divider m-0"></div>
             {{-- Price --}}
-            <!-- Price header with dropdown arrow -->
             <details class="collapse collapse-arrow" open>
-                <summary class="collapse-title font-semibold">Price</summary>
+                <summary class="collapse-title pb-0 font-semibold">Price</summary>
                 <div class="collapse-content">
                     <div class="mb-4">
-                        <div class="price-slider h-6 mt-8 mb-4">
-                            <div class="slider-track"></div>
-                            <div class="slider-ranges" id="slider-ranges"></div>
-                            <input type="range" id="min-ranges" min="0" max="500" value="20"
-                                class="absolute">
-                            <input type="range" id="max-ranges" min="0" max="500" value="300"
-                                class="absolute">
+                        <div class="relative w-full price-slider">
+                            <div class="absolute w-full h-1 bg-bg-dark bg-opacity-40 z-[1] rounded-full"></div>
+                            <div class="absolute h-1 z-[2] rounded-full bg-bg-orange slider-range"></div>
+                            <input type="range" min="0" max="500" value="20"
+                                class="absolute p-0 top-1/2 -translate-y-1/2 w-full z-[3] pointer-events-none min-range">
+                            <input type="range" min="0" max="500" value="300"
+                                class="absolute p-0 top-1/2 -translate-y-1/2 w-full z-[3] pointer-events-none max-range">
                         </div>
                     </div>
 
                     <!-- Price display -->
-                    <div class="mb-6">
+                    <div class="pt-8">
                         <p class="text-sm">
-                            Price: <span class="text-text-danger" id="min-prices">$20</span> - <span
-                                class="text-text-danger" id="max-prices">$300</span>
+                            Price: <span class="text-text-danger min-price">$20</span> -
+                            <span class="text-text-danger max-price">$300</span>
                         </p>
                     </div>
                 </div>
             </details>
-            <!-- Divider -->
-            <div class="border-t border-gray"></div>
-            {{-- <div class="mb-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-medium">Price</h3>
-                    <i class="fa-solid fa-chevron-up text-xs"></i>
-                </div>
-                <div class="px-1">
-                    <div class="h-1 bg-gray-200 rounded-full mb-4 relative">
-                        <div class="absolute h-1 bg-gray-400 rounded-full left-1/4 right-1/4"></div>
-                        <div class="absolute w-3 h-3 bg-white border border-gray-400 rounded-full -mt-1 left-1/4"></div>
-                        <div class="absolute w-3 h-3 bg-white border border-gray-400 rounded-full -mt-1 right-1/4">
-                        </div>
-                    </div>
-                    <div class="flex justify-between text-sm text-text-gray">
-                        <span>Price: $50 — $150</span>
-                    </div>
-                </div>
-            </div> --}}
 
-            {{-- Color --}}
+
+            <div class="divider m-0"></div>
+
+            {{-- Colors --}}
             <details class="collapse collapse-arrow" open>
                 <summary class="collapse-title font-semibold ">Color</summary>
                 <div class="collapse-content text-sm">
@@ -120,8 +102,8 @@
                     </div>
                 </div>
             </details>
-            <!-- Divider -->
-            <div class="border-t border-gray"></div>
+
+            <div class="divider m-0"></div>
 
             {{-- Size --}}
             <details class="collapse collapse-arrow" open>
@@ -136,8 +118,8 @@
                     </div>
                 </div>
             </details>
-            <!-- Divider -->
-            <div class="border-t border-gray"></div>
+
+            <div class="divider m-0"></div>
             {{-- Brand --}}
             <details class="collapse collapse-arrow" open>
                 <summary class="collapse-title font-semibold ">Brand</summary>
@@ -157,8 +139,8 @@
                         </li>
                 </div>
             </details>
-            <!-- Divider -->
-            <div class="border-t border-gray"></div>
+
+            <div class="divider m-0"></div>
             <!-- On Sale -->
             <div class="mb-6">
                 <h3 class="font-medium mb-4">On sale</h3>
@@ -184,15 +166,15 @@
                         <div>
                             <h4 class="text-base font-medium">Loose Fit Tee</h4>
                             <div class="flex gap-2 items-center mt-1">
-                                <span class="text-sm font-medium text-text-danger font-medium">$130.00</span>
+                                <span class="text-sm font-medium text-text-danger">$130.00</span>
                             </div>
                             <p class="text-sm text-text-gray mt-1">3 color available</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Divider -->
-            <div class="border-t border-gray"></div>
+
+            <div class="divider m-0"></div>
             {{-- Elavate --}}
             <div class="relative mt-3 rounded-md overflow-hidden">
                 <div class="hover:scale-110 transition-all duration-500">
@@ -201,18 +183,10 @@
                 <div
                     class="flex flex-col justify-center items-center p-10 absolute bottom-0 left-0 w-full text-center">
                     <h3 class="font-medium mb-4 capitalize text-4xl text-text-white z-10">Elevate your style</h3>
-                    <button class="btn-primary">Shop Now</button>
+                    <a href="" class="btn-primary">Shop Now</a>
                 </div>
             </div>
 
         </div>
     </div>
-    <ul class="menu p-0 pt-6">
-        <li><a href=""
-                class="text-lg px-10 text-c-light font-semibold rounded-none border-b border-b-c-primary transition-colors duration-300 hover:bg-c-light/5 hover:text-c-primary @if (isset($page_slug) && $page_slug == 'home')  @endif">Home</a>
-        </li>
-        <li><a href="{{ route('frontend.shop') }}"
-                class="text-lg px-10 text-c-light font-semibold rounded-none border-b border-b-c-primary transition-colors duration-300 hover:bg-c-light/5 hover:text-c-primary @if (isset($page_slug) && $page_slug == 'shop')  @endif">Shop</a>
-        </li>
-    </ul>
 </div>
