@@ -25,6 +25,9 @@ class CategoryController extends Controller
         $this->middleware('permission:category-delete', ['only' => ['destroy']]);
         $this->middleware('permission:category-status', ['only' => ['status']]);
         $this->middleware('permission:category-feature', ['only' => ['feature']]);
+        $this->middleware('permission:category-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:category-restore', ['only' => ['restore']]);
+        $this->middleware('permission:category-permanent-delete', ['only' => ['permanentDelete']]);
     }
 
     /**
@@ -97,6 +100,57 @@ class CategoryController extends Controller
 
         ];
     }
+
+          public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $query = Category::with(['deleter'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+            ->editColumn('status', function ($category) {
+                    return "<span class='badge " . $category->status_color . "'>$category->status_label</span>";
+                })
+                  ->editColumn('is_featured', function ($category) {
+                    return "<span class='badge " . $category->featured_color . "'>$category->featured_label</span>";
+                })
+               ->editColumn('deleter_id', function ($category) {
+                    return $category->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($category) {
+                    return $category->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($category) {
+                    $menuItems = $this->trashedMenuItems($category);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['status', 'is_featured', 'deleter_id', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.product_management.category.recycle-bin');
+    }
+
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'pm.category.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['category-restore']
+            ],
+            [
+                'routeName' => 'pm.category.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['category-permanent-delete']
+            ]
+
+        ];
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -129,6 +183,7 @@ class CategoryController extends Controller
         $data = Category::with(['creater', 'updater', 'sub_categories'])->findOrFail(decrypt($id));
         return response()->json($data);
     }
+
     public function edit(string $id)
     {
         $data['category'] = Category::findOrFail(decrypt($id));
@@ -174,5 +229,28 @@ class CategoryController extends Controller
         $category->update(['is_featured' => !$category->is_featured, 'updated_by'=> admin()->id]);
         session()->flash('success', 'Category feature status updated successfully!');
         return redirect()->route('pm.category.index');
+    }
+
+          public function restore(string $id): RedirectResponse
+    {
+        $category = Category::onlyTrashed()->findOrFail(decrypt($id));
+        $category->update(['updated_by' => admin()->id]);
+        $category->restore();
+        session()->flash('success', 'Category restored successfully!');
+        return redirect()->route('pm.category.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $category = Category::onlyTrashed()->findOrFail(decrypt($id));
+        $category->forceDelete();
+        session()->flash('success', 'Category permanently deleted successfully!');
+        return redirect()->route('pm.category.recycle-bin');
     }
 }

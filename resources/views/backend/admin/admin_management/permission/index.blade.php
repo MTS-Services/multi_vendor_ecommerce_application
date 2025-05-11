@@ -7,6 +7,12 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="card-title">{{ __('Permission List') }}</h4>
                     <div class="action_button">
+                         <x-backend.admin.button :datas="[
+                            'routeName' => 'am.permission.recycle-bin',
+                            'label' => 'Recycle Bin',
+                            'className' => 'btn-danger',
+                            'permissions' => ['permission-restore'],
+                        ]" />
                         <x-backend.admin.button :datas="[
                             'routeName' => 'permissions.export',
                             'label' => 'Export Permissions CSV',

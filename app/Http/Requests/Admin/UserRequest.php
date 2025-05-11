@@ -22,8 +22,8 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:4',
-
+            'first_name' => 'required|string|min:3',
+            'last_name' => 'required|string|min:4',
         ]
             +
             ($this->isMethod('POST') ? $this->store() : $this->update());
@@ -33,9 +33,7 @@ class UserRequest extends FormRequest
     {
         return [
             'email' => 'required|unique:users,email',
-            'username' => 'required|unique:users,username',
             'password' => 'required|min:6|confirmed',
-            'image' => 'nullable',
         ];
     }
 
@@ -44,9 +42,7 @@ class UserRequest extends FormRequest
     {
         return [
             'email' => 'required|unique:users,email,' . decrypt($this->route('user')),
-            'username' => 'required|unique:users,username,' . decrypt($this->route('user')),
             'password' => 'nullable|min:6|confirmed',
-            'image' => 'nullable',
         ];
     }
 }

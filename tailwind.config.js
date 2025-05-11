@@ -34,7 +34,7 @@ module.exports = {
         'md': '640px',
         'lg': '768px',
         'xl': '1024px',
-        '2xl': '1280px',
+        '2xl': '1200px',
         '3xl': '1536px',
       },
       colors: {
@@ -92,6 +92,21 @@ module.exports = {
           white: '#ffffff',
           black: '#000000',
         },
+
+        shadow: {
+          primary: '#8A2BE2',
+          accent: '#8752FA',
+          dark: '#0A192F',
+          danger: '#DC2626',
+          white: '#ffffff',
+          black: '#000000',
+          light: '#E5E7EB',
+          darkSecondary: '#021526',
+          darkTertiary: '#222831',
+          gray: '#F3F4F6',
+          lightSecondary: '#F9FAFB',
+          lightTertiary: '#F3F4F6',
+        }
       },
       fontFamily: {
         'inter': ['Inter', ...defaultTheme.fontFamily.sans],
@@ -132,7 +147,7 @@ module.exports = {
         'card': '0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1)',
         'dropdown': '0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)',
         'inner': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
-        'none': 'none',
+        'shadowPrimary': 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
       },
       borderRadius: {
         'none': '0',
@@ -158,6 +173,7 @@ module.exports = {
         'slide-down': 'slideDown 0.3s ease-in-out',
         'starFade': 'starFade 0.6s ease-out forwards, rise-top-left 0.6s ease-out',
         'scalePulse': 'scalePulse 1s ease-in-out infinite',
+        'dotRotate': 'dotRotate 2s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -180,6 +196,10 @@ module.exports = {
           '0%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.2)' },
           '100%': { transform: 'scale(1)' },
+        },
+        'dotRotate': {
+          '0%': { transform: 'translate(-50%, -50%) rotate(0deg)' },
+          '100%': { transform: 'translate(-50%, -50%) rotate(360deg)' },
         },
       },
     },

@@ -19,15 +19,24 @@ return new class extends Migration
         Schema::create('sellers', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('sort_order')->default(0);
-            $table->string('name');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('username')->unique()->min(5)->max(20)->nullable();
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->string('phone')->nullable();
             $table->string('image')->nullable();
+
+            $table->string('shop_name')->nullable();
+            $table->string('shop_slug')->unique()->nullable();
+            $table->string('shop_logo')->nullable();
+            $table->string('shop_banner')->nullable();
+            $table->string('shop_description')->nullable();
+            $table->string('business_phone')->nullable();
+
             $table->boolean('status')->default(Seller::STATUS_ACTIVE)->comment(Seller::STATUS_ACTIVE . ': Active, ' . Seller::STATUS_DEACTIVE . ': Inactive');
             $table->boolean('is_verify')->default(Seller::UNVERIFIED)->comment(Seller::UNVERIFIED . ': Unverified, ' . Seller::VERIFIED . ': Verified');
-            $table->tinyInteger('gender')->nullable()->comment(Seller::GENDER_MALE . ': Male, ' . Seller::GENDER_FEMALE . ': Female, ' . Seller::GENDER_OTHERS . ': Other');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
@@ -35,21 +44,25 @@ return new class extends Migration
 
             // Add the otp_send_at column (if it doesn't exist already)
             $table->timestamp('otp_send_at')->nullable(); // Add this line
-            // Infromation
-            $table->string('emergency_phone')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('father_name')->nullable();
-            $table->string('mother_name')->nullable();
 
             // Indexes
+            $table->index('first_name'); // Index for first name (optional, if queried often)
+            $table->index('last_name'); // Index for last name (optional, if queried often)
+            $table->index('username'); // Index for username (unique constraint already exists)
             $table->index('sort_order');
-            $table->index('email'); // Index for email (unique constraint already exists)
-            $table->index('status'); // Index for status (frequently filtered)
-            $table->index('is_verify'); // Index for email verification status
-            $table->index('gender'); // Index for gender (optional, if queried often)
-            $table->index('created_at'); // Index for soft deletes
-            $table->index('updated_at'); // Index for soft deletes
-            $table->index('deleted_at'); // Index for soft deletes
+            $table->index('email');
+            $table->index('phone'); // Index for phone (optional, if queried often)
+            $table->index('status');
+            $table->index('is_verify');
+            $table->index('created_at');
+            $table->index('updated_at');
+            $table->index('deleted_at');
+            $table->index('otp_send_at');
+
+            $table->index('shop_name');
+            $table->index('shop_slug');
+            $table->index('shop_description');
+            $table->index('business_phone');
         });
     }
 

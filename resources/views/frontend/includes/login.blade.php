@@ -2,6 +2,7 @@
     <div class="modal-box max-w-7xl">
         <h3 class="text-lg font-bold">Login Page!</h3>
         <div class="flex items-center justify-center gap-3 mt-5">
+
             @auth('web')
                 <a href="{{ route('user.profile') }}"
                     class="px-4 py-2 text-sm font-medium text-white bg-amber-600 border border-transparent rounded-md hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">Dashboard</a>
@@ -13,7 +14,7 @@
             @endauth
 
             @auth('seller')
-                <a href="{{ route('seller.profile') }}"
+                <a href="{{ route('seller.dashboard') }}"
                     class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Seller
                     Dashboard</a>
             @else
@@ -34,6 +35,7 @@
                     class="ml-4 px-4 py-2 text-sm font-medium text-white bg-purple-600 border border-transparent rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">Admin
                     Login</a>
             @endauth
+
         </div>
         <div class="modal-action">
             <form method="dialog">

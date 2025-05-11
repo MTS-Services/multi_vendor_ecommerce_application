@@ -12,13 +12,29 @@ window.showAlert = (type, message) => {
 
 window.confirmDelete = (callback) => {
     swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Move to Recycle Bin?',
+        text: "You can restore this item from Recycle Bin!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Yes, move it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            callback();
+        }
+    });
+};
+
+window.confirmPermanentDelete = (callback) => {
+    swal.fire({
+        title: 'Delete Permanently?',
+        text: "This item will be permanently removed and can't be recovered!",
+        icon: 'danger',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete forever!'
     }).then((result) => {
         if (result.isConfirmed) {
             callback();
