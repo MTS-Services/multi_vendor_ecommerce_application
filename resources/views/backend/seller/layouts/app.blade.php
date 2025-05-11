@@ -22,6 +22,8 @@
 
     {{-- Boxicons --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css" />
+    <link rel="stylesheet" href="{{ asset('backend/seller/assets/css/sb-admin-2.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/seller/assets/css/sb-admin-2.min.css') }}">
 
     @stack('css-links')
 

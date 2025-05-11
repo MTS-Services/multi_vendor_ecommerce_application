@@ -21,4 +21,8 @@ class AdminProfileContoller extends Controller
     {
         
     }
+    public function password_update(AddressRequest $request)
+    {
+        
+    }
 }

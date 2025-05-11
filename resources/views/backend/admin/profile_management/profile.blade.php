@@ -235,7 +235,7 @@
                                 <h4 class="mb-0 py-2 text-white">{{ __('Change Password') }}</h4>
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('seller.profile.password.update') }}" method="POST">
+                                <form action="{{ route('seller.password.update') }}" method="POST">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-12 mb-3">
