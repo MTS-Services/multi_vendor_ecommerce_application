@@ -1,4 +1,4 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'subcategory'])
+@extends('backend.admin.layouts.master', ['page_slug' => 'subchildcategory'])
 @section('title', 'Sub Category Recycle Bin')
 @section('content')
     <div class="row">
@@ -8,9 +8,9 @@
                     <h4 class="cart-title">{{ __('Sub Category Recycle Bin') }}</h4>
                     <div class="buttons">
                         <x-backend.admin.button :datas="[
-                            'routeName' => 'pm.sub-category.index',
+                            'routeName' => 'pm.sub-child-category.index',
                             'label' => 'Back',
-                            'permissions' => ['sub-category-list'],
+                            'permissions' => ['sub-child-category-list'],
                         ]" />
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                 table_columns: table_columns,
                 main_class: '.datatable',
                 displayLength: 10,
-                main_route: "{{ route('pm.sub-category.recycle-bin') }}",
+                main_route: "{{ route('pm.sub-child-category.recycle-bin') }}",
                 order_route: "{{ route('update.sort.order') }}",
                 export_columns: [0, 1, 2, 3,4,5,6],
                 model: 'Category',

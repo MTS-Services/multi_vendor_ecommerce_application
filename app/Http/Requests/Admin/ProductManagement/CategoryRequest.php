@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin;
-
+namespace App\Http\Requests\Admin\ProductManagement;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryRequest extends FormRequest

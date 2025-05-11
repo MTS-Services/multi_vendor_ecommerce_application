@@ -68,7 +68,7 @@
          // Get Country States By Axios
         $(document).ready(function() {
             $('#country').on('change', function () {
-                let route = "{{ route('setup.axios.get-states') }}";
+                let route = "{{ route('axios.get-states') }}";
                 getStates($(this).val(), route);
             });
         });
