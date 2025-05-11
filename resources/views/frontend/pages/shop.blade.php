@@ -129,21 +129,17 @@
                 <details class="collapse collapse-arrow" open>
                     <summary class="collapse-title pb-0 font-semibold ">Color</summary>
                     <div class="collapse-content text-sm">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 mb-2 pe-5">
-                            <input type="radio" name="radio-1"
-                                class="w-8 h-8 radio bg-bg-accent border-border-accent checked:bg-transparent text-text-accent" />
-                            <input type="radio" name="radio-1"
-                                class="w-8 h-8 radio bg-bg-secondary border-border-primary checked:bg-transparent text-text-tertiary" />
-                            <input type="radio" name="radio-1"
-                                class="w-8 h-8 radio bg-bg-dark border-border-dark checked:bg-transparent text-text-primary" />
-                            <input type="radio" name="radio-1"
-                                class="w-8 h-8 radio bg-bg-danger border-border-danger checked:bg-transparent text-text-danger" />
-                            <input type="radio" name="radio-1"
-                                class="w-8 h-8 radio bg-bg-accent border-border-accent checked:bg-transparent text-text-accent" />
-                            <input type="radio" name="radio-1"
-                                class="w-8 h-8 radio bg-bg-accent border-border-accent checked:bg-transparent text-text-accent" />
-                            <input type="radio" name="radio-1"
-                                class="w-8 h-8 radio bg-bg-accent border-border-accent checked:bg-transparent text-text-accent" />
+                        <div class="flex flex-wrap gap-3">
+                            <x-frontend.color-input color="red" />
+                            <x-frontend.color-input color="#000" />
+                            <x-frontend.color-input color="red" />
+                            <x-frontend.color-input color="#000" />
+                            <x-frontend.color-input color="red" />
+                            <x-frontend.color-input color="#000" />
+                            <x-frontend.color-input color="red" />
+                            <x-frontend.color-input color="#000" />
+                            <x-frontend.color-input color="red" />
+                            <x-frontend.color-input color="#000" />
                         </div>
                     </div>
                 </details>
