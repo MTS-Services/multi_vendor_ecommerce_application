@@ -40,7 +40,7 @@ Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')-
     Route::post('/logout', 'logout')->name('logout'); // Admin Logout
 });
 
-Route::controller(AxiosRequestController::class)->name('setup.axios.')->prefix('setup-management')->group(function () {
+Route::controller(AxiosRequestController::class)->name('axios.')->prefix('setup-management')->group(function () {
 Route::controller(AxiosRequestController::class)->name('axios.')->group(function () {
     Route::get('get-states', 'getStates')->name('get-states');
     Route::get('get-states-or-cities', 'getStatesOrCities')->name('get-states-or-cities');
