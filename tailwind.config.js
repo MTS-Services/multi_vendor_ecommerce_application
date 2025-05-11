@@ -34,7 +34,7 @@ module.exports = {
         'md': '640px',
         'lg': '768px',
         'xl': '1024px',
-        '2xl': '1280px',
+        '2xl': '1200px',
         '3xl': '1536px',
       },
       colors: {
@@ -173,6 +173,7 @@ module.exports = {
         'slide-down': 'slideDown 0.3s ease-in-out',
         'starFade': 'starFade 0.6s ease-out forwards, rise-top-left 0.6s ease-out',
         'scalePulse': 'scalePulse 1s ease-in-out infinite',
+        'dotRotate': 'dotRotate 2s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -195,6 +196,10 @@ module.exports = {
           '0%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.2)' },
           '100%': { transform: 'scale(1)' },
+        },
+        'dotRotate': {
+          '0%': { transform: 'translate(-50%, -50%) rotate(0deg)' },
+          '100%': { transform: 'translate(-50%, -50%) rotate(360deg)' },
         },
       },
     },

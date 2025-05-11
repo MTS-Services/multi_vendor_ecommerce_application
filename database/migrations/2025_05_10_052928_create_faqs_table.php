@@ -28,17 +28,14 @@ return new class extends Migration
 
             $table->index('sort_order');
             $table->index('question');
-            $table->index('answer');
             $table->index('status');
             $table->index('type');
 
             $table->index('created_at'); // Index for soft deletes
             $table->index('updated_at'); // Index for soft deletes
             $table->index('deleted_at'); // Index for soft deletes
-            
-            $table->index('creater_id');
-            $table->index('updater_id');
-            $table->index('deleter_id');
+
+
 
         });
     }
