@@ -77,9 +77,14 @@
     <div class="container mx-auto">
         <div class="w-full flex flex-wrap ">
             <!-- Column 1: Contact -->
-            <div class="w-full basis-full md:basis-1/2 xl:basis-1/3 md:py-10 py-5">
-                <h2 class="footer-accordion-title text-xl font-semibold mb-4">{{ __('Business Contact') }}</h2>
-                <div class="footer-accordion-content">
+            <div
+                class="footer-accordion transition-all duration-300 w-full basis-full md:basis-1/2 xl:basis-1/3">
+                <h2 class="footer-accordion-title text-xl font-semibold mb-4 flex items-center justify-between">
+                    {{ __('Business Contact') }}
+                    <i class="footer-accordion-icon md:hidden" data-lucide="plus"></i>
+                </h2>
+                <div
+                    class="footer-accordion-content overflow-hidden text-sm md:text-base max-h-0 py-0 transition-all duration-300">
                     <div class="md:space-y-3 space-y-2 text-base text-text-primary dark:text-text-white">
                         <div class="flex  items-center gap-2">
                             <div class="w-7 h-7 rounded-full border  flex items-center justify-center mt-1">
@@ -117,10 +122,14 @@
             </div>
 
             <!-- Column 2: Newsletter -->
-            <div class="w-full basis-full md:basis-1/2 xl:basis-1/3 xl:border-x border-0 px-0 xl:px-5 md:py-10">
-                <h2 class="footer-accordion-title text-xl font-semibold md:mb-4 mb-2">{{ __('Subscribe Newsletter') }}
+            <div
+                class="footer-accordion transition-all duration-300 w-full basis-full md:basis-1/2 xl:basis-1/3 xl:border-x border-0 px-0 xl:px-5">
+                <h2 class="footer-accordion-title text-xl font-semibold mb-4 flex items-center justify-between">
+                    {{ __('Subscribe Newsletter') }}
+                    <i class="footer-accordion-icon md:hidden" data-lucide="plus"></i>
                 </h2>
-                <div class="footer-accordion-content">
+                <div
+                    class="footer-accordion-content overflow-hidden text-sm md:text-base max-h-0 py-0 transition-all duration-300">
                     <p class="text-base  md:mb-4 mb-2">
                         {{ __('We invite you to register to read the latest news, offers and events about our company. We promise not spam your inbox.') }}
                     </p>
@@ -138,12 +147,16 @@
             </div>
 
             <!-- Column 3: About Us + Resource -->
-            <div class="w-full basis-full xl:basis-1/3 md:py-10 pl-0 xl:pl-5 py-5">
+            <div class="w-full basis-full xl:basis-1/3 lg:pl-0 xl:pl-5">
                 <div class="flex md:flex-row flex-col ">
                     <!-- About Us -->
-                    <div class="md:w-1/2 w-full justify-end mb-4">
-                        <h2 class="footer-accordion-title text-xl font-semibold md:mb-4 mb-2">{{ __('About Us') }}</h2>
-                        <div class="footer-accordion-content">
+                    <div class="footer-accordion transition-all duration-300 md:w-1/2 w-full justify-end pb-0">
+                        <h2 class="footer-accordion-title text-xl font-semibold mb-4 flex items-center justify-between">
+                            {{ __('About Us') }}
+                            <i class="footer-accordion-icon md:hidden" data-lucide="plus"></i>
+                        </h2>
+                        <div
+                            class="footer-accordion-content overflow-hidden text-sm md:text-base max-h-0 py-0 transition-all duration-300">
                             <ul class="md:space-y-2 space-y-1 text-base text-text-primary dark:text-text-white">
                                 <li><a href="#"
                                         class="hover:text-text-accent transition-all duration-300">{{ __('About Us') }}</a>
@@ -162,10 +175,13 @@
                     </div>
 
                     <!-- Resource -->
-                    <div class="md:w-1/2 w-full">
-                        <h2 class="footer-accordion-title text-lg font-semibold md:mb-4 mb-2">{{ __('Resource') }}
+                    <div class="footer-accordion transition-all duration-300 md:w-1/2 w-full pb-0">
+                        <h2 class="footer-accordion-title text-lg font-semibold mb-4 flex items-center justify-between">
+                            {{ __('Resource') }}
+                            <i class="footer-accordion-icon md:hidden" data-lucide="plus"></i>
                         </h2>
-                        <div class="footer-accordion-content">
+                        <div
+                            class="footer-accordion-content overflow-hidden text-sm md:text-base max-h-0 py-0 transition-all duration-300">
                             <ul class="md:space-y-2 space-y-1 text-base text-text-primary dark:text-text-white">
                                 <li><a href="#"
                                         class="hover:text-text-accent transition-all duration-300">{{ __('Privacy Policies') }}</a>
@@ -188,9 +204,7 @@
 
                 </div>
             </div>
-
         </div>
-
     </div>
 
     {{-- Main content end --}}

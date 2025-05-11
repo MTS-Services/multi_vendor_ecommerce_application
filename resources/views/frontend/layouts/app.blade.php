@@ -89,56 +89,154 @@
     <script src="{{ asset('frontend/js/toggleSearchForm.js') }}"></script>
 
     {{-- Footer Accordion --}}
-    <script>
+    {{-- <script>
         $(document).ready(function() {
-            const $faqItems = $('.faq-item');
+            const faqItems = $('.footer-accordion');
 
-            $faqItems.each(function(index) {
-                const $item = $(this);
-                const $button = $item.find('.faq-question');
-                const $answer = $item.find('.faq-answer');
-                const $faqIcon = $item.find('.faq-icon');
+            let currentMode = null;
 
-                $button.on('click', function() {
-                    // Collapse all other items
-                    $faqItems.each(function(otherIndex) {
-                        if (otherIndex !== index) {
-                            const $otherItem = $(this);
-                            $otherItem.find('.faq-answer').css('max-height', null);
-                            $otherItem.removeClass('pb-5');
-                            $otherItem.find('.faq-icon')
-                                .removeClass('fa-minus text-t-primary')
-                                .addClass('fa-plus');
-                        }
+            function setupAccordion() {
+                const isMobile = window.innerWidth <= 640;
+
+                if (isMobile && currentMode !== 'mobile') {
+                    currentMode = 'mobile';
+
+                    // Collapse all initially
+                    faqItems.each(function() {
+                        const item = $(this);
+                        const answer = item.find('.footer-accordion-content');
+                        const button = item.find('.footer-accordion-title');
+                        const icon = item.find('.footer-accordion-icon');
+
+                        answer.css('max-height', '0');
+                        item.removeClass('pb-5');
+                        button.off('click').on('click', function() {
+                            const isOpen = answer.css('max-height') !== '0px';
+
+                            faqItems.each(function() {
+                                const otherItem = $(this);
+                                const otherAnswer = otherItem.find(
+                                    '.footer-accordion-content');
+                                otherAnswer.css('max-height', '0');
+                                otherItem.removeClass('pb-5');
+
+                            });
+
+                            if (!isOpen) {
+                                const scrollHeight = answer.prop('scrollHeight') + 20;
+                                answer.css('max-height', scrollHeight + 'px');
+                                item.addClass('pb-5');
+                            }
+                        });
                     });
 
-                    // Toggle this item
-                    if ($answer.css('max-height') !== 'none' && $answer.css('max-height') !==
-                        '0px') {
-                        // Collapse current
-                        $answer.css('max-height', null);
-                        $item.removeClass('pb-5');
-                        $faqIcon.removeClass('fa-minus text-t-primary').addClass('fa-plus');
-                    } else {
-                        // Expand current
-                        const scrollHeight = $answer.prop('scrollHeight') + 20;
-                        $answer.css('max-height', scrollHeight + 'px');
+                } else if (!isMobile && currentMode !== 'desktop') {
+                    currentMode = 'desktop';
+
+                    // Show all content and remove accordion behavior
+                    $faqItems.each(function() {
+                        const item = $(this);
+                        const answer = item.find('.footer-accordion-content');
+                        const button = item.find('.footer-accordion-title');
+
+                        $answer.css('max-height', 'none');
                         $item.addClass('pb-5');
-                        $faqIcon.removeClass('fa-plus').addClass('fa-minus text-t-primary');
-                    }
-                });
+                        $button.off('click'); // remove toggle behavior
+                    });
+                }
+            }
+
+            // Initial setup
+            setupAccordion();
+
+            // Re-run on window resize
+            $(window).on('resize', function() {
+                setupAccordion();
             });
+        });
+    </script> --}}
+    <script>
+        $(document).ready(function() {
+            const faqItems = $('.footer-accordion');
+            let currentMode = null;
 
-            // Initialize first item expanded
-            const $firstItem = $faqItems.first();
-            const $firstAnswer = $firstItem.find('.faq-answer');
-            const $firstIcon = $firstItem.find('.faq-icon');
+            function setupAccordion() {
+                const isMobile = window.innerWidth <= 640;
 
-            $firstAnswer.css('max-height', $firstAnswer.prop('scrollHeight') + 20 + 'px');
-            $firstItem.addClass('pb-5');
-            $firstIcon.removeClass('fa-plus').addClass('fa-minus text-t-primary');
+                if (isMobile && currentMode !== 'mobile') {
+                    currentMode = 'mobile';
+
+                    faqItems.each(function() {
+                        const item = $(this);
+                        const answer = item.find('.footer-accordion-content');
+                        const button = item.find('.footer-accordion-title');
+                        const icon = item.find('.footer-accordion-icon');
+
+                        // Collapse all initially
+                        answer.css('max-height', '0');
+                        item.removeClass('pb-5');
+                        icon.attr('data-lucide', 'plus');
+                        lucide.createIcons(); // Re-render icon
+
+                        button.off('click').on('click', function() {
+                            const isOpen = answer.css('max-height') !== '0px';
+
+                            // Collapse all
+                            faqItems.each(function() {
+                                const otherItem = $(this);
+                                const otherAnswer = otherItem.find(
+                                    '.footer-accordion-content');
+                                const otherIcon = otherItem.find('.footer-accordion-icon');
+
+                                otherAnswer.css('max-height', '0');
+                                otherItem.removeClass('pb-5');
+                                otherIcon.attr('data-lucide', 'plus');
+                            });
+
+                            if (!isOpen) {
+                                const scrollHeight = answer.prop('scrollHeight') + 20;
+                                answer.css('max-height', scrollHeight + 'px');
+                                item.addClass('pb-5');
+                                icon.attr('data-lucide', 'minus');
+                            }
+
+                            lucide.createIcons(); // Re-render icons after all updates
+                        });
+                    });
+
+                } else if (!isMobile && currentMode !== 'desktop') {
+                    currentMode = 'desktop';
+
+                    // Remove accordion behavior, show all
+                    faqItems.each(function() {
+                        const item = $(this);
+                        const answer = item.find('.footer-accordion-content');
+                        const button = item.find('.footer-accordion-title');
+                        const icon = item.find('.footer-accordion-icon');
+
+                        answer.css('max-height', 'none');
+                        item.addClass('pb-5');
+                        button.off('click');
+                        icon.attr('data-lucide', 'minus');
+                    });
+
+                    lucide.createIcons();
+                }
+            }
+
+            // Initial setup
+            setupAccordion();
+
+            // Re-setup on resize
+            $(window).on('resize', function() {
+                setupAccordion();
+            });
         });
     </script>
+
+
+
+
 
     {{-- Custom JS --}}
     @stack('js')
