@@ -26,5 +26,21 @@ class CategorySeeder extends Seeder
             'name' => 'Category 3',
             'slug' => 'category-3',
         ]);
+        Category::create([
+            'name' => 'Category 5',
+            'slug' => 'category-5',
+            'is_featured' => 1,
+        ]);
+        Category::create([
+            'name' => 'Category 6',
+            'slug' => 'category-6',
+            'is_featured' => 1,
+        ]);
+        Category::create([
+            'name' => 'Category 7',
+            'slug' => 'category-7',
+            'is_featured' => 1,
+        ]);
+       
     }
 }

@@ -122,66 +122,6 @@
 
     {{-- =====================  Categories Section ===================== --}}
 
-    {{-- @php
-        $categories = [
-            [
-                'image' => 'frontend/images/airpod-pro-black.jpg',
-                'title' => 'APPLE WATCHES COLLECTION',
-            ],
-            [
-                'image' => 'frontend/images/earphone.png',
-                'title' => 'Samsung Gallexy Buds Pro',
-            ],
-            [
-                'image' => 'frontend/images/airpod-pro-black.jpg',
-                'title' => 'APPLE WATCHES COLLECTION',
-            ],
-            [
-                'image' => 'frontend/images/earphone.png',
-                'title' => 'Samsung Gallexy Buds Pro',
-            ],
-            [
-                'image' => 'frontend/images/airpod-pro-black.jpg',
-                'title' => 'APPLE WATCHES COLLECTION',
-            ],
-            [
-                'image' => 'frontend/images/earphone.png',
-                'title' => 'Samsung Gallexy Buds Pro',
-            ],
-            [
-                'image' => 'frontend/images/airpod-pro-black.jpg',
-                'title' => 'APPLE WATCHES COLLECTION',
-            ],
-            [
-                'image' => 'frontend/images/earphone.png',
-                'title' => 'Samsung Gallexy Buds Pro',
-            ],
-            [
-                'image' => 'frontend/images/airpod-pro-black.jpg',
-                'title' => 'APPLE WATCHES COLLECTION',
-            ],
-            [
-                'image' => 'frontend/images/earphone.png',
-                'title' => 'Samsung Gallexy Buds Pro',
-            ],
-            [
-                'image' => 'frontend/images/airpod-pro-black.jpg',
-                'title' => 'APPLE WATCHES COLLECTION',
-            ],
-            [
-                'image' => 'frontend/images/earphone.png',
-                'title' => 'Samsung Gallexy Buds Pro',
-            ],
-            [
-                'image' => 'frontend/images/airpod-pro-black.jpg',
-                'title' => 'APPLE WATCHES COLLECTION',
-            ],
-            [
-                'image' => 'frontend/images/earphone.png',
-                'title' => 'Samsung Gallexy Buds Pro',
-            ],
-        ];
-    @endphp --}}
     <section class="md:py-22 py-11 relative  dark:bg-opacity-50">
         <div class="container">
             <h2 class="text-2xl md:text-4xl md:pb-8 pb-4 font-bold">{{__('Categories')}}</h2>
