@@ -56,10 +56,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="d-flex justify-content-around align-items-center gap-5 py-5 text-center">
-                    <p class="nav-item w-100 py-2" data-bs-target="profile">profile</p>
-                    <p class="nav-item w-100 py-2" data-bs-target="shop-details">Shop Details</p>
-                    <p class="nav-item w-100 py-2" data-bs-target="address">Address</p>
-                    <p class="nav-item w-100 py-2 active" data-bs-target="change-password">Change Password</p>
+                    <p class="nav-item w-100 py-2" data-bs-target="profile">{{ __("profile") }}</p>
+                    <p class="nav-item w-100 py-2" data-bs-target="shop-details">{{ __("Shop Details") }}</p>
+                    <p class="nav-item w-100 py-2" data-bs-target="address">{{ __("Address") }}</p>
+                    <p class="nav-item w-100 py-2 active" data-bs-target="change-password">{{ __("Change Password") }}</p>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow-sm border-0">
                                 <div class="card-header">
-                                    <h4 class="mb-0 py-2 text-white">Profile</h4>
+                                    <h4 class="mb-0 py-2 text-white">{{ __('Profile') }}</h4>
                                 </div>
                                 <div class="card-body">
                                     <form action="{{ route('seller.profile.update') }}" method="POST"
@@ -223,11 +223,11 @@
                                             <div class="row">
                                                 <div class="col-6 form-group">
                                                     <label>{{ __('City') }} <span class="text-danger">*</span></label>
-                                                    <select name="city_id" id="city" class="form-control" disabled>
+                                                    <select name="city" id="city" class="form-control" disabled>
                                                         <option value="" selected hidden>{{ __('Select City') }}
                                                         </option>
                                                     </select>
-                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city_id']" />
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city']" />
                                                 </div>
                                                 <div class="col-6 form-group">
                                                     <label>{{ __('Area') }} <span class="text-danger">*</span></label>
@@ -340,21 +340,21 @@
         });
         // Get Country States By Axios
         $(document).ready(function() {
-            let route1 = "{{ route('axios.axios.get-cities') }}";
+            let route1 = "{{ route('axios.get-cities') }}";
             $('#country').on('change', function() {
                 getStatesOrCity($(this).val(), route1);
             });
-            let route2 = "{{ route('axios.axios.get-states-or-cities') }}";
+            let route2 = "{{ route('axios.get-states-or-cities') }}";
             $('#state').on('change', function() {
                 getCities($(this).val(), route2);
             });
-            let route3 = "{{ route('axios.axios.get-operation-areas') }}";
+            let route3 = "{{ route('axios.get-operation-areas') }}";
             $('#city').on('change', function() {
                 getOperationAreas($(this).val(), route3);
             });
-            let route4 = "{{ route('axios.axios.get-sub-areas') }}";
+            let route4 = "{{ route('axios.get-sub-areas') }}";
             $('#city').on('change', function() {
-                getOperationAreas($(this).val(), route3);
+                getOperationAreas($(this).val(), route4);
             });
 
             let data_id =

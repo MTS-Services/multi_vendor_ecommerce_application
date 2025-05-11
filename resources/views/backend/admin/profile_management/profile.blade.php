@@ -131,11 +131,11 @@
                                             <div class="row">
                                                 <div class="col-6 form-group">
                                                     <label>{{ __('City') }} <span class="text-danger">*</span></label>
-                                                    <select name="city_id" id="city" class="form-control" disabled>
-                                                        <option value="" selected hidden>{{ __('Select City') }}
+                                                    <select name="city" id="city" class="form-control" disabled>
+                                                        <option value="" selected hidden>{{ __("Select City") }}
                                                         </option>
                                                     </select>
-                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city_id']" />
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city']" />
                                                 </div>
                                                 <div class="col-6 form-group">
                                                     <label>{{ __('Operation Area') }} <span class="text-danger">*</span></label>
@@ -248,15 +248,15 @@
         });
         // Get Country States By Axios
         $(document).ready(function() {
-            let route1 = "{{ route('axios.axios.get-cities') }}";
+            let route1 = "{{ route('axios.get-cities') }}";
             $('#country').on('change', function() {
                 getStatesOrCity($(this).val(), route1);
             });
-            let route2 = "{{ route('axios.axios.get-states-or-cities') }}";
+            let route2 = "{{ route('axios.get-states-or-cities') }}";
             $('#state').on('change', function() {
                 getCities($(this).val(), route2);
             });
-            let route3 = "{{ route('axios.axios.get-operation-areas') }}";
+            let route3 = "{{ route('axios.get-operation-areas') }}";
             $('#city').on('change', function() {
                 getOperationAreas($(this).val(), route3);
             });
