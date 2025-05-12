@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Admin\ProductManagement;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductManagement\ProductTagRequest;
 use App\Models\ProductTag;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -105,7 +106,7 @@ class ProductTagController extends Controller
     public function store(ProductTagRequest $request)
     {
         $validated = $request->validated();
-        $validated['creater_by'] = admin()->id;
+        $validated['created_by'] = admin()->id;
         ProductTag::create($validated);
         session()->flash('success', 'Product Tag created successfully!');
         return redirect()->route('pm.product-tags.index');
@@ -134,23 +135,31 @@ class ProductTagController extends Controller
      */
     public function update(ProductTagRequest $request, string $id)
     {
+        $productTag = ProductTag::findOrFail(decrypt($id));
+        $validated = $request->validated();
+        $validated['updated_by'] = admin()->id;
 
-        $productTag = ProductTag::findOrFail($id);
-
-        $productTag->name = $request->name;
-        $productTag->slug = $request->slug;
-        $productTag->description = $request->description;
-        $productTag->save();
-
-        return redirect()->route('pm.product-tags.index')
-            ->with('success', 'Product Tag updated successfully!');
+        $productTag->update($validated);
+        session()->flash('success', 'Product tag created successfully!');
+        return redirect()->route('pm.product-tags.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
-        //
+        $productTag = ProductTag::findOrFail(decrypt($id));
+        $productTag->update(['deleter_by' => admin()->id, 'deleter_at' => get_class(admin())]);
+        $productTag->delete();
+        session()->flash('success', 'Product Tag deleted successfully!');
+        return redirect()->route('pm.product-tags.index');
+    }
+    public function status(string $id): RedirectResponse
+    {
+        $productTag = ProductTag::findOrFail(decrypt($id));
+        $productTag->update(['status' => !$productTag->status, 'updated_by' => admin()->id]);
+        session()->flash('success', 'Product Tag status updated successfully!');
+        return redirect()->route('pm.product-tags.index');
     }
 }

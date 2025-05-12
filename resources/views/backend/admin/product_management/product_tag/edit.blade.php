@@ -13,13 +13,14 @@
                     ]" />
             </div>
             <div class="card-body">
-                <form action="{{ route('pm.product-tags.update', $productTag->id) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
+                <form action="{{ route('pm.product-tags.update', encrypt($productTag->id)) }}" method="POST" enctype="multipart/form-data">
                     @method('PUT')
+                    @csrf
+
                     {{-- Name --}}
                     <div class="form-group">
                         <label>{{ __('Name') }} <span class="text-danger">*</span></label>
-                        <input type="text" value="{{ old('name', $productTag->name) }}" name="name" class="form-control"
+                        <input type="text" value="{{ old('name', $productTag->name) }}" id="title" name="name" class="form-control"
                             placeholder="Enter name">
                         <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
                     </div>

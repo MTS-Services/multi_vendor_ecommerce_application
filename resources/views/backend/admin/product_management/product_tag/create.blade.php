@@ -18,7 +18,7 @@
                     {{-- Name --}}
                     <div class="form-group">
                         <label>{{ __('Name') }} <span class="text-danger">*</span></label>
-                        <input type="text" value="{{ old('name') }}" name="name" class="form-control"
+                        <input type="text" value="{{ old('name') }}" id="title" name="name" class="form-control"
                             placeholder="Enter name">
                         <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
                     </div>

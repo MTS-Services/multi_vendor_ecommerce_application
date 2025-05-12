@@ -101,24 +101,27 @@
                     $page_slug == 'category' ||
                         $page_slug == 'subcategory' ||
                         $page_slug == 'brand' ||
+                        $page_slug == 'product_tag' ||
                         $page_slug == 'product_attribute') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#product_management"
                         @if (
                             $page_slug == 'category' ||
                                 $page_slug == 'subcategory' ||
                                 $page_slug == 'brand' ||
+                                $page_slug == 'product_tag' ||
                                 $page_slug == 'product_attribute') aria-expanded="true" @endif>
                         <i class="icon-people"></i>
                         <p>{{ __('Product Management') }}</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'brand' || $page_slug == 'product' || $page_slug == 'product_attribute') show @endif" id="product_management">
+                    <div class="collapse @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'brand' || $page_slug == 'product_tag' || $page_slug == 'product_attribute') show @endif" id="product_management">
 
                     <div class="collapse @if (
                         $page_slug == 'category' ||
                             $page_slug == 'subcategory' ||
                             $page_slug == 'brand' ||
+                            $page_slug == 'product_tag' ||
                             $page_slug == 'product_attribute') show @endif" id="product_management">
 
                         <ul class="nav nav-collapse">
@@ -127,7 +130,7 @@
                                     <span class="sub-item">{{ __('Brand') }}</span>
                                 </a>
                             </li>
-                            <li class="@if ($page_slug == 'product') active @endif">
+                            <li class="@if ($page_slug == 'product_tag') active @endif">
                                 <a href="{{ route('pm.product-tags.index') }}">
                                     <span class="sub-item">{{ __('Product Tag') }}</span>
                                 </a>

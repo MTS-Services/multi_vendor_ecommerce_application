@@ -15,13 +15,10 @@ class ProductTag extends BaseModel
         'slug',
         'status',
         'description',
-        'creater_id',
-        'updater_id',
-        'deleter_id',
 
-        'creater_type',
-        'updater_type',
-        'deleter_type',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
    
      public function __construct(array $product_tag = [])

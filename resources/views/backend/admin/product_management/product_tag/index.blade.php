@@ -1,4 +1,4 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'product_tags'])
+@extends('backend.admin.layouts.master', ['page_slug' => 'product_tag'])
 @section('title', 'Product Tag List')
 @push('css')
 <link rel="stylesheet" href="{{ asset('custom_litebox/litebox.css') }}">

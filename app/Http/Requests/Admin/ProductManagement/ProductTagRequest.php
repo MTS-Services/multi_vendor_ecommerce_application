@@ -23,8 +23,9 @@ class ProductTagRequest extends FormRequest
     public function rules(): array
     {
         return [
-             Rule::unique('product_tags')
-                ->where(fn ($query) => $query->where('product_tags_id', $this->input('product_tags_id')))
+            'description' => 'nullable|string',
+            //  Rule::unique('product_tags')
+            //     ->where(fn ($query) => $query->where('product_tags_id', $this->input('product_tags_id')))
 
         ] + ($this->isMethod('POST') ? $this->store() : $this->update());
     }
@@ -32,24 +33,23 @@ class ProductTagRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|unique:product_tags,name',
-            'slug' => 'required|string|max:3|unique:product_tags,slug,',
-            'description' => 'nullable|string',
-            'value' => [
-                Rule::unique('product_tags')
-                    ->where(fn($query) => $query->where('product_tags_id', $this->input('product_tags_id')))
-            ],
+            'slug' => 'required|string|min:3|unique:product_tags,slug,',
+            // 'value' => [
+            //     Rule::unique('product_tags')
+            //         ->where(fn($query) => $query->where('product_tags_id', $this->input('product_tags_id')))
+            // ],
         ];
     }
     protected function update(): array
     {
         return [
-            'name' => 'required|string|min:3|unique:product_tags,name' . decrypt($this->route('product_tags')),
-            'slug' => 'required|unique:product_tags,slug' . decrypt($this->route('product_tags')),
-            'value' => [
-                Rule::unique('product_tags')
-                    ->ignore(decrypt($this->route('product_tags')))
-                    ->where(fn($query) => $query->where('product_tags_id', $this->input('product_tags_id')))
-            ],
+            'name' => 'required|string|unique:product_tags,name,' . decrypt($this->route('product_tag')),
+            'slug' => 'required|string|unique:product_tags,slug,' . decrypt($this->route('product_tag')),
+            // 'value' => [
+            //     Rule::unique('product_tags')
+            //         ->ignore(decrypt($this->route('product_tags')))
+            //         ->where(fn($query) => $query->where('product_tags_id', $this->input('product_tags_id')))
+            // ],
         ];
     }
 }
