@@ -18,7 +18,7 @@ module.exports = {
       center: true,
       padding: '1rem',
       screens: {
-        'xs': '100%',
+        'xs': '480px',
         'sm': '512px',
         'md': '640px',
         'lg': '768px',
@@ -29,12 +29,12 @@ module.exports = {
     },
     extend: {
       screens: {
-        'xs': '100%',
+        'xs': '480px',
         'sm': '512px',
         'md': '640px',
         'lg': '768px',
         'xl': '1024px',
-        '2xl': '1280px',
+        '2xl': '1200px',
         '3xl': '1536px',
       },
       colors: {
@@ -48,19 +48,24 @@ module.exports = {
           white: '#ffffff',
           black: '#000000',
           danger: '#DC2626',
+          orange: "#ff6b6b",
         },
 
         bg: {
           primary: '#000AEE',       // Vivid blue
           secondary: '#8A2BE2',     // Purple background
           accent: '#8752FA',        // Violet background
-          dark: '#292929',          // Dark section
           light: '#FFFDF6',
+          lightSecondary: '#FBFBFB',
           dark: '#2d2d2d',
+          darkSecondary: '#021526',
+          darkTertiary: '#222831',
+          darkQuaternary: '#212121',
           gray: '#F3F4F6',
           white: '#ffffff',
           black: '#000000',
           danger: '#DC2626',
+          orange: "#ff6b6b",
         },
 
         border: {
@@ -71,6 +76,7 @@ module.exports = {
           danger: '#DC2626',
           white: '#ffffff',
           black: '#000000',
+          orange: "#ff6b6b",
         },
 
         outline: {
@@ -81,6 +87,7 @@ module.exports = {
           danger: '#DC2626',
           white: '#ffffff',
           black: '#000000',
+          orange: "#ff6b6b",
         },
 
         focus: {
@@ -90,7 +97,24 @@ module.exports = {
           danger: '#DC2626',
           white: '#ffffff',
           black: '#000000',
+          orange: "#ff6b6b",
         },
+
+        shadow: {
+          primary: '#8A2BE2',
+          accent: '#8752FA',
+          dark: '#0A192F',
+          danger: '#DC2626',
+          white: '#ffffff',
+          black: '#000000',
+          light: '#E5E7EB',
+          darkSecondary: '#021526',
+          darkTertiary: '#222831',
+          gray: '#F3F4F6',
+          lightSecondary: '#F9FAFB',
+          lightTertiary: '#F3F4F6',
+          orange: "#ff6b6b",
+        }
       },
       fontFamily: {
         'inter': ['Inter', ...defaultTheme.fontFamily.sans],
@@ -131,7 +155,7 @@ module.exports = {
         'card': '0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1)',
         'dropdown': '0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)',
         'inner': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
-        'none': 'none',
+        'shadowPrimary': 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
       },
       borderRadius: {
         'none': '0',
@@ -147,6 +171,8 @@ module.exports = {
       backgroundImage: {
         'gradient-primary': 'linear-gradient(45deg, #4CAF83 0%, #86BD59 100%)',
         'gradient-secondary': 'linear-gradient(45deg, #FFCA40 0%, #FDC040 100%)',
+        'gradient-light': 'linear-gradient(45deg, #EFEFFE 0%, #FFEFF6 100%)',
+        'gradient-dark': 'linear-gradient(45deg, #2E2E4D 0%, #4D2E3C 100%)',
         'star': 'radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent)',
       },
       animation: {
@@ -155,6 +181,7 @@ module.exports = {
         'slide-down': 'slideDown 0.3s ease-in-out',
         'starFade': 'starFade 0.6s ease-out forwards, rise-top-left 0.6s ease-out',
         'scalePulse': 'scalePulse 1s ease-in-out infinite',
+        'dotRotate': 'dotRotate 2s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -177,6 +204,10 @@ module.exports = {
           '0%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.2)' },
           '100%': { transform: 'scale(1)' },
+        },
+        'dotRotate': {
+          '0%': { transform: 'translate(-50%, -50%) rotate(0deg)' },
+          '100%': { transform: 'translate(-50%, -50%) rotate(360deg)' },
         },
       },
     },

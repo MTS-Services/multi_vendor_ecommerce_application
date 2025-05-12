@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\RoleRequest;
 use App\Models\Permission;
 use App\Models\Role;
-use DB;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Traits\DetailsCommonDataTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
@@ -25,6 +25,9 @@ class RoleController extends Controller
         $this->middleware('permission:role-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:role-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:role-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:role-restore', ['only' => ['restore']]);
+        $this->middleware('permission:role-permanent-delete', ['only' => ['permanentDelete']]);
     }
 
     /**
@@ -35,8 +38,8 @@ class RoleController extends Controller
 
         if ($request->ajax()) {
             $query = Role::with(['permissions:id,name,prefix', 'creater_admin'])
-            ->orderBy('sort_order', 'asc')
-            ->latest();
+                ->orderBy('sort_order', 'asc')
+                ->latest();
             return DataTables::eloquent($query)
                 ->editColumn('created_by', function ($role) {
                     return $role->creater_name;
@@ -79,7 +82,51 @@ class RoleController extends Controller
             ]
         ];
     }
+    // Recycle Bin
+    public function recycleBin(Request $request)
+    {
 
+        if ($request->ajax()) {
+            $query = Role::with(['deleter_admin'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+                ->editColumn('deleted_by', function ($role) {
+                    return $role->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($role) {
+                    return $role->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($role) {
+                    $menuItems = $this->trashedMenuItems($role);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.admin_management.role.recycle-bin');
+    }
+
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'am.role.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['role-restore']
+            ],
+            [
+                'routeName' => 'am.role.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['role-permanent-delete']
+            ]
+
+        ];
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -185,5 +232,29 @@ class RoleController extends Controller
         $role->delete();
         session()->flash('success', 'Role deleted successfully!');
         return redirect()->route('am.role.index');
+    }
+
+
+    public function restore(string $id): RedirectResponse
+    {
+        $role = Role::onlyTrashed()->findOrFail(decrypt($id));
+        $role->update(['updated_by' => admin()->id]);
+        $role->restore();
+        session()->flash('success', 'Role restored successfully!');
+        return redirect()->route('am.role.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $role = Role::onlyTrashed()->findOrFail(decrypt($id));
+        $role->forceDelete();
+        session()->flash('success', 'Role permanently deleted successfully!');
+        return redirect()->route('am.role.recycle-bin');
     }
 }

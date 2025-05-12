@@ -16,12 +16,16 @@ class Admin extends AuthBaseModel implements Auditable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'sort_order',
+        'first_name',
+        'last_name',
+        'username',
         'email',
+        'phone',
+        'image',
         'role_id',
         'status',
         'is_verify',
-        'gender',
         'password',
         'created_by',
         'updated_by',
@@ -47,11 +51,14 @@ class Admin extends AuthBaseModel implements Auditable
     protected function casts(): array
     {
         return [
+            'created_by' => 'integer',
+            'updated_by' => 'integer',
+            'deleted_by' => 'integer',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'status' => 'integer',
             'is_verify' => 'integer',
-            'gender' => 'integer',
+            'username' => 'string',
         ];
     }
 

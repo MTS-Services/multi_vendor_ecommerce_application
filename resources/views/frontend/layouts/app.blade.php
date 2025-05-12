@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="shortcut icon" href="{{asset('frontend/images/favicon.png')}}" type="image/x-icon">
+    {{-- Swiper’s Zoom  --}}
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" /> --}}
+    <link rel="shortcut icon" href="{{ asset('frontend/images/favicon.png') }}" type="image/x-icon">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -21,29 +23,39 @@
         {{ config('app.name', 'Ecommerce') }}
     </title>
 
-    {{-- Boxicons --}}
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css" /> --}}
+    {{-- Swiper CSS --}}
+    <link rel="stylesheet" href="{{ asset('frontend/css/swiper.min.css') }}">
 
-    {{-- fontAwesome CDN --}}
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" /> --}}
+    {{-- BoxIcons --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css" />
 
-
-    @stack('css-links')
     @vite(['resources/css/app.css'])
+
+    {{-- Custom CSS --}}
     @stack('css')
 
 </head>
 
 <body>
 
+    {{-- ============================== Layouts ============================== --}}
+
     <!-- Custom Cursor -->
     <div class="cursor-wrapper">
         <div class="custom-cursor"></div>
     </div>
 
+    {{-- User Login --}}
+
+    {{-- Temporary Includes --}}
+    @include('frontend.includes.login')
+
 
     {{-- Header --}}
     @include('frontend.layouts.partials.header')
+
+    {{-- SideBar --}}
+    @include('frontend.layouts.partials.sidebar')
 
     <main>
         @yield('content')
@@ -52,8 +64,12 @@
     {{-- Footer --}}
     @include('frontend.layouts.partials.footer')
 
+    {{-- ============================== End of Layouts ============================== --}}
+
     {{-- Jquery --}}
     <script src="{{ asset('frontend/js/jQuery.js') }}"></script>
+    {{-- Swiper JS --}}
+    <script src="{{ asset('frontend/js/swiper.min.js') }}" type="module"></script>
     {{-- Lucide Icons --}}
     <script src="{{ asset('frontend/js/lucideIcon.js') }}"></script>
     <script>
@@ -61,108 +77,123 @@
     </script>
 
     {{-- Toggle theme --}}
-
-    <script>
-        $(document).ready(function () {
-            const $html = $('#html');
-            const $themeToggle = $('#theme-toggle');
-            const $darkModeLogos = $('.dark-mode-logo');
-            const $lightModeLogos = $('.light-mode-logo');
-    
-            // Load saved theme
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                $html.removeClass('light dark').addClass(savedTheme).attr('data-theme', savedTheme);
-                $themeToggle.prop('checked', savedTheme === 'dark');
-                toggleLogos(savedTheme);
-            }
-    
-            // Toggle theme on change
-            $themeToggle.on('change', function () {
-                const newTheme = $themeToggle.is(':checked') ? 'dark' : 'light';
-                $html.removeClass('light dark').addClass(newTheme).attr('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                toggleLogos(newTheme);
-            });
-    
-            function toggleLogos(theme) {
-                if (theme === 'dark') {
-                    $darkModeLogos.removeClass('hidden');
-                    $lightModeLogos.addClass('hidden');
-                } else {
-                    $darkModeLogos.addClass('hidden');
-                    $lightModeLogos.removeClass('hidden');
-                }
-            }
-        });
-    </script>
-    
+    <script src="{{ asset('frontend/js/themeToggle.js') }}"></script>
 
     {{-- Custom Cursor --}}
+    <script src="{{ asset('frontend/js/customCursor.js') }}"></script>
+
+    {{-- Side Bar --}}
+    <script src="{{ asset('frontend/js/sidebar.js') }}"></script>
+
+    {{-- Toggle search form --}}
+    <script src="{{ asset('frontend/js/toggleSearchForm.js') }}"></script>
+
+    {{-- Footer Accordion --}}
     <script>
         $(document).ready(function() {
-            const $cursorWrapper = $('.cursor-wrapper');
-            const $cursor = $('.custom-cursor');
+            const faqItems = $('.footer-accordion');
+            let currentMode = null;
 
-            // Move the wrapper with the mouse
-            $(document).on('mousemove', function(e) {
-                const x = e.clientX;
-                const y = e.clientY;
-                $cursorWrapper.css('transform', `translate(${x}px, ${y}px) translate(-50%, -50%)`);
+            function setupAccordion() {
+                const isMobile = window.innerWidth <= 640;
 
-                // Randomly create stars (less frequent)
-                // if (Math.random() < 0.3) {
-                //     createStarTopLeft(x, y);
-                // }
-            });
+                if (isMobile && currentMode !== 'mobile') {
+                    currentMode = 'mobile';
 
-            // Add animation on click
-            $(document).on('mousedown', function() {
-                $cursor.addClass('click');
-            });
+                    faqItems.each(function() {
+                        const item = $(this);
+                        const answer = item.find('.footer-accordion-content');
+                        const button = item.find('.footer-accordion-title');
+                        const icon = item.find('.footer-accordion-icon');
 
-            $(document).on('mouseup', function() {
-                $cursor.removeClass('click');
-            });
+                        // Collapse all initially
+                        answer.css('max-height', '0');
+                        item.removeClass('pb-5');
+                        icon.attr('data-lucide', 'plus');
+                        lucide.createIcons(); // Re-render icon
 
-            // Add pulsing effect when hovering over buttons and links
-            $('a, button').hover(
-                function() {
-                    $cursor.addClass('animate-scalePulse');
-                },
-                function() {
-                    $cursor.removeClass('animate-scalePulse');
+                        button.off('click').on('click', function() {
+                            const isOpen = answer.css('max-height') !== '0px';
+
+                            // Collapse all
+                            faqItems.each(function() {
+                                const otherItem = $(this);
+                                const otherAnswer = otherItem.find(
+                                    '.footer-accordion-content');
+                                const otherIcon = otherItem.find('.footer-accordion-icon');
+
+                                otherAnswer.css('max-height', '0');
+                                otherItem.removeClass('pb-5');
+                                otherIcon.attr('data-lucide', 'plus');
+                            });
+
+                            if (!isOpen) {
+                                const scrollHeight = answer.prop('scrollHeight') + 20;
+                                answer.css('max-height', scrollHeight + 'px');
+                                item.addClass('pb-5');
+                                icon.attr('data-lucide', 'minus');
+                            }
+
+                            lucide.createIcons(); // Re-render icons after all updates
+                        });
+                    });
+
+                } else if (!isMobile && currentMode !== 'desktop') {
+                    currentMode = 'desktop';
+
+                    // Remove accordion behavior, show all
+                    faqItems.each(function() {
+                        const item = $(this);
+                        const answer = item.find('.footer-accordion-content');
+                        const button = item.find('.footer-accordion-title');
+                        const icon = item.find('.footer-accordion-icon');
+
+                        answer.css('max-height', 'none');
+                        item.addClass('pb-5');
+                        button.off('click');
+                        icon.attr('data-lucide', 'minus');
+                    });
+
+                    lucide.createIcons();
                 }
-            );
+            }
 
-            // Create colorful stars rising from the top-left corner of the circle
-            // function createStarTopLeft(x, y) {
-            //     const $star = $('<div class="star"></div>');
+            // Initial setup
+            setupAccordion();
 
-            //     // Add random colors
-            //     const colors = ['#FF5733', '#33FF57', '#5733FF', '#FFFF33', '#33FFFF'];
-            //     const color = colors[Math.floor(Math.random() * colors.length)];
-            //     $star.css('background', `radial-gradient(circle, ${color}, transparent)`);
-
-            //     // Position the star
-            //     const offsetX = -10;
-            //     const offsetY = -10;
-            //     $star.css({
-            //         position: 'absolute',
-            //         left: `${x + offsetX}px`,
-            //         top: `${y + offsetY}px`,
-            //     });
-
-            //     // Append to body and remove after animation
-            //     $('body').append($star);
-            //     $star.on('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function() {
-            //         $(this).remove();
-            //     });
-            // }
+            // Re-setup on resize
+            $(window).on('resize', function() {
+                setupAccordion();
+            });
         });
     </script>
 
-    @stack('js-links')
+    {{-- Hide or Show Swiper Navigation Buttons Controller --}}
+    <script>
+        function hideControlsIfNotEnoughSlides(swiperEl, swiperInstance, getSlidesPerView = 1) {
+            const originalSlides = swiperEl.querySelectorAll('.swiper-slide:not(.swiper-slide-duplicate)');
+            const realSlideCount = originalSlides.length;
+
+            // Determine current slidesPerView
+            let currentSlidesPerView = typeof getSlidesPerView === 'function' ? getSlidesPerView() : getSlidesPerView;
+
+            if (realSlideCount <= currentSlidesPerView) {
+                const navNext = swiperEl.querySelector('.swiper-button-next');
+                const navPrev = swiperEl.querySelector('.swiper-button-prev');
+                const pagination = swiperEl.querySelector('.swiper-pagination');
+
+                if (navNext) navNext.style.display = 'none';
+                if (navPrev) navPrev.style.display = 'none';
+                if (pagination) pagination.style.display = 'none';
+            }
+        }
+    </script>
+
+
+
+
+
+    {{-- Custom JS --}}
     @stack('js')
 </body>
 

@@ -4,7 +4,7 @@
         <div class="logo-header" data-background-color="dark">
             <a href="{{ route('admin.dashboard') }}" class="logo">
                 <div class="title_" style="line-height: 1; color: #fff;">
-                    {{config('app.short_name', 'KaiAdmin')}}
+                    {{ config('app.short_name', 'KaiAdmin') }}
                 </div>
             </a>
             <div class="nav-toggle">
@@ -31,6 +31,7 @@
                         <p>{{ __('Dashboard') }}</p>
                     </a>
                 </li>
+                {{-- Admin Management Routes  --}}
                 <li class="nav-item  @if ($page_slug == 'admin' || $page_slug == 'role' || $page_slug == 'permission') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#admin_management"
                         @if ($page_slug == 'admin') aria-expanded="true" @endif>
@@ -58,6 +59,25 @@
                         </ul>
                     </div>
                 </li>
+                {{-- Seller Management  --}}
+                <li class="nav-item  @if ($page_slug == 'seller' || $page_slug == 'seller_package') active submenu @endif">
+                    <a data-bs-toggle="collapse" href="#seller_management"
+                        @if ($page_slug == 'seller') aria-expanded="true" @endif>
+                        <i class="icon-people"></i>
+                        <p>{{ __('Seller Management') }}</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse @if ($page_slug == 'seller' || $page_slug == 'seller_package') show @endif" id="seller_management">
+                        <ul class="nav nav-collapse">
+                            <li class="@if ($page_slug == 'user') active @endif">
+                                <a href="{{ route('sl.seller.index') }}">
+                                    <span class="sub-item">{{ __('Seller') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                {{-- User Management  --}}
                 <li class="nav-item  @if ($page_slug == 'user') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#user_management"
                         @if ($page_slug == 'user') aria-expanded="true" @endif>
@@ -77,15 +97,20 @@
                 </li>
 
                 {{-- Product Management --}}
-                <li class="nav-item  @if ($page_slug == 'category' || $page_slug == 'subcategory') active submenu @endif">
+                <li class="nav-item  @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute'|| $page_slug == 'tax_class'|| $page_slug == 'tax_rate') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#product_management"
-                        @if ($page_slug == 'category' || $page_slug == 'subcategory') aria-expanded="true" @endif>
+                        @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute' || $page_slug == 'product_attribute_value'|| $page_slug == 'tax_class'|| $page_slug == 'tax_rate') aria-expanded="true" @endif>
                         <i class="icon-people"></i>
                         <p>{{ __('Product Management') }}</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse @if ($page_slug == 'category' || $page_slug == 'subcategory') show @endif" id="product_management">
+                    <div class="collapse @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute' || $page_slug == 'product_attribute_value' || $page_slug == 'tax_class'|| $page_slug == 'tax_rate') show @endif" id="product_management">
                         <ul class="nav nav-collapse">
+                            <li class="@if ($page_slug == 'brand') active @endif">
+                                <a href="{{ route('pm.brand.index') }}">
+                                    <span class="sub-item">{{ __('Brand') }}</span>
+                                </a>
+                            </li>
                             <li class="@if ($page_slug == 'category') active @endif">
                                 <a href="{{ route('pm.category.index') }}">
                                     <span class="sub-item">{{ __('Category') }}</span>
@@ -96,24 +121,131 @@
                                     <span class="sub-item">{{ __('Sub Category') }}</span>
                                 </a>
                             </li>
+                            <li class="@if ($page_slug == 'subchildcategory') active @endif">
+                                <a href="{{ route('pm.sub-child-category.index') }}">
+                                    <span class="sub-item">{{ __('Sub Child Category') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'product_attribute') active @endif">
+                                <a href="{{ route('pm.product-attribute.index') }}">
+                                    <span class="sub-item">{{ __('Product Attribute') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'tax_class') active @endif">
+                                <a href="{{ route('pm.tax-class.index') }}">
+                                    <span class="sub-item">{{ __('Tax Class') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'tax_rate') active @endif">
+                                <a href="{{ route('pm.tax-rate.index') }}">
+                                    <span class="sub-item">{{ __('Tax Rate') }}</span>
+                                </a>
+                            </li>
+
+                            <li class="@if ($page_slug == 'product_attribute_value') active @endif">
+                                <a href="{{ route('pm.product-attribute-value.index') }}">
+                                    <span class="sub-item">{{ __('Product Attribute Value') }}</span>
+                                </a>
+                            </li>
+
+
+
                         </ul>
                     </div>
                 </li>
 
-
-
-                <li class="nav-item  @if ($page_slug == 'seller' || $page_slug == 'seller_package') active submenu @endif">
-                    <a data-bs-toggle="collapse" href="#seller_management"
-                        @if ($page_slug == 'seller') aria-expanded="true" @endif>
+                {{-- Setup Management  --}}
+                <li class="nav-item  @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city' || $page_slug == 'operation_area' || $page_slug == 'operation_sub_area' || $page_slug == 'faq' || $page_slug == 'latest_offer') active submenu @endif">
+                    <a data-bs-toggle="collapse" href="#setup_management"
+                        @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city' || $page_slug == 'operation_area' || $page_slug == 'operation_sub_area' || $page_slug == 'faq' || $page_slug == 'latest_offer') aria-expanded="true" @endif>
                         <i class="icon-people"></i>
-                        <p>{{ __('Seller Management') }}</p>
+                        <p>{{ __('Setup') }}</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse @if ($page_slug == 'seller' || $page_slug == 'seller_package') show @endif" id="seller_management">
+                    <div class="collapse @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city' || $page_slug == 'operation_area' || $page_slug == 'operation_sub_area' || $page_slug == 'faq') show @endif" id="setup_management">
                         <ul class="nav nav-collapse">
-                            <li class="@if ($page_slug == 'user') active @endif">
-                                <a href="{{ route('sl.seller.index') }}">
-                                    <span class="sub-item">{{ __('Seller') }}</span>
+                            <li class="@if ($page_slug == 'country') active @endif">
+                                <a href="{{ route('setup.country.index') }}">
+                                    <span class="sub-item">{{ __('Country') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'state') active @endif">
+                                <a href="{{ route('setup.state.index') }}">
+                                    <span class="sub-item">{{ __('State') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'city') active @endif">
+                                <a href="{{ route('setup.city.index') }}">
+                                    <span class="sub-item">{{ __('City') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'operation_area') active @endif">
+                                <a href="{{ route('setup.operation-area.index') }}">
+                                    <span class="sub-item">{{ __('Operation Area') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'operation_sub_area') active @endif">
+                                <a href="{{ route('setup.operation-sub-area.index') }}">
+                                    <span class="sub-item">{{ __('Operation Sub Area') }}</span>
+                                </a>
+                            </li>
+
+                            <li class="@if ($page_slug == 'faq') active @endif">
+                                <a href="{{ route('setup.faq.index') }}">
+                                    <span class="sub-item">{{ __('Faq') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'latest_offer') active @endif">
+                                <a href="{{ route('setup.latest-offer.index') }}">
+                                    <span class="sub-item">{{ __('Latest Offer') }}</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </li>
+
+                {{-- CMS Management  --}}
+                <li class="nav-item  @if ($page_slug == 'banner' || $page_slug == 'offer_banner' || $page_slug == 'our_connection') active submenu @endif">
+                    <a data-bs-toggle="collapse" href="#cms_management"
+                        @if ($page_slug == 'seller') aria-expanded="true" @endif>
+                        <i class="icon-people"></i>
+                        <p>{{ __('CMS Management') }}</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse @if ($page_slug == 'banner' || $page_slug == 'offer_banner') show @endif" id="cms_management">
+                        <ul class="nav nav-collapse">
+                            <li class="@if ($page_slug == 'banner') active @endif">
+                                <a href="{{ route('cms.banner.index') }}">
+                                    <span class="sub-item">{{ __('Banner') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'offer_banner') active @endif">
+                                <a href="{{ route('cms.offer-banner.index') }}">
+                                    <span class="sub-item">{{ __('Offer Banner') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'our_connection') active @endif">
+                                <a href="{{ route('cms.our-connection.index') }}">
+                                    <span class="sub-item">{{ __('Our Connection') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item  @if ($page_slug == 'hub' || $page_slug == 'hub_package') active submenu @endif">
+                    <a data-bs-toggle="collapse" href="#hub_management"
+                        @if ($page_slug == 'seller') aria-expanded="true" @endif>
+                        <i class="icon-people"></i>
+                        <p>{{ __('Hub Management') }}</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse @if ($page_slug == 'hub' || $page_slug == 'hub_package') show @endif" id="hub_management">
+                        <ul class="nav nav-collapse">
+                            <li class="@if ($page_slug == 'hub') active @endif">
+                                <a href="{{ route('hm.hub.index') }}">
+                                    <span class="sub-item">{{ __('Hub') }}</span>
                                 </a>
                             </li>
                         </ul>

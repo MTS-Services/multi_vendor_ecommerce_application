@@ -33,7 +33,7 @@
                         </div>
                         <span class="profile-username">
                             <span class="op-7">Hi,</span>
-                            <span class="fw-bold">{{ admin()->name }}</span>
+                            <span class="fw-bold">{{ admin()->first_name }}</span>
                         </span>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -45,13 +45,14 @@
                                             class="avatar-img rounded" />
                                     </div>
                                     <div class="u-text">
-                                        <h4>{{ admin()->name }}</h4>
+                                        <h4>{{ admin()->full_name }}</h4>
                                         <p class="text-muted">{{ admin()->email }}</p>
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <div class="dropdown-divider"></div>
+                                <a href="{{ route('admin.profile') }}" class="dropdown-item">{{ __('Profile') }}</a>
                                 <a class="dropdown-item" href="javascript:void(0)"
                                     onclick="document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}

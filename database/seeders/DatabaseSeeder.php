@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\TaxClass;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,17 +15,40 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            RoleSeeder::class,
-            AdminSeeder::class,
+
             PermissionSeeder::class,
+            RoleSeeder::class,
+            UserSeeder::class,
+            AdminSeeder::class,
             RoleHasPermissionSeeder::class,
             EmailTemplateSeeder::class,
             ApplicationSettingSeeder::class,
 
-            UserSeeder::class,
+
             SellerSeeder::class,
             CategorySeeder::class,
             SubCategorySeeder::class,
+            SubChildCategorySeeder::class,
+
+            CountrySeeder::class,
+            BannerSeeder::class,
+            StateSeeder::class,
+            CitySeeder::class,
+
+            ProductAttributeSeeder::class,
+            ProductAttributeValueSeeder::class,
+            OperationAreaSeeder::class,
+            OperationSubAreaSeeder::class,
+
+            OfferBannerSeeder::class,
+
+            HubSeeder::class,
+            BrandSeeder::class,
+            AddressSeeder::class,
+            TaxClassSeeder::class,
+            TaxRateSeeder::class,
+            FaqSeeder::class,
+            OurConnectionSeeder::class
         ]);
     }
 }
