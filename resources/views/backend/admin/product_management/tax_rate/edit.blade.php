@@ -99,11 +99,15 @@
 
 
             let data_id = `{{ $tax_rate->state_id ? $tax_rate->state_id : $tax_rate->city_id }}`;
-            getStatesOrCity($('#country').val(), route1, data_id);
+            if(data_id){
+                getStatesOrCity($('#country').val(), route1, data_id);
+            }
             if (`{{ $tax_rate->state_id }}`) {
                 getCities(`{{ $tax_rate->state_id }}`, route2, `{{ $tax_rate->city_id }}`);
             }
-            getOperationAreas(`{{ $tax_rate->city_id }}`, route3, `{{ $tax_rate->operation_area_id }}`);
+            if(`{{ $tax_rate->city_id }}`){
+                getOperationAreas(`{{ $tax_rate->city_id }}`, route3, `{{ $tax_rate->operation_area_id }}`);
+            }
         });
     </script>
 @endpush

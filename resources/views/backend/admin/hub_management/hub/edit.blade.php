@@ -99,11 +99,11 @@
     <script>
          // Get Country States By Axios
          $(document).ready(function() {
-            let route1 = "{{ route('axios.get-cities') }}";
+            let route1 = "{{ route('axios.get-states-or-cities') }}";
             $('#country').on('change', function () {
                 getStatesOrCity($(this).val(), route1);
             });
-            let route2 = "{{ route('axios.get-states-or-cities') }}";
+            let route2 = "{{ route('axios.get-cities') }}";
             $('#state').on('change', function () {
                 getCities($(this).val(), route2);
             });
@@ -112,13 +112,16 @@
                 getOperationAreas($(this).val(), route3);
             });
 
-
             let data_id = `{{ $hub->state_id ? $hub->state_id : $hub->city_id }}`;
-            getStatesOrCity($('#country').val(), route1, data_id);
+            if(data_id){
+                getStatesOrCity($('#country').val(), route1, data_id);
+            }
             if(`{{$hub->state_id}}`){
                 getCities(`{{$hub->state_id}}`, route2, `{{ $hub->city_id }}`);
             }
-            getOperationAreas(`{{ $hub->city_id }}`, route3, `{{ $hub->operation_area_id }}`);
+            if(`{{ $hub->city_id }}`){
+                getOperationAreas(`{{ $hub->city_id }}`, route3, `{{ $hub->operation_area_id }}`);
+            }
         });
     </script>
 @endpush
