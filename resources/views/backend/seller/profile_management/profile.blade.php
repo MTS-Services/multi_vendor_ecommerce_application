@@ -26,7 +26,7 @@
             font-size: 0.875rem;
         }
 
-        .nav-item {
+        .btn_item {
             background: linear-gradient(to right, #8a41d8, #a201ffcb);
             color: white;
             border: 1px solid transparent;
@@ -36,12 +36,12 @@
             transition: all 0.3s ease-in-out;
         }
 
-        .nav-item:hover {
+        .btn_item:hover {
             opacity: 0.8;
             cursor: pointer
         }
 
-        .active.nav-item {
+        .active.btn_item {
             background: linear-gradient(to right, #DC2626, #a201ffcb);
         }
 
@@ -56,10 +56,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="d-flex justify-content-around align-items-center gap-5 py-5 text-center">
-                    <p class="nav-item w-100 py-2" data-bs-target="profile">{{ __("profile") }}</p>
-                    <p class="nav-item w-100 py-2" data-bs-target="shop-details">{{ __("Shop Details") }}</p>
-                    <p class="nav-item w-100 py-2" data-bs-target="address">{{ __("Address") }}</p>
-                    <p class="nav-item w-100 py-2 active" data-bs-target="change-password">{{ __("Change Password") }}</p>
+                    <p class="btn_item w-100 py-2" data-bs-target="profile">{{ __("profile") }}</p>
+                    <p class="btn_item w-100 py-2" data-bs-target="shop-details">{{ __("Shop Details") }}</p>
+                    <p class="btn_item w-100 py-2" data-bs-target="address">{{ __("Address") }}</p>
+                    <p class="btn_item w-100 py-2 active" data-bs-target="change-password">{{ __("Change Password") }}</p>
                 </div>
             </div>
         </div>
@@ -321,9 +321,9 @@
     <script>
         $(document).ready(function() {
             // Handle click on nav items
-            $('.nav-item').on('click', function() {
+            $('.btn_item').on('click', function() {
                 // Remove 'active' from all nav items
-                $('.nav-item').removeClass('active');
+                $('.btn_item').removeClass('active');
 
                 // Add 'active' to the clicked nav item
                 $(this).addClass('active');
