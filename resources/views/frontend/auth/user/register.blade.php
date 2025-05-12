@@ -6,7 +6,7 @@
                 class="flex flex-col xl:flex-row-reverse shadow-shadowPrimary shadow-shadow-dark/10 dark:shadow-shadow-light/10 rounded-2xl w-full overflow-hidden bg-bg-white dark:bg-bg-darkTertiary">
                 <!-- Left Side: Form -->
                 <div class="w-full xl:w-1/2 p-10 md:p-12 flex flex-col justify-center">
-                    <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Register your account') }}</h2>
+                    <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Start Shopping with Us') }}</h2>
                     <form class="space-y-5" action="{{ route('register') }}" method="POST">
                         @csrf
 
@@ -107,9 +107,9 @@
                             <a href="#" class="btn-primary rounded-md w-full gap-3">
                                 <i class='bx bxl-google text-2xl'></i> {{ __('Google') }}
                             </a>
-                            <button type="button" class="btn-secondary rounded-md w-full gap-3">
+                             <a href="#" class="btn-secondary rounded-md w-full gap-3">
                                 <i class='bx bxl-facebook text-2xl'></i> {{ __('Facebook') }}
-                            </button>
+                            </a>
                         </div>
 
                         <p class="text-center text-sm mt-4">
@@ -119,7 +119,7 @@
                         </p>
 
                         <div class="text-center text-sm mt-4">
-                            {{ __('Become a') }} <a href="#"
+                            {{ __('Become a') }} <a href="{{ route('seller.login') }}"
                                 class="text-text-accent font-medium">{{ __('Seller') }}</a>
                         </div>
                     </div>

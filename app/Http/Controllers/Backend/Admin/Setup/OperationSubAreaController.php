@@ -17,11 +17,14 @@ class OperationSubAreaController extends Controller
     {
         $this->middleware('auth:admin');
         $this->middleware('permission:operation-sub-area-list', ['only' => ['index']]);
-        $this->middleware('permission:operation-sub-area-list', ['only' => ['details']]);
+        $this->middleware('permission:operation-sub-area-details', ['only' => ['details']]);
         $this->middleware('permission:operation-sub-area-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:operation-sub-area-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:operation-sub-area-delete', ['only' => ['destroy']]);
         $this->middleware('permission:operation-sub-area-status', ['only' => ['status']]);
+        $this->middleware('permission:operation-sub-area-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:operation-sub-area-restore', ['only' => ['restore']]);
+        $this->middleware('permission:operation-sub-area-permanent-delete', ['only' => ['permanentDelete']]);
     }
 
     /**
@@ -94,6 +97,64 @@ class OperationSubAreaController extends Controller
         ];
     }
 
+
+        public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $query = OperationSubArea::with(['deleter_admin'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+              ->editColumn('country_id', function ($operationSubArea) {
+                    return $operationSubArea->country_name;
+                })
+                ->editColumn('city_id', function ($operationSubArea) {
+                    return  $operationSubArea->city_name;
+                })
+                 ->editColumn('operation_area_id', function ($operationSubArea) {
+                    return  $operationSubArea->operation_area_name;
+                })
+            ->editColumn('status', function ($operationSubArea) {
+                    return "<span class='badge " . $operationSubArea->status_color . "'>$operationSubArea->status_label</span>";
+                })
+
+               ->editColumn('deleted_by', function ($operationSubArea) {
+                    return $operationSubArea->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($operationSubArea) {
+                    return $operationSubArea->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($operationSubArea) {
+                    $menuItems = $this->trashedMenuItems($operationSubArea);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['country_id','city_id', 'operation_area_id', 'status', 'deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.setup.operation_sub_area.recycle-bin');
+    }
+
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'setup.operation-sub-area.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['operation-sub-area-restore']
+            ],
+            [
+                'routeName' => 'setup.operation-sub-area.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['operation-sub-area-permanent-delete']
+            ]
+
+        ];
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -171,5 +232,27 @@ class OperationSubAreaController extends Controller
         $operation_sub_area->update(['status' => !$operation_sub_area->status, 'updated_by'=> admin()->id]);
         session()->flash('success', 'Operation sub area status updated successfully!');
         return redirect()->route('setup.operation-sub-area.index');
+    }
+           public function restore(string $id): RedirectResponse
+    {
+        $operation_sub_area = OperationSubArea::onlyTrashed()->findOrFail(decrypt($id));
+        $operation_sub_area->update(['updated_by' => admin()->id]);
+        $operation_sub_area->restore();
+        session()->flash('success', 'Operation Sub Area restored successfully!');
+        return redirect()->route('setup.operation-sub-area.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $operation_sub_area = OperationSubArea::onlyTrashed()->findOrFail(decrypt($id));
+        $operation_sub_area->forceDelete();
+        session()->flash('success', 'Operation Sub Area permanently deleted successfully!');
+        return redirect()->route('setup.operation-sub-area.recycle-bin');
     }
 }

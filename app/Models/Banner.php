@@ -11,6 +11,7 @@ class Banner extends BaseModel
 
     protected $table = 'banners';
     protected $fillable = [
+        'sort_order',
         'title',
         'subtitle',
         'image',
@@ -116,5 +117,14 @@ class Banner extends BaseModel
     public function getModifiedImageAttribute()
     {
         return storage_url($this->image);
+    }
+
+      public function scopeActive($query)
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+    public function scopeDeactive($query)
+    {
+        return $query->where('status', self::STATUS_DEACTIVE);
     }
 }

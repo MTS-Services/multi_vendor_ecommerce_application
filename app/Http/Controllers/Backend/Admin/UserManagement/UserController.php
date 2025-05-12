@@ -25,6 +25,9 @@ class UserController extends Controller
         $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
         $this->middleware('permission:user-status', ['only' => ['status']]);
+        $this->middleware('permission:user-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:user-restore', ['only' => ['restore']]);
+        $this->middleware('permission:user-permanent-delete', ['only' => ['permanentDelete']]);
     }
     /**
      * Display a listing of the resource.
@@ -34,9 +37,12 @@ class UserController extends Controller
 
         if ($request->ajax()) {
             $query = User::with(['creater'])
-            ->orderBy('sort_order', 'asc')
-            ->latest();
+                ->orderBy('sort_order', 'asc')
+                ->latest();
             return DataTables::eloquent($query)
+                ->editColumn('first_name', function ($user) {
+                    return $user->full_name . ($user->username ? " (" . $user->username . ")" : "");
+                })
                 ->editColumn('status', function ($user) {
                     return "<span class='badge " . $user->status_color . "'>" . $user->status_label . "</span>";
                 })
@@ -46,14 +52,14 @@ class UserController extends Controller
                 ->editColumn('created_at', function ($user) {
                     return $user->created_at_formatted;
                 })
-                ->editColumn('created_by', function ($user) {
+                ->editColumn('creater_id', function ($user) {
                     return $user->creater_name;
                 })
                 ->editColumn('action', function ($user) {
                     $menuItems = $this->menuItems($user);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'is_verify', 'created_at', 'created_by', 'action'])
+                ->rawColumns(['first_name', 'status', 'is_verify', 'created_at', 'creater_id', 'action'])
                 ->make(true);
         }
         return view('backend.admin.user_management.user.index');
@@ -93,6 +99,60 @@ class UserController extends Controller
         ];
     }
 
+    public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $query = User::with(['deleter'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+                ->editColumn('first_name', function ($user) {
+                    return $user->full_name . ($user->username ? " (" . $user->username . ")" : "");
+                })
+                ->editColumn('status', function ($user) {
+                    return "<span class='badge " . $user->status_color . "'>$user->status_label</span>";
+                })
+                ->editColumn('is_verify', function ($user) {
+                    return "<span class='badge " . $user->verify_color . "'>" . $user->verify_label . "</span>";
+                })
+                ->editColumn('deleter_id', function ($user) {
+                    return $user->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($user) {
+                    return $user->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($user) {
+                    $menuItems = $this->trashedMenuItems($user);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['first_name', 'status', 'is_verify', 'deleter_id', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.user_management.user.recycle-bin');
+    }
+
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'um.user.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['user-restore']
+            ],
+            [
+                'routeName' => 'um.user.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['user-permanent-delete']
+            ]
+
+        ];
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -109,9 +169,6 @@ class UserController extends Controller
         $validated = $req->validated();
         $validated['creater_id'] = admin()->id;
         $validated['creater_type'] = get_class(admin());
-        if (isset($req->image)) {
-            $validated['image'] = $this->handleFilepondFileUpload(User::class, $req->image, admin(), 'users/');
-        }
         User::create($validated);
         session()->flash('success', 'User created successfully!');
         return redirect()->route('um.user.index');
@@ -143,10 +200,8 @@ class UserController extends Controller
         $user = User::findOrFail(decrypt($id));
         $validated = $req->validated();
         $validated['updater_id'] = admin()->id;
+        $validated['password'] = ($req->password ? $req->password : $user->password);
         $validated['updater_type'] = get_class(admin());
-        if (isset($req->image)) {
-            $validated['image'] = $this->handleFilepondFileUpload($user, $req->image, admin(), 'users/');
-        }
         $user->update($validated);
         session()->flash('success', 'User updated successfully!');
         return redirect()->route('um.user.index');
@@ -167,8 +222,33 @@ class UserController extends Controller
     public function status(string $id): RedirectResponse
     {
         $user = User::findOrFail(decrypt($id));
-        $user->update(['status' => !$user->status, 'updater_id'=> admin()->id,'updater_type'=> get_class(admin())]);
+        $user->update(['status' => !$user->status, 'updater_id' => admin()->id, 'updater_type' => get_class(admin())]);
         session()->flash('success', 'User status updated successfully!');
         return redirect()->route('um.user.index');
+    }
+    public function restore(string $id): RedirectResponse
+    {
+        $user = User::onlyTrashed()->findOrFail(decrypt($id));
+        $user->update(['updated_by' => admin()->id]);
+        $user->restore();
+        session()->flash('success', 'User restored successfully!');
+        return redirect()->route('um.user.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $user = User::onlyTrashed()->findOrFail(decrypt($id));
+        $user->forceDelete();
+        if($user->image){
+            $this->fileDelete($user->image);
+        }
+        session()->flash('success', 'User permanently deleted successfully!');
+        return redirect()->route('um.user.recycle-bin');
     }
 }

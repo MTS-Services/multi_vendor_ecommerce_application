@@ -1,7 +1,7 @@
 <dialog id="my_modal_1" class="modal">
     <div class="modal-box max-w-7xl">
         <h3 class="text-lg font-bold">Login Page!</h3>
-        <div class="flex items-center justify-center gap-3 mt-5">
+        <div class="flex items-center justify-center gap-3 mt-5 flex-wrap">
 
             @auth('web')
                 <a href="{{ route('user.profile') }}"
@@ -14,7 +14,7 @@
             @endauth
 
             @auth('seller')
-                <a href="{{ route('seller.profile') }}"
+                <a href="{{ route('seller.dashboard') }}"
                     class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Seller
                     Dashboard</a>
             @else

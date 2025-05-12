@@ -6,14 +6,15 @@ use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Permission extends SpatiePermission implements Auditable
 {
-    use HasFactory, \OwenIt\Auditing\Auditable;
+    use HasFactory, \OwenIt\Auditing\Auditable, SoftDeletes;
 
     protected $fillables = [
         'sort_order',
-        'name',
+        'frist_name', 'last_name',
         'prefix',
         'guard_name',
         'created_by',
@@ -22,19 +23,19 @@ class Permission extends SpatiePermission implements Auditable
     ];
 
 
-    public function creater_admin()
+  public function creater_admin()
     {
-        return $this->belongsTo(Admin::class, 'created_by')->select(['id', 'name']);
+        return $this->belongsTo(Admin::class, 'created_by')->select(['id', 'first_name', 'last_name']);
     }
 
     public function updater_admin()
     {
-        return $this->belongsTo(Admin::class, 'updated_by')->select(['id', 'name']);
+        return $this->belongsTo(Admin::class, 'updated_by')->select(['id', 'first_name', 'last_name']);
     }
 
     public function deleter_admin()
     {
-        return $this->belongsTo(Admin::class, 'deleted_by')->select(['id', 'name']);
+        return $this->belongsTo(Admin::class, 'deleted_by')->select(['id', 'first_name', 'last_name']);
     }
 
     protected $appends = [
@@ -54,24 +55,24 @@ class Permission extends SpatiePermission implements Auditable
     // Accessor for creater
     public function getCreaterNameAttribute()
     {
-        return optional($this->creater_admin)->name
-            ?? optional($this->creater)->name
+        return $this->creater_admin?->full_name
+            ?? $this->creater?->full_name
             ?? "System Generate";
     }
 
     // Accessor for updater
     public function getUpdaterNameAttribute()
     {
-        return optional($this->updater_admin)->name
-            ?? optional($this->updater)->name
+        return $this->updater_admin?->full_name
+            ?? $this->updater?->full_name
             ?? "Null";
     }
 
     // Accessor for deleter
     public function getDeleterNameAttribute()
     {
-        return optional($this->deleter_admin)->name
-            ?? optional($this->deleter)->name
+        return $this->deleter_admin?->full_name
+            ?? $this->deleter?->full_name
             ?? "Null";
     }
 

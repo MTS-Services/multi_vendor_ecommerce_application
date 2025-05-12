@@ -15,12 +15,20 @@ trait AuditColumnsTrait
         $table->foreign('created_by')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
         $table->foreign('updated_by')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
         $table->foreign('deleted_by')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
+
+        $table->index('created_by');
+        $table->index('updated_by');
+        $table->index('deleted_by');
     }
     public function dropAdminAuditColumns(Blueprint $table): void
     {
         $table->dropForeign(['created_by']);
         $table->dropForeign(['updated_by']);
         $table->dropForeign(['deleted_by']);
+
+        $table->dropIndex(['created_by']);
+        $table->dropIndex(['updated_by']);
+        $table->dropIndex(['deleted_by']);
     }
 
 
@@ -32,6 +40,14 @@ trait AuditColumnsTrait
         $table->string('updater_type')->nullable();
         $table->unsignedBigInteger('deleter_id')->nullable();
         $table->string('deleter_type')->nullable();
+
+        $table->index('creater_id');
+        $table->index('updater_id');
+        $table->index('deleter_id');
+        $table->index('creater_type');
+        $table->index('updater_type');
+        $table->index('deleter_type');
+
     }
 
     public function dropAuditColumns(Blueprint $table): void
@@ -43,5 +59,12 @@ trait AuditColumnsTrait
         $table->dropColumn('created_by');
         $table->dropColumn('updated_by');
         $table->dropColumn('deleted_by');
+
+        $table->dropIndex(['creater_id']);
+        $table->dropIndex(['updater_id']);
+        $table->dropIndex(['deleter_id']);
+        $table->dropIndex(['creater_type']);
+        $table->dropIndex(['updater_type']);
+        $table->dropIndex(['deleter_type']);
     }
 }

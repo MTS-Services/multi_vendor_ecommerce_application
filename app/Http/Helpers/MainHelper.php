@@ -2,6 +2,7 @@
 
 use App\Models\Permission;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use League\Csv\Writer;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -16,24 +17,77 @@ function timeFormatHuman($time)
 }
 function admin()
 {
-    return auth()->guard('admin')->user();
+    return Auth::guard('admin')->user();
 }
+
+function adminFirstName()
+{
+    return Auth::guard('admin')->user()->first_name;
+}
+
+function adminLastName()
+{
+    return Auth::guard('admin')->user()->last_name;
+}
+
+function adminFullName()
+{
+    return Auth::guard('admin')->user()->first_name . ' ' . Auth::guard('admin')->user()->last_name;
+}
+
 function seller()
 {
-    return auth()->guard('seller')->user();
+    return Auth::guard('seller')->user();
 }
+
+function sellerFirstName()
+{
+    return Auth::guard('seller')->user()->first_name;
+}
+
+function sellerLastName()
+{
+    return Auth::guard('seller')->user()->last_name;
+}
+
+function sellerFullName()
+{
+    return Auth::guard('seller')->user()->first_name . ' ' . Auth::guard('seller')->user()->last_name;
+}
+
 function user()
 {
-    return auth()->guard('web')->user();
+    return Auth::guard('web')->user();
 }
+
+function userFirstName()
+{
+    return Auth::guard('web')->user()->first_name;
+}
+
+function userLastName()
+{
+    return Auth::guard('web')->user()->last_name;
+}
+
+function userFullName()
+{
+    return Auth::guard('web')->user()->first_name . ' ' . Auth::guard('web')->user()->last_name;
+}
+
 function creater_name($user)
 {
-    return $user->name ?? 'System';
+    return $user->full_name ?? 'System';
 }
 
 function updater_name($user)
 {
-    return $user->name ?? 'Null';
+    return $user->full_name ?? 'Null';
+}
+
+function deleter_name($user)
+{
+    return $user->full_name ?? 'Null';
 }
 
 function isSuperAdmin()
