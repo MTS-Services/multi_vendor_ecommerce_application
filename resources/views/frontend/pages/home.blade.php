@@ -2,27 +2,6 @@
 
 @section('title', 'Home')
 
-{{-- @php
-    $banners = [
-        [
-            'title' => 'APPLE WATCHES COLLECTION',
-            'subtitle' => 'Sale up to 15% off',
-        ],
-        [
-            'title' => 'Gallaxy Buds Pro',
-            'subtitle' => 'Sale up to 10% off',
-        ],
-        [
-            'title' => 'APPLE WATCHES COLLECTION',
-            'subtitle' => 'Sale up to 15% off',
-        ],
-        [
-            'title' => 'Gallaxy Buds Pro',
-            'subtitle' => 'Sale up to 10% off',
-        ],
-    ];
-@endphp --}}
-
 @section('content')
     {{-- ===================== banner Section ===================== --}}
     <section class="swiper banner bg-bg-gray dark:bg-bg-darkSecondary dark:bg-opacity-70 ">
@@ -43,7 +22,7 @@
                             </div>
                             <div
                                 class="md:basis-1/2 md:relative absolute z-[1] w-64 top-1/2 md:top-0 -translate-y-1/2 md:translate-y-0 {{ $loop->iteration % 2 == 0 ? '-left-1/3 md:left-0' : '-right-1/3 sm:-right-1/4 md:right-0' }}">
-                              <img src="{{ $banner->modified_image }}" alt="{{ $banner->title }}">
+                                <img src="{{ $banner->modified_image }}" alt="{{ $banner->title }}">
                             </div>
                         </div>
                     </div>
@@ -109,7 +88,8 @@
                     <div class="swiper-slide text-center flex w-auto">
                         <div
                             class="text-xs md:text-base font-bold text-text-primary flex items-center justify-center gap-3 w-fit">
-                            <img src="{{ asset('frontend/images/star.png') }}" alt="{{ $arival['title'] }}" class="w-5 h-5">
+                            <img src="{{ asset('frontend/images/star.png') }}" alt="{{ $arival['title'] }}"
+                                class="w-5 h-5">
                             {{ $arival['title'] }}
                         </div>
                     </div>
