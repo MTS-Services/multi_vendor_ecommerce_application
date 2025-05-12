@@ -14,14 +14,14 @@
                             <div
                                 class="w-full md:basis-1/2 relative z-[2] {{ $loop->iteration % 2 == 0 ? 'flex flex-col items-end text-end' : '' }}">
                                 <p class="text-xs md:text-base">{{ $banner['title'] }}</p>
-                                <h2 class="sm:text-xl text-lg lg:text-2xl xl:text-6xl md:py-4 py-1 max-w-72">
+                                <h2 class="sm:text-xl text-lg lg:text-2xl xl:text-6xl md:py-4 py-1 max-w-80">
                                     {{ $banner['subtitle'] }}
                                 </h2>
                                 <a href="#" class="btn-primary">{{ __('Shop Now') }} <i
                                         data-lucide="chevron-right"></i></i></a>
                             </div>
                             <div
-                                class="md:basis-1/2 md:relative absolute z-[1] w-64 top-1/2 md:top-0 -translate-y-1/2 md:translate-y-0 {{ $loop->iteration % 2 == 0 ? '-left-1/3 md:left-0' : '-right-1/3 sm:-right-1/4 md:right-0' }}">
+                                class="md:basis-1/2 md:relative absolute z-[1] w-64 top-1/2 md:top-0 -translate-y-1/2 md:translate-y-0 {{ $loop->iteration % 2 == 0 ? '-left-1/3 md:left-0' : '-right-1/3 sm:-right-1/4 md:right-0 flex items-center justify-end' }}">
                                 <img src="{{ $banner->modified_image }}" alt="{{ $banner->title }}">
                             </div>
                         </div>
@@ -179,7 +179,7 @@
                             data-lucide="chevron-right"></i></i></a>
                 </div>
                 <img src="{{ asset('frontend/images/home_phone.png') }}" alt=""
-                    class="w-full sm:w-1/2 lg:w-10/12 xl:w-6/12">
+                    class="w-full sm:w-1/2 md:w-2/3 lg:w-1/2 2xl:w-1/3">
             </div>
         </div>
     </section>
@@ -256,10 +256,10 @@
         new Swiper(bannerEl, {
             slidesPerView: 1,
             loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
+            // autoplay: {
+            //     delay: 5000,
+            //     disableOnInteraction: false,
+            // },
             spaceBetween: 20,
             pagination: {
                 el: '.swiper-pagination',
