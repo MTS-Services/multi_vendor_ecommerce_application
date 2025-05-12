@@ -7,7 +7,7 @@
 
             </div>
             <div class="navbar-start lg:navbar-center">
-                <a href="{{ route('frontend.home') }}" class="w-fit">
+                <a href="{{ route('frontend.home') }}" class="w-fit lg:mx-auto">
                     <span class="dark-mode-logo hidden">
                         <img src="{{ asset('frontend/images/logo-light.png') }}" alt="Logo">
                     </span>
