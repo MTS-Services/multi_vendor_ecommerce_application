@@ -6,11 +6,19 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Country List') }}</h4>
-                    <x-backend.admin.button :datas="[
-                        'routeName' => 'setup.country.create',
-                        'label' => 'Add New',
-                        'permissions' => ['country-create'],
-                    ]" />
+                    <div class="buttons">
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'setup.country.recycle-bin',
+                            'label' => 'Recycle Bin',
+                            'className' => 'btn-danger',
+                            'permissions' => ['country-restore'],
+                        ]" />
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'setup.country.create',
+                            'label' => 'Add New',
+                            'permissions' => ['country-create'],
+                        ]" />
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-striped datatable">
@@ -63,8 +71,7 @@
 @push('js')
     {{-- Show details scripts --}}
     <script src="{{ asset('modal/details_modal.js') }}"></script>
-     <script>
-
+    <script>
         $(document).on("click", ".view", function() {
             let id = $(this).data("id");
             let route = "{{ route('setup.country.show', ['id']) }}";
@@ -83,7 +90,7 @@
                     color: "status_color",
                 },
                 {
-                    label:"Description",
+                    label: "Description",
                     key: "description",
                 },
 

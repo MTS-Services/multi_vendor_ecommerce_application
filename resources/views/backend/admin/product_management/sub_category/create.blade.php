@@ -9,7 +9,7 @@
                     <x-backend.admin.button :datas="[
                         'routeName' => 'pm.sub-category.index',
                         'label' => 'Back',
-                        'permissions' => ['subcategory-list'],
+                        'permissions' => ['sub-category-list'],
                     ]" />
                 </div>
                 <div class="card-body">
