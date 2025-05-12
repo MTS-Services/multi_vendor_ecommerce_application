@@ -131,7 +131,8 @@ class TaxRateController extends Controller
      */
     public function show(string $id)
     {
-        $data = TaxRate::with(['tax_class_id', 'country_id', 'city_id','creater_admin', 'updater_admin'])->findOrFail(decrypt($id));
+        $data = TaxRate::with([ 'creater_admin','taxClass',  'country','state', 'updater_admin', 'city'])->findOrFail(decrypt($id));
+
         return response()->json($data);
     }
 
@@ -169,26 +170,30 @@ class TaxRateController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $tax_rate = TaxRate::findOrFail(decrypt($id));
+        $tax_rate->update(['deleted_by' => admin()->id]);
+        $tax_rate->delete();
+        session()->flash('success','Tax rate deleted successfully!');
+        return redirect()->route('pm.tax-rate.index');
     }
     public function status(string $id): RedirectResponse
     {
-        $status = TaxRate::findOrFail(decrypt($id));
-        $status->update(['status' => !$status->status, 'updated_by' => admin()->id]);
+        $Tax_status = TaxRate::findOrFail(decrypt($id));
+        $Tax_status->update(['status' => !$Tax_status->status, 'updated_by' => admin()->id]);
         session()->flash('success', 'Tax Rate status updated successfully!');
         return redirect()->route('pm.tax-rate.index');
     }
     public function priority(string $id): RedirectResponse
     {
-        $priority = TaxRate::findOrFail(decrypt($id));
-        $priority->update(['priority' => !$priority->priority, 'updated_by' => admin()->id]);
+        $tax_priority = TaxRate::findOrFail(decrypt($id));
+        $tax_priority->update(['priority' => !$tax_priority->priority, 'updated_by' => admin()->id]);
         session()->flash('success', 'Tax Rate priority updated successfully!');
         return redirect()->route('pm.tax-rate.index');
     }
     public function compound(string $id): RedirectResponse
     {
-        $compound = TaxRate::findOrFail(decrypt($id));
-        $compound->update(['compound' => !$compound->compound, 'updated_by' => admin()->id]);
+        $tax_compound = TaxRate::findOrFail(decrypt($id));
+        $tax_compound->update(['compound' => !$tax_compound->compound, 'updated_by' => admin()->id]);
         session()->flash('success', 'Tax Rate compound updated successfully!');
         return redirect()->route('pm.tax-rate.index');
     }

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->longText("description")->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $this->addMorphedAuditColumns($table);
+            $this->addAdminAuditColumns($table);
 
 
             // Indexes

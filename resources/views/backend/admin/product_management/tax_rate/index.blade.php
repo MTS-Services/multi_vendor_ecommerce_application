@@ -92,15 +92,15 @@
 
                 {
                     label: "Tax Class",
-                    key: "tax_class"
+                    key: "tax_class_id"
                 },
                 {
                     label: "Tax Rate",
-                    key: "tax_rate"
+                    key: "rate"
                 },
                 {
                     label: "Country",
-                    key: "country"
+                    key: "country_id"
                 },
                 {
                     label: "State",
@@ -108,7 +108,7 @@
                 },
                 {
                     label: "City",
-                    key: "city"
+                    key: "city_id"
                 },
                 {
                     label: "Priority",
