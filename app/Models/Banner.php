@@ -118,4 +118,13 @@ class Banner extends BaseModel
     {
         return storage_url($this->image);
     }
+
+      public function scopeActive($query)
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+    public function scopeDeactive($query)
+    {
+        return $query->where('status', self::STATUS_DEACTIVE);
+    }
 }
