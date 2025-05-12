@@ -27,6 +27,8 @@ use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginControl
 use App\Http\Controllers\Backend\Admin\CMSManagement\BannerController;
 use App\Http\Controllers\Backend\Admin\CMSManagement\OfferBannerController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\TaxClassController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\TaxRateController;
 use App\Http\Controllers\Backend\Admin\HubManagement\HubController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
 
@@ -226,9 +228,23 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::resource('brand', BrandController::class);
         Route::get('brand/status/{brand}', [BrandController::class, 'status'])->name('brand.status');
         Route::get('brand/feature/{brand}', [BrandController::class, 'feature'])->name('brand.feature');
+
         Route::get('brand/recycle/bin', [BrandController::class, 'recycleBin'])->name('brand.recycle-bin');
         Route::get('brand/restore/{brand}', [BrandController::class, 'restore'])->name('brand.restore');
         Route::delete('brand/permanent-delete/{brand}', [BrandController::class, 'permanentDelete'])->name('brand.permanent-delete');
+
+         // TaxClass
+        Route::resource('tax-class', TaxClassController::class);
+        Route::get('tax-class/status/{tax_class}', [TaxClassController::class, 'status'])->name('tax-class.status');
+        Route::get('tax-class/recycle-bin', [TaxClassController::class, 'recycleBin'])->name('tax-class.recycle-bin');
+        Route::get('tax-class/restore/{tax_class}', [TaxClassController::class, 'restore'])->name('tax-class.restore');
+        Route::delete('tax-class/permanent-delete/{tax_class}', [TaxClassController::class, 'permanentDelete'])->name('tax-class.permanent-delete');
+
+        // TaxRate
+        Route::resource('tax-rate', TaxRateController::class);
+        Route::get('tax-rate/status/{tax_rate}', [TaxRateController::class, 'status'])->name('tax-rate.status');
+        Route::get('tax-rate/priority/{tax_rate}', [TaxRateController::class, 'priority'])->name('tax-rate.priority');
+        Route::get('tax-rate/compound/{tax_rate}', [TaxRateController::class, 'compound'])->name('tax-rate.compound');
 
 
 
