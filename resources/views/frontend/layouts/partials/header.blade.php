@@ -35,7 +35,7 @@
                         <span
                             class="text-text-white text-xs absolute -top-2 -right-2 z-10 bg-bg-secondary w-4 h-4 rounded-full flex items-center justify-center">{{ __('2') }}</span>
                     </a>
-                    <a href="" class="text-2xl relative">
+                    <a href="javaScript:void(0)" class="text-2xl relative">
                         <i data-lucide="shopping-basket"
                             class="text-text-primary dark:text-text-white  hover:text-text-accent dark:hover:text-text-accent transition-all duration-300 ease-linear"></i>
                         <span
@@ -62,13 +62,13 @@
                 </a>
                 <a href="{{ route('frontend.shop') }}" class="capitalize text-text-primary dark:text-text-white relative
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
-                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
+                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == 'shop') after:w-full @else after:w-0 @endif">
                     {{ __('Shop') }}
                 </a>
                 <a href="{{ route('frontend.store_location') }}"
                     class="capitalize text-text-primary dark:text-text-white relative
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
-                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
+                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == 'store_location') after:w-full @else after:w-0 @endif">
                     {{ __('Store location') }}
                 </a>
                   <a href="#"
@@ -80,7 +80,7 @@
                 <a href="{{route('frontend.faq')}}"
                     class="capitalize text-text-primary dark:text-text-white relative
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
-                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
+                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == 'faq') after:w-full @else after:w-0 @endif">
                     {{ __('Faq') }}
                 </a>
             </div>
