@@ -179,7 +179,7 @@
                             data-lucide="chevron-right"></i></i></a>
                 </div>
                 <img src="{{ asset('frontend/images/home_phone.png') }}" alt=""
-                    class="w-full sm:w-1/2 lg:w-10/12 xl:w-6/12">
+                    class="w-full sm:w-1/2 md:w-2/3 lg:w-1/2 2xl:w-1/3">
             </div>
         </div>
     </section>
