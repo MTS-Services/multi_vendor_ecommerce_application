@@ -168,10 +168,10 @@ class FaqController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(FaqRequest $req): RedirectResponse
+    public function store(FaqRequest $request): RedirectResponse
     {
 
-        $validated = $req->validated();
+        $validated = $request->validated();
         $validated['creater_id'] = admin()->id;
         $validated['creater_type'] = get_class(admin());
         Faq::create($validated);

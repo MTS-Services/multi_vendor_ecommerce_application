@@ -138,9 +138,9 @@ class PermissionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PermissionRequest $req): RedirectResponse
+    public function store(PermissionRequest $request): RedirectResponse
     {
-        $validated = $req->validated();
+        $validated = $request->validated();
         $validated['created_by'] = admin()->id;
         $validated['guard_name'] = 'admin';
         $permission = Permission::create($validated);
@@ -169,10 +169,10 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PermissionRequest $req, string $id): RedirectResponse
+    public function update(PermissionRequest $request, string $id): RedirectResponse
     {
         $permission = Permission::findOrFail(decrypt($id));
-        $validated = $req->validated();
+        $validated = $request->validated();
         $validated['updated_by'] = admin()->id;
         $validated['guard_name'] = 'admin';
         $permission->update($validated);

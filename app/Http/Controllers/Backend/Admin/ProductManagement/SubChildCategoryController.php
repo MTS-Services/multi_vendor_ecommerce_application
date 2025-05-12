@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Admin\ProductManagement;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductManagement\SubChildCategoryRequest;
+use App\Http\Traits\FileManagementTrait;
 use App\Models\Category;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -13,6 +14,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class SubChildCategoryController extends Controller
 {
+    use FileManagementTrait;
 
     public function __construct()
     {
@@ -168,13 +170,13 @@ class SubChildCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SubChildCategoryRequest $req): RedirectResponse
+    public function store(SubChildCategoryRequest $request): RedirectResponse
     {
-        $validated = $req->validated();
+        $validated = $request->validated();
         $validated['creater_id'] = admin()->id;
         $validated['creater_type'] = get_class(admin());
-        if (isset($req->image)) {
-            $validated['image'] = $this->handleFilepondFileUpload(Category::class, $req->image, admin(), 'subchildcategories/');
+        if (isset($request->image)) {
+            $validated['image'] = $this->handleFilepondFileUpload(Category::class, $request->image, admin(), 'subchildcategories/');
         }
         Category::create($validated);
         session()->flash('success', 'Sub Category created successfully!');
@@ -209,7 +211,7 @@ class SubChildCategoryController extends Controller
         $validated = $request->validated();
         $validated['updater_id'] = admin()->id;
         $validated['updater_type'] = get_class(admin());
-        if (isset($req->image)) {
+        if (isset($request->image)) {
             $validated['image'] = $this->handleFilepondFileUpload($subchildcategory, $request->image, admin(), 'subchildcategories/');
         }
         $subchildcategory->update($validated);

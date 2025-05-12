@@ -2,49 +2,27 @@
 
 @section('title', 'Home')
 
-@php
-    $banners = [
-        [
-            'title' => 'APPLE WATCHES COLLECTION',
-            'subtitle' => 'Sale up to 15% off',
-        ],
-        [
-            'title' => 'Gallaxy Buds Pro',
-            'subtitle' => 'Sale up to 10% off',
-        ],
-        [
-            'title' => 'APPLE WATCHES COLLECTION',
-            'subtitle' => 'Sale up to 15% off',
-        ],
-        [
-            'title' => 'Gallaxy Buds Pro',
-            'subtitle' => 'Sale up to 10% off',
-        ],
-    ];
-@endphp
-
 @section('content')
     {{-- ===================== banner Section ===================== --}}
-    <section class="swiper banner bg-bg-gray dark:bg-bg-darkSecondary dark:bg-opacity-70">
+    <section class="swiper banner bg-bg-gray dark:bg-bg-darkSecondary dark:bg-opacity-70 ">
         <div class="swiper-wrapper relative">
             @foreach ($banners as $banner)
                 <div class="swiper-slide group/banner">
                     <div class="lg:container {{ $loop->iteration % 2 == 0 ? 'pl-0 pr-4 lg:p-4' : 'pr-0 pl-4 lg:p-4' }}">
                         <div
-                            class="item flex {{ $loop->iteration % 2 == 0 ? 'flex-row-reverse' : 'flex-row' }} items-center justify-between relative overflow-hidden min-h-80">
+                            class="item flex {{ $loop->iteration % 2 == 0 ? 'flex-row-reverse' : 'flex-row' }} items-center justify-between relative overflow-hidden min-h-80 lg:min-h-96 2xl:min-h-[500px]">
                             <div
                                 class="w-full md:basis-1/2 relative z-[2] {{ $loop->iteration % 2 == 0 ? 'flex flex-col items-end text-end' : '' }}">
                                 <p class="text-xs md:text-base">{{ $banner['title'] }}</p>
-                                <h2 class="sm:text-xl text-lg lg:text-2xl xl:text-6xl md:py-4 py-1 max-w-72">
+                                <h2 class="sm:text-xl text-lg lg:text-2xl xl:text-6xl md:py-4 py-1 max-w-80">
                                     {{ $banner['subtitle'] }}
                                 </h2>
                                 <a href="#" class="btn-primary">{{ __('Shop Now') }} <i
                                         data-lucide="chevron-right"></i></i></a>
                             </div>
                             <div
-                                class="md:basis-1/2 md:relative absolute z-[1] w-64 top-1/2 md:top-0 -translate-y-1/2 md:translate-y-0 {{ $loop->iteration % 2 == 0 ? '-left-1/3 md:left-0' : '-right-1/3 sm:-right-1/4 md:right-0' }}">
-                                <img class="" src="{{ asset('frontend/images/slider-electronic-1.png') }}"
-                                    alt="Slider Image">
+                                class="md:basis-1/2 md:relative absolute z-[1] w-64 top-1/2 md:top-0 -translate-y-1/2 md:translate-y-0 {{ $loop->iteration % 2 == 0 ? '-left-1/3 md:left-0' : '-right-1/3 sm:-right-1/4 md:right-0 flex items-center justify-end' }}">
+                                <img src="{{ $banner->modified_image }}" alt="{{ $banner->title }}">
                             </div>
                         </div>
                     </div>
@@ -53,12 +31,14 @@
         </div>
         <div class="swiper-pagination z-10 hiddin lg:block"></div>
         <!-- Navigation buttons -->
-        <div class="swiper-button swiper-button-prev hidden lg:block">
-            <i data-lucide="chevron-left" class="w-5 h-5"></i>
-        </div>
+        <div class="hidden lg:block">
+            <div class="swiper-button swiper-button-prev hidden lg:block">
+                <i data-lucide="chevron-left" class="w-5 h-5"></i>
+            </div>
 
-        <div class="swiper-button swiper-button-next hidden lg:block">
-            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+            <div class="swiper-button swiper-button-next hidden lg:block">
+                <i data-lucide="chevron-right" class="w-5 h-5"></i>
+            </div>
         </div>
     </section>
     {{-- ===================== banner Section end ===================== --}}
@@ -108,7 +88,8 @@
                     <div class="swiper-slide text-center flex w-auto">
                         <div
                             class="text-xs md:text-base font-bold text-text-primary flex items-center justify-center gap-3 w-fit">
-                            <img src="{{ asset('frontend/images/star.png') }}" alt="{{ $arival['title'] }}" class="w-5 h-5">
+                            <img src="{{ asset('frontend/images/star.png') }}" alt="{{ $arival['title'] }}"
+                                class="w-5 h-5">
                             {{ $arival['title'] }}
                         </div>
                     </div>
@@ -120,69 +101,9 @@
 
     {{-- =====================  Categories Section ===================== --}}
 
-    {{-- @php
-        $categories = [
-            [
-                'image' => 'frontend/images/airpod-pro-black.jpg',
-                'title' => 'APPLE WATCHES COLLECTION',
-            ],
-            [
-                'image' => 'frontend/images/earphone.png',
-                'title' => 'Samsung Gallexy Buds Pro',
-            ],
-            [
-                'image' => 'frontend/images/airpod-pro-black.jpg',
-                'title' => 'APPLE WATCHES COLLECTION',
-            ],
-            [
-                'image' => 'frontend/images/earphone.png',
-                'title' => 'Samsung Gallexy Buds Pro',
-            ],
-            [
-                'image' => 'frontend/images/airpod-pro-black.jpg',
-                'title' => 'APPLE WATCHES COLLECTION',
-            ],
-            [
-                'image' => 'frontend/images/earphone.png',
-                'title' => 'Samsung Gallexy Buds Pro',
-            ],
-            [
-                'image' => 'frontend/images/airpod-pro-black.jpg',
-                'title' => 'APPLE WATCHES COLLECTION',
-            ],
-            [
-                'image' => 'frontend/images/earphone.png',
-                'title' => 'Samsung Gallexy Buds Pro',
-            ],
-            [
-                'image' => 'frontend/images/airpod-pro-black.jpg',
-                'title' => 'APPLE WATCHES COLLECTION',
-            ],
-            [
-                'image' => 'frontend/images/earphone.png',
-                'title' => 'Samsung Gallexy Buds Pro',
-            ],
-            [
-                'image' => 'frontend/images/airpod-pro-black.jpg',
-                'title' => 'APPLE WATCHES COLLECTION',
-            ],
-            [
-                'image' => 'frontend/images/earphone.png',
-                'title' => 'Samsung Gallexy Buds Pro',
-            ],
-            [
-                'image' => 'frontend/images/airpod-pro-black.jpg',
-                'title' => 'APPLE WATCHES COLLECTION',
-            ],
-            [
-                'image' => 'frontend/images/earphone.png',
-                'title' => 'Samsung Gallexy Buds Pro',
-            ],
-        ];
-    @endphp --}}
     <section class="md:py-22 py-11 relative  dark:bg-opacity-50">
         <div class="container">
-            <h2 class="text-2xl md:text-4xl md:pb-8 pb-4 font-bold">{{__("Dashboard")}}</h2>
+            <h2 class="text-2xl md:text-4xl md:pb-8 pb-4 font-bold">{{ __('Categories') }}</h2>
             <div class="relative">
                 <div class="swiper categories static">
                     <div class="swiper-wrapper">
@@ -258,7 +179,7 @@
                             data-lucide="chevron-right"></i></i></a>
                 </div>
                 <img src="{{ asset('frontend/images/home_phone.png') }}" alt=""
-                    class="w-full sm:w-1/2 lg:w-10/12 xl:w-6/12">
+                    class="w-full sm:w-1/2 md:w-2/3 lg:w-1/2 2xl:w-1/3">
             </div>
         </div>
     </section>
@@ -281,17 +202,17 @@
                         @endforeach
                     </div>
 
-                   <div class="hidden xl:block">
-                     <div class="swiper-pagination z-10 !-bottom-6 lg:!-bottom-8"></div>
-                    <!-- Navigation buttons -->
-                    <div class="swiper-button swiper-button-prev 3xl:-left-13 2xl:-left-9">
-                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
-                    </div>
+                    <div class="hidden xl:block">
+                        <div class="swiper-pagination z-10 !-bottom-6 lg:!-bottom-8"></div>
+                        <!-- Navigation buttons -->
+                        <div class="swiper-button swiper-button-prev 3xl:-left-13 2xl:-left-9">
+                            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                        </div>
 
-                    <div class="swiper-button swiper-button-next 3xl:-right-13 2xl:-right-9">
-                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                        <div class="swiper-button swiper-button-next 3xl:-right-13 2xl:-right-9">
+                            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                        </div>
                     </div>
-                   </div>
                 </div>
             </div>
         </div>
@@ -331,13 +252,14 @@
         import Swiper from '/frontend/js/swiper.min.js';
 
         // Banner Slider
-        new Swiper('.banner', {
+        const bannerEl = document.querySelector('.banner');
+        new Swiper(bannerEl, {
             slidesPerView: 1,
             loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
+            // autoplay: {
+            //     delay: 5000,
+            //     disableOnInteraction: false,
+            // },
             spaceBetween: 20,
             pagination: {
                 el: '.swiper-pagination',
@@ -347,6 +269,11 @@
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
+            on: {
+                init: function() {
+                    hideControlsIfNotEnoughSlides(bannerEl, this, 1);
+                }
+            }
         });
 
         // Arrivals Slider
@@ -363,14 +290,16 @@
         });
 
         // Categories Slider
-        new Swiper('.categories', {
-            slidesPerView: 6,
+
+        const categorySwiperEl = document.querySelector('.categories');
+        new Swiper(categorySwiperEl, {
             loop: true,
+            slidesPerView: 6,
+            spaceBetween: 20,
             autoplay: {
                 delay: 3000,
                 disableOnInteraction: false,
             },
-            spaceBetween: 20,
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true,
@@ -381,34 +310,34 @@
             },
             breakpoints: {
                 0: {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
+                    slidesPerView: 1
                 },
                 450: {
-                    slidesPerView: 2,
-                    spaceBetween: 20,
+                    slidesPerView: 2
                 },
                 768: {
-                    slidesPerView: 3,
-                    spaceBetween: 20,
+                    slidesPerView: 3
                 },
                 1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 20,
+                    slidesPerView: 4
                 },
                 1280: {
-                    slidesPerView: 5,
-                    spaceBetween: 20,
+                    slidesPerView: 5
                 },
                 1536: {
-                    slidesPerView: 6,
-                    spaceBetween: 20,
-                }
+                    slidesPerView: 6
+                },
             },
+            on: {
+                init: function() {
+                    hideControlsIfNotEnoughSlides(categorySwiperEl, this, () => this.params.slidesPerView);
+                }
+            }
         });
 
         // Testimonial Slider
-        new Swiper('.testimonial', {
+        const testimonialEl = document.querySelector('.testimonial');
+        new Swiper(testimonialEl, {
             slidesPerView: 3,
             loop: true,
             autoplay: {
@@ -438,10 +367,16 @@
                     spaceBetween: 20,
                 },
             },
+            on: {
+                init: function() {
+                    hideControlsIfNotEnoughSlides(testimonialEl, this, () => this.params.slidesPerView);
+                }
+            }
         });
 
         // brand Slider
-        new Swiper('.brand', {
+        const brandEl = document.querySelector('.brand');
+        new Swiper(brandEl, {
             slidesPerView: 'auto',
             speed: 1000,
             disableOnInteraction: false,
@@ -484,6 +419,11 @@
                     spaceBetween: 20,
                 },
             },
+            on: {
+                init: function() {
+                    hideControlsIfNotEnoughSlides(brandEl, this, () => this.params.slidesPerView);
+                }
+            }
         });
     </script>
 @endpush

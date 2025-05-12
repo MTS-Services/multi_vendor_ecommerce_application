@@ -191,17 +191,17 @@ class AdminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AdminRequest $req): RedirectResponse
+    public function store(AdminRequest $request): RedirectResponse
     {
 
-        DB::transaction(function () use ($req) {
+        DB::transaction(function () use ($request) {
             try{
-                $validated= $req->validated();
-                $validated['role_id'] = $req->role;
+                $validated= $request->validated();
+                $validated['role_id'] = $request->role;
                 $validated['created_by'] = admin()->id;
 
-                if (isset($req->image)) {
-                    $validated['image'] = $this->handleFilepondFileUpload(Admin::class, $req->image, admin(), 'admins/');
+                if (isset($request->image)) {
+                    $validated['image'] = $this->handleFilepondFileUpload(Admin::class, $request->image, admin(), 'admins/');
                 }
                 $admin = Admin::create($validated);
                 $admin->assignRole($admin->role->name);
@@ -236,22 +236,22 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(AdminRequest $req, string $id): RedirectResponse
+    public function update(AdminRequest $request, string $id): RedirectResponse
     {
         $admin = Admin::findOrFail(decrypt($id));
-        if ($admin->role_id == 1 && $req->role != 1) {
+        if ($admin->role_id == 1 && $request->role != 1) {
             session()->flash('error', 'Can not update Super Admin role!');
             return redirect()->route('am.admin.index');
         }
 
-        DB::transaction(function () use ($req, $id, $admin) {
+        DB::transaction(function () use ($request, $id, $admin) {
             try {
-                $validated = $req->validated();
-                $validated['password'] = ($req->password ? $req->password : $admin->password);
-                if (isset($req->image)) {
-                    $validated['image'] = $this->handleFilepondFileUpload($admin, $req->image, admin(), 'admins/');
+                $validated = $request->validated();
+                $validated['password'] = ($request->password ? $request->password : $admin->password);
+                if (isset($request->image)) {
+                    $validated['image'] = $this->handleFilepondFileUpload($admin, $request->image, admin(), 'admins/');
                 }
-                $validated['role_id'] = $req->role;
+                $validated['role_id'] = $request->role;
                 $validated['updated_by'] = admin()->id;
                 $admin->update($validated);
                 $admin->syncRoles($admin->role->name);

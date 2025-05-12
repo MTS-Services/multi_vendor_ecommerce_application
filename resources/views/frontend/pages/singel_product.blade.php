@@ -201,9 +201,9 @@
                                 {{ __('Add to cart') }}
                             </button>
                         </div>
-                        <button class="w-full py-2 lg:py-3 px-4 mt-4 btn-secondary">
+                        <a class="w-full py-2 lg:py-3 px-4 mt-4 btn-secondary" href="{{route('frontend.checkout')}}">
                             {{ __('Buy it now') }}
-                        </button>
+                        </a>
                     </div>
 
                     {{-- Payment System --}}
@@ -266,8 +266,8 @@
                         <div class="flex items-center sm:border-r sm:pr-6 lg:pr-14 pb-3 sm:pb-0">
                             <div class="text-center">
                                 <i data-lucide="car" class="w-5 h-5 lg:w-7 lg:h-7 mx-auto"></i>
-                                <p class="text-sm lg:text-base font-medium">Estimated delivery time: 3-5 days</p>
-                                <p class="text-xs text-text-primary/50 dark:text-text-white">International</p>
+                                <p class="text-sm lg:text-base font-medium">{{ __("Estimated delivery time: 3-5 days") }}</p>
+                                <p class="text-xs text-text-primary/50 dark:text-text-white">{{ __("International") }}</p>
                             </div>
                         </div>
 
@@ -275,14 +275,14 @@
                         <div class="flex items-center">
                             <div class="text-center">
                                 <i data-lucide="box" class="w-5 h-5 lg:w-7 lg:h-7 mx-auto"></i>
-                                <p class="text-sm lg:text-base font-medium">Free shipping on all orders</p>
-                                <p class="text-xs text-text-primary/50 dark:text-text-white">Over $150</p>
+                                <p class="text-sm lg:text-base font-medium">{{ __("Free shipping on all orders") }}</p>
+                                <p class="text-xs text-text-primary/50 dark:text-text-white">{{ __("Over $150") }}</p>
                             </div>
                         </div>
                     </div>
 
                     {{-- product cart --}}
-                    <div class="mt-6 lg:mt-8 border p-4 lg:p-6 rounded-xl lg:rounded-2xl">
+                    {{-- <div class="mt-6 lg:mt-8 border p-4 lg:p-6 rounded-xl lg:rounded-2xl">
                         <h3 class="text-lg font-semibold  mb-4">{{ __('Frequently Bought Together') }}</h3>
                         <div class="space-y-4">
                             <div class="flex items-center">
@@ -382,8 +382,56 @@
                                 {{ __('Total price: $100.00 USD $120.00 USD') }}</p>
                             <button class="w-full btn-secondary !px-4 lg:!px-6">{{ __('Add selected to cart') }}</button>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
+
+            </div>
+        </div>
+    </section>
+    <section class=" dark:bg-bg-darkSecondary py-8 md:py-18 ">
+        <div class="container">
+            <div class="header pb-6 text-center">
+                <h2 class="text-4xl">{{ __('People Also Bought') }}</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+                @php
+                    $collections = collect([
+                        'id' => 1,
+                        'image' => 'frontend/images/phone.png',
+                        'title' => 'Galaxy S21 5G 128GB G991U Unlocked Smartphone',
+                        'price' => 999.99,
+                        'old_price' => 1000.0,
+                    ]);
+                @endphp
+
+                <x-frontend.product :items="$collections" />
+                <x-frontend.product :items="$collections" />
+                <x-frontend.product :items="$collections" />
+                <x-frontend.product :items="$collections" />
+
+            </div>
+        </div>
+    </section>
+    <section class=" dark:bg-bg-darkSecondary py-8 md:py-18">
+        <div class="container">
+            <div class="header pb-6 text-center">
+                <h2 class="text-4xl">{{ __('Recently Viewed') }}</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+                @php
+                    $collections = collect([
+                        'id' => 1,
+                        'image' => 'frontend/images/phone.png',
+                        'title' => 'Galaxy S21 5G 128GB G991U Unlocked Smartphone',
+                        'price' => 999.99,
+                        'old_price' => 1000.0,
+                    ]);
+                @endphp
+
+                <x-frontend.product :items="$collections" />
+                <x-frontend.product :items="$collections" />
+                <x-frontend.product :items="$collections" />
+                <x-frontend.product :items="$collections" />
 
             </div>
         </div>

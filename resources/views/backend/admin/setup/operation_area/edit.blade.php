@@ -83,7 +83,9 @@
                 getCities($(this).val(), route2);
             });
             let data_id = `{{ $operation_area->state_id ? $operation_area->state_id : $operation_area->city_id }}`;
-            getStatesOrCity($('#country').val(), route1, data_id);
+            if(data_id){
+                getStatesOrCity($('#country').val(), route1, data_id);
+            }
             if(`{{$operation_area->state_id}}`){
                 getCities(`{{$operation_area->state_id}}`, route2, `{{ $operation_area->city_id }}`);
             }

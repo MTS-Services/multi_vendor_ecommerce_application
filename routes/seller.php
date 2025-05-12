@@ -24,10 +24,10 @@ Route::group(['prefix' => 'seller', 'as' => 'seller.'], function () {
 Route::group(['middleware' => 'auth:seller', 'prefix' => 'seller'], function () {
     Route::get('/dashboard', [SellerDashboardController::class, 'dashboard'])->name('seller.dashboard');
 
-    Route::get('/profile-show', [SellerProfileController::class, 'show'])->name('seller.profile_show');
-    Route::put('/profile/update', [SellerProfileController::class, 'update'])->name('seller.profile.update');
-
-    // Password routes
-    Route::get('/profile/password', [SellerProfileController::class, 'showChangePasswordForm'])->name('seller.profile.password');
-    Route::put('/profile/password/update', [SellerProfileController::class, 'updatePassword'])->name('seller.profile.password.update');
+    Route::controller( SellerProfileController::class)->name('seller.')->group(function () {
+        Route::get('/profile', 'show')->name('profile_show');
+        Route::put('/profile/update', 'profileUpdate')->name('profile.update');
+        Route::put('/address/update', 'addressUpdate')->name('address.update');
+        Route::put('/password/update', 'passwordUpdate')->name('password.update');
+    });
 });
