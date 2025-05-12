@@ -7,7 +7,7 @@
 
             </div>
             <div class="navbar-start lg:navbar-center">
-                <a href="{{ route('frontend.home') }}" class="w-fit">
+                <a href="{{ route('frontend.home') }}" class="w-fit lg:mx-auto">
                     <span class="dark-mode-logo hidden">
                         <img src="{{ asset('frontend/images/logo-light.png') }}" alt="Logo">
                     </span>
@@ -65,13 +65,13 @@
                 <a href="{{ route('frontend.shop') }}"
                     class="capitalize text-text-primary dark:text-text-white relative
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
-                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
+                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == 'shop') after:w-full @else after:w-0 @endif">
                     {{ __('Shop') }}
                 </a>
                 <a href="{{ route('frontend.store_location') }}"
                     class="capitalize text-text-primary dark:text-text-white relative
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
-                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
+                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == 'store_location') after:w-full @else after:w-0 @endif">
                     {{ __('Store location') }}
                 </a>
                 <a href="#"
@@ -83,7 +83,7 @@
                 <a href="{{ route('frontend.faq') }}"
                     class="capitalize text-text-primary dark:text-text-white relative
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
-                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
+                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == 'faq') after:w-full @else after:w-0 @endif">
                     {{ __('Faq') }}
                 </a>
             </div>
