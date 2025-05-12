@@ -156,6 +156,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     Route::group(['as' => 'cms.', 'prefix' => 'cms-management'], function () {
         Route::resource('banner', BannerController::class);
         Route::get('banner/status/{banner}', [BannerController::class, 'status'])->name('banner.status');
+        Route::get('banner/recycle/bin', [BannerController::class, 'recycleBin'])->name('banner.recycle-bin');
+        Route::get('banner/restore/{banner}', [BannerController::class, 'restore'])->name('banner.restore');
+        Route::delete('banner/permanent-delete/{banner}', [BannerController::class, 'permanentDelete'])->name('banner.permanent-delete');
 
         //recycle bin
         Route::get('banner/recycle/bin', [BannerController::class, 'recycleBin'])->name('banner.recycle-bin');
@@ -214,6 +217,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         //Product Attribute Value
         Route::resource('product-attribute-value', AttributeValueController::class);
         Route::get('product-attribute-value/status/{product_attribute_value}', [AttributeValueController::class, 'status'])->name('product-attribute-value.status');
+        Route::get('product-attribute-value/recycle/bin', [AttributeValueController::class, 'recycleBin'])->name('product-attribute-value.recycle-bin');
+        Route::get('product-attribute-value/restore/{product_attribute_value}', [AttributeValueController::class, 'restore'])->name('product-attribute-value.restore');
+        Route::delete('product-attribute-value/permanent-delete/{product_attribute_value}', [AttributeValueController::class, 'permanentDelete'])->name('product-attribute-value.permanent-delete');
 
 
         // Brand Routes
