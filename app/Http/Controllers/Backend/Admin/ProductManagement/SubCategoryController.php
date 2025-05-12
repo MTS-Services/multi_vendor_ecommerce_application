@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\SubCategoryRequest;
+use App\Http\Requests\Admin\ProductManagement\SubCategoryRequest;
 use App\Models\Category;
 use App\Models\ProductAttribute;
 use App\Models\ProductAttributeValue;
@@ -21,16 +21,16 @@ class SubCategoryController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->middleware('permission:subcategory-list', ['only' => ['index']]);
-        $this->middleware('permission:subcategory-details', ['only' => ['show']]);
-        $this->middleware('permission:subcategory-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:subcategory-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:subcategory-delete', ['only' => ['destroy']]);
-        $this->middleware('permission:subcategory-status', ['only' => ['status']]);
-        $this->middleware('permission:subcategory-feature', ['only' => ['feature']]);
-        $this->middleware('permission:subcategory-recycle-bin', ['only' => ['recycleBin']]);
-        $this->middleware('permission:subcategory-restore', ['only' => ['restore']]);
-        $this->middleware('permission:subcategory-permanent-delete', ['only' => ['permanentDelete']]);
+        $this->middleware('permission:sub-category-list', ['only' => ['index']]);
+        $this->middleware('permission:sub-category-details', ['only' => ['show']]);
+        $this->middleware('permission:sub-category-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:sub-category-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:sub-category-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:sub-category-status', ['only' => ['status']]);
+        $this->middleware('permission:sub-category-feature', ['only' => ['feature']]);
+        $this->middleware('permission:sub-category-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:sub-category-restore', ['only' => ['restore']]);
+        $this->middleware('permission:sub-category-permanent-delete', ['only' => ['permanentDelete']]);
     }
 
     /**
@@ -40,12 +40,16 @@ class SubCategoryController extends Controller
     {
 
         if ($request->ajax()) {
-            $query = Category::isSubCategory()->with(['creater', 'category'])
+            $query = Category::isSubCategory()->with(['creater', 'parent'])
+                  ->withCount(['activeChildrens'])
                 ->orderBy('sort_order', 'asc')
                 ->latest();
             return DataTables::eloquent($query)
                 ->editColumn('parent_id', function ($subcategory) {
-                    return $subcategory->category_name;
+                    return $subcategory?->parent?->name;
+                })
+                ->editColumn('name', function ($subcategory) {
+                        return $subcategory->name ."<sup class='badge bg-info'>$subcategory->active_childrens_count</sup>";
                 })
                 ->editColumn('status', function ($subcategory) {
                     return "<span class='badge " . $subcategory->status_color . "'>$subcategory->status_label</span>";
@@ -63,7 +67,7 @@ class SubCategoryController extends Controller
                     $menuItems = $this->menuItems($subcategory);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['parent_id', 'status', 'is_featured', 'creater_id', 'created_at', 'action'])
+                ->rawColumns(['parent_id','name', 'status', 'is_featured', 'creater_id', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.product_management.sub_category.index');
@@ -77,32 +81,32 @@ class SubCategoryController extends Controller
                 'data-id' => encrypt($model->id),
                 'className' => 'view',
                 'label' => 'Details',
-                'permissions' => ['subcategory-list']
+                'permissions' => ['sub-category-list']
             ],
             [
                 'routeName' => 'pm.sub-category.edit',
                 'params' => [encrypt($model->id)],
                 'label' => 'Edit',
-                'permissions' => ['subcategory-edit']
+                'permissions' => ['sub-category-edit']
             ],
             [
                 'routeName' => 'pm.sub-category.status',
                 'params' => [encrypt($model->id)],
                 'label' => $model->status_btn_label,
-                'permissions' => ['category-status']
+                'permissions' => ['sub-category-status']
             ],
             [
                 'routeName' => 'pm.sub-category.feature',
                 'params' => [encrypt($model->id)],
                 'label' => $model->featured_btn_label,
-                'permissions' => ['category-feature']
+                'permissions' => ['sub-category-feature']
             ],
             [
                 'routeName' => 'pm.sub-category.destroy',
                 'params' => [encrypt($model->id)],
                 'label' => 'Delete',
                 'delete' => true,
-                'permissions' => ['subcategory-delete']
+                'permissions' => ['sub-category-delete']
             ]
 
         ];
@@ -112,13 +116,18 @@ class SubCategoryController extends Controller
     {
 
         if ($request->ajax()) {
-            $query = Category::with(['deleter'])
+            $query = Category::with(['deleter','parent'])
                 ->onlyTrashed()
+                ->isSubCategory()
+                ->withCount(['activeChildrens'])
                 ->orderBy('sort_order', 'asc')
                 ->latest();
             return DataTables::eloquent($query)
-                ->editColumn('parent_id', function ($subcategory) {
-                    return $subcategory->category_name;
+               ->editColumn('parent_id', function ($subcategory) {
+                    return $subcategory->parent?->name;
+                })
+                ->editColumn('name', function ($subcategory) {
+                        return $subcategory->name ."<sup class='badge bg-info'>$subcategory->active_childrens_count</sup>";
                 })
                 ->editColumn('status', function ($subcategory) {
                     return "<span class='badge " . $subcategory->status_color . "'>$subcategory->status_label</span>";
@@ -136,7 +145,7 @@ class SubCategoryController extends Controller
                     $menuItems = $this->trashedMenuItems($subcategory);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['parent_id','status', 'is_featured', 'deleter_id', 'deleted_at', 'action'])
+                ->rawColumns(['name','parent_id','status', 'is_featured', 'deleter_id', 'deleted_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.product_management.sub_category.recycle-bin');
@@ -164,7 +173,7 @@ class SubCategoryController extends Controller
 
     public function create(): View
     {
-        $data['categories'] = Category::isCategory()->active()->latest()->get();
+        $data['categories'] = Category::isMainCategory()->active()->latest()->get();
         return view('backend.admin.product_management.sub_category.create', $data);
     }
 
@@ -186,7 +195,8 @@ class SubCategoryController extends Controller
 
     public function show(string $id)
     {
-        $data = Category::with(['creater', 'updater', 'category'])->findOrFail(decrypt($id));
+        $data = Category::with(['creater', 'updater', 'parent'])->withCount(['activeChildrens'])->findOrFail(decrypt($id));
+        $data['parent_name'] = $data?->parent?->name;
         return response()->json($data);
     }
 
@@ -195,9 +205,10 @@ class SubCategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $data['product_attribute_value'] = ProductAttributeValue::findOrFail(decrypt($id));
-    $data['product_attribute'] = ProductAttribute::all(); // <-- Add this line
-    return view('backend.admin.product_management.product_attribute_value.edit', $data);
+
+    $data['categories'] = Category::isMainCategory()->active()->latest()->get();
+    $data['subcategory'] = Category::isSubCategory()->findOrFail(decrypt($id));
+    return view('backend.admin.product_management.sub_category.edit', $data);
     }
 
     /**
@@ -224,7 +235,7 @@ class SubCategoryController extends Controller
     public function destroy(string $id)
     {
         $subcategory = Category::findOrFail(decrypt($id));
-        $subcategory->update(['updater_id' => admin()->id, 'updater_type' => get_class(admin())]);
+        $subcategory->update(['deleter_id' => admin()->id, 'deleter_type' => get_class(admin())]);
         $subcategory->delete();
         session()->flash('success', 'Sub category deleted successfully!');
         return redirect()->route('pm.sub-category.index');
@@ -248,7 +259,7 @@ class SubCategoryController extends Controller
         $subcategory = Category::onlyTrashed()->findOrFail(decrypt($id));
         $subcategory->update(['updated_by' => admin()->id]);
         $subcategory->restore();
-        session()->flash('success', 'Sub Category restored successfully!');
+        session()->flash('success', 'Sub category restored successfully!');
         return redirect()->route('pm.sub-category.recycle-bin');
     }
 
@@ -261,8 +272,11 @@ class SubCategoryController extends Controller
     public function permanentDelete(string $id): RedirectResponse
     {
         $subcategory = Category::onlyTrashed()->findOrFail(decrypt($id));
+        if($subcategory->image){
+            $this->fileDelete($subcategory->image);
+        }
         $subcategory->forceDelete();
-        session()->flash('success', 'Sub Category permanently deleted successfully!');
+        session()->flash('success', 'Sub category permanently deleted successfully!');
         return redirect()->route('pm.sub-category.recycle-bin');
     }
 }

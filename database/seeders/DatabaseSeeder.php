@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             SellerSeeder::class,
             CategorySeeder::class,
             SubCategorySeeder::class,
+            SubChildCategorySeeder::class,
 
             CountrySeeder::class,
             BannerSeeder::class,
@@ -38,6 +39,8 @@ class DatabaseSeeder extends Seeder
             OperationSubAreaSeeder::class,
 
             OfferBannerSeeder::class,
+
+            HubSeeder::class,
             BrandSeeder::class,
             FaqSeeder::class,
             OurConnectionSeeder::class

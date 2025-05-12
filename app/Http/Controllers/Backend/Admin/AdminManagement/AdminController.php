@@ -322,7 +322,9 @@ class AdminController extends Controller
     public function permanentDelete(string $id): RedirectResponse
     {
         $admin = Admin::onlyTrashed()->findOrFail(decrypt($id));
-        $this->fileDelete($admin->image);
+        if($admin->image){
+            $this->fileDelete($admin->image);
+        }
         $admin->forceDelete();
         session()->flash('success', 'Admin permanently deleted successfully!');
         return redirect()->route('am.admin.recycle-bin');

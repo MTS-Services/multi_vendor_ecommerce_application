@@ -92,6 +92,10 @@
                     key: "slug"
                 },
                 {
+                    label: "Total Sub Category",
+                    key: "active_childrens_count"
+                },
+                {
                     label: "Image",
                     key: "modified_image",
                     type: "image"

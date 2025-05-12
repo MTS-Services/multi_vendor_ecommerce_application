@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Admin\Setup;
+namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\State;
@@ -28,6 +29,7 @@ class AxiosRequestController extends Controller
             'message'=> "States not found!",
         ]);
      }
+
 
      public function getStatesOrCities(Request $request): JsonResponse{
 
@@ -78,4 +80,20 @@ class AxiosRequestController extends Controller
              'message'=> "Operation areas not found!",
          ]);
       }
-}
+
+       public function getSubCategories(Request $request): JsonResponse{
+
+            $parent_id = $request->parent_id;
+            if($parent_id){
+                    $parent = Category::with('activeChildrens')->findOrFail($parent_id);
+                    return response()->json([
+                        'childrens' => $parent->activeChildrens,
+                        'message'=> "Childrens fetched successfully!",
+                    ]);
+            }
+            return response()->json([
+                    'childrens' => [],
+                    'message'=> "Childrens not found!",
+                ]);
+        }
+    }

@@ -134,7 +134,7 @@
                         {{ __('We invite you to register to read the latest news, offers and events about our company. We promise not spam your inbox.') }}
                     </p>
                     <form
-                        class="flex items-center border border-border-dark dark:border-border-white rounded-full  overflow-hidden transition-all focus-within:ring-4 focus-within:ring-outline-primary focus-within:ring-opacity-50 focus-within:border-outline-primary group">
+                        class="flex items-center border border-border-dark dark:border-border-white rounded-full  overflow-hidden transition-all focus-within:ring-4 focus-within:ring-transparent focus-within:ring-opacity-50 focus-within:border-outline-primary group">
                         <input type="email" placeholder="{{ __('Email address') }}"
                             class="w-full px-4 py-3 text-base  focus:outline-none" />
                         <button type="submit"

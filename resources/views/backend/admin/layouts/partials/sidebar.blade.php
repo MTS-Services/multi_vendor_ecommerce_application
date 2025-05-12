@@ -100,12 +100,14 @@
                 <li class="nav-item  @if (
                     $page_slug == 'category' ||
                         $page_slug == 'subcategory' ||
+                        $page_slug == 'subchildcategory' ||
                         $page_slug == 'brand' ||
                         $page_slug == 'product_attribute'|| $page_slug == 'product_attribute_value') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#product_management"
                         @if (
                             $page_slug == 'category' ||
                                 $page_slug == 'subcategory' ||
+                                $page_slug == 'subchildcategory' ||
                                 $page_slug == 'brand' ||
                                 $page_slug == 'product_attribute' || $page_slug == 'product_attribute_value') aria-expanded="true" @endif>
                         <i class="icon-people"></i>
@@ -115,6 +117,7 @@
                     <div class="collapse @if (
                         $page_slug == 'category' ||
                             $page_slug == 'subcategory' ||
+                            $page_slug == 'subchildcategory' ||
                             $page_slug == 'brand' ||
                             $page_slug == 'product_attribute' || $page_slug == 'product_attribute_value') show @endif" id="product_management">
                         <ul class="nav nav-collapse">
@@ -131,6 +134,11 @@
                             <li class="@if ($page_slug == 'subcategory') active @endif">
                                 <a href="{{ route('pm.sub-category.index') }}">
                                     <span class="sub-item">{{ __('Sub Category') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'subchildcategory') active @endif">
+                                <a href="{{ route('pm.sub-child-category.index') }}">
+                                    <span class="sub-item">{{ __('Sub Child Category') }}</span>
                                 </a>
                             </li>
                             <li class="@if ($page_slug == 'product_attribute') active @endif">
@@ -221,6 +229,23 @@
                             <li class="@if ($page_slug == 'our_connection') active @endif">
                                 <a href="{{ route('cms.our-connection.index') }}">
                                     <span class="sub-item">{{ __('Our Connection') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item  @if ($page_slug == 'hub' || $page_slug == 'hub_package') active submenu @endif">
+                    <a data-bs-toggle="collapse" href="#hub_management"
+                        @if ($page_slug == 'seller') aria-expanded="true" @endif>
+                        <i class="icon-people"></i>
+                        <p>{{ __('Hub Management') }}</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse @if ($page_slug == 'hub' || $page_slug == 'hub_package') show @endif" id="hub_management">
+                        <ul class="nav nav-collapse">
+                            <li class="@if ($page_slug == 'hub') active @endif">
+                                <a href="{{ route('hm.hub.index') }}">
+                                    <span class="sub-item">{{ __('Hub') }}</span>
                                 </a>
                             </li>
                         </ul>

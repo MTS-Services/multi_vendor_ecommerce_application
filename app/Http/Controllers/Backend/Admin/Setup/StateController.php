@@ -194,9 +194,7 @@ class StateController extends Controller
     {
         $state = State::findOrFail(decrypt($id));
         $validated = $request->validated();
-        $validated['updater_id'] = admin()->id;
-        $validated['updater_type'] = get_class(admin());
-
+        $validated['updated_by'] = admin()->id;
         $state->update($validated);
         session()->flash('success', 'State updated successfully!');
         return redirect()->route('setup.state.index');
@@ -208,7 +206,7 @@ class StateController extends Controller
     public function destroy(string $id)
     {
         $state = State::findOrFail(decrypt($id));
-        $state->update(['updater_id' => admin()->id, 'updater_type'=> get_class(admin())]);
+        $state->update(['deleted_by' => admin()->id]);
         $state->delete();
         session()->flash('success', 'State deleted successfully!');
         return redirect()->route('setup.state.index');
@@ -220,7 +218,7 @@ class StateController extends Controller
         session()->flash('success', ' state status updated successfully!');
         return redirect()->route('setup.state.index');
     }
-           public function restore(string $id): RedirectResponse
+    public function restore(string $id): RedirectResponse
     {
         $state = State::onlyTrashed()->findOrFail(decrypt($id));
         $state->update(['updated_by' => admin()->id]);

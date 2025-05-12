@@ -1,7 +1,7 @@
 <dialog id="my_modal_1" class="modal">
     <div class="modal-box max-w-7xl">
         <h3 class="text-lg font-bold">Login Page!</h3>
-        <div class="flex items-center justify-center gap-3 mt-5">
+        <div class="flex items-center justify-center gap-3 mt-5 flex-wrap">
 
             @auth('web')
                 <a href="{{ route('user.profile') }}"
