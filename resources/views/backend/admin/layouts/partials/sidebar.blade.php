@@ -97,14 +97,14 @@
                 </li>
 
                 {{-- Product Management --}}
-                <li class="nav-item  @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute'|| $page_slug == 'tax_class'|| $page_slug == 'tax_rate') active submenu @endif">
+                <li class="nav-item  @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'subchildcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute'|| $page_slug == 'tax_class'|| $page_slug == 'tax_rate') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#product_management"
-                        @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute' || $page_slug == 'product_attribute_value'|| $page_slug == 'tax_class'|| $page_slug == 'tax_rate') aria-expanded="true" @endif>
+                        @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'subchildcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute' || $page_slug == 'product_attribute_value'|| $page_slug == 'tax_class'|| $page_slug == 'tax_rate') aria-expanded="true" @endif>
                         <i class="icon-people"></i>
                         <p>{{ __('Product Management') }}</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute' || $page_slug == 'product_attribute_value' || $page_slug == 'tax_class'|| $page_slug == 'tax_rate') show @endif" id="product_management">
+                    <div class="collapse @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'subchildcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute' || $page_slug == 'product_attribute_value' || $page_slug == 'tax_class'|| $page_slug == 'tax_rate') show @endif" id="product_management">
                         <ul class="nav nav-collapse">
                             <li class="@if ($page_slug == 'brand') active @endif">
                                 <a href="{{ route('pm.brand.index') }}">

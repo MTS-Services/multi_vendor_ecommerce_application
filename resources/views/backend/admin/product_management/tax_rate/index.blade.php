@@ -25,14 +25,12 @@
                         <thead>
                             <tr>
                                 <th>{{ __('SL') }}</th>
-                                <th>{{ __('Name') }}</th>
                                 <th>{{ __('Tax Class') }}</th>
-                                <th>{{ __('Tax Rate') }}</th>
+                                <th>{{ __('Name') }}</th>
                                 <th>{{ __('Country') }}</th>
                                 <th>{{ __('City') }}</th>
+                                <th>{{ __('Tax Rate') }}</th>
                                 <th>{{ __('Status') }}</th>
-                                <th>{{ __('Priority') }}</th>
-                                <th>{{ __('Compound') }}</th>
                                 <th>{{ __('Created By') }}</th>
                                 <th>{{ __('Created Date') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -56,14 +54,12 @@
         $(document).ready(function() {
             let table_columns = [
 
-                ['name', true, true],
                 ['tax_class_id', true, true],
-                ['rate', true, true],
+                ['name', true, true],
                 ['country_id', true, true],
                 ['city_id', true, true],
-                ['priority', true, true],
+                ['rate', true, true],
                 ['status', true, true],
-                ['compound', true, true],
                 ['created_by', true, true],
                 ['created_at', false, false],
                 ['action', false, false],

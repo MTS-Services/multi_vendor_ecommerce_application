@@ -84,15 +84,15 @@
     <script>
         // Get Country States By Axios
         $(document).ready(function() {
-            let route1 = "{{ route('setup.axios.get-states-or-cities') }}";
+            let route1 = "{{ route('axios.get-states-or-cities') }}";
             $('#country').on('change', function() {
                 getStatesOrCity($(this).val(), route1);
             });
-            let route2 = "{{ route('setup.axios.get-cities') }}";
+            let route2 = "{{ route('axios.get-cities') }}";
             $('#state').on('change', function() {
                 getCities($(this).val(), route2);
             });
-            let route3 = "{{ route('setup.axios.get-operation-areas') }}";
+            let route3 = "{{ route('axios.get-operation-areas') }}";
             $('#city').on('change', function() {
                 getOperationAreas($(this).val(), route3);
             });

@@ -198,14 +198,14 @@ class CategoryController extends Controller
         return view('backend.admin.product_management.category.edit', $data);
     }
 
-    public function update(CategoryRequest $req, string $id): RedirectResponse
+    public function update(CategoryRequest $request, string $id): RedirectResponse
     {
         $category = Category::findOrFail(decrypt($id));
-        $validated = $req->validated();
+        $validated = $request->validated();
         $validated['updater_id'] = admin()->id;
         $validated['updater_type'] = get_class(admin());
         if(isset($request->image)) {
-            $validated['image'] = $this->handleFilepondFileUpload($category, $req->image, admin(), 'categories/');
+            $validated['image'] = $this->handleFilepondFileUpload($category, $request->image, admin(), 'categories/');
         }
         $category->update($validated);
         session()->flash('success', 'Category updated successfully!');

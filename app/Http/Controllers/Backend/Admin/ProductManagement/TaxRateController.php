@@ -16,7 +16,8 @@ class TaxRateController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->middleware('permission:tax-rate-list|product-create|product-edit|product-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:tax-rate-list', ['only' => ['index']]);
+        $this->middleware('permission:tax-rate-details', ['only' => ['show']]);
         $this->middleware('permission:tax-rate-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:tax-rate-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:tax-rate-delete', ['only' => ['destroy']]);
@@ -39,12 +40,6 @@ class TaxRateController extends Controller
             return DataTables::eloquent($query)
                 ->editColumn('status', function ($tax_rate) {
                     return "<span class='badge " . $tax_rate->status_color . "'>$tax_rate->status_label</span>";
-                })
-                ->editColumn('priority', function ($tax_rate) {
-                    return "<span class='badge " . $tax_rate->priority_color . "'>$tax_rate->priority_label</span>";
-                })
-                ->editColumn('compound', function ($tax_rate) {
-                    return "<span class='badge " . $tax_rate->compound_color . "'>$tax_rate->compound_label</span>";
                 })
                 ->editColumn('tax_class_id', function ($tax_rate) {
                     return $tax_rate->taxClass?->name;
@@ -92,18 +87,6 @@ class TaxRateController extends Controller
                 'params' => [encrypt($model->id)],
                 'label' => $model->status_btn_label,
                 'permissions' => ['tax-rate-status']
-            ],
-            [
-                'routeName' => 'pm.tax-rate.priority',
-                'params' => [encrypt($model->id)],
-                'label' => $model->priority_btn_label,
-                'permissions' => ['tax-rate-priority']
-            ],
-            [
-                'routeName' => 'pm.tax-rate.compound',
-                'params' => [encrypt($model->id)],
-                'label' => $model->compound_btn_label,
-                'permissions' => ['tax-rate-compound']
             ],
             [
                 'routeName' => 'pm.tax-rate.destroy',

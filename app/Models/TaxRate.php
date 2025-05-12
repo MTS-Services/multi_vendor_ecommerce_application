@@ -39,8 +39,6 @@ class TaxRate extends BaseModel
 
             'compound_label',
             'compound_color',
-            'compound_btn_label',
-            'compound_btn_color',
             'compound_labels',
 
 

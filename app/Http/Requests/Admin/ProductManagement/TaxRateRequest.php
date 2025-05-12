@@ -23,7 +23,7 @@ class TaxRateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'rate' => 'required|numeric|min:0|max:100',
+            'rate' => 'required|numeric|min:0',
             'tax_class' => 'required|exists:tax_classes,id',
            'country' => 'required|exists:countries,id',
             'state' => 'nullable|exists:states,id',

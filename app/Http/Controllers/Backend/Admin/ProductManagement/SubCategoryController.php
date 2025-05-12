@@ -180,13 +180,13 @@ class SubCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SubCategoryRequest $req): RedirectResponse
+    public function store(SubCategoryRequest $request): RedirectResponse
     {
-        $validated = $req->validated();
+        $validated = $request->validated();
         $validated['creater_id'] = admin()->id;
         $validated['creater_type'] = get_class(admin());
-        if (isset($req->image)) {
-            $validated['image'] = $this->handleFilepondFileUpload(Category::class, $req->image, admin(), 'subcategories/');
+        if (isset($request->image)) {
+            $validated['image'] = $this->handleFilepondFileUpload(Category::class, $request->image, admin(), 'subcategories/');
         }
         Category::create($validated);
         session()->flash('success', 'Sub Category created successfully!');
@@ -221,7 +221,7 @@ class SubCategoryController extends Controller
         $validated = $request->validated();
         $validated['updater_id'] = admin()->id;
         $validated['updater_type'] = get_class(admin());
-        if (isset($req->image)) {
+        if (isset($request->image)) {
             $validated['image'] = $this->handleFilepondFileUpload($subcategory, $request->image, admin(), 'subcategories/');
         }
         $subcategory->update($validated);

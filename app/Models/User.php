@@ -39,7 +39,7 @@ class User extends AuthBaseModel implements MustVerifyEmail
         'deleter_id',
         'creater_type',
         'updater_type',
-        'deleted_type',
+        'deleter_type',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -61,7 +61,7 @@ class User extends AuthBaseModel implements MustVerifyEmail
         'updater_id' => 'integer',
         'deleter_id' => 'integer',
         'status' => 'integer',
-        'is_verify' => 'integer',        
+        'is_verify' => 'integer',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
