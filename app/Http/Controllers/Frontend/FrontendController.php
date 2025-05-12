@@ -37,6 +37,11 @@ class FrontendController extends Controller
     {
         return view('frontend.pages.wishlist');
     }
+    public function cart()
+    {
+        return view('frontend.pages.cart');
+    }
+
     public function singel_product()
     {
         return view('frontend.pages.singel_product');
