@@ -3,22 +3,24 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Country extends BaseModel
+class OurConnection extends BaseModel
 {
+    protected $table = 'our_connections';
     protected $fillable = [
-        'sort_order',
         'name',
-        'slug',
-        'description',
+        'sort_order',
         'status',
+        'image',
+        'website',
+        'description',
+        'creater_id',
+        'updater_id',
+        'deleter_id',
 
-        'created_by',
-        'updated_by',
-        'deleted_by',
     ];
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -29,8 +31,12 @@ class Country extends BaseModel
             'status_btn_label',
             'status_btn_color',
             'status_labels',
+
+            'modified_image',
         ]);
     }
+
+    // ================= Status Functionality Start Here =================
     public const STATUS_ACTIVE = 1;
     public const STATUS_DEACTIVE = 0;
     // Status labels
@@ -100,65 +106,11 @@ class Country extends BaseModel
         return self::getStatusBtnColors()[$this->status] ?? 'btn btn-secondary';
     }
 
+    // ================= Status Functionality End Here =================
 
-
-    public function scopeActive($query): mixed
+    // Modify Image
+    public function getModifiedImageAttribute()
     {
-        return $query->where('status', self::STATUS_ACTIVE);
+        return storage_url($this->image);
     }
-
-    public function scopeDeactive($query): mixed
-    {
-        return $query->where('status', self::STATUS_DEACTIVE);
-    }
-
-    public function cities(): HasMany
-    {
-        return $this->hasMany(City::class,'country_id');
-    }
-    public function states(): HasMany
-    {
-        return $this->hasMany(State::class, 'country_id');
-    }
-
-    public function operationAreas(): HasMany
-    {
-        return $this->hasMany(OperationArea::class,'country_id');
-    }
-    public function operationSubAreas(): HasMany
-    {
-        return $this->hasMany(OperationSubArea::class,'country_id');
-    }
-    public function hubs(): HasMany
-    {
-        return $this->hasMany(Hub::class,'country_id');
-    }
-    public function activeCities(): HasMany
-    {
-        return $this->cities()->active();
-    }
-    public function activeStates(): HasMany
-    {
-        return $this->states()->active();
-    }
-
-    public function activeOperationAreas(): HasMany
-    {
-        return $this->operationAreas()->active();
-    }
-    public function activeOperationSubAreas(): HasMany
-    {
-        return $this->operationSubAreass()->active();
-    }
-    public function taxrate(): HasMany
-    {
-        return $this->hasMany(TaxRate::class, 'country_id', 'id');
-    }
-    public function activeHubs(): HasMany
-    {
-        return $this->hubs()->active();
-    }
-
-
-
 }

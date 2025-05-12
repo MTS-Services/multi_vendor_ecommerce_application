@@ -248,6 +248,9 @@ class SellerController extends Controller
     {
         $seller = Seller::onlyTrashed()->findOrFail(decrypt($id));
         $seller->forceDelete();
+         if($seller->image){
+            $this->fileDelete($seller->image);
+        }
         session()->flash('success', 'Seller permanently deleted successfully!');
         return redirect()->route('sl.seller.recycle-bin');
     }

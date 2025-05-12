@@ -1,32 +1,31 @@
-@extends('backend.admin.layouts.master', ['page_slug' => 'product_attribute_value'])
-@section('title', 'Product Attribute Value List')
+@extends('backend.admin.layouts.master', ['page_slug' => 'tax_class'])
+@section('title', 'Tax Class List')
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="cart-title">{{ __('Product Attribute Value List') }}</h4>
+                    <h4 class="cart-title">{{ __('Tax Class List') }}</h4>
                     <div class="buttons">
                         <x-backend.admin.button :datas="[
-                            'routeName' => 'pm.product-attribute-value.recycle-bin',
+                            'routeName' => 'pm.tax-class.recycle-bin',
                             'label' => 'Recycle Bin',
                             'className' => 'btn-danger',
-                            'permissions' => ['product-attribute-value-restore'],
+                            'permissions' => ['tax-class-restore'],
                         ]" />
                         <x-backend.admin.button :datas="[
-                            'routeName' => 'pm.product-attribute-value.create',
+                            'routeName' => 'pm.tax-class.create',
                             'label' => 'Add New',
-                            'permissions' => ['product_attribute_value-create'],
+                            'permissions' => ['tax-class-create'],
                         ]" />
-                    </div>
+                    </div>;
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-striped datatable">
                         <thead>
                             <tr>
                                 <th>{{ __('SL') }}</th>
-                                <th>{{ __('Attribute Name') }}</th>
-                                <th>{{ __('Value') }}</th>
+                                <th>{{ __('Name') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Created By') }}</th>
                                 <th>{{ __('Created Date') }}</th>
@@ -34,25 +33,26 @@
                             </tr>
                         </thead>
                         <tbody>
+
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    {{-- Details Modal  --}}
-    <x-backend.admin.details-modal :datas="['modal_title' => 'Product Attribute Value Details']" />
+    {{-- Admin Details Modal  --}}
+    <x-backend.admin.details-modal :datas="['modal_title' => 'tax-class Details']" />
 @endsection
 @push('js')
+    <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
     <script src="{{ asset('datatable/main.js') }}"></script>
     <script>
         $(document).ready(function() {
             let table_columns = [
-                //name and data, orderable, searchable
-                ['product_attribute_id', true, true],
-                ['value', true, true],
+
+                ['name', true, true],
                 ['status', true, true],
-                ['creater_id', true, true],
+                ['created_by', true, true],
                 ['created_at', false, false],
                 ['action', false, false],
             ];
@@ -60,10 +60,10 @@
                 table_columns: table_columns,
                 main_class: '.datatable',
                 displayLength: 10,
-                main_route: "{{ route('pm.product-attribute-value.index') }}",
+                main_route: "{{ route('pm.tax-class.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5],
-                model: 'ProductAttributeValue',
+                export_columns: [0, 1, 2, 3, 4],
+                model: 'TaxClass',
             };
             initializeDataTable(details);
         })
@@ -73,27 +73,25 @@
     {{-- Show details scripts --}}
     <script src="{{ asset('modal/details_modal.js') }}"></script>
     <script>
-        // Event listener for viewing details
         $(document).on("click", ".view", function() {
             let id = $(this).data("id");
-            let route = "{{ route('pm.product-attribute-value.show', ['id']) }}";
+            let route = "{{ route('pm.tax-class.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
             const headers = [{
-                    label: "Attibute Name",
-                    key: "attribute_name",
-
+                    label: "Name",
+                    key: "name"
                 },
+
                 {
-                    label: "Value",
-                    key: "value",
-
+                    label: "Description",
+                    key: "description",
                 },
-
                 {
                     label: "Status",
                     key: "status_label",
                     color: "status_color",
-                }
+                },
+
 
             ];
             fetchAndShowModal(detailsUrl, headers, "#modal_data", "myModal");
