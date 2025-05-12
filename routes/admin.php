@@ -42,28 +42,23 @@ use App\Http\Controllers\Backend\Admin\Auth\ResetPasswordController as AdminRese
 use App\Http\Controllers\Backend\Admin\Auth\VerificationController as AdminVerificationController;
 
 // Admin Auth Routes
-
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
     Route::controller(AdminLoginController::class)->group(function () {
         Route::get('/login', 'showLoginForm')->name('login'); // Admin Login Form
         Route::post('/login', 'login')->name('login.submit'); // Admin Login Submit (Handled by AuthenticatesUsers)
-        Route::post('/logout', 'logout')->name('logout'); // Admin Logout   
+        Route::post('/logout', 'logout')->middleware('auth:admin')->name('logout'); // Admin Logout   
     });
-    // Password Reset
-    Route::group(['prefix' => 'password', 'as' => 'password.'], function () {
-        Route::get('/comfirm', [AdminConfirmPasswordController::class, 'showConfirmForm'])->name('confirm');
-        Route::post('/comfirm', [AdminConfirmPasswordController::class, 'confirm'])->name('confirm.submit');
-        Route::post('/email', [AdminForgotPasswordController::class, 'sendResetLinkEmail'])->name('email');
-        Route::get('/reset', [AdminForgotPasswordController::class, 'showLinkRequestForm'])->name('request');
-        Route::post('/reset', [AdminResetPasswordController::class, 'reset'])->name('reset.update');
-        Route::get('/reset/{token}', [AdminResetPasswordController::class, 'showResetForm'])->name('reset');
+    // Admin Forgot Password
+    Route::controller(AdminForgotPasswordController::class)->group(function () {
+        Route::get('/password/forgot', 'showLinkRequestForm')->name('forgot');
+        Route::post('/password/forgot/request', 'sendResetLinkEmail')->name('forgot.request');
+    });
+    // Admin Password Reset
+    Route::controller(AdminResetPasswordController::class)->group(function () {
+        Route::get('/password/reset/{token}', 'showResetForm')->name('reset');
+        Route::post('/password/reset', 'reset')->name('reset.request');
     });
 });
-
-
-
-
-
 
 Route::controller(AxiosRequestController::class)->name('axios.')->group(function () {
     Route::get('get-states', 'getStates')->name('get-states');

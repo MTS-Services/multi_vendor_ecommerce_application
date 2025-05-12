@@ -18,7 +18,7 @@
                                         <circle cx="12" cy="7" r="4"></circle>
                                     </g>
                                 </svg>
-                                <input type="text" placeholder="Username or email" name="login" />
+                                <input type="text" value="{{ old('login') }}" placeholder="Username or email" name="login" />
                             </label>
                             <x-frontend.input-error :datas="['errors' => $errors, 'field' => 'login']" />
                         </div>
@@ -45,7 +45,7 @@
                         <div class="mt-5 flex justify-center sm:justify-between items-center gap-5 flex-wrap">
                             <button type="submit" class="btn-primary">{{ __('Login') }}</button>
                             <p class="text-center text-sm mt-4">
-                                {{ __('Forgot password?') }} <a href="javascript:void(0)"
+                                {{ __('Forgot password?') }} <a href="{{ route('admin.forgot') }}"
                                     class="text-text-tertiary font-medium">
                                     {{ __('Reset password') }} </a>
                             </p>

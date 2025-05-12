@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\AdminPasswordResetNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -10,6 +11,11 @@ use OwenIt\Auditing\Contracts\Auditable;
 class Admin extends AuthBaseModel implements Auditable
 {
     use HasFactory, HasRoles, \OwenIt\Auditing\Auditable, Notifiable;
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new AdminPasswordResetNotification($token));
+    }
 
     /**
      * The attributes that are mass assignable.
