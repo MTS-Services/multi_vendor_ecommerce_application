@@ -92,9 +92,9 @@ class DocumentationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(DocumentationRequest $req): RedirectResponse
+    public function store(DocumentationRequest $request): RedirectResponse
     {
-        $validated = $req->validated();
+        $validated = $request->validated();
         $validated['created_by'] = admin()->id;
         Documentation::create($validated);
         session()->flash('success', 'Documentation created successfully!');
@@ -123,10 +123,10 @@ class DocumentationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(DocumentationRequest $req, string $id): RedirectResponse
+    public function update(DocumentationRequest $request, string $id): RedirectResponse
     {
         $doc = Documentation::findOrFail(decrypt($id));
-        $validated = $req->validated();
+        $validated = $request->validated();
         $validated['updated_by'] = admin()->id;
         $doc->update($validated);
         session()->flash('success', 'Documentation updated successfully!');

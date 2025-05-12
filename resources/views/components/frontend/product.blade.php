@@ -4,7 +4,7 @@
         <img src="{{ asset($items['image']) }}" alt="{{ $items['title'] }}" />
     </figure>
     <div class="card-body">
-        <a href="#" class="product-title">{{ $items['title'] }}</a>
+        <a href="{{route('frontend.singel_product')}}" class="product-title">{{ $items['title'] }}</a>
         <div class="product-prices">
             <span class="product-price">${{ $items['price'] }}</span>
             <span class="product-old-price">{{ $items['old_price'] }}</span>

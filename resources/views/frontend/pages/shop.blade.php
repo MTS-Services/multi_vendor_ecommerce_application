@@ -1,15 +1,13 @@
 @extends('frontend.layouts.app', ['page_slug' => 'shop'])
 
 @section('title', 'Shop')
+
 @section('content')
-
-
-
-
     <section class="py-5">
         <div class="container">
             <div class="flex gap-5">
                 {{-- Sidebar Start Here --}}
+
                 @include('frontend.layouts.includes.desktop-filter-sidebar')
                 @include('frontend.layouts.includes.mobile-filter-sidebar')
                 {{-- Sidebar Section End Here --}}
