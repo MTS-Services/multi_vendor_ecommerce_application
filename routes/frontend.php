@@ -10,7 +10,7 @@ Route::group(['as' => 'frontend.'], function () {
   // Home Page
   Route::get('/', [HomePageController::class, 'home'])->name('home');
 
-  Route::get('/set-locale', [MultiLanguageController::class,'setLocale'])->name('langSwitch');
+  Route::get('/set-locale', [MultiLanguageController::class, 'setLocale'])->name('langSwitch');
 
   // Test Page
   Route::get('/test', [FrontendController::class, 'test'])->name('test');
@@ -31,4 +31,7 @@ Route::group(['as' => 'frontend.'], function () {
   Route::get('/singel-product', [FrontendController::class, 'singel_product'])->name('singel_product');
   //   Store location
   Route::get('/store-location', [FrontendController::class, 'store_location'])->name('store_location');
+
+   // web.php or a route file
+    Route::get('/lang/change/{lang}', [MultiLanguageController::class, 'change'])->name('lang.change');
 });

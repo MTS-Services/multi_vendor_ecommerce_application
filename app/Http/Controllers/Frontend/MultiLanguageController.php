@@ -3,21 +3,19 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 
 class MultiLanguageController extends Controller
 {
-    public function setLocale(Request $request)
+    public function change($lang)
     {
-         $locale = $request->locale;
-
-        if (!in_array($locale, ['en', 'bn'])) {
+        if (in_array($lang, ['en', 'bn'])) {
+            App::setLocale($lang);
+            Session::put('locale', $lang);
             return response()->json(['success' => false, 'message' => 'Invalid language'], 400);
         }
-        session(['locale' => $locale]);
-        App::setLocale($locale);
-
-        return response()->json(['success' => true, 'message' => 'Language switched successfully!']);
+         return response()->json(['success' => true, 'message' => 'Language switched successfully!']);
     }
 }
+
