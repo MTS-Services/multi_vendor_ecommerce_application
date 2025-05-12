@@ -39,17 +39,8 @@ class ProductAttributeValue extends BaseModel
             'status_btn_label',
             'status_btn_color',
             'status_labels',
-            'product_attribute_name',
         ]);
     }
-
-
-    public function getProductAttributeNameAttribute()
-    {
-        return $this->productAttribute?->name ?? 'Null';
-    }
-
-
     public const STATUS_ACTIVE = 1;
     public const STATUS_DEACTIVE = 0;
     // Status labels

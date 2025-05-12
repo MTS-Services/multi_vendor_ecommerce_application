@@ -137,6 +137,10 @@ class State extends BaseModel
     {
         return $this->hasMany(OperationSubArea::class,'state_id');
     }
+    public function hubs(): HasMany
+    {
+        return $this->hasMany(Hub::class,'state_id');
+    }
     public function activeCities(): HasMany
     {
         return $this->cities()->active();
@@ -153,5 +157,10 @@ class State extends BaseModel
     {
         return $this->hasMany(TaxRate::class, 'state_id', 'id');
     }
+    public function activeHubs(): HasMany
+    {
+        return $this->hubs()->active();
+    }
+
 
 }

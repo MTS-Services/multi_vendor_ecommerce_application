@@ -148,8 +148,16 @@ class OperationArea extends BaseModel
     {
         return $this->hasMany(OperationSubArea::class,'city_id');
     }
+    public function hub(): HasMany
+    {
+        return $this->hasMany(Hub::class,'city_id');
+    }
     public function activeOperationSubAreas(): HasMany
     {
         return $this->operationSubAreas()->active();
+    }
+    public function activeHubs(): HasMany
+    {
+        return $this->hubs()->active();
     }
 }
