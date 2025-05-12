@@ -56,10 +56,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="d-flex justify-content-around align-items-center gap-5 py-5 text-center">
-                    <p class="btn_item w-100 py-2" data-bs-target="profile">{{ __("profile") }}</p>
-                    <p class="btn_item w-100 py-2" data-bs-target="shop-details">{{ __("Shop Details") }}</p>
-                    <p class="btn_item w-100 py-2" data-bs-target="address">{{ __("Address") }}</p>
-                    <p class="btn_item w-100 py-2 active" data-bs-target="change-password">{{ __("Change Password") }}</p>
+                    <p class="btn_item w-100 py-2" data-bs-target="profile">{{ __('profile') }}</p>
+                    <p class="btn_item w-100 py-2" data-bs-target="shop-details">{{ __('Shop Details') }}</p>
+                    <p class="btn_item w-100 py-2" data-bs-target="address">{{ __('Address') }}</p>
+                    <p class="btn_item w-100 py-2 active" data-bs-target="change-password">{{ __('Change Password') }}</p>
                 </div>
             </div>
         </div>
@@ -79,82 +79,59 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
-
+                                        {{-- Profile Details --}}
                                         <div class="row">
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('First Name') }} <span class="text-danger">*</span></label>
-                                                <input type="text" name="first_name" class="form-control"
-                                                    placeholder="Enter first name">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'first_name']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('First Name') }} <span class="text-danger">*</span></label>
+                                                    <input type="text" name="first_name" class="form-control"
+                                                        placeholder="Enter name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'first_name']" />
+                                                </div>
                                             </div>
-                                            <div class="form-group mb-3 mb-3">
-                                                <label>{{ __('Last Name') }} <span class="text-danger">*</span></label>
-                                                <input type="text" name="last_name" class="form-control"
-                                                    placeholder="Enter last name">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'last_name']" />
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Email') }} <span class="text-danger">*</span></label>
-                                                <input type="text" name="email" class="form-control"
-                                                    placeholder="Enter name">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Username') }} <span class="text-danger">*</span></label>
-                                                <input type="text" name="username" class="form-control"
-                                                    placeholder="Enter name">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Last Name') }} <span class="text-danger">*</span></label>
+                                                    <input type="text" name="last_name" class="form-control"
+                                                        placeholder="Enter name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'last_name']" />
+                                                </div>
                                             </div>
 
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Profile Image') }}</label>
-                                                <input type="file" name="uploadImage" data-actualName="image"
-                                                    class="form-control filepond" id="image" accept="image/*">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Username') }} <span class="text-danger">*</span></label>
+                                                    <input type="text" name="username" class="form-control"
+                                                        placeholder="Enter name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
+                                                </div>
                                             </div>
-
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Emergency Phone') }} <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text"
-                                                    value="{{ old('emergency_phone', $seller->emergency_phone) }}"
-                                                    name="emergency_phone" class="form-control"
-                                                    placeholder="Enter Emergency phone">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'emergency_phone']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Email') }} <span class="text-danger">*</span></label>
+                                                    <input type="email" name="email" class="form-control"
+                                                        placeholder="Enter name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
+                                                </div>
                                             </div>
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Phone') }} <span class="text-danger">*</span></label>
-                                                <input type="text" name="phone" class="form-control"
-                                                    placeholder="Enter phone">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'phone']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label>{{ __('Image') }}</label>
+                                                    <input type="file" name="uploadImage" data-actualName="image"
+                                                        class="form-control filepond" id="image" accept="image/*">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />
+                                                </div>
                                             </div>
-                                            <div class="form-group mb-3">
-                                                <label>{{ __("Father's Name") }} <span class="text-danger">*</span></label>
-                                                <input type="text" placeholder="Enter Fathers name">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'father_name']" />
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label>{{ __("Mother's Name") }} <span class="text-danger">*</span></label>
-                                                <input type="text" name="mother_name" class="form-control"
-                                                    placeholder="Enter Fathers name">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'mother_name']" />
-                                            </div>
-
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Present Address') }} <span
-                                                        class="text-danger">*</span></label>
-                                                <textarea name="present_address" class="form-control" placeholder="Enter present_address"></textarea>
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'present_address']" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label>{{ __('Permanent Address') }} <span
-                                                        class="text-danger">*</span></label>
-                                                <textarea name="permanent_address" class="form-control" placeholder="Enter permanent_address"></textarea>
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'permanent_address']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Phone') }}</label>
+                                                    <input type="text" name="phone" class="form-control"
+                                                        placeholder="Enter name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'phone']" />
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <div class="text-right mt-4">
+                                        <div class="text-left mt-4">
                                             <button class="btn btn-primary px-4">{{ __('Update Profile') }}</button>
                                         </div>
                                     </form>
@@ -175,7 +152,7 @@
                                     <div class="row">
                                         {{-- Shop details --}}
                                     </div>
-                                    <div class="text-right">
+                                    <div class="text-left">
                                         <button class="btn btn-success px-4">{{ __('Update') }}</button>
                                     </div>
                                 </form>
@@ -261,7 +238,7 @@
                                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'postal_code']" />
                                         </div>
                                     </div>
-                                    <div class="text-right">
+                                    <div class="text-left">
                                         <button class="btn btn-success px-4">{{ __('Update') }}</button>
                                     </div>
                                 </form>
@@ -302,7 +279,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="text-right">
+                                    <div class="text-left">
                                         <button class="btn btn-success px-4">{{ __('Change Password') }}</button>
                                     </div>
                                 </form>
