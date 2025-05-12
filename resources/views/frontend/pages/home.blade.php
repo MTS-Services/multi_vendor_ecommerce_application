@@ -14,7 +14,7 @@
                             <div
                                 class="w-full md:basis-1/2 relative z-[2] {{ $loop->iteration % 2 == 0 ? 'flex flex-col items-end text-end' : '' }}">
                                 <p class="text-xs md:text-base">{{ $banner['title'] }}</p>
-                                <h2 class="sm:text-xl text-lg lg:text-2xl xl:text-6xl md:py-4 py-1 max-w-72">
+                                <h2 class="sm:text-xl text-lg lg:text-2xl xl:text-6xl md:py-4 py-1 max-w-80">
                                     {{ $banner['subtitle'] }}
                                 </h2>
                                 <a href="#" class="btn-primary">{{ __('Shop Now') }} <i
