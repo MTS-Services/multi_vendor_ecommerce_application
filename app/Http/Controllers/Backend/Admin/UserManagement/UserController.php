@@ -245,6 +245,9 @@ class UserController extends Controller
     {
         $user = User::onlyTrashed()->findOrFail(decrypt($id));
         $user->forceDelete();
+        if($user->image){
+            $this->fileDelete($user->image);
+        }
         session()->flash('success', 'User permanently deleted successfully!');
         return redirect()->route('um.user.recycle-bin');
     }

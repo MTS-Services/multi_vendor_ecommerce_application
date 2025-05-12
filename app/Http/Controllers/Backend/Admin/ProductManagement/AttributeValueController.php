@@ -23,6 +23,10 @@ class AttributeValueController extends Controller
         $this->middleware('permission:product-attribute-value-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:product-attribute-value-delete', ['only' => ['destroy']]);
         $this->middleware('permission:product-attribute-value-status', ['only' => ['status']]);
+        $this->middleware('permission:product-attribute-value-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:product-attribute-value-restore', ['only' => ['restore']]);
+        $this->middleware('permission:product-attribute-value-permanent-delete', ['only' => ['permanentDelete']]);
+
     }
 
     /**
@@ -90,6 +94,56 @@ class AttributeValueController extends Controller
         ];
     }
 
+         public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $query = ProductAttributeValue::with(['deleter'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+           ->editColumn('status', function ($product_attribute_value) {
+                    return "<span class='badge " . $product_attribute_value->status_color . "'>$product_attribute_value->status_label</span>";
+                })
+                ->editColumn('product_attribute_id', function ($product_attribute_value) {
+                    return $product_attribute_value->productAttribute?->name;
+                })
+               ->editColumn('deleter_id', function ($product_attribute_value) {
+                    return $product_attribute_value->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($product_attribute_value) {
+                    return $product_attribute_value->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($product_attribute_value) {
+                    $menuItems = $this->trashedMenuItems($product_attribute_value);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['status', 'product_attribute_id', 'deleter_id', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.product_management.product_attribute_value.recycle-bin');
+    }
+
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'pm.product-attribute-value.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['product-attribute-value-restore']
+            ],
+            [
+                'routeName' => 'pm.product-attribute-value.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['product-attribute-value-permanent-delete']
+            ]
+
+        ];
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -166,5 +220,31 @@ class AttributeValueController extends Controller
         $product_attribute_value->update(['status' => !$product_attribute_value->status, 'updated_by' => admin()->id]);
         session()->flash('success', 'Product attribute value status updated successfully!');
         return redirect()->route('pm.product-attribute-value.index');
+    }
+
+        public function restore(string $id): RedirectResponse
+    {
+        $product_attribute_value = ProductAttributeValue::onlyTrashed()->findOrFail(decrypt($id));
+        $product_attribute_value->update(['updated_by' => admin()->id]);
+        $product_attribute_value->restore();
+        session()->flash('success', 'Product Attribute Value restored successfully!');
+        return redirect()->route('pm.product-attribute-value.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $product_attribute_value = ProductAttributeValue::onlyTrashed()->findOrFail(decrypt($id));
+        if($product_attribute_value->logo){
+            $this->fileDelete($product_attribute_value->logo);
+        }
+        $product_attribute_value->forceDelete();
+        session()->flash('success', 'Product Attribute Value permanently deleted successfully!');
+        return redirect()->route('pm.product-attribute-value.recycle-bin');
     }
 }
