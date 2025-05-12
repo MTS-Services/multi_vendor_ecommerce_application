@@ -202,7 +202,7 @@
                 </li>
 
                 {{-- CMS Management  --}}
-                <li class="nav-item  @if ($page_slug == 'banner' || $page_slug == 'offer_banner') active submenu @endif">
+                <li class="nav-item  @if ($page_slug == 'banner' || $page_slug == 'offer_banner' || $page_slug == 'our_connection') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#cms_management"
                         @if ($page_slug == 'seller') aria-expanded="true" @endif>
                         <i class="icon-people"></i>
@@ -219,6 +219,11 @@
                             <li class="@if ($page_slug == 'offer_banner') active @endif">
                                 <a href="{{ route('cms.offer-banner.index') }}">
                                     <span class="sub-item">{{ __('Offer Banner') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'our_connection') active @endif">
+                                <a href="{{ route('cms.our-connection.index') }}">
+                                    <span class="sub-item">{{ __('Our Connection') }}</span>
                                 </a>
                             </li>
                         </ul>

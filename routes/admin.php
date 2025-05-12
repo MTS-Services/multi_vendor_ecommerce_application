@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\Admin\CMSManagement\OurConnectionController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeValueController;
 use App\Http\Controllers\Backend\Admin\AxiosRequestController;
@@ -173,6 +174,11 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('offer-banner/recycle/bin', [OfferBannerController::class, 'recycleBin'])->name('offer-banner.recycle-bin');
         Route::get('offer-banner/restore/{offer_banner}', [OfferBannerController::class, 'restore'])->name('offer-banner.restore');
         Route::delete('offer-banner/permanent-delete/{offer_banner}', [OfferBannerController::class, 'permanentDelete'])->name('offer-banner.permanent-delete');
+
+
+        //Our Connection
+        Route::resource('our-connection', OurConnectionController::class);
+        Route::get('our-connection/status/{our_connection}', [OurConnectionController::class, 'status'])->name('our-connection.status');
     });
 
     // Hub Management
