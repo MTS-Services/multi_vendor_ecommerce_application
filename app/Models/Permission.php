@@ -14,7 +14,7 @@ class Permission extends SpatiePermission implements Auditable
 
     protected $fillables = [
         'sort_order',
-        'name',
+        'frist_name', 'last_name',
         'prefix',
         'guard_name',
         'created_by',
