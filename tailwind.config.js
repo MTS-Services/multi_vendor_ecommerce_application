@@ -18,7 +18,7 @@ module.exports = {
       center: true,
       padding: '1rem',
       screens: {
-        'xs': '100%',
+        'xs': '480px',
         'sm': '512px',
         'md': '640px',
         'lg': '768px',
@@ -29,7 +29,7 @@ module.exports = {
     },
     extend: {
       screens: {
-        'xs': '100%',
+        'xs': '480px',
         'sm': '512px',
         'md': '640px',
         'lg': '768px',
@@ -48,6 +48,7 @@ module.exports = {
           white: '#ffffff',
           black: '#000000',
           danger: '#DC2626',
+          orange: "#ff6b6b",
         },
 
         bg: {
@@ -55,13 +56,16 @@ module.exports = {
           secondary: '#8A2BE2',     // Purple background
           accent: '#8752FA',        // Violet background
           light: '#FFFDF6',
+          lightSecondary: '#FBFBFB',
           dark: '#2d2d2d',
           darkSecondary: '#021526',
           darkTertiary: '#222831',
+          darkQuaternary: '#212121',
           gray: '#F3F4F6',
           white: '#ffffff',
           black: '#000000',
           danger: '#DC2626',
+          orange: "#ff6b6b",
         },
 
         border: {
@@ -72,6 +76,7 @@ module.exports = {
           danger: '#DC2626',
           white: '#ffffff',
           black: '#000000',
+          orange: "#ff6b6b",
         },
 
         outline: {
@@ -82,6 +87,7 @@ module.exports = {
           danger: '#DC2626',
           white: '#ffffff',
           black: '#000000',
+          orange: "#ff6b6b",
         },
 
         focus: {
@@ -91,6 +97,7 @@ module.exports = {
           danger: '#DC2626',
           white: '#ffffff',
           black: '#000000',
+          orange: "#ff6b6b",
         },
 
         shadow: {
@@ -106,6 +113,7 @@ module.exports = {
           gray: '#F3F4F6',
           lightSecondary: '#F9FAFB',
           lightTertiary: '#F3F4F6',
+          orange: "#ff6b6b",
         }
       },
       fontFamily: {
