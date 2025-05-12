@@ -90,8 +90,7 @@
             file_upload(["#image"], "uploadImage", "admin", existingFiles, false);
             let route = "{{ route('axios.get-sub-categories') }}";
             $('#category_id').on('change', function() {
-
-                getSubCategories(this.value, route);
+                getSubCategories($(this).val(), route);
             })
             if(`{{$subcategory?->parent_id && $subcategory?->parent?->parent_id}}`){
                  getSubCategories(`{{$subcategory?->parent?->parent_id}}`, route, `{{$subcategory?->parent_id}}`);

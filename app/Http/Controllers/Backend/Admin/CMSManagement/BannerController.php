@@ -36,29 +36,30 @@ class BannerController extends Controller
     public function index(Request $request)
     {
 
-    if ($request->ajax()) {
-        $query = Banner::with(['creater_admin'])
-        ->orderBy('sort_order', 'asc')
-        ->latest();
-        return DataTables::eloquent($query)
 
-            ->editColumn('status', function ($banner) {
-                return "<span class='badge " . $banner->status_color . "'>$banner->status_label</span>";
-            })
+        if ($request->ajax()) {
+            $query = Banner::with(['creater_admin'])
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
 
-            ->editColumn('created_by', function ($banner) {
-                return $banner->creater_name;
-            })
-            ->editColumn('created_at', function ($banner) {
-                return $banner->created_at_formatted;
-            })
-            ->editColumn('action', function ($banner) {
-                $menuItems = $this->menuItems($banner);
-                return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
-            })
-            ->rawColumns([ 'status','created_by', 'created_at', 'action'])
-            ->make(true);
-    }
+                ->editColumn('status', function ($banner) {
+                    return "<span class='badge " . $banner->status_color . "'>$banner->status_label</span>";
+                })
+
+                ->editColumn('created_by', function ($banner) {
+                    return $banner->creater_name;
+                })
+                ->editColumn('created_at', function ($banner) {
+                    return $banner->created_at_formatted;
+                })
+                ->editColumn('action', function ($banner) {
+                    $menuItems = $this->menuItems($banner);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['status', 'created_by', 'created_at', 'action'])
+                ->make(true);
+        }
         return view('backend.admin.cms_management.banner.index');
     }
     protected function menuItems($model): array
@@ -110,7 +111,6 @@ class BannerController extends Controller
                 ->editColumn('status', function ($banner) {
                     return "<span class='badge " . $banner->status_color . "'>$banner->status_label</span>";
                 })
-
                 ->editColumn('deleted_by', function ($banner) {
                     return $banner->deleter_name;
                 })
@@ -145,7 +145,6 @@ class BannerController extends Controller
 
         ];
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -161,11 +160,11 @@ class BannerController extends Controller
     {
         $validated = $request->validated();
         $validated['created_by'] = admin()->id;
-        if(isset($request->image)) {
+        if (isset($request->image)) {
             $validated['image'] = $this->handleFilepondFileUpload(Banner::class, $request->image, admin(), 'banners/');
         }
         Banner::create($validated);
-        session()->flash('success','Banner created successfully!');
+        session()->flash('success', 'Banner created successfully!');
         return redirect()->route('cms.banner.index');
     }
 
@@ -196,11 +195,11 @@ class BannerController extends Controller
         $banner = Banner::findOrFail(decrypt($id));
         $validated = $request->validated();
         $validated['updated_by'] = admin()->id;
-        if(isset($request->image)) {
+        if (isset($request->image)) {
             $validated['image'] = $this->handleFilepondFileUpload($banner, $request->image, admin(), 'banners/');
         }
         $banner->update($validated);
-        session()->flash('success','Banner updated successfully!');
+        session()->flash('success', 'Banner updated successfully!');
         return redirect()->route('cms.banner.index');
     }
 
@@ -218,7 +217,7 @@ class BannerController extends Controller
     public function status(string $id): RedirectResponse
     {
         $banner = Banner::findOrFail(decrypt($id));
-        $banner->update(['status' => !$banner->status, 'updated_by'=> admin()->id]);
+        $banner->update(['status' => !$banner->status, 'updated_by' => admin()->id]);
         session()->flash('success', 'Banner status updated successfully!');
         return redirect()->route('cms.banner.index');
     }
@@ -235,7 +234,7 @@ class BannerController extends Controller
     public function permanentDelete(string $id): RedirectResponse
     {
         $banner = Banner::onlyTrashed()->findOrFail(decrypt($id));
-         if($banner->image){
+        if($banner->image){
             $this->fileDelete($banner->image);
         }
         $banner->forceDelete();

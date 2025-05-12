@@ -45,7 +45,7 @@
                 ['question', true, true],
                 ['type', true, true],
                 ['status', true, true],
-                ['deleted_by', true, true],
+                ['deleter_id', true, true],
                 ['deleted_at', true, true],
                 ['action', false, false],
             ];
