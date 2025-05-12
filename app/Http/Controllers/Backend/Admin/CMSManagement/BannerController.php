@@ -24,6 +24,10 @@ class BannerController extends Controller
         $this->middleware('permission:banner-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:banner-delete', ['only' => ['destroy']]);
         $this->middleware('permission:banner-status', ['only' => ['status']]);
+        $this->middleware('permission:banner-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:banner-restore', ['only' => ['restore']]);
+        $this->middleware('permission:banner-permanent-delete', ['only' => ['permanentDelete']]);
+
     }
 
     /**
@@ -93,10 +97,11 @@ class BannerController extends Controller
         ];
     }
 
-
-    public function recycleBin(Request $request)
+      public function recycleBin(Request $request)
     {
+
         if ($request->ajax()) {
+
 
             $query = Banner::with(['deleter_admin'])
                 ->onlyTrashed()
@@ -118,7 +123,7 @@ class BannerController extends Controller
                 })
                 ->rawColumns(['status', 'deleted_by', 'deleted_at', 'action'])
                 ->make(true);
-        }
+        };
         return view('backend.admin.cms_management.banner.recycle-bin');
     }
     protected function trashedMenuItems($model): array
@@ -229,7 +234,9 @@ class BannerController extends Controller
     public function permanentDelete(string $id): RedirectResponse
     {
         $banner = Banner::onlyTrashed()->findOrFail(decrypt($id));
-        $this->fileDelete($banner->image);
+        if($banner->image){
+            $this->fileDelete($banner->image);
+        }
         $banner->forceDelete();
         session()->flash('success', 'Banner permanently deleted successfully!');
         return redirect()->route('cms.banner.recycle-bin');
