@@ -421,7 +421,7 @@
                 @php
                     $collections = collect([
                         'id' => 1,
-                        'image' => 'frontend/images/phone.png',
+                        'image' => 'frontend/images/product-1.jpg',
                         'title' => 'Galaxy S21 5G 128GB G991U Unlocked Smartphone',
                         'price' => 999.99,
                         'old_price' => 1000.0,
