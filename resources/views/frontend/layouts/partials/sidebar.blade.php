@@ -3,15 +3,15 @@
     class="sidebar fixed top-0 right-0 min-h-screen h-full w-2/3 translate-x-full transition-all duration-300 ease-in-out bg-bg-light dark:bg-bg-darkTertiary shadow-lg z-[99999999999]">
 
     <div class="h-full p-5">
-        <div class="flex justify-between items-center border-b border-b-border-light pb-5">
-            <a href="{{ route('frontend.home') }}" class="">
+        <div class="flex justify-end items-center border-b border-b-border-light pb-5">
+            {{-- <a href="{{ route('frontend.home') }}" class="">
                 <span class="dark-mode-logo hidden">
                     <img src="{{ asset('frontend/images/logo-light.png') }}" alt="Logo">
                 </span>
                 <span class="light-mode-logo">
                     <img src="{{ asset('frontend/images/logo.png') }}" alt="Logo">
                 </span>
-            </a>
+            </a> --}}
             <button class="closeSidebar" title="Close Sidebar">
                 <span class="w-10 h-10 flex items-center justify-center bg-bg-secondary rounded-full text-text-white">
                     <i data-lucide="x" class="text-lg"></i>
@@ -97,4 +97,12 @@
         </div>
 
     </div>
+    <ul class="menu p-0 pt-6">
+        <li><a href=""
+                class="text-lg px-10 text-c-light font-semibold rounded-none border-b border-b-c-primary transition-colors duration-300 hover:bg-c-light/5 hover:text-c-primary @if (isset($page_slug) && $page_slug == 'home')  @endif">Home</a>
+        </li>
+        <li><a href="{{ route('frontend.shop') }}"
+                class="text-lg px-10 text-c-light font-semibold rounded-none border-b border-b-c-primary transition-colors duration-300 hover:bg-c-light/5 hover:text-c-primary @if (isset($page_slug) && $page_slug == 'shop')  @endif">Shop</a>
+        </li>
+    </ul>
 </div>
