@@ -32,29 +32,30 @@ class BannerController extends Controller
     public function index(Request $request)
     {
 
-    if ($request->ajax()) {
-        $query = Banner::with(['creater_admin'])
-        ->orderBy('sort_order', 'asc')
-        ->latest();
-        return DataTables::eloquent($query)
 
-            ->editColumn('status', function ($banner) {
-                return "<span class='badge " . $banner->status_color . "'>$banner->status_label</span>";
-            })
+        if ($request->ajax()) {
+            $query = Banner::with(['creater_admin'])
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
 
-            ->editColumn('created_by', function ($banner) {
-                return $banner->creater_name;
-            })
-            ->editColumn('created_at', function ($banner) {
-                return $banner->created_at_formatted;
-            })
-            ->editColumn('action', function ($banner) {
-                $menuItems = $this->menuItems($banner);
-                return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
-            })
-            ->rawColumns([ 'status','created_by', 'created_at', 'action'])
-            ->make(true);
-    }
+                ->editColumn('status', function ($banner) {
+                    return "<span class='badge " . $banner->status_color . "'>$banner->status_label</span>";
+                })
+
+                ->editColumn('created_by', function ($banner) {
+                    return $banner->creater_name;
+                })
+                ->editColumn('created_at', function ($banner) {
+                    return $banner->created_at_formatted;
+                })
+                ->editColumn('action', function ($banner) {
+                    $menuItems = $this->menuItems($banner);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['status', 'created_by', 'created_at', 'action'])
+                ->make(true);
+        }
         return view('backend.admin.cms_management.banner.index');
     }
     protected function menuItems($model): array
@@ -92,6 +93,53 @@ class BannerController extends Controller
         ];
     }
 
+
+    public function recycleBin(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $query = Banner::with(['deleter_admin'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+                ->editColumn('status', function ($banner) {
+                    return "<span class='badge " . $banner->status_color . "'>$banner->status_label</span>";
+                })
+                ->editColumn('deleted_by', function ($banner) {
+                    return $banner->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($banner) {
+                    return $banner->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($banner) {
+                    $menuItems = $this->trashedMenuItems($banner);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['status', 'deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.cms_management.banner.recycle-bin');
+    }
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'cms.banner.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['banner-restore']
+            ],
+            [
+                'routeName' => 'cms.banner.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['banner-permanent-delete']
+            ]
+
+        ];
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -107,11 +155,11 @@ class BannerController extends Controller
     {
         $validated = $request->validated();
         $validated['created_by'] = admin()->id;
-        if(isset($request->image)) {
+        if (isset($request->image)) {
             $validated['image'] = $this->handleFilepondFileUpload(Banner::class, $request->image, admin(), 'banners/');
         }
         Banner::create($validated);
-        session()->flash('success','Banner created successfully!');
+        session()->flash('success', 'Banner created successfully!');
         return redirect()->route('cms.banner.index');
     }
 
@@ -142,11 +190,11 @@ class BannerController extends Controller
         $banner = Banner::findOrFail(decrypt($id));
         $validated = $request->validated();
         $validated['updated_by'] = admin()->id;
-        if(isset($request->image)) {
+        if (isset($request->image)) {
             $validated['image'] = $this->handleFilepondFileUpload($banner, $request->image, admin(), 'banners/');
         }
         $banner->update($validated);
-        session()->flash('success','Banner updated successfully!');
+        session()->flash('success', 'Banner updated successfully!');
         return redirect()->route('cms.banner.index');
     }
 
@@ -164,8 +212,26 @@ class BannerController extends Controller
     public function status(string $id): RedirectResponse
     {
         $banner = Banner::findOrFail(decrypt($id));
-        $banner->update(['status' => !$banner->status, 'updated_by'=> admin()->id]);
+        $banner->update(['status' => !$banner->status, 'updated_by' => admin()->id]);
         session()->flash('success', 'Banner status updated successfully!');
         return redirect()->route('cms.banner.index');
+    }
+
+    public function restore(string $id): RedirectResponse
+    {
+        $banner = Banner::onlyTrashed()->findOrFail(decrypt($id));
+        $banner->update(['updated_by' => admin()->id]);
+        $banner->restore();
+        session()->flash('success', 'Banner restored successfully!');
+        return redirect()->route('cms.banner.recycle-bin');
+    }
+
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $banner = Banner::onlyTrashed()->findOrFail(decrypt($id));
+        $this->fileDelete($banner->image);
+        $banner->forceDelete();
+        session()->flash('success', 'Banner permanently deleted successfully!');
+        return redirect()->route('cms.banner.recycle-bin');
     }
 }

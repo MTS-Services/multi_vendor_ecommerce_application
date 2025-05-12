@@ -7,20 +7,22 @@ use Illuminate\View\Component;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\View\View;
 
-class Category extends Component
+class Brand extends Component
 {
-    public object $category;
 
-    public function __construct(object $category)
+    public array|Collection $datas;
+
+    public function __construct($datas)
     {
-        $this->category = $category;
+        $this->datas = $datas;
     }
+
 
     /**
      * Get the view / contents that represent the component.
      */
     public function render(): View|Closure|string
     {
-        return view('components.frontend.category');
+        return view('components.frontend.brand');
     }
 }
