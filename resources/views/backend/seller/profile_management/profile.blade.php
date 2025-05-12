@@ -87,7 +87,7 @@
                                                     placeholder="Enter first name">
                                                 <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'first_name']" />
                                             </div>
-                                            <div class="form-group mb-3 mb-3">
+                                            <div class="form-group mb-3">
                                                 <label>{{ __('Last Name') }} <span class="text-danger">*</span></label>
                                                 <input type="text" name="last_name" class="form-control"
                                                     placeholder="Enter last name">
