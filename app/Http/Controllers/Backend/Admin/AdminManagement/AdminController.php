@@ -109,6 +109,12 @@ class AdminController extends Controller
 
 
 
+    /**
+     * Shows the list of soft deleted admins and also handles the Datatable AJAX request.
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\JsonResponse
+     */
     public function recycleBin(Request $request)
     {
 
@@ -148,6 +154,12 @@ class AdminController extends Controller
         }
         return view('backend.admin.admin_management.admin.recycle-bin');
     }
+    /**
+     * Define menu items for trashed items in admin list.
+     *
+     * @param Admin $model
+     * @return array
+     */
     protected function trashedMenuItems($model): array
     {
         return [
@@ -268,6 +280,12 @@ class AdminController extends Controller
         return redirect()->route('am.admin.index');
     }
 
+    /**
+     * Update the specified resource status in storage.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
     public function status(string $id): RedirectResponse
     {
         $admin = Admin::findOrFail(decrypt($id));
@@ -280,6 +298,12 @@ class AdminController extends Controller
         return redirect()->route('am.admin.index');
     }
 
+    /**
+     * Restore the specified resource from storage.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
     public function restore(string $id): RedirectResponse
     {
         $admin = Admin::onlyTrashed()->findOrFail(decrypt($id));
@@ -289,10 +313,18 @@ class AdminController extends Controller
         return redirect()->route('am.admin.recycle-bin');
     }
 
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
     public function permanentDelete(string $id): RedirectResponse
     {
         $admin = Admin::onlyTrashed()->findOrFail(decrypt($id));
-        $this->fileDelete($admin->image);
+        if($admin->image){
+            $this->fileDelete($admin->image);
+        }
         $admin->forceDelete();
         session()->flash('success', 'Admin permanently deleted successfully!');
         return redirect()->route('am.admin.recycle-bin');
