@@ -31,6 +31,9 @@ use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeValueControlle
 use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\SubChildCategoryController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Backend\Admin\AdminProfileContoller;
+use App\Models\Admin;
+use App\Models\Faq;
 use App\Http\Controllers\Backend\Admin\ProductManagement\TaxClassController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\TaxRateController;
 
@@ -40,6 +43,7 @@ Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')-
     Route::post('/login', 'login')->name('login.submit'); // Admin Login Submit (Handled by AuthenticatesUsers)
     Route::post('/logout', 'logout')->name('logout'); // Admin Logout
 });
+
 
 Route::controller(AxiosRequestController::class)->name('axios.')->group(function () {
     Route::get('get-states', 'getStates')->name('get-states');
@@ -56,6 +60,15 @@ Route::controller(AxiosRequestController::class)->name('axios.')->group(function
 Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
 
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
+
+    // Admin Profile
+    Route::controller( AdminProfileContoller::class)->name('admin.')->group(function () {
+        Route::get('/profile', 'profile')->name('profile');
+        Route::put('/profile/update', 'profileUpdate')->name('profile.update');
+        Route::put('/address/update', 'addressUpdate')->name('address.update');
+        Route::put('/password/update', 'passwordUpdate')->name('password.update');
+    });
+
     //Developer Routes
     Route::get('/export-permissions', function () {
         $filename = 'permissions.csv';
@@ -80,6 +93,10 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('role/restore/{role}', [RoleController::class, 'restore'])->name('role.restore');
         Route::delete('role/permanent-delete/{role}', [RoleController::class, 'permanentDelete'])->name('role.permanent-delete');
 
+        Route::resource('role', RoleController::class);
+        Route::get('role/status/{role}', [RoleController::class, 'status'])->name('role.status');
+        Route::resource('permission', PermissionController::class);
+        Route::get('permission/status/{permission}', [PermissionController::class, 'status'])->name('permission.status');
 
         // permission Management
         Route::resource('permission', PermissionController::class);
@@ -109,6 +126,13 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
 
     // Setup Routes
     Route::group(['as' => 'setup.', 'prefix' => 'setup-management'], function () {
+        // Route::controller(AxiosRequestController::class)->name('axios.')->group(function () {
+        //     Route::get('get-states', 'getStates')->name('get-states');
+        //     Route::get('get-states-or-cities', 'getStatesOrCities')->name('get-states-or-cities');
+        //     Route::get('get-cities', 'getCities')->name('get-cities');
+        //     Route::get('get-operation-areas', 'getOperationAreas')->name('get-operation-areas');
+        //     Route::get('get-sub-areas', 'getSubAreas')->name('get-sub-areas');
+        // });
 
 
 
