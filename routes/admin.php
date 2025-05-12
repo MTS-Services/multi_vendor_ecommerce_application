@@ -36,13 +36,33 @@ use App\Models\Admin;
 use App\Models\Faq;
 use App\Http\Controllers\Backend\Admin\ProductManagement\TaxClassController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\TaxRateController;
+use App\Http\Controllers\Backend\Admin\Auth\ForgotPasswordController as AdminForgotPasswordController;
+use App\Http\Controllers\Backend\Admin\Auth\ConfirmPasswordController as AdminConfirmPasswordController;
+use App\Http\Controllers\Backend\Admin\Auth\ResetPasswordController as AdminResetPasswordController;
+use App\Http\Controllers\Backend\Admin\Auth\VerificationController as AdminVerificationController;
 
 // Admin Auth Routes
-Route::controller(AdminLoginController::class)->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/login', 'showLoginForm')->name('login'); // Admin Login Form
-    Route::post('/login', 'login')->name('login.submit'); // Admin Login Submit (Handled by AuthenticatesUsers)
-    Route::post('/logout', 'logout')->name('logout'); // Admin Logout
+
+Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
+    Route::controller(AdminLoginController::class)->group(function () {
+        Route::get('/login', 'showLoginForm')->name('login'); // Admin Login Form
+        Route::post('/login', 'login')->name('login.submit'); // Admin Login Submit (Handled by AuthenticatesUsers)
+        Route::post('/logout', 'logout')->name('logout'); // Admin Logout   
+    });
+    // Password Reset
+    Route::group(['prefix' => 'password', 'as' => 'password.'], function () {
+        Route::get('/comfirm', [AdminConfirmPasswordController::class, 'showConfirmForm'])->name('confirm');
+        Route::post('/comfirm', [AdminConfirmPasswordController::class, 'confirm'])->name('confirm.submit');
+        Route::post('/email', [AdminForgotPasswordController::class, 'sendResetLinkEmail'])->name('email');
+        Route::get('/reset', [AdminForgotPasswordController::class, 'showLinkRequestForm'])->name('request');
+        Route::post('/reset', [AdminResetPasswordController::class, 'reset'])->name('reset.update');
+        Route::get('/reset/{token}', [AdminResetPasswordController::class, 'showResetForm'])->name('reset');
+    });
 });
+
+
+
+
 
 
 Route::controller(AxiosRequestController::class)->name('axios.')->group(function () {
@@ -52,7 +72,7 @@ Route::controller(AxiosRequestController::class)->name('axios.')->group(function
     Route::get('get-operation-areas', 'getOperationAreas')->name('get-operation-areas');
     Route::get('get-sub-areas', 'getSubAreas')->name('get-sub-areas');
 
-    Route::get('get-sub-categories','getSubCategories')->name('get-sub-categories');
+    Route::get('get-sub-categories', 'getSubCategories')->name('get-sub-categories');
 });
 
 
@@ -62,7 +82,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
 
     // Admin Profile
-    Route::controller( AdminProfileContoller::class)->name('admin.')->group(function () {
+    Route::controller(AdminProfileContoller::class)->name('admin.')->group(function () {
         Route::get('/profile', 'profile')->name('profile');
         Route::put('/profile/update', 'profileUpdate')->name('profile.update');
         Route::put('/address/update', 'addressUpdate')->name('address.update');
@@ -272,7 +292,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('brand/restore/{brand}', [BrandController::class, 'restore'])->name('brand.restore');
         Route::delete('brand/permanent-delete/{brand}', [BrandController::class, 'permanentDelete'])->name('brand.permanent-delete');
 
-         // TaxClass
+        // TaxClass
         Route::resource('tax-class', TaxClassController::class);
         Route::get('tax-class/status/{tax_class}', [TaxClassController::class, 'status'])->name('tax-class.status');
         Route::get('tax-class/recycle-bin', [TaxClassController::class, 'recycleBin'])->name('tax-class.recycle-bin');
@@ -284,11 +304,6 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('tax-rate/status/{tax_rate}', [TaxRateController::class, 'status'])->name('tax-rate.status');
         Route::get('tax-rate/priority/{tax_rate}', [TaxRateController::class, 'priority'])->name('tax-rate.priority');
         Route::get('tax-rate/compound/{tax_rate}', [TaxRateController::class, 'compound'])->name('tax-rate.compound');
-
-
-
-
-
     });
 
     // Documentation
