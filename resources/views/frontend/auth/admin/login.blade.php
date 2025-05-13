@@ -45,7 +45,7 @@
                         <div class="mt-5 flex justify-center sm:justify-between items-center gap-5 flex-wrap">
                             <button type="submit" class="btn-primary">{{ __('Login') }}</button>
                             <p class="text-center text-sm mt-4">
-                                {{ __('Forgot password?') }} <a href="{{ route('admin.forgot') }}"
+                                {{ __('Forgot password?') }} <a href="{{ route('admin.password.forgot') }}"
                                     class="text-text-tertiary font-medium">
                                     {{ __('Reset password') }} </a>
                             </p>

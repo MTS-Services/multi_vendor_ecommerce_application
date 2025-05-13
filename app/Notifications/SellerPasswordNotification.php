@@ -6,10 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 
-class AdminPasswordResetNotification extends Notification
+class SellerPasswordNotification extends Notification
 {
     public $token;
 
@@ -29,7 +29,7 @@ class AdminPasswordResetNotification extends Notification
 
         Log::info('Reset URL: ' . $resetUrl);
         return (new MailMessage)
-            ->subject('Admin Password Reset')
+            ->subject('Seller Password Reset')
             ->line('Click the button below to reset your password:')
             ->action('Reset Password', $resetUrl)
             ->line('If you did not request a password reset, ignore this email.');

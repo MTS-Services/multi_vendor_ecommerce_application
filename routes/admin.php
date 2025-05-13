@@ -48,15 +48,18 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
         Route::post('/login', 'login')->name('login.submit'); // Admin Login Submit (Handled by AuthenticatesUsers)
         Route::post('/logout', 'logout')->middleware('auth:admin')->name('logout'); // Admin Logout   
     });
-    // Admin Forgot Password
-    Route::controller(AdminForgotPasswordController::class)->group(function () {
-        Route::get('/password/forgot', 'showLinkRequestForm')->name('forgot');
-        Route::post('/password/forgot/request', 'sendResetLinkEmail')->name('forgot.request');
-    });
-    // Admin Password Reset
-    Route::controller(AdminResetPasswordController::class)->group(function () {
-        Route::get('/password/reset/{token}', 'showResetForm')->name('reset');
-        Route::post('/password/reset', 'reset')->name('reset.request');
+
+    Route::group(['as' => 'password.', 'prefix' => 'password'], function () {
+        // Admin Forgot Password
+        Route::controller(AdminForgotPasswordController::class)->group(function () {
+            Route::get('/forgot', 'showLinkRequestForm')->name('forgot');
+            Route::post('/forgot/request', 'sendResetLinkEmail')->name('forgot.request');
+        });
+        // Admin Password Reset
+        Route::controller(AdminResetPasswordController::class)->group(function () {
+            Route::get('/reset/{token}', 'showResetForm')->name('reset');
+            Route::post('/reset', 'reset')->name('reset.request');
+        });
     });
 });
 
