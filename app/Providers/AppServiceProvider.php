@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-use Session;
+use Illuminate\Support\Facades\Session;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,8 +25,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($admin, $ability) {
             return $admin->hasRole('Super Admin') ? true : null;
         });
-        if(Session::has('locale')) {
-            App::setLocale(Session::get('locale'));
-        }
+        // if(Session::has('locale')) {
+        //     App::setLocale(Session::get('locale'));
+        // }
     }
 }

@@ -11,11 +11,12 @@ class MultiLanguageController extends Controller
     public function change($lang)
     {
         if (in_array($lang, ['en', 'bn'])) {
-            App::setLocale($lang);
             Session::put('locale', $lang);
-            return response()->json(['success' => false, 'message' => 'Invalid language'], 400);
+            Session::save(); 
+            App::setLocale($lang);
+            return redirect()->back();
         }
-         return response()->json(['success' => true, 'message' => 'Language switched successfully!']);
-    }
+         return redirect()->back()->with('error', 'Invalid Language');
+    } 
 }
 

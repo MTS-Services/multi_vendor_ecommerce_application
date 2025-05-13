@@ -170,7 +170,7 @@
 
 <script>
 
-    {{-- Hide or Show Swiper Navigation Buttons Controller --}}
+//    Hide or Show Swiper Navigation Buttons Controller 
 
         function hideControlsIfNotEnoughSlides(swiperEl, swiperInstance, getSlidesPerView = 1) {
             const originalSlides = swiperEl.querySelectorAll('.swiper-slide:not(.swiper-slide-duplicate)');

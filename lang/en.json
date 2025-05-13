@@ -1,4 +1,3 @@
-
 {
     "Dashboard": "Dashboard",
     "dashboard": "Dashboard",
@@ -19,12 +18,5 @@
     "Log In": "Log In",
     "log In": "log In",
     "Register": "Register",
-    "register": "register",
-
-    "Categories": "Categories",
-    "categories": "Categories",
-    "Sub Categories": "Sub Categories",
-    "sub categories": "Sub Categories",
-    "Business Contact": "Business Contact",
-    "business contact": "Business Contact"
+    "register": "register"
 }

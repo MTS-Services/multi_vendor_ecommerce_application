@@ -12,7 +12,7 @@
             <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
                 <h4 class="text-lg font-semibold text-indigo-700 mb-2">User Access</h4>
                 @auth('web')
-                    <a href="{{ route('user.profile') }}"
+                    <a href="#"
                         class="btn btn-primary w-full bg-amber-600 hover:bg-amber-700 text-white">Go to Dashboard</a>
                 @else
                     <a href="{{ route('login') }}" class="btn w-full bg-indigo-600 hover:bg-indigo-700 text-white">Login</a>
