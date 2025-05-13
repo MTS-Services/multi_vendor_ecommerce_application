@@ -285,6 +285,10 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('tax-rate/priority/{tax_rate}', [TaxRateController::class, 'priority'])->name('tax-rate.priority');
         Route::get('tax-rate/compound/{tax_rate}', [TaxRateController::class, 'compound'])->name('tax-rate.compound');
 
+        Route::get('tax-rate/recycle/bin', [TaxRateController::class, 'recycleBin'])->name('tax-rate.recycle-bin');
+        Route::get('tax-rate/restore/{tax_rate}', [TaxRateController::class, 'restore'])->name('tax-rate.restore');
+        Route::delete('tax-rate/permanent-delete/{tax_rate}', [TaxRateController::class, 'permanentDelete'])->name('tax-rate.permanent-delete');
+
 
 
 
