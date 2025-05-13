@@ -32,4 +32,5 @@ Route::group(['as' => 'frontend.'], function () {
   //   Store location
   Route::get('/store-location', [FrontendController::class, 'store_location'])->name('store_location');
   Route::get('/privacy-policy', [FrontendController::class, 'privacy_policy'])->name('privacy_policy');
+  Route::get('/terms-conditions', [FrontendController::class, 'terms_conditions'])->name('terms_conditions');
 });

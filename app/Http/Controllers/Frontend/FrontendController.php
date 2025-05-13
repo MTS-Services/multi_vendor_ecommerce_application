@@ -55,4 +55,8 @@ class FrontendController extends Controller
     {
         return view('frontend.pages.privacy_policy');
     }
+    public function terms_conditions()
+    {
+        return view('frontend.pages.terms_condition');
+    }
 }

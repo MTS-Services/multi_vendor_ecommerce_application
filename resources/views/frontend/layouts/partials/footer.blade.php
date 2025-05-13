@@ -186,7 +186,7 @@
                                 <li><a href="{{ route('frontend.privacy_policy') }}"
                                         class="hover:text-text-accent transition-all duration-300">{{ __('Privacy Policies') }}</a>
                                 </li>
-                                <li><a href="#"
+                                <li><a href="{{ route('frontend.terms_conditions') }}"
                                         class="hover:text-text-accent transition-all duration-300">{{ __('Terms & Conditions') }}</a>
                                 </li>
                                 <li><a href="#"
