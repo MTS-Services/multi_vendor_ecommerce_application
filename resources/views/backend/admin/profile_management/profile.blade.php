@@ -56,8 +56,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="d-flex justify-content-around align-items-center gap-5 py-5 text-center">
-                    <p class="btn_item w-100 py-2 active" data-bs-target="profile">profile</p>
-                    <p class="btn_item w-100 py-2" data-bs-target="address">Address</p>
+                    <p class="btn_item w-100 py-2" data-bs-target="profile">profile</p>
+                    <p class="btn_item w-100 py-2 active" data-bs-target="address">Address</p>
                     <p class="btn_item w-100 py-2" data-bs-target="change-password">Change Password</p>
                 </div>
             </div>
@@ -66,7 +66,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="tab-content">
-                    <div id="profile" class="tab-pane active">
+                    <div id="profile" class="tab-pane ">
                         {{-- Profile Edit Card --}}
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow-sm border-0">
@@ -200,7 +200,7 @@
                         </div>
                     </div>
                     {{-- Profile Address --}}
-                    <div id="address" class="tab-pane">
+                    <div id="address" class="tab-pane active">
                         <div class="card shadow-sm border-0">
                             <div class="card-header">
                                 <h4 class="mb-0 py-2 text-white">{{ __('Profile Address') }}</h4>
@@ -358,6 +358,7 @@
                 $('#' + target).addClass('active');
             });
         });
+        
         // Get Country States By Axios
         $(document).ready(function() {
             let route1 = "{{ route('axios.get-states-or-cities') }}";

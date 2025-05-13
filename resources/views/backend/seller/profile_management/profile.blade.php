@@ -314,7 +314,7 @@
                     </div>
 
                     {{-- Password Change Card --}}
-                    <div id="change-password" class="tab-pane active">
+                    <div id="change-password" class="tab-pane">
                         <div class="card shadow-sm border-0">
                             <div class="card-header">
                                 <h4 class="mb-0 py-2 text-white">{{ __('Change Password') }}</h4>
@@ -362,6 +362,8 @@
     {{-- FilePond  --}}
     <script src="{{ asset('ckEditor5/main.js') }}"></script>
     <script src="{{ asset('filepond/filepond.js') }}"></script>
+@endpush
+@push('js')
     <script>
         $(document).ready(function() {
             // Handle click on nav items
@@ -382,6 +384,7 @@
                 $('#' + target).addClass('active');
             });
         });
+        
         // Get Country States By Axios
         $(document).ready(function() {
             let route1 = "{{ route('axios.get-states-or-cities') }}";
@@ -396,14 +399,9 @@
             $('#city').on('change', function() {
                 getOperationAreas($(this).val(), route3);
             });
-            let route4 = "{{ route('axios.get-sub-areas') }}";
-            $('#city').on('change', function() {
-                getOperationAreas($(this).val(), route4);
-            });
 
             let data_id =
                 `{{ $address?->state_id ? $address?->state_id : $address?->city_id }}`;
-
             if (data_id) {
                 getStatesOrCity($('#country').val(), route1, data_id);
             }
@@ -412,8 +410,7 @@
                 getCities(`{{ $address?->state_id }}`, route2, `{{ $address?->city_id }}`);
             }
             if (`{{ $address?->city_id }}`) {
-                getOperationAreas(`{{ $address?->city_id }}`, route3,
-                    `{{ $address?->operation_area_id }}`);
+                getOperationAreas(`{{ $address?->city_id }}`, route3, `{{ $address?->operation_area_id }}`);
             }
         });
     </script>
