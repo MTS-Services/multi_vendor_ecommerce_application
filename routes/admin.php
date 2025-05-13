@@ -230,6 +230,10 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         //Our Connection
         Route::resource('our-connection', OurConnectionController::class);
         Route::get('our-connection/status/{our_connection}', [OurConnectionController::class, 'status'])->name('our-connection.status');
+        Route::get('our-connection/recycle/bin', [OurConnectionController::class, 'recycleBin'])->name('our-connection.recycle-bin');
+        Route::get('our-connection/restore/{our_connection}', [OurConnectionController::class, 'restore'])->name('our-connection.restore');
+        Route::delete('our-connection/permanent-delete/{our_connection}', [OurConnectionController::class, 'permanentDelete'])->name('our-connection.permanent-delete');
+
     });
 
     // Hub Management
