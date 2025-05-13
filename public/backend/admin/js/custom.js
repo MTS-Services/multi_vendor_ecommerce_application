@@ -1,7 +1,7 @@
 
 $(document).ready(function () {
     //Select 2
-    $("select.form-control:not(.no-select)").select2();
+
 
 
     // Slug Generate
@@ -20,5 +20,5 @@ $(document).ready(function () {
             $(this).find('i').removeClass('fas fa-eye').addClass('fas fa-eye-slash');
         }
     });
-
+    $("select.form-control:not(.no-select)").select2();
 });

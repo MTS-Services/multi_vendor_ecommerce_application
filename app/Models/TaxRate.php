@@ -39,8 +39,6 @@ class TaxRate extends BaseModel
 
             'compound_label',
             'compound_color',
-            'compound_btn_label',
-            'compound_btn_color',
             'compound_labels',
 
 
@@ -65,7 +63,7 @@ class TaxRate extends BaseModel
     public const PRIORITY_LOW = 4;
 
     // Status labels
-    public static function getStatusLabels(): array
+    public  function getStatusLabels(): array
     {
         return [
             self::STATUS_ACTIVE => 'Active',
@@ -76,7 +74,7 @@ class TaxRate extends BaseModel
 
 
     // Status colors
-    public static function getStatusColors(): array
+    public  function getStatusColors(): array
     {
         return [
             self::STATUS_ACTIVE => 'bg-success', // Green for active
@@ -85,7 +83,7 @@ class TaxRate extends BaseModel
     }
 
     // Status btn labels
-    public static function getStatusBtnLabels(): array
+    public  function getStatusBtnLabels(): array
     {
         return [
             self::STATUS_ACTIVE => 'Deactive',
@@ -94,7 +92,7 @@ class TaxRate extends BaseModel
     }
 
     // Status btn colors
-    public static function getStatusBtnColors(): array
+    public  function getStatusBtnColors(): array
     {
         return [
             self::STATUS_ACTIVE => 'btn btn-warning', // Green for active
@@ -142,7 +140,7 @@ class TaxRate extends BaseModel
     }
 
     // ///////////////////////////Compound Start/////////////////////////////////////////
-    public static function getCompoundLabels(): array
+    public  function getCompoundLabels(): array
     {
         return [
             self::COMPOUND_TRUE => 'True',
@@ -153,7 +151,7 @@ class TaxRate extends BaseModel
 
 
     // Compound colors
-    public static function getCompoundColors(): array
+    public  function getCompoundColors(): array
     {
         return [
             self::COMPOUND_TRUE => 'bg-success', // Green for active
@@ -162,7 +160,7 @@ class TaxRate extends BaseModel
     }
 
     // Compound btn labels
-    public static function getCompoundBtnLabels(): array
+    public Static function getCompoundBtnLabels(): array
     {
         return [
             self::COMPOUND_TRUE => 'False',
@@ -171,7 +169,7 @@ class TaxRate extends BaseModel
     }
 
     // Compound btn colors
-    public static function getCompoundBtnColors(): array
+    public Static function getCompoundBtnColors(): array
     {
         return [
             self::COMPOUND_TRUE => 'btn btn-warning', // Green for active

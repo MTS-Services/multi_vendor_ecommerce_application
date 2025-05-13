@@ -7,12 +7,12 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Tax Rate List') }}</h4>
                     <div class="buttons">
-                        {{-- <x-backend.admin.button :datas="[
+                        <x-backend.admin.button :datas="[
                             'routeName' => 'pm.tax-rate.recycle-bin',
                             'label' => 'Recycle Bin',
                             'className' => 'btn-danger',
                             'permissions' => ['tax-rate-restore'],
-                        ]" /> --}}
+                        ]" />
                         <x-backend.admin.button :datas="[
                             'routeName' => 'pm.tax-rate.create',
                             'label' => 'Add New',
@@ -25,14 +25,12 @@
                         <thead>
                             <tr>
                                 <th>{{ __('SL') }}</th>
-                                <th>{{ __('Name') }}</th>
                                 <th>{{ __('Tax Class') }}</th>
-                                <th>{{ __('Tax Rate') }}</th>
+                                <th>{{ __('Name') }}</th>
                                 <th>{{ __('Country') }}</th>
                                 <th>{{ __('City') }}</th>
+                                <th>{{ __('Tax Rate') }}</th>
                                 <th>{{ __('Status') }}</th>
-                                <th>{{ __('Priority') }}</th>
-                                <th>{{ __('Compound') }}</th>
                                 <th>{{ __('Created By') }}</th>
                                 <th>{{ __('Created Date') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -56,14 +54,12 @@
         $(document).ready(function() {
             let table_columns = [
 
-                ['name', true, true],
                 ['tax_class_id', true, true],
-                ['rate', true, true],
+                ['name', true, true],
                 ['country_id', true, true],
                 ['city_id', true, true],
-                ['priority', true, true],
+                ['rate', true, true],
                 ['status', true, true],
-                ['compound', true, true],
                 ['created_by', true, true],
                 ['created_at', false, false],
                 ['action', false, false],
@@ -96,15 +92,15 @@
 
                 {
                     label: "Tax Class",
-                    key: "tax_class"
+                    key: "tax_class_id"
                 },
                 {
                     label: "Tax Rate",
-                    key: "tax_rate"
+                    key: "rate"
                 },
                 {
                     label: "Country",
-                    key: "country"
+                    key: "country_id"
                 },
                 {
                     label: "State",
@@ -112,7 +108,7 @@
                 },
                 {
                     label: "City",
-                    key: "city"
+                    key: "city_id"
                 },
                 {
                     label: "Priority",

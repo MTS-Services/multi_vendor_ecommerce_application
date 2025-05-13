@@ -18,41 +18,43 @@ class OurConnectionController extends Controller
     public function __construct()
     {
         $this->middleware('auth:admin');
-        $this->middleware('permission:our_connection-list|our_connection-create|our_connection-edit|our_connection-delete', ['only' => ['index', 'show']]);
-        $this->middleware('permission:our_connection-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:our_connection-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:our_connection-delete', ['only' => ['destroy']]);
-        $this->middleware('permission:our_connection-status', ['only' => ['status']]);
+        $this->middleware('permission:our-connection-list', ['only' => ['index']]);
+        $this->middleware('permission:our-connection-details', ['only' => ['show']]);
+        $this->middleware('permission:our-connection-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:our-connection-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:our-connection-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:our-connection-status', ['only' => ['status']]);
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         if ($request->ajax()) {
-        $query = OurConnection::with(['creater_admin'])
-        ->orderBy('sort_order', 'asc')
-        ->latest();
-        return DataTables::eloquent($query)
+            $query = OurConnection::with(['creater_admin'])
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
 
 
-            ->editColumn('status', function ($our_connection) {
-                return "<span class='badge " . $our_connection->status_color . "'>$our_connection->status_label</span>";
-            })
+                ->editColumn('status', function ($our_connection) {
+                    return "<span class='badge " . $our_connection->status_color . "'>$our_connection->status_label</span>";
+                })
 
-            ->editColumn('created_by', function ($our_connection) {
-                return $our_connection->creater_name;
-            })
-            ->editColumn('created_at', function ($our_connection) {
-                return $our_connection->created_at_formatted;
-            })
-            ->editColumn('action', function ($our_connection) {
-                $menuItems = $this->menuItems($our_connection);
-                return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
-            })
-            ->rawColumns(['status','creater_id', 'created_at', 'action'])
-            ->make(true);
-    }
+                ->editColumn('created_by', function ($our_connection) {
+                    return $our_connection->creater_name;
+                })
+                ->editColumn('created_at', function ($our_connection) {
+                    return $our_connection->created_at_formatted;
+                })
+                ->editColumn('action', function ($our_connection) {
+                    $menuItems = $this->menuItems($our_connection);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['status', 'created_by', 'created_at', 'action'])
+                ->make(true);
+        }
         return view('backend.admin.cms_management.our_connection.index');
     }
 
@@ -65,7 +67,7 @@ class OurConnectionController extends Controller
                 'data-id' => encrypt($model->id),
                 'className' => 'view',
                 'label' => 'Details',
-                'permissions' => ['our_connection-details']
+                'permissions' => ['our-connection-details']
             ],
             [
                 'routeName' => 'cms.our-connection.status',
@@ -100,15 +102,16 @@ class OurConnectionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(OurConnectionRequest $request):RedirectResponse
+    public function store(OurConnectionRequest $request): RedirectResponse
     {
         $validated = $request->validated();
-        $validated['creater_id'] = admin()->id;
-        if(isset($request->image)) {
+        $validated['created_by'] = admin()->id;
+        $validated['creater_type'] = get_class(admin());
+        if (isset($request->image)) {
             $validated['image'] = $this->handleFilepondFileUpload(OurConnection::class, $request->image, admin(), 'our_connection/');
         }
         OurConnection::create($validated);
-        session()->flash('success','Our Connection created successfully!');
+        session()->flash('success', 'Our Connection created successfully!');
         return redirect()->route('cms.our-connection.index');
     }
 
@@ -117,8 +120,8 @@ class OurConnectionController extends Controller
      */
     public function show(string $id)
     {
-        $data['our_connection'] = OurConnection::with(['creater_admin'])->findOrFail(decrypt($id));
-        return view('backend.admin.cms_management.our_connection.show', $data);
+        $data = OurConnection::with(['creater_admin'])->findOrFail(decrypt($id));
+        return response()->json($data);
     }
 
     /**
@@ -136,7 +139,7 @@ class OurConnectionController extends Controller
     public function update(OurConnectionRequest $request, string $id)
     {
         $validated = $request->validated();
-        $validated['updater_id'] = admin()->id;
+        $validated['updated_by'] = admin()->id;
         $validated['updater_type'] = get_class(admin());
         $faq = OurConnection::findOrFail(decrypt($id));
         $faq->update($validated);
@@ -149,8 +152,8 @@ class OurConnectionController extends Controller
      */
     public function destroy(string $id)
     {
-         $banner = OurConnection::findOrFail(decrypt($id));
-        $banner->update(['deleted_at' => admin()->id]);
+        $banner = OurConnection::findOrFail(decrypt($id));
+        $banner->update(['deleted_by' => admin()->id]);
         $banner->delete();
         session()->flash('success', 'Our Connection deleted successfully!');
         return redirect()->route('cms.our-connection.index');
@@ -159,7 +162,7 @@ class OurConnectionController extends Controller
     public function status(string $id): RedirectResponse
     {
         $our_connection = OurConnection::findOrFail(decrypt($id));
-        $our_connection->update(['status' => !$our_connection->status, 'updated_at'=> admin()->id]);
+        $our_connection->update(['status' => !$our_connection->status, 'updated_at' => admin()->id]);
         session()->flash('success', 'our connection status updated successfully!');
         return redirect()->route('cms.our-connection.index');
     }

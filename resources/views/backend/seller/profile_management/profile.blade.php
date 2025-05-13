@@ -89,13 +89,23 @@
                                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'first_name']" />
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label>{{ __('Last Name') }} <span class="text-danger">*</span></label>
-                                                    <input type="text" name="last_name" class="form-control"
-                                                        placeholder="Enter name">
-                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'last_name']" />
-                                                </div>
+                                            <div class="form-group mb-3">
+                                                <label>{{ __('Last Name') }} <span class="text-danger">*</span></label>
+                                                <input type="text" name="last_name" class="form-control"
+                                                    placeholder="Enter last name">
+                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'last_name']" />
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label>{{ __('Email') }} <span class="text-danger">*</span></label>
+                                                <input type="text" name="email" class="form-control"
+                                                    placeholder="Enter name">
+                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label>{{ __('Username') }} <span class="text-danger">*</span></label>
+                                                <input type="text" name="username" class="form-control"
+                                                    placeholder="Enter name">
+                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
                                             </div>
 
                                             <div class="col-12 col-md-6">
@@ -317,11 +327,11 @@
         });
         // Get Country States By Axios
         $(document).ready(function() {
-            let route1 = "{{ route('axios.get-cities') }}";
+            let route1 = "{{ route('axios.get-states-or-cities') }}";
             $('#country').on('change', function() {
                 getStatesOrCity($(this).val(), route1);
             });
-            let route2 = "{{ route('axios.get-states-or-cities') }}";
+            let route2 = "{{ route('axios.get-cities') }}";
             $('#state').on('change', function() {
                 getCities($(this).val(), route2);
             });

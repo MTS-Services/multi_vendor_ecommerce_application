@@ -201,9 +201,9 @@
                                 {{ __('Add to cart') }}
                             </button>
                         </div>
-                        <button class="w-full py-2 lg:py-3 px-4 mt-4 btn-secondary">
+                        <a class="w-full py-2 lg:py-3 px-4 mt-4 btn-secondary" href="{{route('frontend.checkout')}}">
                             {{ __('Buy it now') }}
-                        </button>
+                        </a>
                     </div>
 
                     {{-- Payment System --}}
@@ -421,7 +421,7 @@
                 @php
                     $collections = collect([
                         'id' => 1,
-                        'image' => 'frontend/images/product-1.jpg',
+                        'image' => 'frontend/images/phone.png',
                         'title' => 'Galaxy S21 5G 128GB G991U Unlocked Smartphone',
                         'price' => 999.99,
                         'old_price' => 1000.0,

@@ -107,6 +107,7 @@ class UserController extends Controller
                 ->onlyTrashed()
                 ->orderBy('sort_order', 'asc')
                 ->latest();
+
             return DataTables::eloquent($query)
                 ->editColumn('first_name', function ($user) {
                     return $user->full_name . ($user->username ? " (" . $user->username . ")" : "");
@@ -164,9 +165,9 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserRequest $req): RedirectResponse
+    public function store(UserRequest $request): RedirectResponse
     {
-        $validated = $req->validated();
+        $validated = $request->validated();
         $validated['creater_id'] = admin()->id;
         $validated['creater_type'] = get_class(admin());
         User::create($validated);
@@ -195,12 +196,12 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $req, string $id): RedirectResponse
+    public function update(UserRequest $request, string $id): RedirectResponse
     {
         $user = User::findOrFail(decrypt($id));
-        $validated = $req->validated();
+        $validated = $request->validated();
         $validated['updater_id'] = admin()->id;
-        $validated['password'] = ($req->password ? $req->password : $user->password);
+        $validated['password'] = ($request->password ? $request->password : $user->password);
         $validated['updater_type'] = get_class(admin());
         $user->update($validated);
         session()->flash('success', 'User updated successfully!');

@@ -19,23 +19,24 @@
                         <div class="form-group">
                             <label>{{ __('Name') }} <span class="text-danger">*</span></label>
                             <input type="text" value="{{ old('name') }}" id="title" name="name"
-                            class="form-control" placeholder="Enter name">
+                                class="form-control" placeholder="Enter name">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'name']" />
-                            </div>
-                            <div class="form-group">
-                                <label>{{ __('Rate') }} <span class="text-danger">*</span></label>
-                                <input type="number" value="{{ old('rate') }}" id="rate" name="rate"
-                                    class="form-control" placeholder="Enter rate">
-                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'rate']" />
-                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('Rate') }} <span class="text-danger">*</span></label>
+                            <input type="number" value="{{ old('rate') }}" id="rate" name="rate"
+                                class="form-control" placeholder="Enter rate">
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'rate']" />
+                        </div>
 
-                         <div class="form-group">
+                        <div class="form-group">
                             <label>{{ __('Tax class') }} <span class="text-danger">*</span></label>
                             <select name="tax_class" id="tax_class" class="form-control">
                                 <option value="" selected hidden>{{ __('Select Tax Class') }}</option>
                                 @foreach ($tax_classes as $tax_class)
                                     <option value="{{ $tax_class->id }}"
-                                        {{ old('tax_class') == $tax_class->id ? 'selected' : '' }}>{{ $tax_class->name }}</option>
+                                        {{ old('tax_class') == $tax_class->id ? 'selected' : '' }}>{{ $tax_class->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'country']" />
@@ -46,10 +47,18 @@
                                 <option value="" selected hidden>{{ __('Select Country') }}</option>
                                 @foreach ($countries as $country)
                                     <option value="{{ $country->id }}"
-                                        {{ old('country') == $country->id ? 'selected' : '' }}>{{ $country->name }}</option>
+                                        {{ old('country') == $country->id ? 'selected' : '' }}>{{ $country->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'country']" />
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('City') }} <span class="text-danger">*</span></label>
+                            <select name="city" id="city" class="form-control" disabled>
+                                <option value="" selected hidden>{{ __('Select City') }}</option>
+                            </select>
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city']" />
                         </div>
                         <div class="form-group">
                             <label>{{ __('State') }}</label>
@@ -60,11 +69,24 @@
                         </div>
 
                         <div class="form-group">
-                            <label>{{ __('City') }} <span class="text-danger">*</span></label>
-                            <select name="city" id="city" class="form-control" disabled>
-                                <option value="" selected hidden>{{ __('Select City') }}</option>
+                            <label>{{ __('Priority') }} <span class="text-danger">*</span></label>
+                            <select name="priority" id="priority" class="form-control">
+                                @foreach (App\Models\TaxRate::getPriorityLabels() as $key => $value)
+                                    <option value="{{ $key }}" {{ old('priority') == $key ? 'selected' : '' }}>
+                                        {{ $value }}</option>
+                                @endforeach
                             </select>
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city']" />
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'priority']" />
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('Compound') }} <span class="text-danger">*</span></label>
+                            <select name="compound" id="compound" class="form-control">
+                                @foreach (App\Models\TaxRate::getCompoundBtnLabels() as $key => $value)
+                                    <option value="{{ $key }}" {{ old('compound') == $key ? 'selected' : '' }}>
+                                        {{ $value }}</option>
+                                @endforeach
+                            </select>
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'compound']" />
                         </div>
 
                         <div class="form-group float-end">
@@ -83,15 +105,15 @@
         // Get Country States By Axios
         $(document).ready(function() {
             $('#country').on('change', function() {
-                let route1 = "{{ route('setup.axios.get-states-or-cities') }}";
+                let route1 = "{{ route('axios.get-states-or-cities') }}";
                 getStatesOrCity($(this).val(), route1);
             });
             $('#state').on('change', function() {
-                let route2 = "{{ route('setup.axios.get-cities') }}";
+                let route2 = "{{ route('axios.get-cities') }}";
                 getCities($(this).val(), route2);
             });
             $('#city').on('change', function() {
-                let route3 = "{{ route('setup.axios.get-operation-areas') }}";
+                let route3 = "{{ route('axios.get-operation-areas') }}";
                 getOperationAreas($(this).val(), route3);
             });
         });

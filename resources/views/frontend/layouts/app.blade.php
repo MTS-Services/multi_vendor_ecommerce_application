@@ -29,7 +29,22 @@
     {{-- BoxIcons --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css" />
 
-    @vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css', 'resources/js/frontend/frontend.js'])
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('success'))
+                showAlert('success', '{{ session('success') }}');
+            @endif
+
+            @if (session('error'))
+                showAlert('error', '{{ session('error') }}');
+            @endif
+
+            @if (session('warning'))
+                showAlert('warning', '{{ session('warning') }}');
+            @endif
+        });
+    </script>
 
     {{-- Custom CSS --}}
     @stack('css')
@@ -190,7 +205,26 @@
     </script>
 
 
+    <script>
+        $(document).ready(function() {
+            const $openSidebar = $('.openCartSidebar');
+            const $closeSidebar = $('.closeCartSidebar');
+            const $sidebar = $('.cartSidebar'); // Select the sidebar element globally
 
+            // Sidebar open functionality
+            $openSidebar.on('click', function() {
+                $sidebar.css('transform', 'translateX(0)'); // Show the sidebar
+                // $(this).addClass('hidden'); // Hide the open button
+            });
+
+            $closeSidebar.on('click', function() {
+                $sidebar.css('transform', 'translateX(100%)'); // Hide the sidebar
+                setTimeout(() => {
+                    // $openSidebar.removeClass('hidden'); // Show all openSidebar buttons
+                }, 300); // Delay for the sidebar transition
+            });
+        });
+    </script>
 
 
     {{-- Custom JS --}}
