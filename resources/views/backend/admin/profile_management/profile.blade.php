@@ -386,12 +386,12 @@
                 getOperationAreas(`{{ $address?->city_id }}`, route3, `{{ $address?->operation_area_id }}`);
             }
         });
-        $(document).ready(function() {
-            const existingFiles = {
-                "#image": "{{ auth_storage_url($admin?->image, $admin?->gender) }}",
-            }
-            file_upload(["#image"], "uploadImage", "profile?", existingFiles, false);
-        });
+        // $(document).ready(function() {
+        //     const existingFiles = {
+        //         "#image": "{{ auth_storage_url($admin?->image, $admin?->gender) }}",
+        //     }
+        //     file_upload(["#image"], "uploadImage", "profile?", existingFiles, false);
+        // });
     </script>
     {{-- FilePond  --}}
 @endpush

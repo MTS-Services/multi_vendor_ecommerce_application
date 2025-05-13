@@ -56,10 +56,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="d-flex justify-content-around align-items-center gap-5 py-5 text-center">
-                    <p class="btn_item w-100 py-2" data-bs-target="profile">{{ __('profile') }}</p>
+                    <p class="btn_item w-100 py-2 active" data-bs-target="profile">{{ __('profile') }}</p>
                     <p class="btn_item w-100 py-2" data-bs-target="shop-details">{{ __('Shop Details') }}</p>
                     <p class="btn_item w-100 py-2" data-bs-target="address">{{ __('Address') }}</p>
-                    <p class="btn_item w-100 py-2 active" data-bs-target="change-password">{{ __('Change Password') }}</p>
+                    <p class="btn_item w-100 py-2" data-bs-target="change-password">{{ __('Change Password') }}</p>
                 </div>
             </div>
         </div>
@@ -67,7 +67,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="tab-content">
-                    <div id="profile" class="tab-pane">
+                    <div id="profile" class="tab-pane active">
                         {{-- Profile Edit Card --}}
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow-sm border-0">
@@ -84,43 +84,34 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group mb-3">
                                                     <label>{{ __('First Name') }} <span class="text-danger">*</span></label>
-                                                    <input type="text" name="first_name" class="form-control"
-                                                        placeholder="Enter name">
+                                                    <input type="text" name="first_name"
+                                                        value="{{ $seller?->first_name }}" class="form-control"
+                                                        placeholder="Enter your first name">
                                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'first_name']" />
                                                 </div>
                                             </div>
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Last Name') }} <span class="text-danger">*</span></label>
-                                                <input type="text" name="last_name" class="form-control"
-                                                    placeholder="Enter last name">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'last_name']" />
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Email') }} <span class="text-danger">*</span></label>
-                                                <input type="text" name="email" class="form-control"
-                                                    placeholder="Enter name">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Username') }} <span class="text-danger">*</span></label>
-                                                <input type="text" name="username" class="form-control"
-                                                    placeholder="Enter name">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Last Name') }} <span class="text-danger">*</span></label>
+                                                    <input type="text" name="last_name" value="{{ $seller?->last_name }}"
+                                                        class="form-control" placeholder="Enter your last name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'last_name']" />
+                                                </div>
                                             </div>
 
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group mb-3">
                                                     <label>{{ __('Username') }} <span class="text-danger">*</span></label>
-                                                    <input type="text" name="username" class="form-control"
-                                                        placeholder="Enter name">
+                                                    <input type="text" name="username" value="{{ $seller?->username }}"
+                                                        class="form-control" placeholder="Enter your username">
                                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group mb-3">
                                                     <label>{{ __('Email') }} <span class="text-danger">*</span></label>
-                                                    <input type="email" name="email" class="form-control"
-                                                        placeholder="Enter name">
+                                                    <input type="email" name="email" value="{{ $seller?->email }}"
+                                                        class="form-control" placeholder="Enter your email">
                                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
                                                 </div>
                                             </div>
@@ -135,9 +126,73 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="form-group mb-3">
                                                     <label>{{ __('Phone') }}</label>
-                                                    <input type="text" name="phone" class="form-control"
-                                                        placeholder="Enter name">
+                                                    <input type="text" name="phone" value="{{ $seller?->phone }}"
+                                                        class="form-control" placeholder="Enter your phone">
                                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'phone']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Date of Birth') }}</label>
+                                                    <input type="date" name="dob" value="{{ $seller?->dob }}"
+                                                        class="form-control">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'dob']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Gender') }}</label>
+                                                    <select name="gender" class="form-control">
+                                                        @foreach (App\Models\PersonalInformation::getGenderLabels() as $key => $gender)
+                                                            <option value="{{ $key }}"
+                                                                {{ $seller?->personalInformation?->gender == $key ? 'selected' : '' }}>
+                                                                {{ $gender }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'gender']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Fathers Name') }}</label>
+                                                    <input type="text" name="father_name"
+                                                        value="{{ $seller?->personalInformation?->father_name }}"
+                                                        class="form-control" placeholder="Enter your fathers name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'father_name']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Mothers Name') }}</label>
+                                                    <input type="text" name="mother_name"
+                                                        value="{{ $seller?->personalInformation?->mother_name }}"
+                                                        class="form-control" placeholder="Enter your mothers name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'mother_name']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Emergency Phone') }}</label>
+                                                    <input type="text" name="emergency_phone"
+                                                        value="{{ $seller?->personalInformation?->emergency_phone }}"
+                                                        class="form-control" placeholder="Enter your emergency phone">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'bio']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Nationality') }}</label>
+                                                    <input type="text" name="nationality"
+                                                        value="{{ $seller?->personalInformation?->nationality }}"
+                                                        class="form-control" placeholder="Enter name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'nationality']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Bio') }}</label>
+                                                    <textarea name="bio" class="form-control" rows="5" placeholder="Enter your bio">{{ $seller?->personalInformation?->bio }}</textarea>
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'bio']" />
                                                 </div>
                                             </div>
                                         </div>
