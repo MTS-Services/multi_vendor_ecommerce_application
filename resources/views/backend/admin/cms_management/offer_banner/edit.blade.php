@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="form-group float-end">
-                            <input type="submit" class="btn btn-primary" value="Create">
+                            <input type="submit" class="btn btn-primary" value="Update">
                         </div>
                     </form>
                 </div>

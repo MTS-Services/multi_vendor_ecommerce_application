@@ -7,12 +7,12 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Tax Rate List') }}</h4>
                     <div class="buttons">
-                        {{-- <x-backend.admin.button :datas="[
+                        <x-backend.admin.button :datas="[
                             'routeName' => 'pm.tax-rate.recycle-bin',
                             'label' => 'Recycle Bin',
                             'className' => 'btn-danger',
                             'permissions' => ['tax-rate-restore'],
-                        ]" /> --}}
+                        ]" />
                         <x-backend.admin.button :datas="[
                             'routeName' => 'pm.tax-rate.create',
                             'label' => 'Add New',
@@ -92,15 +92,15 @@
 
                 {
                     label: "Tax Class",
-                    key: "tax_class"
+                    key: "tax_class_id"
                 },
                 {
                     label: "Tax Rate",
-                    key: "tax_rate"
+                    key: "rate"
                 },
                 {
                     label: "Country",
-                    key: "country"
+                    key: "country_id"
                 },
                 {
                     label: "State",
@@ -108,7 +108,7 @@
                 },
                 {
                     label: "City",
-                    key: "city"
+                    key: "city_id"
                 },
                 {
                     label: "Priority",

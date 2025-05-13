@@ -54,6 +54,13 @@
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'country']" />
                         </div>
                         <div class="form-group">
+                            <label>{{ __('City') }} <span class="text-danger">*</span></label>
+                            <select name="city" id="city" class="form-control" disabled>
+                                <option value="" selected hidden>{{ __('Select City') }}</option>
+                            </select>
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city']" />
+                        </div>
+                        <div class="form-group">
                             <label>{{ __('State') }}</label>
                             <select name="state" id="state" class="form-control" disabled>
                                 <option value="" selected hidden>{{ __('Select State') }}</option>
@@ -61,13 +68,6 @@
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'state']" />
                         </div>
 
-                        <div class="form-group">
-                            <label>{{ __('City') }} <span class="text-danger">*</span></label>
-                            <select name="city" id="city" class="form-control" disabled>
-                                <option value="" selected hidden>{{ __('Select City') }}</option>
-                            </select>
-                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city']" />
-                        </div>
 
                         <div class="form-group float-end">
                             <input type="submit" class="btn btn-primary" value="Update">

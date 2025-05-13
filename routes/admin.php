@@ -46,7 +46,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
     Route::controller(AdminLoginController::class)->group(function () {
         Route::get('/login', 'showLoginForm')->name('login'); // Admin Login Form
         Route::post('/login', 'login')->name('login.submit'); // Admin Login Submit (Handled by AuthenticatesUsers)
-        Route::post('/logout', 'logout')->middleware('auth:admin')->name('logout'); // Admin Logout   
+        Route::post('/logout', 'logout')->middleware('auth:admin')->name('logout'); // Admin Logout
     });
 
     Route::group(['as' => 'password.', 'prefix' => 'password'], function () {
@@ -293,7 +293,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         // TaxClass
         Route::resource('tax-class', TaxClassController::class);
         Route::get('tax-class/status/{tax_class}', [TaxClassController::class, 'status'])->name('tax-class.status');
-        Route::get('tax-class/recycle-bin', [TaxClassController::class, 'recycleBin'])->name('tax-class.recycle-bin');
+        Route::get('tax-class/recycle/bin', [TaxClassController::class, 'recycleBin'])->name('tax-class.recycle-bin');
         Route::get('tax-class/restore/{tax_class}', [TaxClassController::class, 'restore'])->name('tax-class.restore');
         Route::delete('tax-class/permanent-delete/{tax_class}', [TaxClassController::class, 'permanentDelete'])->name('tax-class.permanent-delete');
 
@@ -302,6 +302,15 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('tax-rate/status/{tax_rate}', [TaxRateController::class, 'status'])->name('tax-rate.status');
         Route::get('tax-rate/priority/{tax_rate}', [TaxRateController::class, 'priority'])->name('tax-rate.priority');
         Route::get('tax-rate/compound/{tax_rate}', [TaxRateController::class, 'compound'])->name('tax-rate.compound');
+
+        Route::get('tax-rate/recycle/bin', [TaxRateController::class, 'recycleBin'])->name('tax-rate.recycle-bin');
+        Route::get('tax-rate/restore/{tax_rate}', [TaxRateController::class, 'restore'])->name('tax-rate.restore');
+        Route::delete('tax-rate/permanent-delete/{tax_rate}', [TaxRateController::class, 'permanentDelete'])->name('tax-rate.permanent-delete');
+
+
+
+
+
     });
 
     // Documentation
