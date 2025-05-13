@@ -183,7 +183,7 @@
                         <div
                             class="footer-accordion-content overflow-hidden text-sm md:text-base max-h-0 py-0 transition-all duration-300">
                             <ul class="md:space-y-2 space-y-1 text-base text-text-primary dark:text-text-white">
-                                <li><a href="#"
+                                <li><a href="{{ route('frontend.privacy_policy') }}"
                                         class="hover:text-text-accent transition-all duration-300">{{ __('Privacy Policies') }}</a>
                                 </li>
                                 <li><a href="#"
