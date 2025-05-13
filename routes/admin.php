@@ -69,6 +69,7 @@ Route::controller(AxiosRequestController::class)->name('axios.')->group(function
     Route::get('get-cities', 'getCities')->name('get-cities');
     Route::get('get-operation-areas', 'getOperationAreas')->name('get-operation-areas');
     Route::get('get-sub-areas', 'getSubAreas')->name('get-sub-areas');
+    Route::get('get-hubs', 'getHubs')->name('get-hubs');
 
     Route::get('get-sub-categories', 'getSubCategories')->name('get-sub-categories');
 });

@@ -1,4 +1,5 @@
 import "./bootstrap";
+import "./axios";
 import "./jquery";
 import "./datatable";
 import "./sweetalert";

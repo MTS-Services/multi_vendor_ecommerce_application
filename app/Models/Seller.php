@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Models\AuthBaseModel;
 
@@ -70,5 +71,34 @@ class Seller extends AuthBaseModel
     public function getModifiedShopBannerAttribute()
     {
         return storage_url($this->shop_banner);
+    }
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class , 'country_id', 'id');
+    }
+
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class , 'state_id', 'id');
+    }
+
+    public function city() : BelongsTo
+    {
+        return $this->belongsTo(City::class , 'city_id', 'id');
+    }
+
+    public function hub(): BelongsTo
+    {
+        return $this->belongsTo(Hub::class , 'hub_id', 'id');
+    }
+
+    public function operationArea(): BelongsTo
+    {
+        return $this->belongsTo(OperationArea::class , 'operation_area_id', 'id');
+    }
+
+    public function operationSubArea(): BelongsTo
+    {
+        return $this->belongsTo(OperationSubArea::class , 'operation_sub_area_id', 'id');
     }
 }

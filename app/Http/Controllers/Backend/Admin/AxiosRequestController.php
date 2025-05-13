@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\OperationArea;
 use App\Models\State;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -67,6 +68,19 @@ class AxiosRequestController extends Controller
              'message'=> "Cities not found!",
          ]);
       }
+      public function getHubs(Request $request): JsonResponse{
+        $city_id = $request->city_id;
+        if($city_id){
+             $city = City::with('activeHubs')->findOrFail($city_id);
+             return response()->json([
+                 'hubs' => $city->activeHubs,
+                 'message'=> "City fetched successfully!",
+             ]);
+        }
+        return response()->json([
+             'message'=> "Hubs not found!",
+         ]);
+      }
       public function getOperationAreas(Request $request): JsonResponse{
         $city_id = $request->city_id;
         if($city_id){
@@ -80,6 +94,7 @@ class AxiosRequestController extends Controller
              'message'=> "Operation areas not found!",
          ]);
       }
+
 
        public function getSubCategories(Request $request): JsonResponse{
 
