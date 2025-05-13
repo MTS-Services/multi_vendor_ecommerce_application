@@ -248,11 +248,11 @@
         });
         // Get Country States By Axios
         $(document).ready(function() {
-            let route1 = "{{ route('axios.get-cities') }}";
+            let route1 = "{{ route('axios.get-states-or-cities') }}";
             $('#country').on('change', function() {
                 getStatesOrCity($(this).val(), route1);
             });
-            let route2 = "{{ route('axios.get-states-or-cities') }}";
+            let route2 = "{{ route('axios.get-cities') }}";
             $('#state').on('change', function() {
                 getCities($(this).val(), route2);
             });
@@ -266,13 +266,12 @@
             if(data_id){
                  getStatesOrCity($('#country').val(), route1, data_id);
             }
-           
+
             if (`{{ $address?->state_id }}`) {
                 getCities(`{{ $address?->state_id }}`, route2, `{{ $address?->city_id }}`);
             }
             if(`{{ $address?->city_id }}`){
-            getOperationAreas(`{{ $address?->city_id }}`, route3,
-                `{{ $address?->operation_area_id }}`);
+                getOperationAreas(`{{ $address?->city_id }}`, route3, `{{ $address?->operation_area_id }}`);
             }
         });
     </script>
