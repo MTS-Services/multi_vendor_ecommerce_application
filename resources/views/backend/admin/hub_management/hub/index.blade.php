@@ -120,13 +120,13 @@
                         key: "longitude",
                     },
                     {
-                        label:"Mata title",
-                        key: "mata_title",
+                        label:"Meta Title",
+                        key: "meta_title",
 
                     },
                     {
-                        label:"Mata description",
-                        key: "mata_description",
+                        label:"Meta Description",
+                        key: "meta_description",
                     },
 
 

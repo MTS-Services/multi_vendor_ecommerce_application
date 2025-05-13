@@ -22,6 +22,8 @@
 
     {{-- Boxicons --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css" />
+    <link rel="stylesheet" href="{{ asset('backend/seller/assets/css/sb-admin-2.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/seller/assets/css/sb-admin-2.min.css') }}">
 
     @stack('css-links')
 
@@ -70,6 +72,8 @@
     </div>
     <!--   Core JS Files   -->
     <script src="{{ asset('backend/admin/assets/js/core/jquery-3.7.1.min.js') }}"></script>
+
+    <script src="{{ asset('backend/admin/js/functions.js') }}"></script>
     <script src="{{ asset('backend/seller/assets/js/scripts.js') }}"></script>
 
     {{-- Custom JS --}}

@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Setup\BrandRequest;
 use App\Http\Traits\FileManagementTrait;
 use App\Models\Brand;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\RedirectResponse as HttpFoundationRedirectResponse;
 use Yajra\DataTables\Facades\DataTables;
 
 class BrandController extends Controller
@@ -24,6 +24,9 @@ class BrandController extends Controller
         $this->middleware('permission:brand-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:brand-delete', ['only' => ['destroy']]);
         $this->middleware('permission:brand-status', ['only' => ['status']]);
+        $this->middleware('permission:brand-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:brand-restore', ['only' => ['restore']]);
+        $this->middleware('permission:brand-permanent-delete', ['only' => ['permanentDelete']]);
     }
 
     /**
@@ -93,6 +96,59 @@ class BrandController extends Controller
                 'label' => 'Delete',
                 'delete' => true,
                 'permissions' => ['brand-delete']
+            ]
+
+        ];
+    }
+
+
+
+       public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $query = Brand::with(['deleter'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+            ->editColumn('status', function ($brand) {
+                    return "<span class='badge " . $brand->status_color . "'>$brand->status_label</span>";
+                })
+                  ->editColumn('is_featured', function ($brand) {
+                    return "<span class='badge " . $brand->featured_color . "'>$brand->featured_label</span>";
+                })
+               ->editColumn('deleter_id', function ($brand) {
+                    return $brand->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($brand) {
+                    return $brand->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($brand) {
+                    $menuItems = $this->trashedMenuItems($brand);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['status', 'is_featured', 'deleter_id', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.product_management.brand.recycle-bin');
+    }
+
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'pm.brand.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['brand-restore']
+            ],
+            [
+                'routeName' => 'pm.brand.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['brand-permanent-delete']
             ]
 
         ];
@@ -175,7 +231,7 @@ class BrandController extends Controller
     }
 
 
-    public function status(string $id): HttpFoundationRedirectResponse
+    public function status(string $id): RedirectResponse
     {
         $brand = Brand::findOrFail(decrypt($id));
         $brand->update(['status' => !$brand->status, 'updated_by' => admin()->id]);
@@ -183,11 +239,36 @@ class BrandController extends Controller
         return redirect()->route('pm.brand.index');
     }
 
-    public function feature($id): HttpFoundationRedirectResponse
+    public function feature($id): RedirectResponse
     {
         $brand = Brand::findOrFail(decrypt($id));
-        $brand->update(['is_featured' => !$brand->featured, 'updated_by' => admin()->id]);
+        $brand->update(['is_featured' => !$brand->is_featured, 'updated_by' => admin()->id]);
         session()->flash('success', 'Brand featured updated successfully!');
         return redirect()->route('pm.brand.index');
+    }
+        public function restore(string $id): RedirectResponse
+    {
+        $product_attribute = Brand::onlyTrashed()->findOrFail(decrypt($id));
+        $product_attribute->update(['updated_by' => admin()->id]);
+        $product_attribute->restore();
+        session()->flash('success', 'Brand restored successfully!');
+        return redirect()->route('pm.brand.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $product_attribute = Brand::onlyTrashed()->findOrFail(decrypt($id));
+        if($product_attribute->logo){
+            $this->fileDelete($product_attribute->logo);
+        }
+        $product_attribute->forceDelete();
+        session()->flash('success', 'Brand permanently deleted successfully!');
+        return redirect()->route('pm.brand.recycle-bin');
     }
 }

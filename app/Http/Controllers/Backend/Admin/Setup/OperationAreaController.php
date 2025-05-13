@@ -17,11 +17,14 @@ class OperationAreaController extends Controller
     {
         $this->middleware('auth:admin');
         $this->middleware('permission:operation-area-list', ['only' => ['index']]);
-        $this->middleware('permission:operation-area-list', ['only' => ['details']]);
+        $this->middleware('permission:operation-area-details', ['only' => ['details']]);
         $this->middleware('permission:operation-area-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:operation-area-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:operation-area-delete', ['only' => ['destroy']]);
         $this->middleware('permission:operation-area-status', ['only' => ['status']]);
+        $this->middleware('permission:operation-area-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:operation-area-restore', ['only' => ['restore']]);
+        $this->middleware('permission:operation-area-permanent-delete', ['only' => ['permanentDelete']]);
     }
 
     /**
@@ -92,6 +95,61 @@ class OperationAreaController extends Controller
     }
 
 
+
+        public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $query = OperationArea::with(['deleter_admin'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+              ->editColumn('country_id', function ($operationArea) {
+                    return $operationArea->country_name;
+                })
+                ->editColumn('city_id', function ($operationArea) {
+                    return  $operationArea->city_name;
+                })
+            ->editColumn('status', function ($operationArea) {
+                    return "<span class='badge " . $operationArea->status_color . "'>$operationArea->status_label</span>";
+                })
+
+               ->editColumn('deleted_by', function ($operationArea) {
+                    return $operationArea->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($operationArea) {
+                    return $operationArea->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($operationArea) {
+                    $menuItems = $this->trashedMenuItems($operationArea);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['country_id','city_id','status', 'deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.setup.operation_area.recycle-bin');
+    }
+
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'setup.operation-area.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['operation-area-restore']
+            ],
+            [
+                'routeName' => 'setup.operation-area.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['operation-area-permanent-delete']
+            ]
+
+        ];
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -166,5 +224,27 @@ class OperationAreaController extends Controller
         $operation_area->update(['status' => !$operation_area->status, 'updated_by'=> admin()->id]);
         session()->flash('success', 'Operation area status updated successfully!');
         return redirect()->route('setup.operation-area.index');
+    }
+           public function restore(string $id): RedirectResponse
+    {
+        $operation_area = OperationArea::onlyTrashed()->findOrFail(decrypt($id));
+        $operation_area->update(['updated_by' => admin()->id]);
+        $operation_area->restore();
+        session()->flash('success', 'Operation Area restored successfully!');
+        return redirect()->route('setup.operation-area.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $operation_area = OperationArea::onlyTrashed()->findOrFail(decrypt($id));
+        $operation_area->forceDelete();
+        session()->flash('success', 'Operation Area permanently deleted successfully!');
+        return redirect()->route('setup.operation-area.recycle-bin');
     }
 }

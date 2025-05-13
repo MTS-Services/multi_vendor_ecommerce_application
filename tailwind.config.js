@@ -18,23 +18,17 @@ module.exports = {
       center: true,
       padding: '1rem',
       screens: {
-        'xs': '100%',
-        'sm': '512px',
-        'md': '640px',
-        'lg': '768px',
-        'xl': '1024px',
-        '2xl': '1280px',
         '3xl': '1536px',
       }
     },
     extend: {
       screens: {
-        'xs': '100%',
+        'xs': '480px',
         'sm': '512px',
         'md': '640px',
         'lg': '768px',
         'xl': '1024px',
-        '2xl': '1280px',
+        '2xl': '1200px',
         '3xl': '1536px',
       },
       colors: {
@@ -48,6 +42,7 @@ module.exports = {
           white: '#ffffff',
           black: '#000000',
           danger: '#DC2626',
+          orange: "#ff6b6b",
         },
 
         bg: {
@@ -55,13 +50,16 @@ module.exports = {
           secondary: '#8A2BE2',     // Purple background
           accent: '#8752FA',        // Violet background
           light: '#FFFDF6',
+          lightSecondary: '#FBFBFB',
           dark: '#2d2d2d',
           darkSecondary: '#021526',
           darkTertiary: '#222831',
+          darkQuaternary: '#212121',
           gray: '#F3F4F6',
           white: '#ffffff',
           black: '#000000',
           danger: '#DC2626',
+          orange: "#ff6b6b",
         },
 
         border: {
@@ -72,6 +70,7 @@ module.exports = {
           danger: '#DC2626',
           white: '#ffffff',
           black: '#000000',
+          orange: "#ff6b6b",
         },
 
         outline: {
@@ -82,6 +81,7 @@ module.exports = {
           danger: '#DC2626',
           white: '#ffffff',
           black: '#000000',
+          orange: "#ff6b6b",
         },
 
         focus: {
@@ -91,6 +91,7 @@ module.exports = {
           danger: '#DC2626',
           white: '#ffffff',
           black: '#000000',
+          orange: "#ff6b6b",
         },
 
         shadow: {
@@ -106,6 +107,7 @@ module.exports = {
           gray: '#F3F4F6',
           lightSecondary: '#F9FAFB',
           lightTertiary: '#F3F4F6',
+          orange: "#ff6b6b",
         }
       },
       fontFamily: {
@@ -173,6 +175,7 @@ module.exports = {
         'slide-down': 'slideDown 0.3s ease-in-out',
         'starFade': 'starFade 0.6s ease-out forwards, rise-top-left 0.6s ease-out',
         'scalePulse': 'scalePulse 1s ease-in-out infinite',
+        'dotRotate': 'dotRotate 2s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -195,6 +198,10 @@ module.exports = {
           '0%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.2)' },
           '100%': { transform: 'scale(1)' },
+        },
+        'dotRotate': {
+          '0%': { transform: 'translate(-50%, -50%) rotate(0deg)' },
+          '100%': { transform: 'translate(-50%, -50%) rotate(360deg)' },
         },
       },
     },

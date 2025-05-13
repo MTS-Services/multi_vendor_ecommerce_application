@@ -33,13 +33,24 @@ return new class extends Migration
             $table->longText('meta_description')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $this->addMorphedAuditColumns($table);
+            $this->addAdminAuditColumns($table);
 
             // Foreign keys
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('operation_area_id')->references('id')->on('operation_areas')->onDelete('cascade')->onUpdate('cascade');
+
+            // Indexes
+            $table->index('sort_order');
+            $table->index('country_id');
+            $table->index('state_id');
+            $table->index('city_id');
+            $table->index('operation_area_id');
+            $table->index('status');
+            $table->index('created_at');
+            $table->index('updated_at');
+            $table->index('deleted_at');
 
 
         });

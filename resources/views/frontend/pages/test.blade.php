@@ -40,45 +40,21 @@
     <div class="swiper">
         <div class="swiper-wrapper relative">
             <div class="swiper-slide">
-                <button class="filter-btn filter-btn-active">All</button>
-            </div>
-
-            <div class="swiper-slide">
                 <button class="filter-btn">Web Design</button>
             </div>
-            <div class="swiper-slide">
-                <button class="filter-btn">Branding</button>
-            </div>
-            <div class="swiper-slide">
-                <button class="filter-btn">Logo</button>
-            </div>
-            <div class="swiper-slide">
-                <button class="filter-btn">Banner</button>
-            </div>
-            <div class="swiper-slide">
-                <button class="filter-btn">Graphics</button>
-            </div>
 
-            <div class="swiper-slide">
-                <button class="filter-btn">Technology</button>
-            </div>
-
-            <div class="swiper-slide">
-                <button class="filter-btn">Innovation</button>
-            </div>
-
-            <div class="swiper-slide">
-                <button class="filter-btn">Fitness</button>
             </div>
         </div>
 
-        <!-- Navigation buttons -->
+        {{-- <!-- Navigation buttons -->
         <div class="swiper-button swiper-button-prev">
-            <i class="fa-solid fa-angle-left"></i>
+            <i data-lucide="chevron-right"></i>
         </div>
 
         <div class="swiper-button swiper-button-next">
             <i class="fa-solid fa-angle-right"></i>
+        </div> --}}
+            <i data-lucide="chevron-left"></i>
         </div>
     </div>
 
@@ -89,9 +65,12 @@
 
         <div class="w-full h-48 bg-gradient-light dark:bg-gradient-dark"></div>
     </div>
+
+
+
 @endsection
 
-@push('js')
+{{-- @push('js')
     <script type="module">
         import Swiper from '/frontend/js/swiper.min.js';
 
@@ -106,4 +85,4 @@
             });
         });
     </script>
-@endpush
+@endpush --}}

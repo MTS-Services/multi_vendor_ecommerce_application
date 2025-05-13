@@ -68,7 +68,7 @@
     <script>
         // Get Country States By Axios
         $(document).ready(function() {
-            let route = "{{ route('setup.axios.get-states') }}";
+            let route = "{{ route('axios.get-states') }}";
             getStates($('#country').val(), route, `{{$city->state_id}}`);
             $('#country').on('change', function () {
                 getStates($(this).val(), route);

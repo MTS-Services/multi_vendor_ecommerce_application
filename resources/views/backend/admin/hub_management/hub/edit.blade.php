@@ -42,7 +42,7 @@
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city']" />
                         </div>
                         <div class="form-group">
-                            <label>{{ __('Operation Area') }} <span class="text-danger">*</span></label>
+                            <label>{{ __('Operation Area') }}</label>
                             <select name="operation_area" id="operation_area" class="form-control" disabled>
                                 <option value="" selected hidden>{{__('Select Operation Area')}}</option>
                             </select>
@@ -67,13 +67,13 @@
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'address']" />
                         </div>
                         <div class="form-group">
-                            <label>{{ __('Meta Title') }}<span class="text-danger">*</span></label>
+                            <label>{{ __('Meta Title') }}</label>
                             <input type="text" value="{{$hub->meta_title }}" id="meta_title" name="meta_title" class="form-control"
                                 placeholder="Enter meta title">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'meta_title']" />
                         </div>
                         <div class="form-group">
-                            <label>{{ __('Meta description') }}<span class="text-danger">*</span></label>
+                            <label>{{ __('Meta description') }}</label>
                             <textarea type="text"  id="meta_description" name="meta_description" class="form-control"
                                 placeholder="Enter meta_description">{{$hub->meta_description}}</textarea>
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'meta_description']" />
@@ -99,26 +99,29 @@
     <script>
          // Get Country States By Axios
          $(document).ready(function() {
-            let route1 = "{{ route('setup.axios.get-states-or-cities') }}";
+            let route1 = "{{ route('axios.get-states-or-cities') }}";
             $('#country').on('change', function () {
                 getStatesOrCity($(this).val(), route1);
             });
-            let route2 = "{{ route('setup.axios.get-cities') }}";
+            let route2 = "{{ route('axios.get-cities') }}";
             $('#state').on('change', function () {
                 getCities($(this).val(), route2);
             });
-            let route3 ="{{ route('setup.axios.get-operation-areas') }}";
+            let route3 ="{{ route('axios.get-operation-areas') }}";
             $('#city').on('change', function () {
                 getOperationAreas($(this).val(), route3);
             });
 
-
             let data_id = `{{ $hub->state_id ? $hub->state_id : $hub->city_id }}`;
-            getStatesOrCity($('#country').val(), route1, data_id);
+            if(data_id){
+                getStatesOrCity($('#country').val(), route1, data_id);
+            }
             if(`{{$hub->state_id}}`){
                 getCities(`{{$hub->state_id}}`, route2, `{{ $hub->city_id }}`);
             }
-            getOperationAreas(`{{ $hub->city_id }}`, route3, `{{ $hub->operation_area_id }}`);
+            if(`{{ $hub->city_id }}`){
+                getOperationAreas(`{{ $hub->city_id }}`, route3, `{{ $hub->operation_area_id }}`);
+            }
         });
     </script>
 @endpush

@@ -52,6 +52,7 @@
                             </li>
                             <li>
                                 <div class="dropdown-divider"></div>
+                                <a href="{{ route('admin.profile') }}" class="dropdown-item">{{ __('Profile') }}</a>
                                 <a class="dropdown-item" href="javascript:void(0)"
                                     onclick="document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}

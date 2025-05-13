@@ -23,6 +23,9 @@ class PermissionController extends Controller
         $this->middleware('permission:permission-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:permission-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:permission-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:permission-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:permission-restore', ['only' => ['restore']]);
+        $this->middleware('permission:permission-permanent-delete', ['only' => ['permanentDelete']]);
     }
 
     /**
@@ -79,6 +82,51 @@ class PermissionController extends Controller
         ];
     }
 
+       public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $query = Permission::with(['deleter_admin'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+                ->editColumn('deleted_by', function ($permission) {
+                    return $permission->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($permission) {
+                    return $permission->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($permission) {
+                    $menuItems = $this->trashedMenuItems($permission);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.admin_management.permission.recycle-bin');
+    }
+
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'am.permission.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['role-restore']
+            ],
+            [
+                'routeName' => 'am.permission.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['role-permanent-delete']
+            ]
+
+        ];
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -90,9 +138,9 @@ class PermissionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PermissionRequest $req): RedirectResponse
+    public function store(PermissionRequest $request): RedirectResponse
     {
-        $validated = $req->validated();
+        $validated = $request->validated();
         $validated['created_by'] = admin()->id;
         $validated['guard_name'] = 'admin';
         $permission = Permission::create($validated);
@@ -121,10 +169,10 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PermissionRequest $req, string $id): RedirectResponse
+    public function update(PermissionRequest $request, string $id): RedirectResponse
     {
         $permission = Permission::findOrFail(decrypt($id));
-        $validated = $req->validated();
+        $validated = $request->validated();
         $validated['updated_by'] = admin()->id;
         $validated['guard_name'] = 'admin';
         $permission->update($validated);
@@ -142,5 +190,27 @@ class PermissionController extends Controller
         $permission->delete();
         session()->flash('success', "$permission->name permission deleted successfully");
         return redirect()->route('am.permission.index');
+    }
+    public function restore(string $id): RedirectResponse
+    {
+        $permission = Permission::onlyTrashed()->findOrFail(decrypt($id));
+        $permission->update(['updated_by' => admin()->id]);
+        $permission->restore();
+        session()->flash('success', 'Permission restored successfully!');
+        return redirect()->route('am.permission.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $permission = Permission::onlyTrashed()->findOrFail(decrypt($id));
+        $permission->forceDelete();
+        session()->flash('success', 'Permission permanently deleted successfully!');
+        return redirect()->route('am.permission.recycle-bin');
     }
 }

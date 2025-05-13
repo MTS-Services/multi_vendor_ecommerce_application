@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend\Admin\ProductManagement;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\CategoryRequest;
+use App\Http\Requests\Admin\ProductManagement\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -25,6 +25,9 @@ class CategoryController extends Controller
         $this->middleware('permission:category-delete', ['only' => ['destroy']]);
         $this->middleware('permission:category-status', ['only' => ['status']]);
         $this->middleware('permission:category-feature', ['only' => ['feature']]);
+        $this->middleware('permission:category-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:category-restore', ['only' => ['restore']]);
+        $this->middleware('permission:category-permanent-delete', ['only' => ['permanentDelete']]);
     }
 
     /**
@@ -33,10 +36,13 @@ class CategoryController extends Controller
     public function index(Request $request): JsonResponse|View
     {
         if ($request->ajax()) {
-            $query = Category::isCategory()->with(['creater', 'sub_categories'])->withCount(['sub_categories'])
+            $query = Category::isMainCategory()->with(['creater'])->withCount(['activeChildrens'])
             ->orderBy('sort_order', 'asc')
             ->latest();
             return DataTables::eloquent($query)
+                ->editColumn('name', function ($category) {
+                    return $category->name ."<sup class='badge bg-info'>$category->active_childrens_count</sup>";
+                })
                 ->editColumn('status', function ($category) {
                     return "<span class='badge " . $category->status_color . "'>$category->status_label</span>";
                 })
@@ -53,7 +59,7 @@ class CategoryController extends Controller
                     $menuItems = $this->menuItems($category);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'is_featured', 'creater_id', 'created_at', 'action'])
+                ->rawColumns(['name','status', 'is_featured', 'creater_id', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.product_management.category.index');
@@ -97,6 +103,62 @@ class CategoryController extends Controller
 
         ];
     }
+
+          public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $query = Category::with(['deleter'])
+                ->withCount(['activeChildrens'])
+                ->onlyTrashed()
+                ->isMainCategory()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+                ->editColumn('name', function ($category) {
+                        return $category->name ."<sup class='badge bg-info'>$category->active_childrens_count</sup>";
+                })
+                ->editColumn('status', function ($category) {
+                    return "<span class='badge " . $category->status_color . "'>$category->status_label</span>";
+                })
+                  ->editColumn('is_featured', function ($category) {
+                    return "<span class='badge " . $category->featured_color . "'>$category->featured_label</span>";
+                })
+               ->editColumn('deleter_id', function ($category) {
+                    return $category->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($category) {
+                    return $category->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($category) {
+                    $menuItems = $this->trashedMenuItems($category);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['name','status', 'is_featured', 'deleter_id', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.product_management.category.recycle-bin');
+    }
+
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'pm.category.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['category-restore']
+            ],
+            [
+                'routeName' => 'pm.category.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['category-permanent-delete']
+            ]
+
+        ];
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -126,7 +188,7 @@ class CategoryController extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        $data = Category::with(['creater', 'updater', 'sub_categories'])->findOrFail(decrypt($id));
+        $data = Category::with(['creater', 'updater'])->withCount(['activeChildrens'])->findOrFail(decrypt($id));
         return response()->json($data);
     }
 
@@ -136,14 +198,14 @@ class CategoryController extends Controller
         return view('backend.admin.product_management.category.edit', $data);
     }
 
-    public function update(CategoryRequest $req, string $id): RedirectResponse
+    public function update(CategoryRequest $request, string $id): RedirectResponse
     {
         $category = Category::findOrFail(decrypt($id));
-        $validated = $req->validated();
+        $validated = $request->validated();
         $validated['updater_id'] = admin()->id;
         $validated['updater_type'] = get_class(admin());
         if(isset($request->image)) {
-            $validated['image'] = $this->handleFilepondFileUpload($category, $req->image, admin(), 'categories/');
+            $validated['image'] = $this->handleFilepondFileUpload($category, $request->image, admin(), 'categories/');
         }
         $category->update($validated);
         session()->flash('success', 'Category updated successfully!');
@@ -175,5 +237,31 @@ class CategoryController extends Controller
         $category->update(['is_featured' => !$category->is_featured, 'updated_by'=> admin()->id]);
         session()->flash('success', 'Category feature status updated successfully!');
         return redirect()->route('pm.category.index');
+    }
+
+          public function restore(string $id): RedirectResponse
+    {
+        $category = Category::onlyTrashed()->findOrFail(decrypt($id));
+        $category->update(['updated_by' => admin()->id]);
+        $category->restore();
+        session()->flash('success', 'Category restored successfully!');
+        return redirect()->route('pm.category.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $category = Category::onlyTrashed()->findOrFail(decrypt($id));
+        if($category->image){
+            $this->fileDelete($category->image);
+        }
+        $category->forceDelete();
+        session()->flash('success', 'Category permanently deleted successfully!');
+        return redirect()->route('pm.category.recycle-bin');
     }
 }

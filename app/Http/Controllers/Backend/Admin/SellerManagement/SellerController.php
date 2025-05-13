@@ -23,6 +23,9 @@ class SellerController extends Controller
         $this->middleware('permission:seller-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:seller-delete', ['only' => ['destroy']]);
         $this->middleware('permission:seller-status', ['only' => ['status']]);
+        $this->middleware('permission:seller-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:seller-restore', ['only' => ['restore']]);
+        $this->middleware('permission:seller-permanent-delete', ['only' => ['permanentDelete']]);
     }
 
     /**
@@ -92,6 +95,60 @@ class SellerController extends Controller
                 'label' => 'Delete',
                 'delete' => true,
                 'permissions' => ['seller-delete']
+            ]
+
+        ];
+    }
+
+    public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $query = Seller::with(['deleter'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+                ->editColumn('first_name', function ($seller) {
+                    return $seller->full_name . ($seller->username ? " (" . $seller->username . ")" : "");
+                })
+                ->editColumn('status', function ($seller) {
+                    return "<span class='badge " . $seller->status_color . "'>$seller->status_label</span>";
+                })
+                ->editColumn('is_verify', function ($seller) {
+                    return "<span class='badge " . $seller->verify_color . "'>" . $seller->verify_label . "</span>";
+                })
+               ->editColumn('deleter_id', function ($seller) {
+                    return $seller->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($seller) {
+                    return $seller->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($seller) {
+                    $menuItems = $this->trashedMenuItems($seller);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['status', 'is_verify', 'deleter_id', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.seller_management.seller.recycle-bin');
+    }
+
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'sl.seller.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['role-restore']
+            ],
+            [
+                'routeName' => 'sl.seller.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['role-permanent-delete']
             ]
 
         ];
@@ -170,5 +227,31 @@ class SellerController extends Controller
         $seller->update(['status' => !$seller->status, 'updater_id' => admin()->id, 'updater_type' => get_class(admin())]);
         session()->flash('success', 'Seller status updated successfully!');
         return redirect()->route('sl.seller.index');
+    }
+
+       public function restore(string $id): RedirectResponse
+    {
+        $seller = Seller::onlyTrashed()->findOrFail(decrypt($id));
+        $seller->update(['updated_by' => admin()->id]);
+        $seller->restore();
+        session()->flash('success', 'Seller restored successfully!');
+        return redirect()->route('sl.seller.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $seller = Seller::onlyTrashed()->findOrFail(decrypt($id));
+        $seller->forceDelete();
+         if($seller->image){
+            $this->fileDelete($seller->image);
+        }
+        session()->flash('success', 'Seller permanently deleted successfully!');
+        return redirect()->route('sl.seller.recycle-bin');
     }
 }

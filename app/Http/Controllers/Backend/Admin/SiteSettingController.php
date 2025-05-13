@@ -98,12 +98,12 @@ class SiteSettingController extends Controller
         return response()->json($data);
     }
 
-    public function et_update(EmailTemplateRequest $req, int $id): JsonResponse
+    public function et_update(EmailTemplateRequest $request, int $id): JsonResponse
     {
         try {
             $data = EmailTemplate::findOrFail($id);
-            $data->subject = $req->subject;
-            $data->template = $req->template;
+            $data->subject = $request->subject;
+            $data->template = $request->template;
             $data->update();
             session()->flash('success', "Email template updated successfully.");
             return response()->json(['message' => 'Email template updated successfully']);
