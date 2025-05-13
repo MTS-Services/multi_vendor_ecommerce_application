@@ -21,9 +21,6 @@
 @endpush
 @section('content')
     <div class="container">
-        {{-- Sidebar --}}
-        @include('frontend.includes.cart_sidebar')
-
         {{-- Breadcrumb --}}
         <div class="container mx-auto px-4 py-4 text-sm">
             <ul class="flex items-center gap-2 ">
@@ -156,7 +153,7 @@
                 <div class="shadow-card p-6 rounded-md mt-5 dark:bg-bg-darkSecondary">
                     <div class="flex justify-between mb-1">
                         <span class="font-medium">Total:</span>
-                        <span class="font-medium" id="cart-total">$220.00 USD</span>
+                        <span class="font-medium cart-total" id="cart-total">$220.00 USD</span>
                     </div>
                     <p class="text-sm text-text-gray mb-4">Taxes and shipping calculated at checkout</p>
 
@@ -350,7 +347,7 @@
                 <td class="py-4">
                     <div class="flex items-center shadow-sm rounded-full w-24 p-1 bg-bg-accent bg-opacity-60 dark:bg-opacity-50 text-text-white">
                         <button class=" px-2 py-1 decrease-quantity" data-id="${item.id}">-</button>
-                        <input type="text" value="${item.quantity}" class="w-8 text-center border-x bg-transparent" readonly>
+                        <input type="text" value="${item.quantity}" class="p-0 w-8 h-4 text-center border-x bg-transparent" readonly>
                         <button class="px-2 py-1 increase-quantity" data-id="${item.id}">+</button>
                     </div>
                 </td>
@@ -408,8 +405,11 @@
         // Update cart total
         function updateCartTotal() {
             const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            document.getElementById('cart-total').textContent = `$${total.toFixed(2)} USD`;
+            document.querySelectorAll('.cart-total').forEach(totalValue => {
+                totalValue.textContent = `$${total.toFixed(2)} USD`;
+            });
         }
+
 
         // Initialize cart
         document.addEventListener('DOMContentLoaded', function() {
