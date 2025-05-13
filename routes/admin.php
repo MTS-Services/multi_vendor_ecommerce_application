@@ -214,7 +214,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('banner/restore/{banner}', [BannerController::class, 'restore'])->name('banner.restore');
         Route::delete('banner/permanent-delete/{banner}', [BannerController::class, 'permanentDelete'])->name('banner.permanent-delete');
 
-        //recycle bin
+        //recycle bin {{========================= Duplicate Code =======================}}
         Route::get('banner/recycle/bin', [BannerController::class, 'recycleBin'])->name('banner.recycle-bin');
         Route::get('banner/restore/{banner}', [BannerController::class, 'restore'])->name('banner.restore');
         Route::delete('banner/permanent-delete/{banner}', [BannerController::class, 'permanentDelete'])->name('banner.permanent-delete');
