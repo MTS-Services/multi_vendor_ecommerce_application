@@ -15,10 +15,9 @@ class OurConnection extends BaseModel
         'image',
         'website',
         'description',
-        'creater_id',
-        'updater_id',
-        'deleter_id',
-
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     public function __construct(array $attributes = [])
