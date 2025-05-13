@@ -51,4 +51,8 @@ class FrontendController extends Controller
     {
         return view('frontend.pages.store_location');
     }
+    public function contact ()
+    {
+        return view('frontend.pages.contact');
+    }
 }

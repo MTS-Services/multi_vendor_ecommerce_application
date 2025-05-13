@@ -74,7 +74,7 @@
                 hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == 'store_location') after:w-full @else after:w-0 @endif">
                     {{ __('Store location') }}
                 </a>
-                <a href="#"
+                <a href="{{ route('frontend.contact') }}"
                     class="capitalize text-text-primary dark:text-text-white relative
                 after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
                 hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == 'contact') after:w-full @else after:w-0 @endif">
