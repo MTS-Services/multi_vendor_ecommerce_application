@@ -7,7 +7,7 @@
                 <!-- Left Side: Form -->
                 <div class="w-full xl:w-1/2 p-10 md:p-12 flex flex-col justify-center">
                     <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Confirm Password') }}</h2>
-                    <form class="space-y-5" action="{{ route('password.confirm') }}" method="POST">
+                    <form class="space-y-5" action="{{ route('admin.password.confirm') }}" method="POST">
                         @csrf
 
                         <p class="text-sm text-text-primary dark:text-text-light">

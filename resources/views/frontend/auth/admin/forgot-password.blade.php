@@ -5,8 +5,8 @@
             <div
                 class="flex flex-col md:flex-row shadow-shadowPrimary shadow-shadow-dark/10 dark:shadow-shadow-light/10 rounded-2xl w-full overflow-hidden bg-bg-white dark:bg-bg-darkTertiary">
                 <div class="w-full xl:w-1/2 p-10 md:p-12 flex flex-col justify-center">
-                    <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Reset Your Password') }}</h2>
-                    <form class="space-y-5" action="{{ route('password.email') }}" method="POST">
+                    <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Reset Administrator Credentials') }}</h2>
+                    <form class="space-y-5" action="{{ route('admin.password.forgot.request') }}" method="POST">
                         @csrf
                         <div>
                             @if (session('status'))
@@ -38,26 +38,6 @@
                             </p>
                         </div>
                     </form>
-                    <div>
-                        <div class="divider">{{ __('Or sign up with') }}</div>
-                        <div class="flex flex-wrap gap-4">
-                            <a href="#" class="btn-primary rounded-md w-full gap-3">
-                                <i class='bx bxl-google text-2xl'></i> {{ __('Google') }}
-                            </a>
-                            <a href="#" class="btn-secondary rounded-md w-full gap-3">
-                                <i class='bx bxl-facebook text-2xl'></i> {{ __('Facebook') }}
-                            </a>
-                        </div>
-                        <p class="text-center text-sm mt-4">
-                            {{ __('Don\'t have an account?') }} <a href="{{ route('register') }}"
-                                class="text-text-tertiary font-medium">
-                                {{ __('Sign up') }} </a>
-                        </p>
-                        <p class="text-center text-sm mt-4">
-                            {{ __('Become a') }} <a href="#"
-                                class="text-text-accent font-medium">{{ __('Seller') }}</a>
-                        </p>
-                    </div>
                 </div>
 
                 <!-- Right Side: Image -->
