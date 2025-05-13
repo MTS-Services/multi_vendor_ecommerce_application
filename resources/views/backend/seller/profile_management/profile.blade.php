@@ -186,7 +186,8 @@
                                                 <div class="col-6 form-group">
                                                     <label>{{ __('Country') }} <span class="text-danger">*</span></label>
                                                     <select name="country_id" id="country" class="form-control">
-                                                        <option value="" selected hidden>{{ __('Select Country') }}
+                                                        <option value="{{ $address?->country_id }}" selected hidden>
+                                                            {{ __('Select Country') }}
                                                         </option>
                                                         @foreach ($countries as $country)
                                                             <option value="{{ $country->id }}"
@@ -217,7 +218,8 @@
                                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city']" />
                                                 </div>
                                                 <div class="col-6 form-group">
-                                                    <label>{{ __('Area') }} <span class="text-danger">*</span></label>
+                                                    <label>{{ __('Operation Area') }} <span
+                                                            class="text-danger">*</span></label>
                                                     <select name="operation_area" id="operation_area"
                                                         class="form-control" disabled>
                                                         <option value="" selected hidden>{{ __('Select Area') }}
