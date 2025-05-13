@@ -1,64 +1,71 @@
   @extends('backend.hub.layouts.master', ['page_slug' => 'dashboard'])
   @section('title', 'Dashboard')
-
   @section('content')
-<main class="app-main">
-      <!--begin::App Content Header-->
-      <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-              <!--begin::Row-->
-              <div class="row">
-                  <div class="col-sm-6">
-                      <h3 class="mb-0">Sidebar Mini</h3>
+      <main class="d-flex" style="min-height: 100vh; bg-white">
+          <!-- Main Content -->
+          <div class="flex-grow-1 p-4">
+              <!-- Top Bar -->
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                  <div>
+                      <h2 class="fw-bold">Welcome back, {{ Auth::guard('staff')->user()->name }} 👋</h2>
+                      <p class="text-muted mb-0">Here’s a quick overview of your dashboard.</p>
                   </div>
-                  <div class="col-sm-6">
-                      <ol class="breadcrumb float-sm-end">
+                  <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb mb-0 bg-white rounded px-3 py-2 shadow-sm">
                           <li class="breadcrumb-item"><a href="#">Home</a></li>
-                          <li class="breadcrumb-item active" aria-current="page">Sidebar Mini</li>
+                          <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
                       </ol>
-                  </div>
+                  </nav>
               </div>
-              <!--end::Row-->
-          </div>
-          <!--end::Container-->
-      </div>
-      <!--end::App Content Header-->
-      <!--begin::App Content-->
-      <div class="app-content">
-          <!--begin::Container-->
-          <div class="container-fluid">
-              <!--begin::Row-->
-              <div class="row">
-                  <div class="col-12">
-                      <!-- Default box -->
-                      <div class="card">
-                          <div class="card-header">
-                              <h3 class="card-title">Title</h3>
-                              <div class="card-tools">
-                                  <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse"
-                                      title="Collapse">
-                                      <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                                      <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                                  </button>
-                                  <button type="button" class="btn btn-tool" data-lte-toggle="card-remove"
-                                      title="Remove">
-                                      <i class="bi bi-x-lg"></i>
-                                  </button>
+
+              <!-- Dashboard Cards -->
+              <div class="row g-4">
+                  <div class="col-md-4">
+                      <div class="card shadow-sm border-0 h-100 hover-shadow">
+                          <div class="card-body d-flex align-items-center">
+                              <div class="bg-primary text-white rounded-circle p-3 me-3">
+                                  <i class="bi bi-list-check fs-5"></i>
+                              </div>
+                              <div>
+                                  <h6 class="text-muted">Pending Tasks</h6>
+                                  <h4 class="fw-bold mb-0">12</h4>
+                                  <span class="badge bg-warning text-dark mt-1">Needs Attention</span>
                               </div>
                           </div>
-                          <div class="card-body">Start creating your amazing application!</div>
-                          <!-- /.card-body -->
-                          <div class="card-footer">Footer</div>
-                          <!-- /.card-footer-->
                       </div>
-                      <!-- /.card -->
+                  </div>
+                  <div class="col-md-4">
+                      <div class="card shadow-sm border-0 h-100 hover-shadow">
+                          <div class="card-body d-flex align-items-center">
+                              <div class="bg-success text-white rounded-circle p-3 me-3">
+                                  <i class="bi bi-check2-circle fs-5"></i>
+                              </div>
+                              <div>
+                                  <h6 class="text-muted">Completed Reports</h6>
+                                  <h4 class="fw-bold mb-0">34</h4>
+                                  <span class="badge bg-success mt-1">Up to date</span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-4">
+                      <div class="card shadow-sm border-0 h-100 hover-shadow">
+                          <div class="card-body d-flex align-items-center">
+                              <div class="bg-info text-white rounded-circle p-3 me-3">
+                                  <i class="bi bi-kanban fs-5"></i>
+                              </div>
+                              <div>
+                                  <h6 class="text-muted">Active Projects</h6>
+                                  <h4 class="fw-bold mb-0">5</h4>
+                                  <span class="badge bg-info mt-1">In Progress</span>
+                              </div>
+                          </div>
+                      </div>
                   </div>
               </div>
-              <!--end::Row-->
+
+
           </div>
-          <!--end::Container-->
-      </div>
-      <!--end::App Content-->
-  </main>
+      </main>
+
   @endsection

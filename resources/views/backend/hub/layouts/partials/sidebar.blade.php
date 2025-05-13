@@ -18,7 +18,7 @@
     <div class="sidebar-wrapper">
         <nav class="mt-2">
             <!--begin::Sidebar Menu-->
-            {{-- <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false"> --}}
+            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon bi bi-speedometer"></i>
@@ -55,7 +55,33 @@
                         </ul>
                     </li>
                 </ul>
-                
+                {{-- <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+
+                    <li class="nav-item  @if ($page_slug == 'dashboard') active @endif">
+                        <a href="#">
+                            <i class="nav-icon bi bi-speedometer"></i>
+                            <p>{{ __('Dashboard') }}</p>
+                        </a>
+                    </li>
+                    <li class="nav-item  @if ($page_slug == 'lavel' || $page_slug == 'lavel-1') active submenu @endif">
+                        <a data-bs-toggle="collapse" href="#Lavel-1_management"
+                            @if ($page_slug == 'seller') aria-expanded="true" @endif>
+                            <i class="icon-people"></i>
+                            <p>{{ __('Lavel') }}</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse @if ($page_slug == 'lavel' || $page_slug == 'lavel-1') show @endif" id="Lavel-1_management">
+                            <ul class="nav nav-collapse">
+                                <li class="@if ($page_slug == 'Lavel-1') active @endif">
+                                    <a href="#">
+                                        <span class="sub-item">{{ __('Lavel-1') }}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                </ul> --}}
 
             </ul>
             <!--end::Sidebar Menu-->
