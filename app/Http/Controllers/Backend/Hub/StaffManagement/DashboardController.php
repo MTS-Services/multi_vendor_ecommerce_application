@@ -13,6 +13,6 @@ class DashboardController extends Controller
     }
     public function dashboard(): View
     {
-        return view('backend.hub.staff_management.dashboard');
+        return view('backend.hub.dashboard');
     }
 }
