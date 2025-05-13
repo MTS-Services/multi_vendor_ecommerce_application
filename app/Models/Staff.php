@@ -2,16 +2,24 @@
 
 namespace App\Models;
 
-use App\Models\AuthBaseModel;
+use App\Models\BaseModel;
+use Illuminate\Notifications\Notifiable;
+use App\Notifications\StaffPasswoedResetNotification;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Seller extends AuthBaseModel
+class Staff extends AuthBaseModel
 {
+    use Notifiable;
 
-    protected $table = 'sellers';
-    protected $guard = 'seller';
-
+     public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new StaffPasswoedResetNotification($token));
+    }
+    use HasFactory;
+    protected $table = 'staffs';
+    protected $guard = 'staff';
     protected $fillable = [
-        'sort_order',
+        'hub_id',
         'first_name',
         'last_name',
         'username',
@@ -22,23 +30,15 @@ class Seller extends AuthBaseModel
         'status',
         'is_verify',
         'otp_send_at',
-
-        'shop_name',
-        'shop_slug',
-        'shop_logo',
-        'shop_banner',
-        'shop_description',
-        'business_phone',
+        'remember_token',
 
         'creater_id',
         'updater_id',
         'deleter_id',
-
         'creater_type',
         'updater_type',
         'deleter_type',
     ];
-
     protected $hidden = [
         'password',
         'remember_token',
@@ -53,23 +53,16 @@ class Seller extends AuthBaseModel
         'updater_id' => 'integer',
         'deleter_id' => 'integer',
     ];
-
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
         $this->appends = array_merge(parent::getAppends(), [
-            'modified_shop_logo',
-            'modified_shop_banner'
+            'modified_image',
         ]);
     }
 
-    public function getModifiedShopLogoAttribute()
+    public function getModifiedImageAttribute()
     {
-        return storage_url($this->shop_logo);
-    }
-
-    public function getModifiedShopBannerAttribute()
-    {
-        return storage_url($this->shop_banner);
+        return storage_url($this->image);
     }
 }

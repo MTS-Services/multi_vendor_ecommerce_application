@@ -20,7 +20,9 @@ class Admin extends AuthBaseModel implements Auditable
     /**
      * The attributes that are mass assignable.
      * @var array<int, string>
+     *
      */
+    protected $guard='admin';
     protected $fillable = [
         'sort_order',
         'first_name',
