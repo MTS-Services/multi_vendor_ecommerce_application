@@ -31,6 +31,7 @@ use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeValueControlle
 use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\SubChildCategoryController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\ProductTagController;
 use App\Http\Controllers\Backend\Admin\AdminProfileContoller;
 use App\Models\Admin;
 use App\Models\Faq;
@@ -294,6 +295,10 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('brand/restore/{brand}', [BrandController::class, 'restore'])->name('brand.restore');
         Route::delete('brand/permanent-delete/{brand}', [BrandController::class, 'permanentDelete'])->name('brand.permanent-delete');
 
+        // ProductTag Routes
+        Route::resource('product-tags', ProductTagController::class);
+        Route::get('product-tags/status/{product_tags}', [ProductTagController::class, 'status'])->name('product-tags.status');
+        Route::get('product-tags/slug/{product_tags}', [ProductTagController::class, 'slug'])->name('product-tags.slug');
         // TaxClass
         Route::resource('tax-class', TaxClassController::class);
         Route::get('tax-class/status/{tax_class}', [TaxClassController::class, 'status'])->name('tax-class.status');

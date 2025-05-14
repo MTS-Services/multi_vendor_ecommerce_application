@@ -111,6 +111,11 @@
                                     <span class="sub-item">{{ __('Brand') }}</span>
                                 </a>
                             </li>
+                            <li class="@if ($page_slug == 'product_tag') active @endif">
+                                <a href="{{ route('pm.product-tags.index') }}">
+                                    <span class="sub-item">{{ __('Product Tag') }}</span>
+                                </a>
+                            </li>
                             <li class="@if ($page_slug == 'category') active @endif">
                                 <a href="{{ route('pm.category.index') }}">
                                     <span class="sub-item">{{ __('Category') }}</span>
@@ -281,7 +286,7 @@
 
 
 
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#submenu">
                   <i class="fas fa-bars"></i>
                   <p>Menu Levels</p>
@@ -331,7 +336,7 @@
                     </li>
                   </ul>
                 </div>
-              </li> --}}
+              </li>
             </ul>
         </div>
     </div>

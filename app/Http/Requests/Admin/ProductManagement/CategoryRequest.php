@@ -46,7 +46,6 @@ class CategoryRequest extends FormRequest
         return [
             'name' => 'required|string|unique:categories,name,' . decrypt($this->route('category')),
             'slug' => 'required|string|unique:categories,slug,' . decrypt($this->route('category')),
-
         ];
     }
 }
