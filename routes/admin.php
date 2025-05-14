@@ -300,6 +300,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::resource('product-tags', ProductTagController::class);
         Route::get('product-tags/status/{product_tags}', [ProductTagController::class, 'status'])->name('product-tags.status');
         Route::get('product-tags/slug/{product_tags}', [ProductTagController::class, 'slug'])->name('product-tags.slug');
+        Route::get('product-tags/recycle/bin', [ProductTagController::class, 'recycleBin'])->name('product-tags.recycle-bin');
+        Route::get('product-tags/restore/{product_tags}', [ProductTagController::class, 'restore'])->name('product-tags.restore');
+        Route::delete('product-tags/permanent-delete/{product_tags}', [ProductTagController::class, 'permanentDelete'])->name('product-tags.permanent-delete');
         // TaxClass
         Route::resource('tax-class', TaxClassController::class);
         Route::get('tax-class/status/{tax_class}', [TaxClassController::class, 'status'])->name('tax-class.status');

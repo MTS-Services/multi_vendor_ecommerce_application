@@ -9,11 +9,19 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="cart-title">{{ __('Product Tag List') }}</h4>
+                <div>
+                 <x-backend.admin.button :datas="[
+                            'routeName' => 'pm.product-tags.recycle-bin',
+                            'label' => 'Recycle Bin',
+                            'className' => 'btn-danger',
+                            'permissions' => ['product-restore'],
+                        ]" />
                 <x-backend.admin.button :datas="[
                         'routeName' => 'pm.product-tags.create',
                         'label' => 'Add New',
                         'permissions' => ['product-create'],
                     ]" />
+            </div>
             </div>
             <div class="card-body">
                 <table class="table table-responsive table-striped datatable">

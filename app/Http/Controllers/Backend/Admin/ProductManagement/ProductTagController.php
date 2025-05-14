@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Admin\ProductManagement;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductManagement\ProductTagRequest;
+use App\Models\Product;
 use App\Models\ProductTag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -92,6 +93,52 @@ class ProductTagController extends Controller
 
         ];
     }
+
+     public function recycleBin(Request $request)
+    {
+        if ($request->ajax()) {
+            $query = ProductTag::with(['deleter'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+                ->editColumn('status', function ($product_tag) {
+                    return "<span class='badge " . $product_tag->status_color . "'>$product_tag->status_label</span>";
+                })
+                ->editColumn('deleted_by', function ($product_tag) {
+                    return $product_tag->creater_name;
+                })
+                ->editColumn('deleted_at', function ($product_tag) {
+                    return $product_tag->created_at_formatted;
+                })
+                ->editColumn('action', function ($product_tag) {
+                    $menuItems = $this->trashedMenuItems($product_tag);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+               ->rawColumns(['status', 'deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.product_management.product_tag.recycle-bin');
+    }
+     protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'pm.product-tags.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['Product-Tag-restore']
+            ],
+            [
+                'routeName' => 'pm.product-tags.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['Product-Tag-permanent-delete']
+            ]
+
+        ];
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -147,19 +194,24 @@ class ProductTagController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): RedirectResponse
+     public function restore(string $id): RedirectResponse
     {
-        $productTag = ProductTag::findOrFail(decrypt($id));
-        $productTag->update(['deleter_by' => admin()->id, 'deleter_at' => get_class(admin())]);
-        $productTag->delete();
-        session()->flash('success', 'Product Tag deleted successfully!');
-        return redirect()->route('pm.product-tags.index');
+        $product_tag = ProductTag::onlyTrashed()->findOrFail(decrypt($id));
+        $product_tag->update(['updated_by' => admin()->id]);
+        $product_tag->restore();
+        session()->flash('success', 'Product tag restored successfully!');
+        return redirect()->route('pm.product-tags.recycle-bin');
+
     }
-    public function status(string $id): RedirectResponse
+
+    public function permanentDelete(string $id): RedirectResponse
     {
-        $productTag = ProductTag::findOrFail(decrypt($id));
-        $productTag->update(['status' => !$productTag->status, 'updated_by' => admin()->id]);
-        session()->flash('success', 'Product Tag status updated successfully!');
-        return redirect()->route('pm.product-tags.index');
+        $product_tag = ProductTag::onlyTrashed()->findOrFail(decrypt($id));
+        if($product_tag->image){
+            $this->fileDelete($product_tag->image);
+        }
+        $product_tag->forceDelete();
+        session()->flash('success', 'Product tag permanently deleted successfully!');
+        return redirect()->route('pm.product-tags.recycle-bin');
     }
 }
