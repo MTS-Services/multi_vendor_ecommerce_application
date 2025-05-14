@@ -29,7 +29,7 @@ return new class extends Migration
             $this->addMorphedAuditColumns($table);
             $table->timestamps();
 
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('casecade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
             $table->index('sort_order');

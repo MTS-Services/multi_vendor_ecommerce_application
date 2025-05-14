@@ -22,13 +22,12 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
             $this->addMorphedAuditColumns($table);
-            $table->timestamps();
 
             $table->foreign('variation_id')->references('id')->on('product_variations')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('attribute_value_id')->references('id')->on('attribute_values')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('attribute_value_id')->references('id')->on('product_attribute_values')->onDelete('cascade')->onUpdate('cascade');
 
             $table->index('sort_order');
-            $table->index('product_variation_id');
+            $table->index('variation_id');
             $table->index('attribute_value_id');
              $table->index('created_at');
             $table->index('updated_at');
