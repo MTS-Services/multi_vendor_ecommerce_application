@@ -13,7 +13,6 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Category::truncate();
         Category::create([
             'name' => 'Category 1',
             'slug' => 'category-1',
@@ -41,7 +40,5 @@ class CategorySeeder extends Seeder
             'slug' => 'category-7',
             'is_featured' => 1,
         ]);
-
-        // Category::factory(50)->create();
     }
 }

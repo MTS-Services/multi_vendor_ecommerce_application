@@ -44,7 +44,6 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
 
             HubSeeder::class,
-            BrandSeeder::class,
             AddressSeeder::class,
             TaxClassSeeder::class,
             TaxRateSeeder::class,
