@@ -109,4 +109,12 @@ class ProductAttributeValue extends BaseModel
     {
         return self::getStatusBtnColors()[$this->status] ?? 'btn btn-secondary';
     }
+    public function scopeActive($query)
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+    public function scopeDeactive($query)
+    {
+        return $query->where('status', self::STATUS_DEACTIVE);
+    }
 }
