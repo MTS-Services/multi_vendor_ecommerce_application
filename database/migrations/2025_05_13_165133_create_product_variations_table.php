@@ -25,7 +25,7 @@ return new class extends Migration
             $table->decimal('cost_price', 8, 2)->nullable();
             $table->decimal('special_price', 8, 2)->nullable();
             $table->integer('quantity')->default(0);
-            $table->tinyInteger('status')->default(ProductVariation::STATUS_ACTIVE)->comment(ProductVariation::STATUS_ACTIVE . ': Active, ' . ProductVariation::STATUS_DEACTIVE . ': Inactive');
+            $table->tinyInteger('status')->default(ProductVariation::STATUS_ACTIVE)->comment(ProductVariation::STATUS_ACTIVE . ': Active, ' . ProductVariation::STATUS_DEACTIVE . ': Deactive');
             $table->timestamps();
             $table->softDeletes();
             $this->addMorphedAuditColumns($table);
