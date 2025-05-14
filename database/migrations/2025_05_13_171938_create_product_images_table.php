@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('sort_order')->default(0);
             $table->unsignedBigInteger('product_id');
             $table->string('image');
-            $table->boolean('status')->default(ProductImage::STATUS_ACTIVE)->comment(ProductImage::STATUS_ACTIVE . ': Active, ' . ProductImage::STATUS_DEACTIVE . ': Inactive');
+            $table->boolean('status')->default(ProductImage::STATUS_ACTIVE)->comment(ProductImage::STATUS_ACTIVE . ': Active, ' . ProductImage::STATUS_DEACTIVE . ': Deactive');
             $table->string('alt')->nullable();
             $table->softDeletes();
             $this->addMorphedAuditColumns($table);

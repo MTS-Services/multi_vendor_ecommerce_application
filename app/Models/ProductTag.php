@@ -3,11 +3,9 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProductTag extends BaseModel
 {
-    use HasFactory;
 
      protected $fillable = [
         'sort_order',
@@ -20,7 +18,7 @@ class ProductTag extends BaseModel
         'updated_by',
         'deleted_by',
     ];
-   
+
      public function __construct(array $product_tag = [])
     {
         parent::__construct($product_tag);
