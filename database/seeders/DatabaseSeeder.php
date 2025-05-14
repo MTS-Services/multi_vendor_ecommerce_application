@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\TaxClass;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -42,7 +44,13 @@ class DatabaseSeeder extends Seeder
 
             HubSeeder::class,
             BrandSeeder::class,
+            AddressSeeder::class,
+            TaxClassSeeder::class,
+            TaxRateSeeder::class,
             FaqSeeder::class,
+            OurConnectionSeeder::class,
+            StaffSeeder::class,
+            PersonalInformationSedder::class,
         ]);
     }
 }

@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Models\AuthBaseModel;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Seller extends AuthBaseModel
 {
 
     protected $table = 'sellers';
+    protected $guard = 'seller';
 
     protected $fillable = [
         'sort_order',
@@ -70,5 +72,9 @@ class Seller extends AuthBaseModel
     public function getModifiedShopBannerAttribute()
     {
         return storage_url($this->shop_banner);
+    }
+    public function personalInformation():MorphOne
+    {
+        return $this->morphOne(PersonalInformation::class, 'profile');
     }
 }

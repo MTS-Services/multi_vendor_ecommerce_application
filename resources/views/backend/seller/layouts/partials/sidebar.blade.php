@@ -7,9 +7,13 @@
                 <div class="sb-sidenav-menu-heading">Core</div>
 
 
-                <a class="nav-link @if (isset($page_slug) && $page_slug == 'dashboard') active @endif" href="{{ route('seller.dashboard') }}">
+                <a class="nav-link @if (isset($page_slug) && $page_slug == 'dashboard'|| $page_slug == 'seller_profile') active @endif" href="{{ route('seller.dashboard') }}">
                     <div class="sb-nav-link-icon"><i class='bx bxs-grid-alt'></i></div>
-                    Profile
+                    {{ __('Dashboard') }}
+                </a>
+                <a class="nav-link @if (isset($page_slug) && $page_slug == 'brand'|| $page_slug == 'brand') active @endif" href="{{ route('seller.pm.brand.index') }}">
+                    <div class="sb-nav-link-icon"><i class='bx bxs-grid-alt'></i></div>
+                    {{ __('brand') }}
                 </a>
 
                 {{-- Single Item --}}
@@ -46,9 +50,15 @@
                             {{ __('Item 3') }}
                         </a>
 
+
+                        {{-- product Management --}}
+
+
                     </nav>
                 </div>
 
+
+                {{-- Product Management --}}
 
             </div>
         </div>

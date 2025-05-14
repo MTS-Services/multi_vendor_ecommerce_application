@@ -62,6 +62,7 @@ class BrandController extends Controller
         return view('backend.admin.product_management.brand.index');
     }
 
+
     protected function menuItems($model): array
     {
         return [
@@ -242,7 +243,7 @@ class BrandController extends Controller
     public function feature($id): RedirectResponse
     {
         $brand = Brand::findOrFail(decrypt($id));
-        $brand->update(['is_featured' => !$brand->featured, 'updated_by' => admin()->id]);
+        $brand->update(['is_featured' => !$brand->is_featured, 'updated_by' => admin()->id]);
         session()->flash('success', 'Brand featured updated successfully!');
         return redirect()->route('pm.brand.index');
     }

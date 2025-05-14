@@ -97,32 +97,14 @@
                 </li>
 
                 {{-- Product Management --}}
-                <li class="nav-item  @if (
-                    $page_slug == 'category' ||
-                        $page_slug == 'subcategory' ||
-                        $page_slug == 'subchildcategory' ||
-                        $page_slug == 'brand' ||
-                        $page_slug == 'product_attribute'|| $page_slug == 'product_attribute_value') active submenu @endif">
+                <li class="nav-item  @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'subchildcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute'|| $page_slug == 'tax_class'|| $page_slug == 'tax_rate') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#product_management"
-                        @if (
-                            $page_slug == 'category' ||
-                                $page_slug == 'subcategory' ||
-                                $page_slug == 'subchildcategory' ||
-                                $page_slug == 'brand' ||
-                                $page_slug == 'product_attribute' || $page_slug == 'product_attribute_value') aria-expanded="true" @endif>
+                        @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'subchildcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute' || $page_slug == 'product_attribute_value'|| $page_slug == 'tax_class'|| $page_slug == 'tax_rate') aria-expanded="true" @endif>
                         <i class="icon-people"></i>
                         <p>{{ __('Product Management') }}</p>
                         <span class="caret"></span>
                     </a>
-
-                    <div class="collapse @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'brand' || $page_slug == 'product_tag' || $page_slug == 'product_attribute') show @endif" id="product_management">
-
-                    <div class="collapse @if (
-                        $page_slug == 'category' ||
-                            $page_slug == 'subcategory' ||
-                            $page_slug == 'subchildcategory' ||
-                            $page_slug == 'brand' ||
-                            $page_slug == 'product_attribute' || $page_slug == 'product_attribute_value') show @endif" id="product_management">
+                    <div class="collapse @if ($page_slug == 'category' || $page_slug == 'subcategory' || $page_slug == 'subchildcategory' || $page_slug == 'brand' || $page_slug == 'product_attribute' || $page_slug == 'product_attribute_value' || $page_slug == 'tax_class'|| $page_slug == 'tax_rate') show @endif" id="product_management">
                         <ul class="nav nav-collapse">
                             <li class="@if ($page_slug == 'brand') active @endif">
                                 <a href="{{ route('pm.brand.index') }}">
@@ -154,12 +136,23 @@
                                     <span class="sub-item">{{ __('Product Attribute') }}</span>
                                 </a>
                             </li>
-
-                            <li class="@if ($page_slug == 'product_attribute_value') active @endif">
+                             <li class="@if ($page_slug == 'product_attribute_value') active @endif">
                                 <a href="{{ route('pm.product-attribute-value.index') }}">
                                     <span class="sub-item">{{ __('Product Attribute Value') }}</span>
                                 </a>
                             </li>
+                            <li class="@if ($page_slug == 'tax_class') active @endif">
+                                <a href="{{ route('pm.tax-class.index') }}">
+                                    <span class="sub-item">{{ __('Tax Class') }}</span>
+                                </a>
+                            </li>
+                            <li class="@if ($page_slug == 'tax_rate') active @endif">
+                                <a href="{{ route('pm.tax-rate.index') }}">
+                                    <span class="sub-item">{{ __('Tax Rate') }}</span>
+                                </a>
+                            </li>
+
+
 
 
 
@@ -168,9 +161,9 @@
                 </li>
 
                 {{-- Setup Management  --}}
-                <li class="nav-item  @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city' || $page_slug == 'operation_area' || $page_slug == 'operation_sub_area' || $page_slug == 'faq') active submenu @endif">
+                <li class="nav-item  @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city' || $page_slug == 'operation_area' || $page_slug == 'operation_sub_area' || $page_slug == 'faq' || $page_slug == 'latest_offer') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#setup_management"
-                        @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city' || $page_slug == 'operation_area' || $page_slug == 'operation_sub_area' || $page_slug == 'faq') aria-expanded="true" @endif>
+                        @if ($page_slug == 'country' || $page_slug == 'state' || $page_slug == 'city' || $page_slug == 'operation_area' || $page_slug == 'operation_sub_area' || $page_slug == 'faq' || $page_slug == 'latest_offer') aria-expanded="true" @endif>
                         <i class="icon-people"></i>
                         <p>{{ __('Setup') }}</p>
                         <span class="caret"></span>
@@ -208,6 +201,11 @@
                                     <span class="sub-item">{{ __('Faq') }}</span>
                                 </a>
                             </li>
+                            <li class="@if ($page_slug == 'latest_offer') active @endif">
+                                <a href="{{ route('setup.latest-offer.index') }}">
+                                    <span class="sub-item">{{ __('Latest Offer') }}</span>
+                                </a>
+                            </li>
 
                         </ul>
                     </div>
@@ -215,14 +213,14 @@
                 </li>
 
                 {{-- CMS Management  --}}
-                <li class="nav-item  @if ($page_slug == 'banner' || $page_slug == 'offer_banner') active submenu @endif">
+                <li class="nav-item  @if ($page_slug == 'banner' || $page_slug == 'offer_banner' || $page_slug == 'our_connection') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#cms_management"
                         @if ($page_slug == 'seller') aria-expanded="true" @endif>
                         <i class="icon-people"></i>
                         <p>{{ __('CMS Management') }}</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse @if ($page_slug == 'banner' || $page_slug == 'offer_banner') show @endif" id="cms_management">
+                    <div class="collapse @if ($page_slug == 'banner' || $page_slug == 'offer_banner'|| $page_slug == 'our_connection') show @endif" id="cms_management">
                         <ul class="nav nav-collapse">
                             <li class="@if ($page_slug == 'banner') active @endif">
                                 <a href="{{ route('cms.banner.index') }}">
@@ -234,9 +232,15 @@
                                     <span class="sub-item">{{ __('Offer Banner') }}</span>
                                 </a>
                             </li>
+                            <li class="@if ($page_slug == 'our_connection') active @endif">
+                                <a href="{{ route('cms.our-connection.index') }}">
+                                    <span class="sub-item">{{ __('Our Connection') }}</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
+                {{-- hub Management --}}
                 <li class="nav-item  @if ($page_slug == 'hub' || $page_slug == 'hub_package') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#hub_management"
                         @if ($page_slug == 'seller') aria-expanded="true" @endif>
@@ -332,7 +336,7 @@
                     </li>
                   </ul>
                 </div>
-              </li> 
+              </li>
             </ul>
         </div>
     </div>

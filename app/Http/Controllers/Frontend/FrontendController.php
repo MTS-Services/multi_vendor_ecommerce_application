@@ -17,6 +17,18 @@ class FrontendController extends Controller
     {
         return view('frontend.pages.test');
     }
+    public function checkout()
+    {
+        return view('frontend.pages.checkout');
+    }
+    public function profile()
+    {
+        return view('frontend.pages.profile');
+    }
+    public function faq()
+    {
+        return view('frontend.pages.faq');
+    }
     public function shop()
     {
         return view('frontend.pages.shop');
@@ -25,6 +37,11 @@ class FrontendController extends Controller
     {
         return view('frontend.pages.wishlist');
     }
+    public function cart()
+    {
+        return view('frontend.pages.cart');
+    }
+
     public function singel_product()
     {
         return view('frontend.pages.singel_product');

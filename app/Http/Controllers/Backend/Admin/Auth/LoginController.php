@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Admin\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\LoginRequest;
 use App\Models\Admin;
+use App\Rules\Admin\ValidPassword;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -58,11 +59,26 @@ class LoginController extends Controller
 
     protected function validateLogin(Request $request)
     {
-        $request->validate([
-            'login' => 'required|string',
-            'password' => 'required|string',
-        ]);
+        $login = $request->input('login');
+        $isEmail = filter_var($login, FILTER_VALIDATE_EMAIL);
+
+        $rules = [
+            'login' => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) use ($isEmail) {
+                    $field = $isEmail ? 'email' : 'username';
+                    if (!\App\Models\Admin::where($field, $value)->exists()) {
+                        $fail("The selected {$attribute} is invalid.");
+                    }
+                },
+            ],
+            'password' => ['required', 'string'],
+        ];
+
+        $request->validate($rules);
     }
+
 
     /**
      * Guard for admin authentication.

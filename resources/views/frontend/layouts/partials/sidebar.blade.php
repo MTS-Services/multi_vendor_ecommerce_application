@@ -28,26 +28,32 @@
         <div class="mt-5 flex flex-col items-start justify-start">
             <a href="{{ route('frontend.home') }}"
                 class="capitalize text-text-primary dark:text-text-white relative border-b border-b-border-light py-1.5 px-5
-                after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent 
-                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
+                after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
+                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == 'home') after:w-full @else after:w-0 @endif">
                 {{ __('Home') }}
             </a>
-            <a href=""
+            <a href="{{route('frontend.shop')}}"
                 class="capitalize text-text-primary dark:text-text-white relative border-b border-b-border-light py-1.5 px-5
-                after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent 
-                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
+                after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
+                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == 'shop') after:w-full @else after:w-0 @endif">
                 {{ __('Shop') }}
             </a>
-            <a href="{{ route('frontend.home') }}"
+            <a href="{{ route('frontend.store_location') }}"
                 class="capitalize text-text-primary dark:text-text-white relative border-b border-b-border-light py-1.5 px-5
-                after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent 
-                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
+                after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
+                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == 'store_location') after:w-full @else after:w-0 @endif">
+                {{ __('Store location') }}
+            </a>
+            <a href="#"
+                class="capitalize text-text-primary dark:text-text-white relative border-b border-b-border-light py-1.5 px-5
+                after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
+                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == 'contact') after:w-full @else after:w-0 @endif">
                 {{ __('Contact') }}
             </a>
-            <a href="{{ route('frontend.home') }}"
+            <a href="{{ route('frontend.faq') }}"
                 class="capitalize text-text-primary dark:text-text-white relative border-b border-b-border-light py-1.5 px-5
-                after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent 
-                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == '') after:w-full @else after:w-0 @endif">
+                after:content-[''] after:absolute after:left-0 after:top-full after:h-0.5 after:bg-bg-accent
+                hover:after:w-full after:transition-all after:duration-300 @if (isset($page_slug) && $page_slug == 'faq') after:w-full @else after:w-0 @endif">
                 {{ __('Faq') }}
             </a>
         </div>

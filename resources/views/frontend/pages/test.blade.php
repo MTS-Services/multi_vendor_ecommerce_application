@@ -7,6 +7,7 @@
         <h1 class=" text-text-danger dark:text-text-white">Home</h1>
 
         <button onclick="userLogin.showModal()">Login</button>
+        
 
         <button class="btn-primary">Click Me <i data-lucide="user"></i></button>
         <button class="btn-secondary">Click Me</button>
@@ -46,12 +47,14 @@
             </div>
         </div>
 
-        <!-- Navigation buttons -->
+        {{-- <!-- Navigation buttons -->
         <div class="swiper-button swiper-button-prev">
             <i data-lucide="chevron-right"></i>
         </div>
 
         <div class="swiper-button swiper-button-next">
+            <i class="fa-solid fa-angle-right"></i>
+        </div> --}}
             <i data-lucide="chevron-left"></i>
         </div>
     </div>

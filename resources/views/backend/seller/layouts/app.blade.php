@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -16,12 +15,12 @@
         @endif
         {{ config('app.name', 'Ecommerce') }}
     </title>
-
-
     <link href="{{ asset('backend/seller/assets/css/styles.css') }}" rel="stylesheet" />
 
     {{-- Boxicons --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css" />
+    <link rel="stylesheet" href="{{ asset('backend/seller/assets/css/sb-admin-2.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/seller/assets/css/sb-admin-2.min.css') }}">
 
     @stack('css-links')
 
@@ -44,7 +43,6 @@
         });
         const content_image_upload_url = "{{ route('file.ci_upload') }}";
     </script>
-
 </head>
 
 <body>
@@ -70,8 +68,10 @@
     </div>
     <!--   Core JS Files   -->
     <script src="{{ asset('backend/admin/assets/js/core/jquery-3.7.1.min.js') }}"></script>
-    <script src="{{ asset('backend/seller/assets/js/scripts.js') }}"></script>
 
+    <script src="{{ asset('backend/admin/js/functions.js') }}"></script>
+    <script src="{{ asset('backend/seller/assets/js/scripts.js') }}"></script>
+    <script src="{{ asset('backend/admin/js/custom.js') }}"></script>
     {{-- Custom JS --}}
     @stack('js-links')
     @stack('js')

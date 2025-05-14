@@ -7,7 +7,7 @@
         <div class="container">
             <div class="flex gap-5">
                 {{-- Sidebar Start Here --}}
-            
+
                 @include('frontend.layouts.includes.desktop-filter-sidebar')
                 @include('frontend.layouts.includes.mobile-filter-sidebar')
                 {{-- Sidebar Section End Here --}}
@@ -102,12 +102,12 @@
         <div class="container">
             <p class="md:text-center max-w-8xl mx-auto text-text-gray">
                 {{ __("Our women's collection brings you a unique blend of classic sophistication and the latest fashion
-                                                                                trends. Whether you're looking for versatile daywear, stylish work attire, or statement pieces for
-                                                                                special occasions, this collection has it all. Each garment is thoughtfully crafted with attention to
-                                                                                detail, using high-quality fabrics to ensure lasting comfort and a flawless fit. From chic blouses and
-                                                                                tailored pants to stunning dresses and outerwear, you'll find pieces that seamlessly blend elegance with
-                                                                                practicality. Our collection is designed to empower women with confidence and style, no matter the
-                                                                                occasion.") }}
+                                trends. Whether you're looking for versatile daywear, stylish work attire, or statement pieces for
+                                special occasions, this collection has it all. Each garment is thoughtfully crafted with attention to
+                                detail, using high-quality fabrics to ensure lasting comfort and a flawless fit. From chic blouses and
+                                tailored pants to stunning dresses and outerwear, you'll find pieces that seamlessly blend elegance with
+                                practicality. Our collection is designed to empower women with confidence and style, no matter the
+                                occasion.") }}
             </p>
             <p class="mt-5 md:text-center max-w-8xl mx-auto text-text-gray">
                 {{ __('Looking for more? Don’t miss out on our other exciting collections for') }}
@@ -133,8 +133,8 @@
                         <i class="fa-solid fa-rotate text-xl"></i>
                     </div>
                     <h3 class="font-medium mb-2">{{ __('Easy Returns') }}</h3>
-                    <p class="text-sm text-text-gray">
-                        {{ __('Hassle-free returns within 30 days of shipping experience') }}</p>
+                    <p class="text-sm text-text-gray">{{ __('Hassle-free returns within 30 days of shipping experience') }}
+                    </p>
                 </div>
                 <div>
                     <div class="flex justify-center mb-3">
