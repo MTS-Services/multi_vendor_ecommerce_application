@@ -48,7 +48,9 @@ class DatabaseSeeder extends Seeder
             TaxClassSeeder::class,
             TaxRateSeeder::class,
             FaqSeeder::class,
-            OurConnectionSeeder::class
+            OurConnectionSeeder::class,
+            StaffSeeder::class,
+            PersonalInformationSedder::class,
         ]);
     }
 }

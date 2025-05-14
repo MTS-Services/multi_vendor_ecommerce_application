@@ -6,8 +6,8 @@
                 class="flex flex-col md:flex-row shadow-shadowPrimary shadow-shadow-dark/10 dark:shadow-shadow-light/10 rounded-2xl w-full overflow-hidden bg-bg-white dark:bg-bg-darkTertiary">
                 <!-- Left Side: Form -->
                 <div class="w-full xl:w-1/2 p-10 md:p-12 flex flex-col justify-center">
-                    <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Login your account') }}</h2>
-                    <form class="space-y-5" action="{{ route('login') }}" method="POST">
+                    <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Staff Login your account') }}</h2>
+                    <form class="space-y-5" action="{{ route('staff.login.submit') }}" method="POST">
                         @csrf
                         <div>
                             <label class="input">
@@ -45,7 +45,7 @@
                         <div class="mt-5 flex justify-center sm:justify-between items-center gap-5 flex-wrap">
                             <button type="submit" class="btn-primary">{{ __('Login') }}</button>
                             <p class="text-center text-sm mt-4">
-                                {{ __('Forgot password?') }} <a href="{{ route('password.request') }}"
+                                {{ __('Forgot password?') }} <a href="{{ route('staff.password.forgot') }}"
                                     class="text-text-tertiary font-medium">
                                     {{ __('Reset password') }} </a>
                             </p>
@@ -62,13 +62,13 @@
                             </a>
                         </div>
                         <p class="text-center text-sm mt-4">
-                            {{ __('Don\'t have an account?') }} <a href="{{ route('register') }}"
+                            {{ __('Don\'t have an account?') }} <a href="{{ route('staff.register') }}"
                                 class="text-text-tertiary font-medium">
                                 {{ __('Sign up') }} </a>
                         </p>
                         <p class="text-center text-sm mt-4">
                             {{ __('Become a') }} <a href="#"
-                                class="text-text-accent font-medium">{{ __('Seller') }}</a>
+                                class="text-text-accent font-medium">{{ __('Staff') }}</a>
                         </p>
                     </div>
                 </div>

@@ -235,6 +235,7 @@
                         </ul>
                     </div>
                 </li>
+                {{-- hub Management --}}
                 <li class="nav-item  @if ($page_slug == 'hub' || $page_slug == 'hub_package') active submenu @endif">
                     <a data-bs-toggle="collapse" href="#hub_management"
                         @if ($page_slug == 'seller') aria-expanded="true" @endif>

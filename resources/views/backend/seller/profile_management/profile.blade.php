@@ -26,7 +26,7 @@
             font-size: 0.875rem;
         }
 
-        .nav-item {
+        .btn_item {
             background: linear-gradient(to right, #8a41d8, #a201ffcb);
             color: white;
             border: 1px solid transparent;
@@ -36,12 +36,12 @@
             transition: all 0.3s ease-in-out;
         }
 
-        .nav-item:hover {
+        .btn_item:hover {
             opacity: 0.8;
             cursor: pointer
         }
 
-        .active.nav-item {
+        .active.btn_item {
             background: linear-gradient(to right, #DC2626, #a201ffcb);
         }
 
@@ -56,10 +56,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="d-flex justify-content-around align-items-center gap-5 py-5 text-center">
-                    <p class="nav-item w-100 py-2" data-bs-target="profile">{{ __("profile") }}</p>
-                    <p class="nav-item w-100 py-2" data-bs-target="shop-details">{{ __("Shop Details") }}</p>
-                    <p class="nav-item w-100 py-2" data-bs-target="address">{{ __("Address") }}</p>
-                    <p class="nav-item w-100 py-2 active" data-bs-target="change-password">{{ __("Change Password") }}</p>
+                    <p class="btn_item w-100 py-2 active" data-bs-target="profile">{{ __('profile') }}</p>
+                    <p class="btn_item w-100 py-2" data-bs-target="shop-details">{{ __('Shop Details') }}</p>
+                    <p class="btn_item w-100 py-2" data-bs-target="address">{{ __('Address') }}</p>
+                    <p class="btn_item w-100 py-2" data-bs-target="change-password">{{ __('Change Password') }}</p>
                 </div>
             </div>
         </div>
@@ -67,7 +67,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="tab-content">
-                    <div id="profile" class="tab-pane">
+                    <div id="profile" class="tab-pane active">
                         {{-- Profile Edit Card --}}
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow-sm border-0">
@@ -79,82 +79,124 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
-
+                                        {{-- Profile Details --}}
                                         <div class="row">
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('First Name') }} <span class="text-danger">*</span></label>
-                                                <input type="text" name="first_name" class="form-control"
-                                                    placeholder="Enter first name">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'first_name']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('First Name') }} <span class="text-danger">*</span></label>
+                                                    <input type="text" name="first_name"
+                                                        value="{{ $seller?->first_name }}" class="form-control"
+                                                        placeholder="Enter your first name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'first_name']" />
+                                                </div>
                                             </div>
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Last Name') }} <span class="text-danger">*</span></label>
-                                                <input type="text" name="last_name" class="form-control"
-                                                    placeholder="Enter last name">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'last_name']" />
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Email') }} <span class="text-danger">*</span></label>
-                                                <input type="text" name="email" class="form-control"
-                                                    placeholder="Enter name">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Username') }} <span class="text-danger">*</span></label>
-                                                <input type="text" name="username" class="form-control"
-                                                    placeholder="Enter name">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Last Name') }} <span class="text-danger">*</span></label>
+                                                    <input type="text" name="last_name" value="{{ $seller?->last_name }}"
+                                                        class="form-control" placeholder="Enter your last name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'last_name']" />
+                                                </div>
                                             </div>
 
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Profile Image') }}</label>
-                                                <input type="file" name="uploadImage" data-actualName="image"
-                                                    class="form-control filepond" id="image" accept="image/*">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Username') }} <span class="text-danger">*</span></label>
+                                                    <input type="text" name="username" value="{{ $seller?->username }}"
+                                                        class="form-control" placeholder="Enter your username">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
+                                                </div>
                                             </div>
-
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Emergency Phone') }} <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text"
-                                                    value="{{ old('emergency_phone', $seller->emergency_phone) }}"
-                                                    name="emergency_phone" class="form-control"
-                                                    placeholder="Enter Emergency phone">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'emergency_phone']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Email') }} <span class="text-danger">*</span></label>
+                                                    <input type="email" name="email" value="{{ $seller?->email }}"
+                                                        class="form-control" placeholder="Enter your email">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
+                                                </div>
                                             </div>
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Phone') }} <span class="text-danger">*</span></label>
-                                                <input type="text" name="phone" class="form-control"
-                                                    placeholder="Enter phone">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'phone']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label>{{ __('Image') }}</label>
+                                                    <input type="file" name="uploadImage" data-actualName="image"
+                                                        class="form-control filepond" id="image" accept="image/*">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />
+                                                </div>
                                             </div>
-                                            <div class="form-group mb-3">
-                                                <label>{{ __("Father's Name") }} <span class="text-danger">*</span></label>
-                                                <input type="text" placeholder="Enter Fathers name">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'father_name']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Phone') }}</label>
+                                                    <input type="text" name="phone" value="{{ $seller?->phone }}"
+                                                        class="form-control" placeholder="Enter your phone">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'phone']" />
+                                                </div>
                                             </div>
-                                            <div class="form-group mb-3">
-                                                <label>{{ __("Mother's Name") }} <span class="text-danger">*</span></label>
-                                                <input type="text" name="mother_name" class="form-control"
-                                                    placeholder="Enter Fathers name">
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'mother_name']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Date of Birth') }}</label>
+                                                    <input type="date" name="dob" value="{{ $seller?->dob }}"
+                                                        class="form-control">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'dob']" />
+                                                </div>
                                             </div>
-
-                                            <div class="form-group mb-3">
-                                                <label>{{ __('Present Address') }} <span
-                                                        class="text-danger">*</span></label>
-                                                <textarea name="present_address" class="form-control" placeholder="Enter present_address"></textarea>
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'present_address']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Gender') }}</label>
+                                                    <select name="gender" class="form-control">
+                                                        @foreach (App\Models\PersonalInformation::getGenderLabels() as $key => $gender)
+                                                            <option value="{{ $key }}"
+                                                                {{ $seller?->personalInformation?->gender == $key ? 'selected' : '' }}>
+                                                                {{ $gender }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'gender']" />
+                                                </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label>{{ __('Permanent Address') }} <span
-                                                        class="text-danger">*</span></label>
-                                                <textarea name="permanent_address" class="form-control" placeholder="Enter permanent_address"></textarea>
-                                                <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'permanent_address']" />
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Fathers Name') }}</label>
+                                                    <input type="text" name="father_name"
+                                                        value="{{ $seller?->personalInformation?->father_name }}"
+                                                        class="form-control" placeholder="Enter your fathers name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'father_name']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Mothers Name') }}</label>
+                                                    <input type="text" name="mother_name"
+                                                        value="{{ $seller?->personalInformation?->mother_name }}"
+                                                        class="form-control" placeholder="Enter your mothers name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'mother_name']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Emergency Phone') }}</label>
+                                                    <input type="text" name="emergency_phone"
+                                                        value="{{ $seller?->personalInformation?->emergency_phone }}"
+                                                        class="form-control" placeholder="Enter your emergency phone">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'bio']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Nationality') }}</label>
+                                                    <input type="text" name="nationality"
+                                                        value="{{ $seller?->personalInformation?->nationality }}"
+                                                        class="form-control" placeholder="Enter name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'nationality']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Bio') }}</label>
+                                                    <textarea name="bio" class="form-control" rows="5" placeholder="Enter your bio">{{ $seller?->personalInformation?->bio }}</textarea>
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'bio']" />
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <div class="text-right mt-4">
+                                        <div class="text-left mt-4">
                                             <button class="btn btn-primary px-4">{{ __('Update Profile') }}</button>
                                         </div>
                                     </form>
@@ -175,7 +217,7 @@
                                     <div class="row">
                                         {{-- Shop details --}}
                                     </div>
-                                    <div class="text-right">
+                                    <div class="text-left">
                                         <button class="btn btn-success px-4">{{ __('Update') }}</button>
                                     </div>
                                 </form>
@@ -199,7 +241,8 @@
                                                 <div class="col-6 form-group">
                                                     <label>{{ __('Country') }} <span class="text-danger">*</span></label>
                                                     <select name="country_id" id="country" class="form-control">
-                                                        <option value="" selected hidden>{{ __('Select Country') }}
+                                                        <option value="{{ $address?->country_id }}" selected hidden>
+                                                            {{ __('Select Country') }}
                                                         </option>
                                                         @foreach ($countries as $country)
                                                             <option value="{{ $country->id }}"
@@ -230,7 +273,8 @@
                                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city']" />
                                                 </div>
                                                 <div class="col-6 form-group">
-                                                    <label>{{ __('Area') }} <span class="text-danger">*</span></label>
+                                                    <label>{{ __('Operation Area') }} <span
+                                                            class="text-danger">*</span></label>
                                                     <select name="operation_area" id="operation_area"
                                                         class="form-control" disabled>
                                                         <option value="" selected hidden>{{ __('Select Area') }}
@@ -261,7 +305,7 @@
                                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'postal_code']" />
                                         </div>
                                     </div>
-                                    <div class="text-right">
+                                    <div class="text-left">
                                         <button class="btn btn-success px-4">{{ __('Update') }}</button>
                                     </div>
                                 </form>
@@ -270,7 +314,7 @@
                     </div>
 
                     {{-- Password Change Card --}}
-                    <div id="change-password" class="tab-pane active">
+                    <div id="change-password" class="tab-pane">
                         <div class="card shadow-sm border-0">
                             <div class="card-header">
                                 <h4 class="mb-0 py-2 text-white">{{ __('Change Password') }}</h4>
@@ -302,7 +346,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="text-right">
+                                    <div class="text-left">
                                         <button class="btn btn-success px-4">{{ __('Change Password') }}</button>
                                     </div>
                                 </form>
@@ -318,12 +362,14 @@
     {{-- FilePond  --}}
     <script src="{{ asset('ckEditor5/main.js') }}"></script>
     <script src="{{ asset('filepond/filepond.js') }}"></script>
+@endpush
+@push('js')
     <script>
         $(document).ready(function() {
             // Handle click on nav items
-            $('.nav-item').on('click', function() {
+            $('.btn_item').on('click', function() {
                 // Remove 'active' from all nav items
-                $('.nav-item').removeClass('active');
+                $('.btn_item').removeClass('active');
 
                 // Add 'active' to the clicked nav item
                 $(this).addClass('active');
@@ -338,6 +384,7 @@
                 $('#' + target).addClass('active');
             });
         });
+        
         // Get Country States By Axios
         $(document).ready(function() {
             let route1 = "{{ route('axios.get-states-or-cities') }}";
@@ -352,14 +399,9 @@
             $('#city').on('change', function() {
                 getOperationAreas($(this).val(), route3);
             });
-            let route4 = "{{ route('axios.get-sub-areas') }}";
-            $('#city').on('change', function() {
-                getOperationAreas($(this).val(), route4);
-            });
 
             let data_id =
                 `{{ $address?->state_id ? $address?->state_id : $address?->city_id }}`;
-
             if (data_id) {
                 getStatesOrCity($('#country').val(), route1, data_id);
             }
@@ -368,8 +410,7 @@
                 getCities(`{{ $address?->state_id }}`, route2, `{{ $address?->city_id }}`);
             }
             if (`{{ $address?->city_id }}`) {
-                getOperationAreas(`{{ $address?->city_id }}`, route3,
-                    `{{ $address?->operation_area_id }}`);
+                getOperationAreas(`{{ $address?->city_id }}`, route3, `{{ $address?->operation_area_id }}`);
             }
         });
     </script>

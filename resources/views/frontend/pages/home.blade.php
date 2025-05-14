@@ -3,6 +3,7 @@
 @section('title', 'Home')
 
 @section('content')
+<a class="btn-primary" href="{{ route('staff.login') }}">Staff Login</a>
     {{-- ===================== banner Section ===================== --}}
     <section class="swiper banner bg-bg-gray dark:bg-bg-darkSecondary dark:bg-opacity-70 ">
         <div class="swiper-wrapper relative">
