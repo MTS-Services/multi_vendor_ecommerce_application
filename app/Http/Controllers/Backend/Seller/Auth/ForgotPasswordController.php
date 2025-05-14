@@ -24,7 +24,7 @@ class ForgotPasswordController extends Controller
 
     public function showLinkRequestForm()
     {
-        return view('frontend.auth.user.forgot-password');
+        return view('frontend.auth.seller.forgot-password');
     }
     public function sendResetLinkEmail(Request $request)
     {
@@ -35,10 +35,10 @@ class ForgotPasswordController extends Controller
         $status = Password::broker('sellers')->sendResetLink(
             $request->only('email')
         );
-        session()->flash('success', __($status));
+        // session()->flash('success', __($status));
 
         return $status === Password::RESET_LINK_SENT
-            ? back()->with(['status' => __($status)])
-            : back()->withErrors(['email' => __($status)]);
+            ? back()->with(['success' => __($status)])
+            : back()->with(['error' => __($status)]);
     }
 }

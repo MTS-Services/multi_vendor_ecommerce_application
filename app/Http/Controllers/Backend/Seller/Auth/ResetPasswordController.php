@@ -28,16 +28,16 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected function redirectTo()
+    protected function redirectTo($token)
     {
-        return route('user.profile');
+        return route('seller.profile',['token' => $token]);
     }
 
     public function showResetForm(Request $request)
     {
         $token = $request->route()->parameter('token');
 
-        return view('frontend.auth.user.reset')->with(
+        return view('frontend.auth.seller.reset')->with(
             ['token' => $token, 'email' => $request->email]
         );
     }

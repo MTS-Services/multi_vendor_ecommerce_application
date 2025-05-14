@@ -7,7 +7,7 @@
                 <!-- Left Side: Form -->
                 <div class="w-full xl:w-1/2 p-10 md:p-12 flex flex-col justify-center">
                     <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Reset Your Password') }}</h2>
-                    <form class="space-y-5" action="{{ route('password.update') }}" method="POST">
+                    <form class="space-y-5" action="{{ route('seller.password.reset.request') }}" method="POST">
                         @csrf
 
                         <input type="hidden" name="token" value="{{ $token }}">
@@ -22,7 +22,7 @@
                                         <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                                     </g>
                                 </svg>
-                                <input type="text" placeholder="email" name="email" />
+                                <input type="text" placeholder="email" value="{{ request()->email }}" name="email" />
                             </label>
                             <x-frontend.input-error :datas="['errors' => $errors, 'field' => 'email']" />
                         </div>
