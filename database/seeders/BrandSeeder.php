@@ -13,7 +13,6 @@ class BrandSeeder extends Seeder
      */
     public function run(): void
     {
-        Brand::truncate();
         Brand::create([
             'name' => 'Brand 1',
             'slug' => 'brand-1',
