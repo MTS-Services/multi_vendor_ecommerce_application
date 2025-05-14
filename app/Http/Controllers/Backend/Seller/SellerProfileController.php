@@ -17,29 +17,14 @@ class SellerProfileController extends Controller
     use FileManagementTrait;
     public function show()
     {
-        $data['seller'] = Seller::findOrFail(seller()->id);
+        $data['seller'] = Seller::with('personalInformation')->findOrFail(seller()->id);
         $data['address'] = Address::personal()->sellerAddresses()->first();
         $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
         return view('backend.seller.profile_management.profile', $data);
     }
 
-    public function profileUpdate(SellerProfileRequest $request)
+    public function profileUpdate(Request $request)
     {
-        $validated = $request->validated();
-
-        // Update the seller details
-        $validated['updater_id'] = seller()->id;
-        $validated['updater_type'] = get_class(seller());
-
-
-        $seller = Seller::findOrFail(seller()->id);
-        if (isset($request->image)) {
-            $validated['image'] = $this->handleFilepondFileUpload($seller, $request->image, seller(), 'sellers/');
-        }
-        $seller->update($validated);
-
-        session()->flash('success', 'Profile updated successfully.');
-        return redirect()->back();
     }
     
     public function addressUpdate(AddressRequest $request)
