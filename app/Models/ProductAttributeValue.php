@@ -3,11 +3,10 @@
 namespace App\Models;
 
 use App\Models\BaseModel;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProductAttributeValue extends BaseModel
 {
-    use HasFactory;
 
     protected $fillable = [
         'sort_order',
@@ -24,9 +23,9 @@ class ProductAttributeValue extends BaseModel
         'deleter_type',
     ];
 
-    public function productAttribute()
+    public function productAttribute(): BelongsTo
     {
-        return $this->belongsTo(ProductAttribute::class);
+        return $this->belongsTo(ProductAttribute::class, 'product_attribute_id');
     }
 
     public function __construct(array $attributes = [])
