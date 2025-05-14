@@ -40,6 +40,8 @@ class RegisterController extends Controller
             'country_id' => 'required|exists:countries,id',
             'state_id' => 'nullable|exists:states,id',
             'city_id' => 'required|exists:cities,id',
+            'operation_area_id' => 'nullable|exists:operation_areas,id',
+            'operation_sub_area_id'=> 'nullable|exists:operation_sub_areas,id',
             'hub_id' => 'required|exists:hubs,id',
             'first_name' => 'required|string|min:3|max:10',
             'last_name' => 'required|string|min:3|max:10',
@@ -52,10 +54,12 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return Seller::create([
-            'country_id' => $data['country_id'],
-            'state_id' => $data['state_id'],
-            'city_id' => $data['city_id'],
-            'hub_id' => $data['hub_id'],
+            'country_id' => $data['country'],
+            'state_id' => $data['state'],
+            'city_id' => $data['city'],
+            'operation_area_id'=> $data['operation'],
+            'operation_sub_area_id'=> $data['operation_sub_area'],
+            'hub_id' => $data['hub'],
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],

@@ -16,6 +16,7 @@ class Hub extends BaseModel
         'state_id',
         'city_id',
         'operation_area_id',
+        'operation_sub_area_id',
         'name',
         'slug',
         'address',
@@ -139,6 +140,11 @@ class Hub extends BaseModel
     public function operationArea(): BelongsTo
     {
         return $this->belongsTo(OperationArea::class, 'operation_area_id','id');
+
+    }
+    public function operationSubArea(): BelongsTo
+    {
+        return $this->belongsTo(OperationSubArea::class, 'operation_sub_area_id','id');
 
     }
 
