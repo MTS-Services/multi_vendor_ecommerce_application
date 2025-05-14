@@ -10,7 +10,7 @@
                         <x-backend.admin.button :datas="[
                             'routeName' => 'pm.tax-class.index',
                             'label' => 'Back',
-                            'permissions' => ['admin-list'],
+                            'permissions' => ['tax-class-list'],
                         ]" />
                     </div>
                 </div>

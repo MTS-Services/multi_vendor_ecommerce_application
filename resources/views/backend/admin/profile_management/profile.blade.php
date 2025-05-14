@@ -66,7 +66,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="tab-content">
-                    <div id="profile" class="tab-pane">
+                    <div id="profile" class="tab-pane ">
                         {{-- Profile Edit Card --}}
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow-sm border-0">
@@ -74,15 +74,123 @@
                                     <h4 class="mb-0 py-2 text-white">Profile</h4>
                                 </div>
                                 <div class="card-body">
-                                    <form action="{{ route('seller.profile.update') }}" method="POST"
+                                    <form action="{{ route('admin.profile.update') }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
 
+                                        {{-- Profile Details --}}
                                         <div class="row">
-                                            {{-- Profile Details --}}
-                                        </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('First Name') }} <span class="text-danger">*</span></label>
+                                                    <input type="text" name="first_name"
+                                                        value="{{ $admin?->first_name }}" class="form-control"
+                                                        placeholder="Enter your first name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'first_name']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Last Name') }} <span class="text-danger">*</span></label>
+                                                    <input type="text" name="last_name"
+                                                        value="{{ $admin?->last_name }}" class="form-control"
+                                                        placeholder="Enter your last name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'last_name']" />
+                                                </div>
+                                            </div>
 
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Username') }} <span class="text-danger">*</span></label>
+                                                    <input type="text" name="username" value="{{ $admin?->username }}"
+                                                        class="form-control" placeholder="Enter your username">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'username']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Email') }} <span class="text-danger">*</span></label>
+                                                    <input type="email" name="email" value="{{ $admin?->email }}"
+                                                        class="form-control" placeholder="Enter your email">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group">
+                                                    <label>{{ __('Image') }}</label>
+                                                    <input type="file" name="uploadImage" data-actualName="image"
+                                                        class="form-control filepond" id="image" accept="image/*">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'image']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Phone') }}</label>
+                                                    <input type="text" name="phone" value="{{ $admin?->phone }}"
+                                                        class="form-control" placeholder="Enter your phone">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'phone']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Date of Birth') }}</label>
+                                                    <input type="date" name="dob" value="{{ $admin?->dob }}"
+                                                        class="form-control">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'dob']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Gender') }}</label>
+                                                    <select name="gender" class="form-control">
+                                                        @foreach (App\Models\PersonalInformation::getGenderLabels() as $key => $gender )
+                                                            <option value="{{ $key }}" {{ $admin?->personalInformation?->gender == $key ? 'selected' : '' }}>{{ $gender }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'gender']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Fathers Name') }}</label>
+                                                    <input type="text" name="father_name" value="{{ $admin?->personalInformation?->father_name }}" class="form-control"
+                                                        placeholder="Enter your fathers name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'father_name']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Mothers Name') }}</label>
+                                                    <input type="text" name="mother_name" value="{{ $admin?->personalInformation?->mother_name }}" class="form-control"
+                                                        placeholder="Enter your mothers name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'mother_name']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Emergency Phone') }}</label>
+                                                    <input type="text" name="emergency_phone" value="{{ $admin?->personalInformation?->emergency_phone }}" class="form-control"
+                                                        placeholder="Enter your emergency phone">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'bio']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Nationality') }}</label>
+                                                    <input type="text" name="nationality" value="{{ $admin?->personalInformation?->nationality }}" class="form-control"
+                                                        placeholder="Enter name">
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'nationality']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group mb-3">
+                                                    <label>{{ __('Bio') }}</label>
+                                                    <textarea name="bio" class="form-control" rows="5" placeholder="Enter your bio">{{ $admin?->personalInformation?->bio }}</textarea>
+                                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'bio']" />
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="text-right mt-4">
                                             <button class="btn btn-primary px-4">{{ __('Update Profile') }}</button>
                                         </div>
@@ -107,7 +215,8 @@
                                                 <div class="col-6 form-group">
                                                     <label>{{ __('Country') }} <span class="text-danger">*</span></label>
                                                     <select name="country_id" id="country" class="form-control">
-                                                        <option value="{{ $address?->country_id }}" selected hidden>{{ __('Select Country') }}
+                                                        <option value="{{ $address?->country_id }}" selected hidden>
+                                                            {{ __('Select Country') }}
                                                         </option>
                                                         @foreach ($countries as $country)
                                                             <option value="{{ $country->id }}"
@@ -132,15 +241,16 @@
                                                 <div class="col-6 form-group">
                                                     <label>{{ __('City') }} <span class="text-danger">*</span></label>
                                                     <select name="city" id="city" class="form-control" disabled>
-                                                        <option value="" selected hidden>{{ __("Select City") }}
+                                                        <option value="" selected hidden>{{ __('Select City') }}
                                                         </option>
                                                     </select>
                                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city']" />
                                                 </div>
                                                 <div class="col-6 form-group">
-                                                    <label>{{ __('Operation Area') }} <span class="text-danger">*</span></label>
-                                                    <select name="operation_area" id="operation_area" class="form-control"
-                                                        disabled>
+                                                    <label>{{ __('Operation Area') }} <span
+                                                            class="text-danger">*</span></label>
+                                                    <select name="operation_area" id="operation_area"
+                                                        class="form-control" disabled>
                                                         <option value="" selected hidden>{{ __('Select Area') }}
                                                         </option>
                                                     </select>
@@ -150,7 +260,8 @@
                                         </div>
                                         <div class="col-md-12 mb-3">
                                             <label>{{ __('Address Line 1') }} <span class="text-danger">*</span></label>
-                                            <textarea name="address_line_1" class="form-control no-ckeditor5" id="address_line_1" cols="30" rows="10">{{ $address->address_line_1 ?? old('address_line_1') }}</textarea>
+                                            <textarea name="address_line_1" class="form-control no-ckeditor5" id="address_line_1" cols="30"
+                                                rows="10">{{ $address->address_line_1 ?? old('address_line_1') }}</textarea>
                                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'address_line_1']" />
                                         </div>
                                         <div class="col-md-12 mb-3">
@@ -162,7 +273,8 @@
                                         {{-- postal code --}}
                                         <div class="col-6 mb-3">
                                             <label>{{ __('Postal Code') }} <span class="text-danger">*</span></label>
-                                            <input type="text" name="postal_code" value="{{ $address->postal_code ?? old('postal_code') }}"
+                                            <input type="text" name="postal_code"
+                                                value="{{ $address->postal_code ?? old('postal_code') }}"
                                                 placeholder="Enter postal code" class="form-control">
                                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'postal_code']" />
                                         </div>
@@ -246,13 +358,14 @@
                 $('#' + target).addClass('active');
             });
         });
+        
         // Get Country States By Axios
         $(document).ready(function() {
-            let route1 = "{{ route('axios.get-cities') }}";
+            let route1 = "{{ route('axios.get-states-or-cities') }}";
             $('#country').on('change', function() {
                 getStatesOrCity($(this).val(), route1);
             });
-            let route2 = "{{ route('axios.get-states-or-cities') }}";
+            let route2 = "{{ route('axios.get-cities') }}";
             $('#state').on('change', function() {
                 getCities($(this).val(), route2);
             });
@@ -263,18 +376,23 @@
 
             let data_id =
                 `{{ $address?->state_id ? $address?->state_id : $address?->city_id }}`;
-            if(data_id){
-                 getStatesOrCity($('#country').val(), route1, data_id);
+            if (data_id) {
+                getStatesOrCity($('#country').val(), route1, data_id);
             }
-           
+
             if (`{{ $address?->state_id }}`) {
                 getCities(`{{ $address?->state_id }}`, route2, `{{ $address?->city_id }}`);
             }
-            if(`{{ $address?->city_id }}`){
-            getOperationAreas(`{{ $address?->city_id }}`, route3,
-                `{{ $address?->operation_area_id }}`);
+            if (`{{ $address?->city_id }}`) {
+                getOperationAreas(`{{ $address?->city_id }}`, route3, `{{ $address?->operation_area_id }}`);
             }
         });
+        // $(document).ready(function() {
+        //     const existingFiles = {
+        //         "#image": "{{ auth_storage_url($admin?->image, $admin?->gender) }}",
+        //     }
+        //     file_upload(["#image"], "uploadImage", "profile?", existingFiles, false);
+        // });
     </script>
     {{-- FilePond  --}}
 @endpush

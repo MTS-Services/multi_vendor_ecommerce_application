@@ -25,6 +25,9 @@ class TaxRateController extends Controller
         $this->middleware('permission:tax-rate-priority', ['only' => ['priority']]);
         $this->middleware('permission:tax-rate-compound', ['only' => ['compound']]);
         $this->middleware('permission:tax-rate-details', ['only' => ['show']]);
+        $this->middleware('permission:tax-rate-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:tax-rate-restore', ['only' => ['restore']]);
+        $this->middleware('permission:tax-rate-permanent-delete', ['only' => ['permanentDelete']]);
     }
 
     /**
@@ -99,6 +102,63 @@ class TaxRateController extends Controller
         ];
     }
 
+       public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $query = TaxRate::with(['deleter_admin'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+
+                ->editColumn('status', function ($tax_rate) {
+                    return "<span class='badge " . $tax_rate->status_color . "'>$tax_rate->status_label</span>";
+                })
+                ->editColumn('tax_class_id', function ($tax_rate) {
+                    return $tax_rate->taxClass?->name;
+                })
+                ->editColumn('country_id', function ($tax_rate) {
+                    return $tax_rate->country?->name . ($tax_rate->state ? "(" . $tax_rate->state?->name . ")" : "");
+                })
+                ->editColumn('city_id', function ($tax_rate) {
+                    return  $tax_rate->city?->name;
+                })
+                ->editColumn('deleted_by', function ($tax_rate) {
+                    return $tax_rate->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($tax_rate) {
+                    return $tax_rate->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($tax_rate) {
+                    $menuItems = $this->trashedMenuItems($tax_rate);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['status','tax_class_id', 'country_id', 'city_id', 'deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.product_management.tax_rate.recycle-bin');
+    }
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'pm.tax-rate.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['tax-rate-restore']
+            ],
+            [
+                'routeName' => 'pm.tax-rate.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['tax-rate-permanent-delete']
+            ]
+
+        ];
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -131,7 +191,8 @@ class TaxRateController extends Controller
      */
     public function show(string $id)
     {
-        $data = TaxRate::with(['tax_class_id', 'country_id', 'city_id','creater_admin', 'updater_admin'])->findOrFail(decrypt($id));
+        $data = TaxRate::with([ 'creater_admin','taxClass',  'country','state', 'updater_admin', 'city'])->findOrFail(decrypt($id));
+
         return response()->json($data);
     }
 
@@ -169,27 +230,47 @@ class TaxRateController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $tax_rate = TaxRate::findOrFail(decrypt($id));
+        $tax_rate->update(['deleted_by' => admin()->id]);
+        $tax_rate->delete();
+        session()->flash('success','Tax rate deleted successfully!');
+        return redirect()->route('pm.tax-rate.index');
     }
     public function status(string $id): RedirectResponse
     {
-        $status = TaxRate::findOrFail(decrypt($id));
-        $status->update(['status' => !$status->status, 'updated_by' => admin()->id]);
+        $Tax_status = TaxRate::findOrFail(decrypt($id));
+        $Tax_status->update(['status' => !$Tax_status->status, 'updated_by' => admin()->id]);
         session()->flash('success', 'Tax Rate status updated successfully!');
         return redirect()->route('pm.tax-rate.index');
     }
     public function priority(string $id): RedirectResponse
     {
-        $priority = TaxRate::findOrFail(decrypt($id));
-        $priority->update(['priority' => !$priority->priority, 'updated_by' => admin()->id]);
+        $tax_priority = TaxRate::findOrFail(decrypt($id));
+        $tax_priority->update(['priority' => !$tax_priority->priority, 'updated_by' => admin()->id]);
         session()->flash('success', 'Tax Rate priority updated successfully!');
         return redirect()->route('pm.tax-rate.index');
     }
     public function compound(string $id): RedirectResponse
     {
-        $compound = TaxRate::findOrFail(decrypt($id));
-        $compound->update(['compound' => !$compound->compound, 'updated_by' => admin()->id]);
+        $tax_compound = TaxRate::findOrFail(decrypt($id));
+        $tax_compound->update(['compound' => !$tax_compound->compound, 'updated_by' => admin()->id]);
         session()->flash('success', 'Tax Rate compound updated successfully!');
         return redirect()->route('pm.tax-rate.index');
+    }
+        public function restore(string $id): RedirectResponse
+    {
+        $tax_rate = TaxRate::onlyTrashed()->findOrFail(decrypt($id));
+        $tax_rate->update(['updated_by' => admin()->id]);
+        $tax_rate->restore();
+        session()->flash('success', 'Tax Rate restored successfully!');
+        return redirect()->route('pm.tax-rate.recycle-bin');
+    }
+
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $tax_rate = TaxRate::onlyTrashed()->findOrFail(decrypt($id));
+        $tax_rate->forceDelete();
+        session()->flash('success', 'Tax Rate permanently deleted successfully!');
+        return redirect()->route('pm.tax-rate.recycle-bin');
     }
 }

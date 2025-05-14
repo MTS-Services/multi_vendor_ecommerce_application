@@ -22,11 +22,10 @@ return new class extends Migration
             $table->string('image');
             $table->string('url');
             $table->string('description');
-            $table->boolean('status')->default
-            (LatestOffer::STATUS_ACTIVE)->comment(LatestOffer::STATUS_ACTIVE . ': Active, ' . LatestOffer::STATUS_DEACTIVE . ': Inactive');
+            $table->boolean('status')->default(LatestOffer::STATUS_ACTIVE)->comment(LatestOffer::STATUS_ACTIVE . ': Active, ' . LatestOffer::STATUS_DEACTIVE . ': Inactive');
             $table->timestamps();
             $table->softDeletes();
-            $this->addMorphedAuditColumns($table);
+            $this->addAdminAuditColumns($table);
 
 
 

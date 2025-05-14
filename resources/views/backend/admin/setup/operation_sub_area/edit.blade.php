@@ -96,11 +96,15 @@
 
 
             let data_id = `{{ $operation_sub_area->state_id ? $operation_sub_area->state_id : $operation_sub_area->city_id }}`;
-            getStatesOrCity($('#country').val(), route1, data_id);
+            if(data_id){
+                getStatesOrCity($('#country').val(), route1, data_id);
+            }
             if(`{{$operation_sub_area->state_id}}`){
                 getCities(`{{$operation_sub_area->state_id}}`, route2, `{{ $operation_sub_area->city_id }}`);
             }
-            getOperationAreas(`{{ $operation_sub_area->city_id }}`, route3, `{{ $operation_sub_area->operation_area_id }}`);
+            if(`{{ $operation_sub_area->city_id }}`){
+                getOperationAreas(`{{ $operation_sub_area->city_id }}`, route3, `{{ $operation_sub_area->operation_area_id }}`);
+            }
         });
     </script>
 @endpush

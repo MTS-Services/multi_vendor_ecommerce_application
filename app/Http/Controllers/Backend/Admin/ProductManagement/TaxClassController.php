@@ -98,7 +98,6 @@ class TaxClassController extends Controller
                 ->latest();
             return DataTables::eloquent($query)
 
-
                 ->editColumn('status', function ($tax_class) {
                     return "<span class='badge " . $tax_class->status_color . "'>$tax_class->status_label</span>";
                 })
@@ -151,7 +150,7 @@ class TaxClassController extends Controller
     public function store(TaxClassRequest $request)
     {
         $validated = $request->validated();
-        $validated['creater_id'] = admin()->id;
+        $validated['created_by'] = admin()->id;
         $validated['creater_type'] = get_class(admin());
 
         TaxClass::create($validated);
@@ -184,7 +183,7 @@ class TaxClassController extends Controller
     {
         $tax_class = TaxClass::findOrFail(decrypt($id));
         $validated = $request->validated();
-        $validated['updater_id'] = admin()->id;
+        $validated['updated_by'] = admin()->id;
         $validated['updater_type'] = get_class(admin());
         $tax_class->update($validated);
         session()->flash('success', 'Tax Class updated successfully!');
@@ -197,6 +196,7 @@ class TaxClassController extends Controller
     public function destroy(string $id)
     {
         $tax_class = TaxClass::findOrFail(decrypt($id));
+        $tax_class->update(['deleted_by' => admin()->id]);
         $tax_class->delete();
         session()->flash('success', 'Tax Class deleted successfully!');
         return redirect()->route('pm.tax-class.index');

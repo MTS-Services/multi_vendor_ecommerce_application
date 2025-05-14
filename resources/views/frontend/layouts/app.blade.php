@@ -29,7 +29,22 @@
     {{-- BoxIcons --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css" />
 
-    @vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css', 'resources/js/frontend/frontend.js'])
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('success'))
+                showAlert('success', '{{ session('success') }}');
+            @endif
+
+            @if (session('error'))
+                showAlert('error', '{{ session('error') }}');
+            @endif
+
+            @if (session('warning'))
+                showAlert('warning', '{{ session('warning') }}');
+            @endif
+        });
+    </script>
 
     {{-- Custom CSS --}}
     @stack('css')

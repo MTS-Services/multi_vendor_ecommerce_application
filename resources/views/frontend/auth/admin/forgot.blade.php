@@ -6,7 +6,7 @@
 
     <!-- Left Side: Form -->
     <div class="w-full md:w-1/2 p-10 md:p-12 flex flex-col justify-center">
-      <h2 class="text-3xl font-semibold text-center mb-6">Forgot your password?</h2>
+      <h2 class="text-3xl font-semibold text-center mb-6">{{__('Forgot your password?')}}</h2>
 
       @if (session('status'))
         <div class="mb-4 text-accent font-medium text-center">
@@ -14,7 +14,7 @@
         </div>
       @endif
 
-      <form method="POST" action="{{ route('password.email') }}" class="space-y-5">
+      <form method="POST" action="{{ route('admin.password.email') }}" class="space-y-5">
         @csrf
 
         <input type="email" name="email" value="{{ old('email') }}" required autofocus

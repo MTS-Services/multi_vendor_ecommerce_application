@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Notifications\AdminPasswordResetNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -11,10 +14,17 @@ class Admin extends AuthBaseModel implements Auditable
 {
     use HasFactory, HasRoles, \OwenIt\Auditing\Auditable, Notifiable;
 
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new AdminPasswordResetNotification($token));
+    }
+
     /**
      * The attributes that are mass assignable.
      * @var array<int, string>
+     *
      */
+    protected $guard='admin';
     protected $fillable = [
         'sort_order',
         'first_name',
@@ -66,4 +76,10 @@ class Admin extends AuthBaseModel implements Auditable
     {
         return $this->belongsTo(Role::class, 'role_id')->select(['name', 'id']);
     }
+
+    public function personalInformation():MorphOne
+    {
+        return $this->morphOne(PersonalInformation::class, 'profile');
+    }
+
 }

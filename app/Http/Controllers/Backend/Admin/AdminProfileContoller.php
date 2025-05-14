@@ -5,21 +5,36 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddressRequest;
 use App\Http\Requests\Admin\AdminPasswordUpdateRequest;
+use App\Http\Requests\PersonalInformationRequest;
 use App\Models\Address;
 use App\Models\Admin;
 use App\Models\Country;
+use App\Models\PersonalInformation;
 use Illuminate\Http\Request;
 
 class AdminProfileContoller extends Controller
 {
     public function profile()
     {
+
+        $data['admin'] = Admin::with('personalInformation')->findOrFail(admin()->id);
         $data['address'] = Address::personal()->adminAddresses()->first();
         $data['countries'] = Country::active()->select('id', 'name', 'slug')->orderBy('name')->get();
         return view('backend.admin.profile_management.profile', $data);
     }
 
-    public function profileUpdate($request) {}
+    public function profileUpdate(Request $request)
+    {
+        $admin = Admin::findOrFail(admin()->id);
+        $validated = $request->all();
+        if(!$admin){
+            $admin = Admin::create($validated);
+        }else{
+            $admin->update($validated);
+        }
+        session()->flash('success', 'Profile updated successfully.');
+        return redirect()->back();
+    }
     public function addressUpdate(AddressRequest $request)
     {
         $validated = $request->validated();
@@ -35,10 +50,9 @@ class AdminProfileContoller extends Controller
 
         $validated['type'] = Address::TYPE_PERSONAL;
         $address = Address::personal()->adminAddresses()->first();
-        if(!$address) {
+        if (!$address) {
             Address::create($validated);
-        }
-        else {
+        } else {
             $address->update($validated);
         }
 

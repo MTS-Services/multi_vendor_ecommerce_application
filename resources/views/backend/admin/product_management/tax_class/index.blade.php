@@ -18,7 +18,7 @@
                             'label' => 'Add New',
                             'permissions' => ['tax-class-create'],
                         ]" />
-                    </div>;
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-striped datatable">

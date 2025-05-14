@@ -54,6 +54,25 @@ function sellerFullName()
 {
     return Auth::guard('seller')->user()->first_name . ' ' . Auth::guard('seller')->user()->last_name;
 }
+function staff()
+{
+    return Auth::guard('staff')->user();
+}
+
+function staffFirstName()
+{
+    return Auth::guard('staff')->user()->first_name;
+}
+
+function staffLastName()
+{
+    return Auth::guard('staff')->user()->last_name;
+}
+
+function staffFullName()
+{
+    return Auth::guard('staff')->user()->first_name . ' ' . Auth::guard('staff')->user()->last_name;
+}
 
 function user()
 {
