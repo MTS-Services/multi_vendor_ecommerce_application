@@ -119,6 +119,29 @@ function getOperationAreas(cityId, route, operationAreaId = null) {
         });
 }
 
+function getOperationSubAreas(areaId, route, operationSubAreaId = null) {
+
+    axios.get(route, {
+        params: { area_id: areaId }
+    })
+        .then(function (response) {
+            if (response.data.operation_sub_areas.length > 0) {
+                $('#operation_sub_area').html(`<option value="" selected hidden>Select Operation Area</option>`);
+                response.data.operation_sub_areas.forEach(function (operation_sub_area) {
+                    $('#operation_sub_area').append(`<option value="${operation_sub_area.id}" ${operation_sub_area.id == operationSubAreaId ? 'selected' : ''}>${operation_sub_area.name}</option>`);
+                });
+                $('#operation_sub_area').prop('disabled', false);
+            } else {
+                $('#operation_sub_area').html(`<option value="" selected hidden>Select Operation Area</option>`).prop('disabled', true);
+            }
+        })
+        .catch(function (error) {
+            console.error(error);
+            $('#operation_sub_area').html(`<option value="" selected hidden>Select Operation Area</option>`).prop('disabled', true);
+            alert('Failed to load operation areas.');
+        });
+}
+
 
 // Username validation
 function validateUsername(usernameInput, errorField, errorMsg = 'Username may only contain letters, numbers, and hyphens.', regex = /^[a-zA-Z0-9\-]+$/) {
@@ -157,5 +180,39 @@ function getSubCategories(parentId, route, childId = null) {
             console.error(error);
             $('#childrens').html(`<option value="" selected hidden>Select Sub Category</option>`).prop('disabled', true);
             alert('Failed to load sub categories.');
+        });
+}
+function getHubs({
+    countryId = null,
+    cityId = null,
+    stateId = null,
+    operationAreaId = null,
+    operationSubAreaId = null,
+    route,
+    hubId
+
+}) {
+    const params = {};
+    if (countryId) params.country_id = countryId;
+    if (stateId) params.state_id = stateId;
+    if (cityId) params.city_id = cityId;
+    if (operationAreaId) params.operation_area_id = operationAreaId;
+    if (operationSubAreaId) params.operation_sub_area_id = operationSubAreaId;
+    axios.get(route, { params })
+        .then(function (response) {
+            if (response.data.hubs.length > 0) {
+                $('#hub').html(`<option value="" selected hidden>Select Hub</option>`);
+                response.data.hubs.forEach(function (hub) {
+                    $('#hub').append(`<option value="${hub.id}" ${hub.id == hubId ? 'selected' : ''}>${hub.name}</option>`);
+                });
+                $('#hub').prop('disabled', false);
+            } else {
+                $('#hub').html(`<option value="" selected hidden>Select Hub</option>`).prop('disabled', true);
+            }
+        })
+        .catch(function (error) {
+            console.error(error);
+            $('#hub').html(`<option value="" selected hidden>Select Hub</option>`).prop('disabled', true);
+            alert('Failed to load hubs.');
         });
 }

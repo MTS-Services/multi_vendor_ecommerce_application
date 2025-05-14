@@ -49,6 +49,13 @@
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'operation_area']" />
                         </div>
                         <div class="form-group">
+                            <label>{{ __('Operation Sub Area') }}</label>
+                            <select name="operation_sub_area" id="operation_sub_area" class="form-control" disabled>
+                                <option value="" selected hidden>{{__('Select Operation Sub Area')}}</option>
+                            </select>
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'operation_sub_area']" />
+                        </div>
+                        <div class="form-group">
                             <label>{{ __('Name') }} <span class="text-danger">*</span></label>
                             <input type="text" value="{{$hub->name }}" id="title" name="name" class="form-control"
                                 placeholder="Enter name">
@@ -111,6 +118,11 @@
             $('#city').on('change', function () {
                 getOperationAreas($(this).val(), route3);
             });
+            let route4 ="{{ route('axios.get-sub-areas') }}";
+            $('#operation_area').on('change', function () {
+                let route4 ="{{ route('axios.get-sub-areas') }}";
+                getOperationSubAreas($(this).val(), route4);
+            });
 
             let data_id = `{{ $hub->state_id ? $hub->state_id : $hub->city_id }}`;
             if(data_id){
@@ -121,6 +133,9 @@
             }
             if(`{{ $hub->city_id }}`){
                 getOperationAreas(`{{ $hub->city_id }}`, route3, `{{ $hub->operation_area_id }}`);
+            }
+            if(`{{ $hub->operation_area_id }}`){
+                getOperationSubAreas(`{{ $hub->operation_area_id }}`, route4, `{{ $hub->operation_sub_area_id }}`);
             }
         });
     </script>

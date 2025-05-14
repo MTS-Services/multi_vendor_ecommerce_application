@@ -87,10 +87,23 @@ function getCities(stateId, route, cityId = null) {
             alert('Failed to load states.');
         });
 }
-function getHubs(cityId, route, hubId = null) {
-    axios.get(route, {
-        params: { city_id: cityId }
-    })
+function getHubs({
+    countryId = null,
+    cityId = null,
+    stateId = null,
+    operationAreaId = null,
+    operationSubAreaId = null,
+    route,
+    hubId
+
+}) {
+    const params = {};
+    if (countryId) params.country_id = countryId;
+    if (stateId) params.state_id = stateId;
+    if (cityId) params.city_id = cityId;
+    if (operationAreaId) params.operation_area_id = operationAreaId;
+    if (operationSubAreaId) params.operation_sub_area_id = operationSubAreaId;
+    axios.get(route, { params })
         .then(function (response) {
             if (response.data.hubs.length > 0) {
                 $('#hub').html(`<option value="" selected hidden>Select Hub</option>`);
