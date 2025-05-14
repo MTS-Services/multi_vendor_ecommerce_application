@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             OperationSubAreaSeeder::class,
 
             OfferBannerSeeder::class,
+            BrandSeeder::class,
 
             HubSeeder::class,
             BrandSeeder::class,

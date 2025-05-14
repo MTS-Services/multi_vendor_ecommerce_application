@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Backend\Seller\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
 {
@@ -22,6 +24,21 @@ class ForgotPasswordController extends Controller
 
     public function showLinkRequestForm()
     {
-        return view('frontend.auth.user.forgot-password');
+        return view('frontend.auth.seller.forgot-password');
+    }
+    public function sendResetLinkEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:sellers,email',
+        ]);
+
+        $status = Password::broker('sellers')->sendResetLink(
+            $request->only('email')
+        );
+        // session()->flash('success', __($status));
+
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with(['success' => __($status)])
+            : back()->with(['error' => __($status)]);
     }
 }

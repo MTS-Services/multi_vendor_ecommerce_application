@@ -15,6 +15,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('wishlists', function (Blueprint $table) {
+            $table->id();
             $table->bigInteger('sort_order')->default(0);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('session_id')->nullable();

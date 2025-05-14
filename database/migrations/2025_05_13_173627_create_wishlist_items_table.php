@@ -29,11 +29,8 @@ return new class extends Migration
 
 
             $table->index('sort_order');
-            $table->index('cart_id');
+            $table->index('wishlist_id');
             $table->index('product_id');
-            $table->index('variation_id');
-            $table->index('quantity');
-            $table->index('price');
             $table->index('created_at');
             $table->index('updated_at');
             $table->index('deleted_at');

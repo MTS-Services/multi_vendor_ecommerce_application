@@ -1,15 +1,25 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Models\AuthBaseModel;
+use App\Notifications\SellerPasswordNotification;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Notifications\Notifiable;
 
 class Seller extends AuthBaseModel
 {
+    use HasFactory, Notifiable;
 
     protected $table = 'sellers';
     protected $guard = 'seller';
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new SellerPasswordNotification($token));
+    }
 
     protected $fillable = [
         'sort_order',

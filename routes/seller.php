@@ -1,12 +1,14 @@
 <?php
 
-
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Seller\Auth\RegisterController as SellerRegisterController;
 use App\Http\Controllers\Backend\Seller\Auth\LoginController as SellerLoginController;
+use App\Http\Controllers\Backend\Seller\Auth\ResetPasswordController;
 use App\Http\Controllers\Backend\Seller\DashboardController as SellerDashboardController;
 use App\Http\Controllers\Backend\Seller\product_management\BrandController;
 use App\Http\Controllers\Backend\Seller\SellerProfileController;
+use App\Models\Seller;
 
 // Vendor Auth Routes
 Route::group(['prefix' => 'seller', 'as' => 'seller.'], function () {
@@ -14,6 +16,18 @@ Route::group(['prefix' => 'seller', 'as' => 'seller.'], function () {
         Route::get('/login', 'showLoginForm')->name('login'); // Seller Login Form
         Route::post('/login', 'login')->name('login.submit'); // Seller Login Submit (Handled by AuthenticatesUsers)
         Route::post('/logout', 'logout')->name('logout');
+    });
+       Route::group(['as' => 'password.', 'prefix' => 'password'], function () {
+        // Admin Forgot Password
+        Route::controller(ForgotPasswordController::class)->group(function () {
+            Route::get('/forgot', 'showLinkRequestForm')->name('forgot');
+            Route::post('/forgot/request', 'sendResetLinkEmail')->name('forgot.request');
+        });
+        // Admin Password Reset
+        Route::controller(ResetPasswordController::class)->group(function () {
+            Route::get('/reset/{token}', 'showResetForm')->name('reset');
+            Route::post('/reset', 'reset')->name('reset.request');
+        });
     });
 
     Route::controller(SellerRegisterController::class)->group(function () {

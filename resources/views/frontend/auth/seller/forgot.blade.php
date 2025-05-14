@@ -14,7 +14,7 @@
         </div>
       @endif
 
-      <form method="POST" action="{{ route('password.email') }}" class="space-y-5">
+      <form method="POST" action="{{ route('seller.password.email') }}" class="space-y-5">
         @csrf
 
         <input type="email" name="email" value="{{ old('email') }}" required autofocus

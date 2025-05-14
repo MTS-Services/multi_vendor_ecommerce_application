@@ -1,1 +1,2 @@
 import '../sweetalert';
+import '../axios';

@@ -25,7 +25,7 @@ class SellerPasswordNotification extends Notification
 
     public function toMail($notifiable)
     {
-        $resetUrl = URL::route('admin.password.reset', ['token' => $this->token, 'email' => $notifiable->email]);
+        $resetUrl = URL::route('seller.password.reset', ['token' => $this->token, 'email' => $notifiable->email]);
 
         Log::info('Reset URL: ' . $resetUrl);
         return (new MailMessage)

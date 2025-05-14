@@ -102,6 +102,7 @@
 
     {{-- Toggle search form --}}
     <script src="{{ asset('frontend/js/toggleSearchForm.js') }}"></script>
+    <script src="{{ asset('frontend/js/functions.js') }}"></script>
 
     {{-- Footer Accordion --}}
     <script>
