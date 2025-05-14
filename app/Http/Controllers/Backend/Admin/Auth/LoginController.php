@@ -73,7 +73,7 @@ class LoginController extends Controller
                     }
                 },
             ],
-            'password' => ['required', 'string', 'exists:admins,password'],
+            'password' => ['required', 'string'],
         ];
 
         $request->validate($rules);
