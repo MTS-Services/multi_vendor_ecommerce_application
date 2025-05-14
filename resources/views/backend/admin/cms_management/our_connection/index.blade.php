@@ -43,7 +43,7 @@
 
                 ['name', true, true],
                 ['status', true, true],
-                ['creater_id', true, true],
+                ['created_by', true, true],
                 ['created_at', false, false],
                 ['action', false, false],
             ];
@@ -53,8 +53,8 @@
                 displayLength: 10,
                 main_route: "{{ route('cms.our-connection.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5],
-                model: 'our_connection',
+                export_columns: [0, 1, 2, 3, 4],
+                model: 'OurConnection',
             };
             initializeDataTable(details);
         })
@@ -78,22 +78,22 @@
                     key: "name"
                 },
                 {
-                    label: "Description",
-                    key: "description"
+                    label: "Image",
+                    key: "modified_image",
+                    type: "image"
                 },
                 {
                     label: "Website",
                     key: "website"
                 },
                 {
-                    label: "Image",
-                    key: "modified_image",
-                    type: "image"
-                },
-                {
                     label: "Status",
                     key: "status_label",
                     color: "status_color",
+                },
+                {
+                    label: "Description",
+                    key: "description"
                 },
             ];
 

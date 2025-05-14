@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/axios.js',
+                'resources/js/frontend/frontend.js',
             ],
             refresh: true,
         }),

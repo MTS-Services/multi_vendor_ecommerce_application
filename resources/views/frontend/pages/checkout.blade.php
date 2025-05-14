@@ -394,7 +394,7 @@
 
             <!-- Right Column - Order Summary -->
             <div class="lg:w-1/3">
-                <div class="sticky top-32 bg-bg-white p-6 shadow-card dark:bg-bg-darkSecondary rounded-lg">
+                <div class="sticky top-20 bg-bg-white p-6 shadow-card dark:bg-bg-darkSecondary rounded-lg">
                     <h2 class="text-lg font-semibold mb-6">In your cart</h2>
 
                     <!-- Cart Items -->
