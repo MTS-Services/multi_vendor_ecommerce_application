@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class OperationSubArea extends BaseModel
 {
@@ -154,5 +155,15 @@ class OperationSubArea extends BaseModel
     public function getOperationAreaNameAttribute(): string|null
     {
         return $this->operationArea?->name;
+    }
+
+    public function hubs(): HasMany
+    {
+        return $this->hasMany(Hub::class,'operation_sub_area_id');
+    }
+
+    public function activeHubs(): HasMany
+    {
+        return $this->hubs()->active();
     }
 }

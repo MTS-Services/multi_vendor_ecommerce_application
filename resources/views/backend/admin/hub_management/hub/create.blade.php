@@ -48,6 +48,13 @@
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'operation_area']" />
                         </div>
                         <div class="form-group">
+                            <label>{{ __('Operation Sub Area') }}</label>
+                            <select name="operation_sub_area" id="operation_sub_area" class="form-control" disabled>
+                                <option value="" selected hidden>{{__('Select Operation Sub Area')}}</option>
+                            </select>
+                            <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'operation_sub_area']" />
+                        </div>
+                        <div class="form-group">
                             <label>{{ __('Name') }} <span class="text-danger">*</span></label>
                             <input type="text" value="{{ old('name') }}" id="title" name="name" class="form-control"
                                 placeholder="Enter name">
@@ -110,6 +117,12 @@
                 let route3 ="{{ route('axios.get-operation-areas') }}";
                 getOperationAreas($(this).val(), route3);
             });
+            $('#operation_area').on('change', function () {
+                let route4 ="{{ route('axios.get-sub-areas') }}";
+                getOperationSubAreas($(this).val(), route4);
+            });
+
+
         });
     </script>
 @endpush

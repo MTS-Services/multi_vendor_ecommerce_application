@@ -25,7 +25,7 @@ class VerificationController extends Controller
     {
         return $request->user()->hasVerifiedEmail()
                         ? redirect($this->redirectPath())
-                        : view('frontend.auth.user.verify');
+                        : view('frontend.auth.seller.verify');
     }
 
     /**
@@ -35,7 +35,7 @@ class VerificationController extends Controller
      */
     protected function redirectTo()
     {
-        return route('user.profile');
+        return route('seller.profile');
     }
 
     /**
@@ -45,7 +45,7 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:seller');
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }

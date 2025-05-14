@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('state_id')->nullable();
             $table->unsignedBigInteger('city_id')->nullable();
             $table->unsignedBigInteger('operation_area_id')->nullable();
+            $table->unsignedBigInteger('operation_sub_area_id')->nullable();
             $table->string('name');
             $table->string('slug')->unique();
             $table->longText('address')->nullable();
@@ -40,6 +41,7 @@ return new class extends Migration
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('operation_area_id')->references('id')->on('operation_areas')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('operation_sub_area_id')->references('id')->on('operation_sub_areas')->onDelete('cascade')->onUpdate('cascade');
 
             // Indexes
             $table->index('sort_order');
@@ -47,6 +49,7 @@ return new class extends Migration
             $table->index('state_id');
             $table->index('city_id');
             $table->index('operation_area_id');
+            $table->index('operation_sub_area_id');
             $table->index('status');
             $table->index('created_at');
             $table->index('updated_at');
