@@ -9,6 +9,7 @@ class Seller extends AuthBaseModel
 {
 
     protected $table = 'sellers';
+    protected $guard = 'seller';
 
     protected $fillable = [
         'sort_order',
