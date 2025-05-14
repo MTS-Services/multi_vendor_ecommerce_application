@@ -13,51 +13,8 @@
                     </span>
                 </button>
             </div>
-            <div class="flex gap-3 p-2 mt-3 bg-bg-gray rounded-md shadow-card mx-5">
-                <div class="w-[25%] h-100 shrink-0 rounded-sm overflow-hidden">
-                    <img src="{{ asset('frontend/images/on-sale.jpg') }}" alt="Turtleneck T-shirt">
-                </div>
-                <div class="w-[75%] flex flex-col">
-                    <div class="flex justify-between items-center">
-                        <h4 class="text-md font-medium">Turtleneck T-shirt</h4>
-                        <span><i data-lucide="x" class="text-sm"></i></span>
-                    </div>
-                    <p class="text-sm mt-2">White / L</p>
-                    <div class="flex gap-2 items-center my-2">
-                        <span class="text-sm text-text-danger font-medium">$100.00</span>
-                        <span class="text-sm font-medium line-through text-text-gray">$130.00</span>
-                    </div>
-                    <div
-                        class="flex items-center shadow-sm rounded-full w-24 p-[2px] bg-bg-accent bg-opacity-60 dark:bg-opacity-50 text-text-white">
-                        <button class=" px-2 py-1 decrease-quantity" data-id="${item.id}">-</button>
-                        <input type="text" value="1" class="p-0 w-8 h-4 text-center border-x bg-transparent"
-                            readonly>
-                        <button class="px-2 py-1 increase-quantity" data-id="${item.id}">+</button>
-                    </div>
-                </div>
-            </div>
-            <div class="flex gap-3 p-2 mt-3 bg-bg-gray rounded-md shadow-card mx-5">
-                <div class="w-[25%] h-100 shrink-0 rounded-sm overflow-hidden">
-                    <img src="{{ asset('frontend/images/on-sale.jpg') }}" alt="Turtleneck T-shirt">
-                </div>
-                <div class="w-[75%] flex flex-col">
-                    <div class="flex justify-between items-center">
-                        <h4 class="text-md font-medium">Turtleneck T-shirt</h4>
-                        <span><i data-lucide="x" class="text-sm"></i></span>
-                    </div>
-                    <p class="text-sm mt-2">White / L</p>
-                    <div class="flex gap-2 items-center my-2">
-                        <span class="text-sm text-text-danger font-medium">$100.00</span>
-                        <span class="text-sm font-medium line-through text-text-gray">$130.00</span>
-                    </div>
-                    <div
-                        class="flex items-center shadow-sm rounded-full w-24 p-[2px] bg-bg-accent bg-opacity-60 dark:bg-opacity-50 text-text-white">
-                        <button class=" px-2 py-1 decrease-quantity" data-id="${item.id}">-</button>
-                        <input type="text" value="1" class="p-0 w-8 h-4 text-center border-x bg-transparent"
-                            readonly>
-                        <button class="px-2 py-1 increase-quantity" data-id="${item.id}">+</button>
-                    </div>
-                </div>
+            <div id="checkout-cart-items">
+                {{-- Cart Items --}}
             </div>
         </div>
 
