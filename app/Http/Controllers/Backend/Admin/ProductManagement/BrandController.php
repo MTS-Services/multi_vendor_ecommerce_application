@@ -62,6 +62,7 @@ class BrandController extends Controller
         return view('backend.admin.product_management.brand.index');
     }
 
+
     protected function menuItems($model): array
     {
         return [

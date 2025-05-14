@@ -94,6 +94,58 @@ class OurConnectionController extends Controller
         ];
     }
 
+
+
+    public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+
+
+            $query = OurConnection::with(['deleter_admin'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+                ->editColumn('status', function ($our_connection) {
+                    return "<span class='badge " . $our_connection->status_color . "'>$our_connection->status_label</span>";
+                })
+
+                ->editColumn('deleted_by', function ($our_connection) {
+                    return $our_connection->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($our_connection) {
+                    return $our_connection->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($our_connection) {
+                    $menuItems = $this->trashedMenuItems($our_connection);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['status', 'deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        };
+        return view('backend.admin.cms_management.our_connection.recycle-bin');
+    }
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'cms.our-connection.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['our-connection-restore']
+            ],
+            [
+                'routeName' => 'cms.our-connection.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['our-connection-permanent-delete']
+            ]
+
+        ];
+    }
+
     public function create()
     {
         return view('backend.admin.cms_management.our_connection.create');
@@ -166,4 +218,25 @@ class OurConnectionController extends Controller
         session()->flash('success', 'our connection status updated successfully!');
         return redirect()->route('cms.our-connection.index');
     }
+
+    public function restore(string $id): RedirectResponse
+    {
+        $our_connection = OurConnection::onlyTrashed()->findOrFail(decrypt($id));
+        $our_connection->update(['updated_by' => admin()->id]);
+        $our_connection->restore();
+        session()->flash('success', 'our connection restored successfully!');
+        return redirect()->route('cms.our-connection.recycle-bin');
+    }
+
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $our_connection = OurConnection::onlyTrashed()->findOrFail(decrypt($id));
+        $this->fileDelete($our_connection->image);
+        $our_connection->forceDelete();
+        session()->flash('success', 'our connection permanently deleted successfully!');
+        return redirect()->route('cms.our-connection.recycle-bin');
+    }
+
+
+
 }

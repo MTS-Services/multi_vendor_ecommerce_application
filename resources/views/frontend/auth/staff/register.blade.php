@@ -7,7 +7,7 @@
                 <!-- Left Side: Form -->
                 <div class="w-full xl:w-1/2 p-10 md:p-12 flex flex-col justify-center">
                     <h2 class="text-3xl font-semibold text-center mb-6">{{ __('Register your account') }}</h2>
-                    <form class="space-y-5" action="{{ route('register') }}" method="POST">
+                    <form class="space-y-5" action="{{ route('staff.register.submit') }}" method="POST">
                         @csrf
 
                         {{-- Name Field --}}
@@ -113,14 +113,14 @@
                         </div>
 
                         <p class="text-center text-sm mt-4">
-                            {{ __('Already have an account?') }} <a href="{{ route('login') }}"
+                            {{ __('Already have an account?') }} <a href="{{ route('staff.login') }}"
                                 class="text-text-tertiary font-medium">
                                 {{ __('Sign in') }} </a>
                         </p>
 
                         <div class="text-center text-sm mt-4">
                             {{ __('Become a') }} <a href="#"
-                                class="text-text-accent font-medium">{{ __('Seller') }}</a>
+                                class="text-text-accent font-medium">{{ __('Staff') }}</a>
                         </div>
                     </div>
                 </div>

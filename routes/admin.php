@@ -31,6 +31,7 @@ use App\Http\Controllers\Backend\Admin\ProductManagement\AttributeValueControlle
 use App\Http\Controllers\Backend\Admin\Auth\LoginController as AdminLoginController;
 use App\Http\Controllers\Backend\Admin\ProductManagement\SubChildCategoryController;
 use App\Http\Controllers\Backend\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Backend\Admin\ProductManagement\ProductTagController;
 use App\Http\Controllers\Backend\Admin\AdminProfileContoller;
 use App\Models\Admin;
 use App\Models\Faq;
@@ -231,6 +232,10 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         //Our Connection
         Route::resource('our-connection', OurConnectionController::class);
         Route::get('our-connection/status/{our_connection}', [OurConnectionController::class, 'status'])->name('our-connection.status');
+        Route::get('our-connection/recycle/bin', [OurConnectionController::class, 'recycleBin'])->name('our-connection.recycle-bin');
+        Route::get('our-connection/restore/{our_connection}', [OurConnectionController::class, 'restore'])->name('our-connection.restore');
+        Route::delete('our-connection/permanent-delete/{our_connection}', [OurConnectionController::class, 'permanentDelete'])->name('our-connection.permanent-delete');
+
     });
 
     // Hub Management
@@ -291,6 +296,10 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('brand/restore/{brand}', [BrandController::class, 'restore'])->name('brand.restore');
         Route::delete('brand/permanent-delete/{brand}', [BrandController::class, 'permanentDelete'])->name('brand.permanent-delete');
 
+        // ProductTag Routes
+        Route::resource('product-tags', ProductTagController::class);
+        Route::get('product-tags/status/{product_tags}', [ProductTagController::class, 'status'])->name('product-tags.status');
+        Route::get('product-tags/slug/{product_tags}', [ProductTagController::class, 'slug'])->name('product-tags.slug');
         // TaxClass
         Route::resource('tax-class', TaxClassController::class);
         Route::get('tax-class/status/{tax_class}', [TaxClassController::class, 'status'])->name('tax-class.status');

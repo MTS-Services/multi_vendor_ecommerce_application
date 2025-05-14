@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -16,8 +15,6 @@
         @endif
         {{ config('app.name', 'Ecommerce') }}
     </title>
-
-
     <link href="{{ asset('backend/seller/assets/css/styles.css') }}" rel="stylesheet" />
 
     {{-- Boxicons --}}
@@ -46,7 +43,6 @@
         });
         const content_image_upload_url = "{{ route('file.ci_upload') }}";
     </script>
-
 </head>
 
 <body>
@@ -75,7 +71,7 @@
 
     <script src="{{ asset('backend/admin/js/functions.js') }}"></script>
     <script src="{{ asset('backend/seller/assets/js/scripts.js') }}"></script>
-
+    <script src="{{ asset('backend/admin/js/custom.js') }}"></script>
     {{-- Custom JS --}}
     @stack('js-links')
     @stack('js')
