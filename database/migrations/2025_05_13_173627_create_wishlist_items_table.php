@@ -15,25 +15,28 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('wishlist_items', function (Blueprint $table) {
-             Schema::create('wishlists', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('sort_order')->default(0);
-            $table->unsignedBigInteger('user_id');
-            $table->string('session_id');
+            $table->unsignedBigInteger('wishlist_id');
+            $table->unsignedBigInteger('product_id');
             $table->softDeletes();
             $table->timestamps();
             $this->addMorphedAuditColumns($table);
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('session_id')->references('id')->on('sessions')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('wishlist_id')->references('id')->on('wishlists')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+
+
 
             $table->index('sort_order');
-            $table->index('user_id');
-            $table->index('session_id');
+            $table->index('cart_id');
+            $table->index('product_id');
+            $table->index('variation_id');
+            $table->index('quantity');
+            $table->index('price');
             $table->index('created_at');
             $table->index('updated_at');
             $table->index('deleted_at');
-        });
         });
     }
 
