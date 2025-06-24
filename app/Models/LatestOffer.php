@@ -40,6 +40,8 @@ protected $fillable = [
             'status_btn_label',
             'status_btn_color',
             'status_labels',
+
+            'modified_image',
         ]);
     }
     public const STATUS_ACTIVE = 1;
@@ -109,6 +111,10 @@ protected $fillable = [
     public function getStatusBtnColorAttribute(): string
     {
         return self::getStatusBtnColors()[$this->status] ?? 'btn btn-secondary';
+    }
+     public function getModifiedImageAttribute()
+    {
+        return storage_url($this->image);
     }
 
 }

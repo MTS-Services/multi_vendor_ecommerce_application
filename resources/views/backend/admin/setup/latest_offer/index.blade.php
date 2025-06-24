@@ -1,5 +1,8 @@
 @extends('backend.admin.layouts.master', ['page_slug' => 'latest_offer'])
 @section('title', 'Latest Offer List')
+@push('css')
+    <link rel="stylesheet" href="{{ asset('custom_litebox/litebox.css') }}">
+@endpush
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -36,6 +39,7 @@
 @endsection
 @push('js')
     <script src="{{ asset('datatable/main.js') }}"></script>
+        <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
     <script>
         $(document).ready(function() {
             let table_columns = [
@@ -75,6 +79,7 @@
                 {
                     label: "Image",
                     key: "modified_image",
+                    type: "image"
                 },
                 {
                     label: "Url ",

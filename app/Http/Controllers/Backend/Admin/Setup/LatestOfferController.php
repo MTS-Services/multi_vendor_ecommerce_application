@@ -100,9 +100,9 @@ class LatestOfferController extends Controller
      */
     public function store(LatestOfferRequest $request)
     {
+      
         $validated = $request->validated();
-        $validated['creater_id'] = admin()->id;
-        $validated['creater_type'] = get_class(admin());
+        $validated['created_by'] = admin()->id;
         if (isset($request->image)) {
             $validated['image'] = $this->handleFilepondFileUpload(LatestOffer::class, $request->image, admin(), 'lastest_offers/');
         }
