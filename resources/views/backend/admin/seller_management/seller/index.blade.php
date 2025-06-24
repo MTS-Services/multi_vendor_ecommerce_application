@@ -27,6 +27,9 @@
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Email') }}</th>
+                                <th>{{ __('Country')}}</th>
+                                <th>{{ __('City') }}</th>
+                                <th>{{ __('Operation Area') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Verify Status') }}</th>
                                 <th>{{ __('Created By') }}</th>
@@ -54,6 +57,9 @@
 
                 ['first_name', true, true],
                 ['email', true, true],
+                ['country_id', true, true],
+                ['city_id', true, true],
+                ['operation_area', true, true],
                 ['status', true, true],
                 ['is_verify', true, true],
                 ['creater_id', true, true],

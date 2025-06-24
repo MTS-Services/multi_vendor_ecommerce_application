@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SellerRequest;
 use App\Http\Traits\DetailsCommonDataTrait;
 use App\Http\Traits\FileManagementTrait;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use App\Models\Seller;
 use Yajra\DataTables\Facades\DataTables;
@@ -35,13 +36,22 @@ class SellerController extends Controller
     {
 
         if ($request->ajax()) {
-            $query = Seller::with(['creater'])
+            $query = Seller::with(['creater','country','city','seller','oparationArea','oparationSubArea','state'])
                 ->orderBy('sort_order', 'asc')
                 ->latest();
             return DataTables::eloquent($query)
 
                 ->editColumn('first_name', function ($seller) {
                     return $seller->full_name . ($seller->username ? " (" . $seller->username . ")" : "");
+                })
+                 ->editColumn('country_id', function ($seller) {
+                    return $seller->country_name . ($seller->state_name ? "(". $seller->state_name .")": "");
+                })
+                ->editColumn('city_id', function ($seller) {
+                    return  $seller->city_name;
+                })
+                  ->editColumn('operation_area_id', function ($seller) {
+                    return  $seller->operationArea?->name . ($seller->operationSubArea ? "(". $seller->operationSubArea?->name .")": "");;
                 })
                 ->editColumn('status', function ($seller) {
                     return "<span class='badge " . $seller->status_color . "'>$seller->status_label</span>";
@@ -59,7 +69,7 @@ class SellerController extends Controller
                     $menuItems = $this->menuItems($seller);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'is_verify', 'creater_id', 'created_at', 'action'])
+                ->rawColumns(['status', 'is_verify', 'creater_id', 'country_id', 'city_id', 'operation_area_id', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.seller_management.seller.index');
@@ -159,7 +169,8 @@ class SellerController extends Controller
      */
     public function create()
     {
-        return view('backend.admin.seller_management.seller.create');
+        $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
+        return view('backend.admin.seller_management.seller.create', $data);
     }
 
     /**

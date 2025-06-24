@@ -99,4 +99,12 @@ class Seller extends AuthBaseModel
     {
         return $this->belongsTo(Hub::class, 'hub_id');
     }
+    public function oparationArea (): BelongsTo
+    {
+        return $this->belongsTo(OperationArea::class, 'operation_area_id');
+    }
+    public function oparationSubArea (): BelongsTo
+    {
+        return $this->belongsTo(OperationSubArea::class, 'operation_sub_area_id');
+    }
 }

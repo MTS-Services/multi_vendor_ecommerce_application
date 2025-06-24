@@ -125,6 +125,8 @@ function getOperationSubAreas(areaId, route, operationSubAreaId = null) {
         params: { area_id: areaId }
     })
         .then(function (response) {
+            console.log(response);
+
             if (response.data.operation_sub_areas.length > 0) {
                 $('#operation_sub_area').html(`<option value="" selected hidden>Select Operation Area</option>`);
                 response.data.operation_sub_areas.forEach(function (operation_sub_area) {
