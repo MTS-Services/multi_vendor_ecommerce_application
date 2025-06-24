@@ -63,7 +63,7 @@ class TaxRateController extends Controller
                     $menuItems = $this->menuItems($tax_rate);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'priority', 'compound', 'tax_class_id', 'country_id', 'city_id', 'created_by', 'created_at', 'action'])
+                ->rawColumns(['status', 'tax_class_id', 'country_id', 'city_id', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.product_management.tax_rate.index');
@@ -102,11 +102,11 @@ class TaxRateController extends Controller
         ];
     }
 
-       public function recycleBin(Request $request)
+    public function recycleBin(Request $request)
     {
-
         if ($request->ajax()) {
-            $query = TaxRate::with(['deleter_admin'])
+
+            $query = TaxRate::with(['deleter_admin', 'taxClass', 'country', 'state', 'city'])
                 ->onlyTrashed()
                 ->orderBy('sort_order', 'asc')
                 ->latest();
@@ -134,7 +134,7 @@ class TaxRateController extends Controller
                     $menuItems = $this->trashedMenuItems($tax_rate);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status','tax_class_id', 'country_id', 'city_id', 'deleted_by', 'deleted_at', 'action'])
+                ->rawColumns(['status', 'tax_class_id', 'country_id', 'city_id', 'deleted_by', 'deleted_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.product_management.tax_rate.recycle-bin');
@@ -164,8 +164,8 @@ class TaxRateController extends Controller
      */
     public function create()
     {
-         $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
-        $data['tax_classes'] = TaxClass::active()->select('id','name')->orderBy('name')->get();
+        $data['countries'] = Country::active()->select('id', 'name', 'slug')->orderBy('name')->get();
+        $data['tax_classes'] = TaxClass::active()->select('id', 'name')->orderBy('name')->get();
         return view('backend.admin.product_management.tax_rate.create', $data);
     }
 
@@ -175,14 +175,14 @@ class TaxRateController extends Controller
     public function store(TaxRateRequest $request)
     {
 
-         $validated = $request->validated();
+        $validated = $request->validated();
         $validated['tax_class_id'] = $request->tax_class;
         $validated['country_id'] = $request->country;
         $validated['state_id'] = $request->state;
         $validated['city_id'] = $request->city;
         $validated['created_by'] = admin()->id;
         TaxRate::create($validated);
-        session()->flash('success','Tax rate created successfully!');
+        session()->flash('success', 'Tax rate created successfully!');
         return redirect()->route('pm.tax-rate.index');
     }
 
@@ -191,7 +191,7 @@ class TaxRateController extends Controller
      */
     public function show(string $id)
     {
-        $data = TaxRate::with([ 'creater_admin','taxClass',  'country','state', 'updater_admin', 'city'])->findOrFail(decrypt($id));
+        $data = TaxRate::with(['creater_admin', 'taxClass',  'country', 'state', 'updater_admin', 'city'])->findOrFail(decrypt($id));
 
         return response()->json($data);
     }
@@ -202,10 +202,10 @@ class TaxRateController extends Controller
     public function edit(string $id)
     {
 
-        $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
-        $data['tax_classes'] = TaxClass::active()->select('id','name')->orderBy('name')->get();
+        $data['countries'] = Country::active()->select('id', 'name', 'slug')->orderBy('name')->get();
+        $data['tax_classes'] = TaxClass::active()->select('id', 'name')->orderBy('name')->get();
         $data['tax_rate'] = TaxRate::findOrFail(decrypt($id));
-        return view('backend.admin.product_management.tax_rate.edit',$data);
+        return view('backend.admin.product_management.tax_rate.edit', $data);
     }
 
     /**
@@ -213,7 +213,7 @@ class TaxRateController extends Controller
      */
     public function update(TaxRateRequest $request, string $id)
     {
-         $tax_rate = TaxRate::findOrFail(decrypt($id));
+        $tax_rate = TaxRate::findOrFail(decrypt($id));
         $validated = $request->validated();
         $validated['tax_class_id'] = $request->tax_class;
         $validated['country_id'] = $request->country;
@@ -221,7 +221,7 @@ class TaxRateController extends Controller
         $validated['city_id'] = $request->city;
         $validated['updated_by'] = admin()->id;
         $tax_rate->update($validated);
-        session()->flash('success','Tax rate updated successfully!');
+        session()->flash('success', 'Tax rate updated successfully!');
         return redirect()->route('pm.tax-rate.index');
     }
 
@@ -233,7 +233,7 @@ class TaxRateController extends Controller
         $tax_rate = TaxRate::findOrFail(decrypt($id));
         $tax_rate->update(['deleted_by' => admin()->id]);
         $tax_rate->delete();
-        session()->flash('success','Tax rate deleted successfully!');
+        session()->flash('success', 'Tax rate deleted successfully!');
         return redirect()->route('pm.tax-rate.index');
     }
     public function status(string $id): RedirectResponse
@@ -257,7 +257,7 @@ class TaxRateController extends Controller
         session()->flash('success', 'Tax Rate compound updated successfully!');
         return redirect()->route('pm.tax-rate.index');
     }
-        public function restore(string $id): RedirectResponse
+    public function restore(string $id): RedirectResponse
     {
         $tax_rate = TaxRate::onlyTrashed()->findOrFail(decrypt($id));
         $tax_rate->update(['updated_by' => admin()->id]);

@@ -24,8 +24,6 @@
                                 <th>{{ __('Country') }}</th>
                                 <th>{{ __('City') }}</th>
                                 <th>{{ __('Tax Rate') }}</th>
-                                <th>{{ __('Status') }}</th>
-                                <th>{{ __('Status') }}</th>
                                 <th>{{ __('Deleted By') }}</th>
                                 <th>{{ __('Deleted Date') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -45,7 +43,7 @@
     <script>
         $(document).ready(function() {
             let table_columns = [
-                //name and data, orderable, se
+                //name and data, orderable, searchable
                 ['tax_class_id', true, true],
                 ['name', true, true],
                 ['country_id', true, true],
@@ -62,7 +60,7 @@
                 displayLength: 10,
                 main_route: "{{ route('pm.tax-rate.recycle-bin') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4],
+                export_columns: [0, 1, 2, 3, 4, 5],
                 model: 'TaxRate',
             };
             // initializeDataTable(details);
