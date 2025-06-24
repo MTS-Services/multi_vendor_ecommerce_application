@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\SellerRequest;
 use App\Http\Traits\DetailsCommonDataTrait;
 use App\Http\Traits\FileManagementTrait;
 use App\Models\Country;
+use App\Models\Hub;
 use Illuminate\Http\Request;
 use App\Models\Seller;
 use Yajra\DataTables\Facades\DataTables;
@@ -36,7 +37,7 @@ class SellerController extends Controller
     {
 
         if ($request->ajax()) {
-            $query = Seller::with(['creater','country','city','seller','oparationArea','oparationSubArea','state'])
+            $query = Seller::with(['creater', 'country', 'city', 'operationArea', 'oparationSubArea', 'state','hub'])
                 ->orderBy('sort_order', 'asc')
                 ->latest();
             return DataTables::eloquent($query)
@@ -44,14 +45,17 @@ class SellerController extends Controller
                 ->editColumn('first_name', function ($seller) {
                     return $seller->full_name . ($seller->username ? " (" . $seller->username . ")" : "");
                 })
-                 ->editColumn('country_id', function ($seller) {
-                    return $seller->country_name . ($seller->state_name ? "(". $seller->state_name .")": "");
+                ->editColumn('country_id', function ($seller) {
+                    return $seller->country?->name . ($seller->state ? "(" . $seller->state?->name . ")" : "");
                 })
                 ->editColumn('city_id', function ($seller) {
-                    return  $seller->city_name;
+                    return  $seller->city?->name;
                 })
-                  ->editColumn('operation_area_id', function ($seller) {
-                    return  $seller->operationArea?->name . ($seller->operationSubArea ? "(". $seller->operationSubArea?->name .")": "");;
+                ->editColumn('operation_area_id', function ($seller) {
+                    return  $seller->operationArea?->name . ($seller->operationSubArea ? "(" . $seller->operationSubArea?->name . ")" : "");;
+                })
+                ->editColumn('hub_id', function ($seller) {
+                    return  $seller->hub?->name;
                 })
                 ->editColumn('status', function ($seller) {
                     return "<span class='badge " . $seller->status_color . "'>$seller->status_label</span>";
@@ -69,7 +73,7 @@ class SellerController extends Controller
                     $menuItems = $this->menuItems($seller);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'is_verify', 'creater_id', 'country_id', 'city_id', 'operation_area_id', 'created_at', 'action'])
+                ->rawColumns(['status', 'is_verify', 'creater_id', 'country_id','hub_id', 'city_id', 'operation_area_id', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.seller_management.seller.index');
@@ -128,7 +132,7 @@ class SellerController extends Controller
                 ->editColumn('is_verify', function ($seller) {
                     return "<span class='badge " . $seller->verify_color . "'>" . $seller->verify_label . "</span>";
                 })
-               ->editColumn('deleter_id', function ($seller) {
+                ->editColumn('deleter_id', function ($seller) {
                     return $seller->deleter_name;
                 })
                 ->editColumn('deleted_at', function ($seller) {
@@ -169,7 +173,8 @@ class SellerController extends Controller
      */
     public function create()
     {
-        $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
+        $data['countries'] = Country::active()->select('id', 'name', 'slug')->orderBy('id')->get();
+        $data['hubs'] = Hub::active()->select('id', 'name')->orderBy('id')->get();
         return view('backend.admin.seller_management.seller.create', $data);
     }
 
@@ -179,8 +184,14 @@ class SellerController extends Controller
     public function store(SellerRequest $request)
     {
         $validated = $request->validated();
+        $validated['country_id'] = $request->country;
+        $validated['state_id'] = $request->state;
+        $validated['city_id'] = $request->city;
+        $validated['operation_area_id'] = $request->operation_area;
+        $validated['hub_id'] = $request->hub;
         $validated['creater_id'] = admin()->id;
         $validated['creater_type'] = get_class(admin());
+
         Seller::create($validated);
         session()->flash('success', 'Seller created successfully!');
         return redirect()->route('sl.seller.index');
@@ -191,7 +202,13 @@ class SellerController extends Controller
      */
     public function show(string $id)
     {
-        $data = Seller::with(['creater', 'updater'])->findOrFail(decrypt($id));
+        $data = Seller::with(['creater', 'updater','city','country','state','operationArea','hub','oparationSubArea',])->findOrFail(decrypt($id));
+        $data['country_name'] = $data->country?->name;
+        $data['state_name'] = $data->state?->name;
+        $data['city_name'] = $data->city?->name;
+        $data['operation_area_name'] = $data->operationArea?->name;
+        $data['operation_sub_area_name'] = $data->oparationSubArea?->name;
+        $data['hub_name'] = $data->hub?->name;
         return response()->json($data);
     }
 
@@ -201,6 +218,8 @@ class SellerController extends Controller
     public function edit(string $id)
     {
         $data['seller'] = Seller::findOrFail(decrypt($id));
+        $data['countries'] = Country::active()->select('id', 'name', 'slug')->orderBy('id')->get();
+        $data['hubs'] = Hub::active()->select('id', 'name')->orderBy('id')->get();
         return view('backend.admin.seller_management.seller.edit', $data);
     }
 
@@ -211,6 +230,11 @@ class SellerController extends Controller
     {
         $seller = Seller::findOrFail(decrypt($id));
         $validated = $request->validated();
+          $validated['country_id'] = $request->country;
+        $validated['state_id'] = $request->state;
+        $validated['city_id'] = $request->city;
+        $validated['operation_area_id'] = $request->operation_area;
+        $validated['hub_id'] = $request->hub;
         $validated['password'] = ($request->password ? $request->password : $seller->password);
         $validated['updater_id'] = admin()->id;
         $validated['updater_type'] = get_class(admin());
@@ -240,7 +264,7 @@ class SellerController extends Controller
         return redirect()->route('sl.seller.index');
     }
 
-       public function restore(string $id): RedirectResponse
+    public function restore(string $id): RedirectResponse
     {
         $seller = Seller::onlyTrashed()->findOrFail(decrypt($id));
         $seller->update(['updated_by' => admin()->id]);
@@ -259,7 +283,7 @@ class SellerController extends Controller
     {
         $seller = Seller::onlyTrashed()->findOrFail(decrypt($id));
         $seller->forceDelete();
-         if($seller->image){
+        if ($seller->image) {
             $this->fileDelete($seller->image);
         }
         session()->flash('success', 'Seller permanently deleted successfully!');

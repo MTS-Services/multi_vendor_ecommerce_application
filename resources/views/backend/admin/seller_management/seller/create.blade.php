@@ -23,7 +23,8 @@
                                         <option value="" selected hidden>{{ __('Select Country') }}</option>
                                         @foreach ($countries as $country)
                                             <option value="{{ $country->id }}"
-                                                {{ old('country') == $country->id ? 'selected' : '' }}>{{ $country->name }}
+                                                {{ old('country') == $country->id ? 'selected' : '' }}>
+                                                {{ $country->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -60,7 +61,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>{{ __('Operation Sub Area') }}</label>
-                                    <select name="operation_sub_area" id="operation_sub_area" class="form-control" disabled>
+                                    <select name="operation_sub_area" id="operation_sub_area" class="form-control"
+                                        disabled>
                                         <option value="" selected hidden>{{ __('Select Operation Sub Area') }}
                                         </option>
                                     </select>
@@ -91,6 +93,20 @@
                                     <input type="text" name="email" class="form-control" placeholder="Enter email"
                                         value="{{ old('email') }}">
                                     <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>{{ __('Hub') }} <span class="text-danger">*</span></label>
+                                    <select name="hub" class="form-control">
+                                        <option value="" selected hidden>{{ __('Select Country') }}</option>
+                                        @foreach ($hubs as $hub)
+                                            <option value="{{ $hub->id }}"
+                                                {{ old('hub') == $hub->id ? 'selected' : '' }}>{{ $hub->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'hub']" />
                                 </div>
                             </div>
                         </div>
@@ -129,7 +145,6 @@
     </div>
 @endsection
 @push('js')
-
     <script>
         // Get Country States By Axios
         $(document).ready(function() {
@@ -153,4 +168,4 @@
 
         });
     </script>
-    @endpush
+@endpush

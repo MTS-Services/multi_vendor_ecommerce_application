@@ -26,10 +26,10 @@
                             <tr>
                                 <th>{{ __('SL') }}</th>
                                 <th>{{ __('Name') }}</th>
-                                <th>{{ __('Email') }}</th>
-                                <th>{{ __('Country')}}</th>
+                                <th>{{ __('Country') }}</th>
                                 <th>{{ __('City') }}</th>
-                                <th>{{ __('Operation Area') }}</th>
+                                <th>{{ __('Operation') }}</th>
+                                <th>{{ __('Hub') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Verify Status') }}</th>
                                 <th>{{ __('Created By') }}</th>
@@ -56,10 +56,10 @@
             let table_columns = [
 
                 ['first_name', true, true],
-                ['email', true, true],
                 ['country_id', true, true],
                 ['city_id', true, true],
-                ['operation_area', true, true],
+                ['operation_area_id', true, true],
+                ['hub_id', true, true],
                 ['status', true, true],
                 ['is_verify', true, true],
                 ['creater_id', true, true],
@@ -72,7 +72,7 @@
                 displayLength: 10,
                 main_route: "{{ route('sl.seller.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5, 6],
+                export_columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
                 model: 'Seller',
             };
             initializeDataTable(details);
@@ -92,6 +92,30 @@
             let route = "{{ route('sl.seller.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
             const headers = [{
+                    label: "Country",
+                    key: "country_name"
+                },
+                {
+                    label: "State",
+                    key: "state_name"
+                },
+                {
+                    label: "City",
+                    key: "city_name"
+                },
+                {
+                    label: "Operation Area",
+                    key: "operation_area_name"
+                }, 
+                {
+                    label: "Operation Sub Area",
+                    key: "operation_sub_area_name"
+                },
+                {
+                    label: "Hub",
+                    key: "hub_name"
+                },
+                 {
                     label: "First Name",
                     key: "first_name"
                 },
