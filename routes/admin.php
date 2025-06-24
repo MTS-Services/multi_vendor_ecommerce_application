@@ -41,6 +41,7 @@ use App\Http\Controllers\Backend\Admin\Auth\ForgotPasswordController as AdminFor
 use App\Http\Controllers\Backend\Admin\Auth\ConfirmPasswordController as AdminConfirmPasswordController;
 use App\Http\Controllers\Backend\Admin\Auth\ResetPasswordController as AdminResetPasswordController;
 use App\Http\Controllers\Backend\Admin\Auth\VerificationController as AdminVerificationController;
+use App\Models\ProductTag;
 
 // Admin Auth Routes
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
@@ -235,7 +236,6 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('our-connection/recycle/bin', [OurConnectionController::class, 'recycleBin'])->name('our-connection.recycle-bin');
         Route::get('our-connection/restore/{our_connection}', [OurConnectionController::class, 'restore'])->name('our-connection.restore');
         Route::delete('our-connection/permanent-delete/{our_connection}', [OurConnectionController::class, 'permanentDelete'])->name('our-connection.permanent-delete');
-
     });
 
     // Hub Management
@@ -300,6 +300,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::resource('product-tags', ProductTagController::class);
         Route::get('product-tags/status/{product_tags}', [ProductTagController::class, 'status'])->name('product-tags.status');
         Route::get('product-tags/slug/{product_tags}', [ProductTagController::class, 'slug'])->name('product-tags.slug');
+        Route::get('product-tags/recycle/bin', [ProductTagController::class, 'recycleBin'])->name('product-tags.recycle-bin');
+        Route::get('product-tags/restore/{product_tags}', [ProductTagController::class, 'restore'])->name('product-tags.restore');
+        Route::delete('product-tags/permanent-delete/{product_tags}', [ProductTagController::class, 'permanentDelete'])->name('product-tags.permanent-delete');
         // TaxClass
         Route::resource('tax-class', TaxClassController::class);
         Route::get('tax-class/status/{tax_class}', [TaxClassController::class, 'status'])->name('tax-class.status');
@@ -316,11 +319,6 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('tax-rate/recycle/bin', [TaxRateController::class, 'recycleBin'])->name('tax-rate.recycle-bin');
         Route::get('tax-rate/restore/{tax_rate}', [TaxRateController::class, 'restore'])->name('tax-rate.restore');
         Route::delete('tax-rate/permanent-delete/{tax_rate}', [TaxRateController::class, 'permanentDelete'])->name('tax-rate.permanent-delete');
-
-
-
-
-
     });
 
     // Documentation
