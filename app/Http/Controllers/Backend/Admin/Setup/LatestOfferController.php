@@ -36,7 +36,7 @@ class LatestOfferController extends Controller
                 ->editColumn('status', function ($latestoffer) {
                     return "<span class='badge " . $latestoffer->status_color . "'>$latestoffer->status_label</span>";
                 })
-                ->editColumn('creater_id', function ($latestoffer) {
+                ->editColumn('created_by', function ($latestoffer) {
                     return $latestoffer->creater_name;
                 })
                 ->editColumn('created_at', function ($latestoffer) {
@@ -46,7 +46,7 @@ class LatestOfferController extends Controller
                     $menuItems = $this->menuItems($latestoffer);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['title', 'url', 'description', 'status', 'creater_id', 'created_at', 'action'])
+                ->rawColumns(['title', 'url', 'description', 'status', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.setup.latest_offer.index');
@@ -83,6 +83,75 @@ class LatestOfferController extends Controller
             ]
 
         ];
+    }
+      public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $query = LatestOffer::with(['deleter'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+                ->editColumn('status', function ($latestoffer) {
+                    return "<span class='badge " . $latestoffer->status_color . "'>$latestoffer->status_label</span>";
+                })
+                ->editColumn('deleted_by', function ($latestoffer) {
+                    return $latestoffer->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($latestoffer) {
+                    return $latestoffer->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($latestoffer) {
+                    $menuItems = $this->trashedMenuItems($latestoffer);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['status',  'deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.setup.latest_offer.recycle-bin');
+    }
+
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'setup.latest-offer.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['latest_offer-restore']
+            ],
+            [
+                'routeName' => 'setup.latest-offer.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['latest_offer-permanent-delete']
+            ]
+
+        ];
+    }
+     public function restore(string $id): RedirectResponse
+    {
+        $latest_offer = LatestOffer::onlyTrashed()->findOrFail(decrypt($id));
+        $latest_offer->update(['updated_by' => admin()->id]);
+        $latest_offer->restore();
+        session()->flash('success', 'Latest Offer restored successfully!');
+        return redirect()->route('setup.latest-offer.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $latest_offer = LatestOffer::onlyTrashed()->findOrFail(decrypt($id));
+        $latest_offer->forceDelete();
+        session()->flash('success', 'Latest Offer permanently deleted successfully!');
+        return redirect()->route('setup.latest-offer.recycle-bin');
     }
 
     /**
@@ -136,8 +205,7 @@ class LatestOfferController extends Controller
     {
         $latestoffer =LatestOffer ::findOrFail(decrypt($id));
         $validated = $request->validated();
-        $validated['updater_id'] = admin()->id;
-        $validated['updater_type'] = get_class(admin());
+        $validated['updated_by'] = admin()->id;
         if (isset($request->image)) {
             $validated['image'] = $this->handleFilepondFileUpload($latestoffer, $request->image, admin(), 'product_attribute/');
         }
@@ -152,7 +220,7 @@ class LatestOfferController extends Controller
     public function destroy(string $id)
     {
         $latestoffer = LatestOffer::findOrFail(decrypt($id));
-        $latestoffer->update(['deleter_id' => admin()->id, 'deleter_type' => get_class(admin())]);
+        $latestoffer->update(['deleted_by' => admin()->id]);
         $latestoffer->delete();
         session()->flash('success', 'latest offer deleted successfully!');
         return redirect()->route('setup.latest-offer.index');
