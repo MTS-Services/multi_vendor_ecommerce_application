@@ -87,4 +87,16 @@ class Seller extends AuthBaseModel
     {
         return $this->morphOne(PersonalInformation::class, 'profile');
     }
+    public function country (): BelongsTo
+    {
+        return $this->belongsTo(Country::class, 'country_id');
+    }
+    public function city (): BelongsTo
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
+    public function hub (): BelongsTo
+    {
+        return $this->belongsTo(Hub::class, 'hub_id');
+    }
 }
