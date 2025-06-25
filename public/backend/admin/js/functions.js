@@ -79,6 +79,7 @@ function getCities(stateId, route, cityId = null) {
         params: { state_id: stateId }
     })
         .then(function (response) {
+            console.log("Cities loaded:", response.data.cities);
             if (response.data.cities.length > 0) {
                 $('#city').html(`<option value="" selected hidden>Select City</option>`);
                 response.data.cities.forEach(function (city) {
