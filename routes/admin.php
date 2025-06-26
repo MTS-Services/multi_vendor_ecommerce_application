@@ -8,7 +8,6 @@ use App\Http\Controllers\Backend\Admin\TempFileController;
 use App\Http\Controllers\Backend\Admin\Setup\FaqController;
 use App\Http\Controllers\Backend\Admin\Setup\CityController;
 use App\Http\Controllers\Backend\Admin\Setup\StateController;
-use App\Http\Controllers\Backend\Admin\SiteSettingController;
 use App\Http\Controllers\Backend\Admin\AxiosRequestController;
 use App\Http\Controllers\Backend\Admin\DocumentationController;
 use App\Http\Controllers\Backend\Admin\Setup\CountryController;
@@ -41,6 +40,7 @@ use App\Http\Controllers\Backend\Admin\Auth\ForgotPasswordController as AdminFor
 use App\Http\Controllers\Backend\Admin\Auth\ConfirmPasswordController as AdminConfirmPasswordController;
 use App\Http\Controllers\Backend\Admin\Auth\ResetPasswordController as AdminResetPasswordController;
 use App\Http\Controllers\Backend\Admin\Auth\VerificationController as AdminVerificationController;
+use App\Http\Controllers\Backend\Admin\SiteSettingController;
 use App\Models\ProductTag;
 
 // Admin Auth Routes
@@ -81,6 +81,17 @@ Route::controller(AxiosRequestController::class)->name('axios.')->group(function
 Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
 
     Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
+
+    Route::controller(AdminVerificationController::class)->prefix('admin/email')->group(function () {
+        // Show verification notice page
+        Route::get('verify', 'show')->name('admin.verification.notice'); 
+
+        // Handle email verification link
+        Route::get('verify/{id}/{hash}', 'verify')->name('admin.verification.verify')->middleware('signed');
+
+        // Resend verification email
+        Route::post('resend', 'resend') ->name('admin.verification.resend')->middleware('throttle:6,1');
+    });
 
     // Admin Profile
     Route::controller(AdminProfileContoller::class)->name('admin.')->group(function () {
