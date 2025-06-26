@@ -40,7 +40,7 @@
             <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
                 <h4 class="text-lg font-semibold text-rose-600 mb-2">Hub Staff Access</h4>
                 @auth('staff')
-                    <a href="{{ route('hub.dashboard') }}"
+                    <a href="{{ route('staff.dashboard') }}"
                         class="btn w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 text-white">Hub Dashboard</a>
                 @else
                     <a href="{{ route('staff.login') }}"

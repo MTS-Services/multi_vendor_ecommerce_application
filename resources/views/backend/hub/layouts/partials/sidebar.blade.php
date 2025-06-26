@@ -35,21 +35,21 @@
                             aria-expanded="false" aria-controls="level1Menu">
                             <i class="nav-icon bi bi-circle-fill"></i>
                             <p>
-                                Level
+                                Staff
                                 <i class="bi bi-chevron-down float-end"></i>
                             </p>
                         </a>
                         <ul class="collapse ps-3" id="level1Menu">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('sm.staff.index') }}" class="nav-link">
                                     <i class="bi bi-dot"></i>
-                                    Level 1 - Item 1
+                                    Staff
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="bi bi-dot"></i>
-                                    Level 1 - Item 2
+                                    Level 2
                                 </a>
                             </li>
                         </ul>
