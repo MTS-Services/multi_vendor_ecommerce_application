@@ -7,7 +7,8 @@ use App\Http\Controllers\Backend\User\DashboardController as UserDashboardContro
 Auth::routes([
   'verify' => true
 ]);
+Route::group(['middleware' => ['auth:web', 'verified'],'as' => 'user.', 'prefix' => 'user'], function () {
 
-Route::middleware(['auth:web', 'verified'])->group(function () {
-  Route::get('/profile', [UserDashboardController::class, 'profile'])->name('user.profile');
+    Route::get('/profile', [UserDashboardController::class, 'profile'])->name('profile');
+ 
 });
