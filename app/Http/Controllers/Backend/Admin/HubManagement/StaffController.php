@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Hub\StaffManagement;
+namespace App\Http\Controllers\Backend\Admin\HubManagement;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Hub\StaffManagement\StaffRequest;
-use App\Http\Traits\DetailsCommonDataTrait;
+use App\Http\Requests\Admin\Hub\StaffRequest;
 use App\Http\Traits\FileManagementTrait;
 use App\Models\Hub;
 use App\Models\Staff;
@@ -17,30 +16,37 @@ use Yajra\DataTables\Facades\DataTables;
 
 class StaffController extends Controller
 {
-    use FileManagementTrait, DetailsCommonDataTrait;
+    use FileManagementTrait;
+     protected function redirectIndex(): RedirectResponse
+    {
+        return redirect()->route('hm.staff.index');
+    }
+
+    protected function redirectTrashed(): RedirectResponse
+    {
+        return redirect()->route('hm.staff.trash');
+    }
     public function __construct()
     {
-        $this->middleware('auth:staff');
-        // $this->middleware('permission:staff-list', ['only' => ['index']]);
-        // $this->middleware('permission:staff-details', ['only' => ['show']]);
-        // $this->middleware('permission:staff-create', ['only' => ['create', 'store']]);
-        // $this->middleware('permission:staff-edit', ['only' => ['edit', 'update']]);
-        // $this->middleware('permission:staff-delete', ['only' => ['destroy']]);
-        // $this->middleware('permission:staff-status', ['only' => ['status']]);
-        // $this->middleware('permission:staff-recycle-bin', ['only' => ['recycleBin']]);
-        // $this->middleware('permission:staff-restore', ['only' => ['restore']]);
-        // $this->middleware('permission:staff-permanent-delete', ['only' => ['permanentDelete']]);
+        $this->middleware('auth:admin');
+        $this->middleware('permission:staff-list', ['only' => ['index']]);
+        $this->middleware('permission:staff-details', ['only' => ['show']]);
+        $this->middleware('permission:staff-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:staff-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:staff-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:staff-status', ['only' => ['status']]);
+        $this->middleware('permission:staff-recycle-bin', ['only' => ['recycleBin']]);
+        $this->middleware('permission:staff-restore', ['only' => ['restore']]);
+        $this->middleware('permission:staff-permanent-delete', ['only' => ['permanentDelete']]);
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+   public function index(Request $request)
     {
 
         if ($request->ajax()) {
-
-
             $query = Staff::with(['creater', 'hub'])
                 ->orderBy('sort_order', 'asc')
                 ->latest();
@@ -52,23 +58,25 @@ class StaffController extends Controller
                     return $staff->hub?->name;
                 })
                 ->editColumn('status', function ($staff) {
-                    return "<span class='badge " . $staff->status_color . "'>$staff->status_label</span>";
+                    return "<span class='badge " . $staff->status_color . "'>" . $staff->status_label . "</span>";
                 })
-                ->editColumn('email_verified_at', fn($staff) => "<span class='badge badge-soft {$staff->verify_color}'>{$staff->verify_label}</span>")
-                ->editColumn('creater_id', function ($staff) {
-                    return $staff->creater_name;
+                ->editColumn('email_verified_at', function ($staff) {
+                    return "<span class='badge " . $staff->verify_color . "'>" . $staff->verify_label . "</span>";
                 })
                 ->editColumn('created_at', function ($staff) {
                     return $staff->created_at_formatted;
                 })
+                ->editColumn('creater_id', function ($staff) {
+                    return $staff->creater_name;
+                })
                 ->editColumn('action', function ($staff) {
                     $menuItems = $this->menuItems($staff);
-                    return view('components.backend.hub.action-buttons', compact('menuItems'))->render();
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['hub_id', 'email_verified_at', 'first_name', 'status', 'creater_id', 'created_at', 'action'])
+                ->rawColumns(['first_name','hub_id', 'status', 'email_verified_at', 'created_at', 'creater_id', 'action'])
                 ->make(true);
         }
-        return view('backend.hub.staff_management.staff.index');
+        return view('backend.admin.hub_management.staff.index');
     }
 
     protected function menuItems($model): array
@@ -79,39 +87,41 @@ class StaffController extends Controller
                 'data-id' => encrypt($model->id),
                 'className' => 'view',
                 'label' => 'Details',
+                'permissions' => ['staff-details']
             ],
-
             [
-                'routeName' => 'sm.staff.edit',
+                'routeName' => 'hm.staff.edit',
                 'params' => [encrypt($model->id)],
                 'label' => 'Edit',
+                'permissions' => ['staff-edit']
             ],
             [
-                'routeName' => 'sm.staff.status',
+                'routeName' => 'hm.staff.status',
                 'params' => [encrypt($model->id)],
                 'label' => $model->status_btn_label,
+                'permissions' => ['staff-status']
             ],
             [
-                'routeName' => 'sm.staff.destroy',
+                'routeName' => 'hm.staff.destroy',
                 'params' => [encrypt($model->id)],
                 'label' => 'Delete',
                 'delete' => true,
+                'permissions' => ['staff-delete']
             ]
 
         ];
     }
+
     public function recycleBin(Request $request)
     {
 
         if ($request->ajax()) {
-
-
             $query = Staff::with(['deleter', 'hub'])
                 ->onlyTrashed()
                 ->orderBy('sort_order', 'asc')
                 ->latest();
-            return DataTables::eloquent($query)
 
+            return DataTables::eloquent($query)
                 ->editColumn('first_name', function ($staff) {
                     return $staff->full_name . ($staff->username ? " (" . $staff->username . ")" : "");
                 })
@@ -121,7 +131,9 @@ class StaffController extends Controller
                 ->editColumn('status', function ($staff) {
                     return "<span class='badge " . $staff->status_color . "'>$staff->status_label</span>";
                 })
-                ->editColumn('email_verified_at', fn($staff) => "<span class='badge badge-soft {$staff->verify_color}'>{$staff->verify_label}</span>")
+           ->editColumn('email_verified_at', function ($staff) {
+                    return "<span class='badge " . $staff->verify_color . "'>" . $staff->verify_label . "</span>";
+                })
                 ->editColumn('deleter_id', function ($staff) {
                     return $staff->deleter_name;
                 })
@@ -130,32 +142,29 @@ class StaffController extends Controller
                 })
                 ->editColumn('action', function ($staff) {
                     $menuItems = $this->trashedMenuItems($staff);
-                    return view('components.backend.hub.action-buttons', compact('menuItems'))->render();
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['first_name', 'email_verified_at', 'hub_id', 'status', 'deleter_id', 'deleted_at', 'action'])
+                ->rawColumns(['first_name','hub_id', 'status', 'email_verified_at', 'deleter_id', 'deleted_at', 'action'])
                 ->make(true);
         }
-        return view('backend.hub.staff_management.staff.recycle-bin');
+        return view('backend.admin.hub_management.staff.recycle-bin');
     }
-    /**
-     * Define menu items for trashed items in staff list.
-     *
-     * @param Staff $model
-     * @return array
-     */
+
     protected function trashedMenuItems($model): array
     {
         return [
             [
-                'routeName' => 'sm.staff.restore',
+                'routeName' => 'hm.staff.restore',
                 'params' => [encrypt($model->id)],
                 'label' => 'Restore',
+                'permissions' => ['staff-restore']
             ],
             [
-                'routeName' => 'sm.staff.permanent-delete',
+                'routeName' => 'hm.staff.permanent-delete',
                 'params' => [encrypt($model->id)],
                 'label' => 'Permanent Delete',
                 'p-delete' => true,
+                'permissions' => ['staff-permanent-delete']
             ]
 
         ];
@@ -163,10 +172,10 @@ class StaffController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create()
     {
         $data['hubs'] = Hub::select(['id', 'name'])->latest()->get();
-        return view('backend.hub.staff_management.staff.create', $data);
+      return view('backend.admin.hub_management.staff.create',$data);
     }
 
     /**
@@ -176,13 +185,13 @@ class StaffController extends Controller
     {
 
         DB::transaction(function () use ($request) {
-            try {
-                $validated = $request->validated();
-                $validated['creater_id'] = staff()->id;
-                $validated['creater_type'] = get_class(staff());
+            try{
+                $validated= $request->validated();
+                $validated['creater_id'] = admin()->id;
+                $validated['creater_type'] = get_class(admin());
 
                 if (isset($request->image)) {
-                    $validated['image'] = $this->handleFilepondFileUpload(Staff::class, $request->image, staff(), 'staffs/');
+                    $validated['image'] = $this->handleFilepondFileUpload(Staff::class, $request->image, admin(), 'staffs/');
                 }
                 Staff::create($validated);
                 session()->flash('success', 'Staff created successfully!');
@@ -191,7 +200,7 @@ class StaffController extends Controller
                 throw $e;
             }
         });
-        return redirect()->route('sm.staff.index');
+        return $this->redirectIndex();
     }
 
     /**
@@ -206,16 +215,17 @@ class StaffController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id): View
+      public function edit(string $id): View
     {
         $data['staff'] = Staff::findOrFail(decrypt($id));
         $data['hubs'] = Hub::select(['id', 'name'])->latest()->get();
-        return view('backend.hub.staff_management.staff.edit', $data);
+        return view('backend.admin.hub_management.staff.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
+    
     public function update(StaffRequest $request, string $id): RedirectResponse
     {
         $staff = Staff::findOrFail(decrypt($id));
@@ -224,10 +234,10 @@ class StaffController extends Controller
                 $validated = $request->validated();
                 $validated['password'] = ($request->password ? $request->password : $staff->password);
                 if (isset($request->image)) {
-                    $validated['image'] = $this->handleFilepondFileUpload($staff, $request->image, staff(), 'staffs/');
+                    $validated['image'] = $this->handleFilepondFileUpload($staff, $request->image, admin(), 'staffs/');
                 }
-                $validated['updater_id'] = staff()->id;
-                $validated['updater_type'] = get_class(staff());
+                $validated['updater_id'] = admin()->id;
+                $validated['updater_type'] = get_class(admin());
                 $staff->update($validated);
                 session()->flash('success', 'Staff updated successfully!');
             } catch (\Throwable $e) {
@@ -235,27 +245,24 @@ class StaffController extends Controller
                 throw $e;
             }
         });
-        return redirect()->route('sm.staff.index');
+        return $this->redirectIndex();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id): RedirectResponse
     {
         $staff = Staff::findOrFail(decrypt($id));
-        $staff->update(['deleter_id' => staff()->id, 'deleter_type' => get_class(staff())]);
+        $staff->update(['deleter_id' => admin()->id, 'deleter_type' => get_class(admin())]);
         $staff->delete();
         session()->flash('success', 'Staff move to recycle bin successfully!');
-        return redirect()->route('sm.staff.index');
+        return $this->redirectIndex();
     }
 
     public function status(string $id): RedirectResponse
     {
         $staff = Staff::findOrFail(decrypt($id));
-        $staff->update(['status' => !$staff->status, 'updater_id' => staff()->id, 'updater_type' => get_class(staff())]);
+        $staff->update(['status' => !$staff->status, 'updater_id' => admin()->id, 'updater_type' => get_class(admin())]);
         session()->flash('success', 'Admin status updated successfully!');
-        return redirect()->route('sm.staff.index');
+        return $this->redirectIndex();
     }
 
     /**
@@ -267,10 +274,10 @@ class StaffController extends Controller
     public function restore(string $id): RedirectResponse
     {
         $staff = Staff::onlyTrashed()->findOrFail(decrypt($id));
-        $staff->update(['updater_id' => staff()->id, 'updater_type' => get_class(staff())]);
+        $staff->update(['updater_id' => admin()->id, 'updater_type' => get_class(admin())]);
         $staff->restore();
         session()->flash('success', 'Admin restored successfully!');
-        return redirect()->route('sm.staff.recycle-bin');
+        return $this->redirectTrashed();
     }
 
     /**
@@ -287,6 +294,6 @@ class StaffController extends Controller
         }
         $staff->forceDelete();
         session()->flash('success', 'Admin permanently deleted successfully!');
-        return redirect()->route('sm.staff.recycle-bin');
+        return $this->redirectTrashed();
     }
 }

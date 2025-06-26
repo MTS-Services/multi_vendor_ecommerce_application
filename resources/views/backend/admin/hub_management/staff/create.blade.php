@@ -1,19 +1,19 @@
-@extends('backend.hub.layouts.master', ['page_slug' => 'staff'])
-@section('title', 'Create Staff')
+@extends('backend.admin.layouts.master', ['page_slug' => 'staff'])
+@section('title', 'Staff List')
 @section('content')
     <div class="row">
-        <div class="col-12 ">
+        <div class="col-12">
             <div class="card">
-                <div class="card-header d-flex  justify-content-between align-items-center">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Create Staff') }}</h4>
-                      <x-backend.hub.button :datas="[
-                        'routeName' => 'sm.staff.index',
+                    <x-backend.admin.button :datas="[
+                        'routeName' => 'hm.staff.index',
                         'label' => 'Back',
+                        'permissions' => ['staff-list', 'staff-details', 'staff-delete', 'staff-status'],
                     ]" />
-                  
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('sm.staff.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('hm.staff.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
@@ -68,7 +68,7 @@
                         </div>
                         <div class="form-group pt-3">
                             <label>{{ __('Email') }} <span class="text-danger">*</span></label>
-                            <input type="text" name="email" value="{{ old('email') }}" class="form-control" placeholder="Enter email">
+                            <input type="text" name="email" class="form-control" placeholder="Enter email">
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'email']" />
                         </div>
                         <div class="row">

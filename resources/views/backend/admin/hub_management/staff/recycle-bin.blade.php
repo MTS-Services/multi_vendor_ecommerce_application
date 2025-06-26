@@ -1,5 +1,5 @@
-@extends('backend.hub.layouts.master', ['page_slug' => 'staff'])
-@section('title', 'Staff Recycle List')
+@extends('backend.admin.layouts.master', ['page_slug' => 'staff'])
+@section('title', 'Staff List')
 @push('css')
     <link rel="stylesheet" href="{{ asset('custom_litebox/litebox.css') }}">
 @endpush
@@ -10,8 +10,8 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Staff Recycle Bin') }}</h4>
                     <div class="buttons">
-                        <x-backend.hub.button :datas="[
-                            'routeName' => 'sm.staff.index',
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'hm.staff.index',
                             'label' => 'Back',
                             'permissions' => ['brand-list'],
                         ]" />
@@ -60,7 +60,7 @@
                 table_columns: table_columns,
                 main_class: '.datatable',
                 displayLength: 10,
-                main_route: "{{ route('sm.staff.recycle-bin') }}",
+                main_route: "{{ route('hm.staff.recycle-bin') }}",
                 order_route: "{{ route('update.sort.order') }}",
                 export_columns: [0, 1, 2, 3, 4, 5],
                 model: 'Staff',

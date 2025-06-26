@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Hub\StaffManagement;
+namespace App\Http\Requests\Admin\Hub;
 
 use Illuminate\Foundation\Http\FormRequest;
 
