@@ -44,7 +44,7 @@ class HubController extends Controller
                 })
 
                 ->editColumn('operation_area_id', function ($hub) {
-                    return  $hub->operationArea?->name;
+                    return  $hub->operationArea?->name . ($hub->operationSubArea ? "(". $hub->operationSubArea?->name .")": "");;
                 })
                 ->editColumn('status', function ($hub) {
                     return "<span class='badge " . $hub->status_color . "'>$hub->status_label</span>";
