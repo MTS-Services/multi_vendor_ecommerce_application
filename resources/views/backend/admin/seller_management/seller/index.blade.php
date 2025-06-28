@@ -55,7 +55,7 @@
                 ['first_name', true, true],
                 ['email', true, true],
                 ['status', true, true],
-                ['is_verify', true, true],
+                ['email_verified_at', true, true],
                 ['creater_id', true, true],
                 ['created_at', false, false],
                 ['action', false, false],
