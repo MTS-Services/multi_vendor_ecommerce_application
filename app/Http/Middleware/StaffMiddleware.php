@@ -16,8 +16,14 @@ class StaffMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-         if (!Auth::guard('staff')->check()) {
+        $staff = Auth::guard('staff');
+        if (!$staff->check()) {
             return redirect()->route('staff.login');
+        }
+        if ($staff->user() && $staff->user()->email_verified_at === null) {
+            if (!$request->routeIs('staff.verification.notice')) {
+                return redirect()->route('staff.verification.notice');
+            }
         }
         return $next($request);
     }

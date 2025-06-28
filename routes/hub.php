@@ -1,14 +1,32 @@
 
 <?php
 
+use App\Http\Controllers\Backend\Hub\StaffManagement\Auth\EmailVerificationNotificationController as StaffEmailVerificationNotificationController;
+use App\Http\Controllers\Backend\Hub\StaffManagement\Auth\EmailVerificationPromptController as StaffEmailVerificationPromptController;
 use App\Http\Controllers\Backend\Hub\StaffManagement\Auth\ForgotPasswordController as StaffForgotPasswordController;
 use App\Http\Controllers\Backend\Hub\StaffManagement\Auth\LoginController as StaffLoginController;
 use App\Http\Controllers\Backend\Hub\StaffManagement\Auth\RegisterController as StaffRegisterController;
 use App\Http\Controllers\Backend\Hub\StaffManagement\Auth\ResetPasswordController as StaffResetPasswordController;
+use App\Http\Controllers\Backend\Hub\StaffManagement\Auth\VerificationController as StaffVerificationController;
+use App\Http\Controllers\Backend\Hub\StaffManagement\Auth\VerifyEmailController;
 use App\Http\Controllers\Backend\Hub\StaffManagement\DashboardController as StaffDashboardController;
 use App\Http\Controllers\Backend\Hub\StaffManagement\StaffController;
 use Illuminate\Support\Facades\Route;
 
+
+
+Route::group(['middleware' => ('auth:staff'),'as' => 'staff.','prefix' => 'staff'],function () {
+       Route::get('verify-email', StaffEmailVerificationPromptController::class)
+    ->name('verification.notice');
+  Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
+  Route::post('/email/verification-notification', [StaffEmailVerificationNotificationController::class, 'store'])
+    ->middleware('throttle:6,1')
+    ->name('verification.send');
+    Route::get('/verify-email', [StaffVerificationController::class, 'show'])->name('verification.notice');
+
+});
 // Admin Auth Routes
 Route::group(['prefix' => 'hub'], function () {
     Route::group(['as' => 'staff.', 'prefix' => 'staff'], function () {
@@ -22,7 +40,7 @@ Route::group(['prefix' => 'hub'], function () {
             Route::get('/register', 'showRegistrationForm')->name('register'); // Seller Register Form
             Route::post('/register', 'register')->name('register.submit'); // Seller Register Submit
         });
-        Route::group(['as' => 'password.', 'prefix' => 'password'], function () {
+        Route::group(['middleware' => ['auth:staff', 'staff.verify'], 'as' => 'password.', 'prefix' => 'password'], function () {
             // Admin Forgot Password
             Route::controller(StaffForgotPasswordController::class)->group(function () {
                 Route::get('/forgot', 'showLinkRequestForm')->name('forgot');
@@ -35,7 +53,7 @@ Route::group(['prefix' => 'hub'], function () {
             });
         });
     });
-    Route::group(['middleware' => 'auth:staff', 'prefix' => 'hub'], function () {
+    Route::group(['middleware' => ['auth:staff', 'staff.verify'], 'prefix' => 'hub'], function () {
         Route::get('/staff/dashboard', [StaffDashboardController::class, 'dashboard'])->name('staff.dashboard');
 
 
@@ -48,6 +66,5 @@ Route::group(['prefix' => 'hub'], function () {
                 Route::delete('staff/permanent-delete/{staff}', 'permanentDelete')->name('staff.permanent-delete');
             });
         });
-
     });
 });

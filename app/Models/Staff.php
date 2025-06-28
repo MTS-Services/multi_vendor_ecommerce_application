@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\BaseModel;
+
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\StaffPasswoedResetNotification;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Staff extends AuthBaseModel
+class Staff extends AuthBaseModel implements MustVerifyEmail
 {
-    use Notifiable;
+    use HasFactory, Notifiable;
 
      public function sendPasswordResetNotification($token)
     {
