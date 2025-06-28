@@ -176,7 +176,7 @@ class AuthBaseModel extends Authenticatable
 
     public function getVerifyColorAttribute()
     {
-        return $this->email_verified_at ? 'badge-success' : 'badge-error';
+        return $this->email_verified_at ? 'badge-success' : 'badge-danger';
     }
 
     // Verified scope
