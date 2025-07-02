@@ -29,7 +29,7 @@ class VerificationController extends Controller
     {
         return $request->user()->hasVerifiedEmail()
                         ? redirect($this->redirectPath())
-                        : view('frontend.auth.staff.verify');
+                        : view('frontend.auth.staff.verify-email');
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\StaffPasswoedResetNotification;
+use App\Notifications\StaffVerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -15,6 +16,11 @@ class Staff extends AuthBaseModel implements MustVerifyEmail
      public function sendPasswordResetNotification($token)
     {
         $this->notify(new StaffPasswoedResetNotification($token));
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new StaffVerifyEmail());
     }
     use HasFactory;
     protected $table = 'staffs';

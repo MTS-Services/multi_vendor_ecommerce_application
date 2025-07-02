@@ -11,21 +11,28 @@ use App\Http\Controllers\Backend\Hub\StaffManagement\Auth\VerificationController
 use App\Http\Controllers\Backend\Hub\StaffManagement\Auth\VerifyEmailController;
 use App\Http\Controllers\Backend\Hub\StaffManagement\DashboardController as StaffDashboardController;
 use App\Http\Controllers\Backend\Hub\StaffManagement\StaffController;
+use App\Models\Staff;
 use Illuminate\Support\Facades\Route;
 
 
 
-Route::group(['middleware' => ('auth:staff'),'as' => 'staff.','prefix' => 'staff'],function () {
-       Route::get('verify-email', StaffEmailVerificationPromptController::class)
-    ->name('verification.notice');
-  Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
-    ->middleware(['signed', 'throttle:6,1'])
-    ->name('verification.verify');
-  Route::post('/email/verification-notification', [StaffEmailVerificationNotificationController::class, 'store'])
-    ->middleware('throttle:6,1')
-    ->name('verification.send');
-    Route::get('/verify-email', [StaffVerificationController::class, 'show'])->name('verification.notice');
+Route::group(['as' => 'staff.', 'prefix' => 'staff'], function() {
 
+    // The page that says "Please check your email"
+    Route::get('verify-email', StaffEmailVerificationPromptController::class)
+        ->middleware('auth:staff') // This one needs auth to know WHO to show the prompt to
+        ->name('verification.notice');
+
+    // The link the user clicks in their email
+    Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
+        ->middleware(['signed', 'throttle:6,1']) // No 'auth:staff' here!
+        ->name('verification.verify');
+         Route::get('/verify-email', [StaffVerificationController::class, 'show'])->name('verification.notice');
+
+    // The route to resend the verification email link
+    Route::post('/email/verification-notification', [StaffEmailVerificationNotificationController::class, 'store'])
+        ->middleware(['auth:staff', 'throttle:6,1']) // This needs auth to know whose email to resend
+        ->name('verification.send');
 });
 // Admin Auth Routes
 Route::group(['prefix' => 'hub'], function () {

@@ -15,6 +15,11 @@
                             {{ __('Resend Verification Link') }}
                         </button>
                     </form>
+                    <form action="logout">
+                        <button type="submit" class="btn-primary">
+                            {{ __('Logout') }}
+                        </button>
+                    </form>
                 </div>
 
             </div>
