@@ -97,6 +97,7 @@
                                             class="w-20 h-16 2xl:h-20 object-cover" />
                                     </div>
                                 @endfor
+                                
                             </div>
                         </div>
                     </div>
@@ -106,7 +107,7 @@
                         <div class="swiper product_slider_image">
                             <div class="swiper-wrapper">
                                 @for ($i = 1; $i <= 10; $i++)
-                                    <div class="swiper-slide">
+                                    <div class="swiper-slide border rounded">
                                         <img class="zoomable w-full object-cover"
                                             src="https://swiperjs.com/demos/images/nature-{{ $i }}.jpg" />
                                     </div>
@@ -257,23 +258,23 @@
                                     alt="{{ __('Sacombank') }}" class="h-5 lg:h-7 border" />
                             </div>
                         </div>
-                    </div>
+                    </div>  
 
                     {{-- delivery --}}
                     <div
-                        class="mb-6 space-y-2 flex flex-col sm:flex-row justify-around mx-auto border p-4 lg:p-6 rounded-xl lg:rounded-2xl py-4 lg:py-6">
+                        class="mb-6 space-y-2 flex items-center jucetify-center border p-4 lg:p-6 rounded-xl lg:rounded-2xl py-4 lg:py-6">
                         <!-- Estimated Delivery Time -->
-                        <div class="flex items-center sm:border-r sm:pr-6 lg:pr-14 pb-3 sm:pb-0">
-                            <div class="text-center">
+                        <div class="flex-1 flex jucetify-center items-center sm:border-r pr-6 lg:pr-14 pt-2 sm:pb-0 ">
+                            <div class="text-center w-full">
                                 <i data-lucide="car" class="w-5 h-5 lg:w-7 lg:h-7 mx-auto"></i>
                                 <p class="text-sm lg:text-base font-medium">{{ __("Estimated delivery time: 3-5 days") }}</p>
                                 <p class="text-xs text-text-primary/50 dark:text-text-white">{{ __("International") }}</p>
                             </div>
                         </div>
-
+                         
                         <!-- Free Shipping -->
-                        <div class="flex items-center">
-                            <div class="text-center">
+                        <div class="flex-1 flex jucetify-center items-center pl-5">
+                            <div class="text-center w-full">
                                 <i data-lucide="box" class="w-5 h-5 lg:w-7 lg:h-7 mx-auto"></i>
                                 <p class="text-sm lg:text-base font-medium">{{ __("Free shipping on all orders") }}</p>
                                 <p class="text-xs text-text-primary/50 dark:text-text-white">{{ __("Over $150") }}</p>
