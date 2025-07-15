@@ -111,7 +111,7 @@ class TaxRateController extends Controller
                 ->orderBy('sort_order', 'asc')
                 ->latest();
             return DataTables::eloquent($query)
-
+                ->addIndexColumn()
                 ->editColumn('status', function ($tax_rate) {
                     return "<span class='badge " . $tax_rate->status_color . "'>$tax_rate->status_label</span>";
                 })

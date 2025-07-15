@@ -255,8 +255,14 @@
                                     <span class="sub-item">{{ __('Hub') }}</span>
                                 </a>
                             </li>
+                             <li class="@if ($page_slug == 'staff hub') active @endif">
+                                <a href="{{ route('hm.staff.index') }}">
+                                    <span class="sub-item">{{ __('Staff Hub') }}</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
+                     
                 </li>
 
                 <li class="nav-item  @if ($page_slug == 'audits') active @endif">

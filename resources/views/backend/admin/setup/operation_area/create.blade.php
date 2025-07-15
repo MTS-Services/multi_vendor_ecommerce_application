@@ -38,6 +38,7 @@
                             <select name="city" id="city" class="form-control" disabled>
                                 <option value="" selected hidden>{{__('Select City')}}</option>
                             </select>
+                           
                             <x-feed-back-alert :datas="['errors' => $errors, 'field' => 'city']" />
                         </div>
                         <div class="form-group">
@@ -74,11 +75,11 @@
          // Get Country States By Axios
         $(document).ready(function() {
             $('#country').on('change', function () {
-                let route1 = "{{ route('axios.get-cities') }}";
+                let route1 = "{{ route('axios.get-states-or-cities') }}";
                 getStatesOrCity($(this).val(), route1);
             });
             $('#state').on('change', function () {
-                let route2 = "{{ route('axios.get-states-or-cities') }}";
+                let route2 = "{{ route('axios.get-cities') }}";
                 getCities($(this).val(), route2);
             });
         });

@@ -25,7 +25,6 @@
                                 <th>{{ __('City') }}</th>
                                 <th>{{ __('Tax Rate') }}</th>
                                 <th>{{ __('Status') }}</th>
-                                <th>{{ __('Status') }}</th>
                                 <th>{{ __('Deleted By') }}</th>
                                 <th>{{ __('Deleted Date') }}</th>
                                 <th>{{ __('Action') }}</th>

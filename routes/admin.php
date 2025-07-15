@@ -41,6 +41,9 @@ use App\Http\Controllers\Backend\Admin\Auth\ForgotPasswordController as AdminFor
 use App\Http\Controllers\Backend\Admin\Auth\ConfirmPasswordController as AdminConfirmPasswordController;
 use App\Http\Controllers\Backend\Admin\Auth\ResetPasswordController as AdminResetPasswordController;
 use App\Http\Controllers\Backend\Admin\Auth\VerificationController as AdminVerificationController;
+use App\Http\Controllers\Backend\Admin\HubManagement\StaffController as AdminStaffController;
+use App\Http\Controllers\Backend\Admin\HubManagement\StaffHubController;
+use App\Models\Staff;
 
 // Admin Auth Routes
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
@@ -235,13 +238,21 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('our-connection/recycle/bin', [OurConnectionController::class, 'recycleBin'])->name('our-connection.recycle-bin');
         Route::get('our-connection/restore/{our_connection}', [OurConnectionController::class, 'restore'])->name('our-connection.restore');
         Route::delete('our-connection/permanent-delete/{our_connection}', [OurConnectionController::class, 'permanentDelete'])->name('our-connection.permanent-delete');
-
     });
 
     // Hub Management
     Route::group(['as' => 'hm.', 'prefix' => 'hm-management'], function () {
         Route::resource('hub', HubController::class);
         Route::get('hub/status/{hub}', [HubController::class, 'status'])->name('hub.status');
+
+
+        Route::get('hub/staff/', [AdminStaffController::class, 'index'])->name('staff.index');
+        Route::get('hub/staff/create', [AdminStaffController::class, 'create'])->name('staff.create');
+        Route::post('hub/staff', [AdminStaffController::class, 'store'])->name('staff.store');
+        Route::get('hub/staff/{staff}', [AdminStaffController::class, 'show'])->name('staff.show');
+        Route::get('hub/staff/{staff}/edit', [AdminStaffController::class, 'edit'])->name('staff.edit');
+        Route::put('hub/staff/{staff}', [AdminStaffController::class, 'update'])->name('staff.update');
+        Route::delete('hub/staff/{staff}', [AdminStaffController::class, 'destroy'])->name('staff.destroy');
     });
 
     // Product Management
@@ -316,11 +327,6 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::get('tax-rate/recycle/bin', [TaxRateController::class, 'recycleBin'])->name('tax-rate.recycle-bin');
         Route::get('tax-rate/restore/{tax_rate}', [TaxRateController::class, 'restore'])->name('tax-rate.restore');
         Route::delete('tax-rate/permanent-delete/{tax_rate}', [TaxRateController::class, 'permanentDelete'])->name('tax-rate.permanent-delete');
-
-
-
-
-
     });
 
     // Documentation

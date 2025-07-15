@@ -97,7 +97,7 @@ class TaxClassController extends Controller
                 ->orderBy('sort_order', 'asc')
                 ->latest();
             return DataTables::eloquent($query)
-
+              
                 ->editColumn('status', function ($tax_class) {
                     return "<span class='badge " . $tax_class->status_color . "'>$tax_class->status_label</span>";
                 })
@@ -203,8 +203,8 @@ class TaxClassController extends Controller
     }
     public function status(string $id): RedirectResponse
     {
-        $tax_class = TaxClass::findOrFail(decrypt($id));
-        $tax_class->update(['status' => !$tax_class->status, 'updated_by' => admin()->id]);
+        $tex_class = TaxClass::findOrFail(decrypt($id));
+        $tex_class->update(['status' => !$tex_class->status, 'updated_by' => admin()->id]);
         session()->flash('success', 'Tax Class status updated successfully!');
         return redirect()->route('pm.tax-class.index');
     }
