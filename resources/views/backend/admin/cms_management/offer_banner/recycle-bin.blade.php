@@ -49,18 +49,15 @@
                 ['deleted_at', false, false],
                 ['action', false, false],
             ];
-            const details = {
-                table_columns: table_columns,
-                main_class: '.datatable',
-                displayLength: 10,
-                main_route: "{{ route('cms.offer-banner.recycle-bin') }}",
-                order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5],
-                model: 'OfferBanner',
-            };
-            // initializeDataTable(details);
-
-            initializeDataTable(details);
+            initializeDataTable(
+                table_columns,
+                '.datatable',
+                10,
+                [0, 1, 2, 3, 4, 5],
+                "{{ route('cms.offer-banner.recycle-bin') }}",
+                "{{ route('update.sort.order') }}",
+                'OfferBanner'
+            );
         })
     </script>
 @endpush

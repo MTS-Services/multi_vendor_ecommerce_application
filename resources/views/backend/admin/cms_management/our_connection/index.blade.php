@@ -55,16 +55,15 @@
                 ['created_at', false, false],
                 ['action', false, false],
             ];
-            const details = {
-                table_columns: table_columns,
-                main_class: '.datatable',
-                displayLength: 10,
-                main_route: "{{ route('cms.our-connection.index') }}",
-                order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4],
-                model: 'OurConnection',
-            };
-            initializeDataTable(details);
+            initializeDataTable(
+                table_columns,
+                '.datatable',
+                10,
+                [0, 1, 2, 3, 4],
+                "{{ route('cms.our-connection.index') }}",
+                "{{ route('update.sort.order') }}",
+                'OurConnection'
+            );
         })
     </script>
 @endpush

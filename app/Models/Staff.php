@@ -32,12 +32,13 @@ class Staff extends AuthBaseModel
         'otp_send_at',
         'remember_token',
 
-        'creater_id',
-        'updater_id',
-        'deleter_id',
-        'creater_type',
-        'updater_type',
-        'deleter_type',
+        'createrd_id',
+        'updaterd_id',
+        'deleterd_id',
+        
+        'createrd_type',
+        'updaterd_type',
+        'deleterd_type',
     ];
     protected $hidden = [
         'password',
@@ -65,4 +66,10 @@ class Staff extends AuthBaseModel
     {
         return storage_url($this->image);
     }
+
+    public function hub()
+    {
+        return $this->belongsTo(Hub::class);
+    }
+
 }

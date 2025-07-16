@@ -53,14 +53,15 @@
                 ['created_at', true, true],
                 ['action', false, false],
             ];
-            const details = {
-                table_columns: table_columns,
-                main_route: "{{ route('am.role.index') }}",
-                order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3],
-                model: 'Role',
-            };
-            initializeDataTable(details);
+            initializeDataTable(
+                table_columns,
+                '.datatable',
+                10,
+                [0, 1, 2, 3],
+                "{{ route('am.role.index') }}",
+                "{{ route('update.sort.order') }}",
+                'Role'
+            );
         })
     </script>
 @endpush

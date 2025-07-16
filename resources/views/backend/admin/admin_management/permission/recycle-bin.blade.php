@@ -47,18 +47,15 @@
                 ['deleted_at', true, true],
                 ['action', false, false],
             ];
-            const details = {
-                table_columns: table_columns,
-                main_class: '.datatable',
-                displayLength: 10,
-                main_route: "{{ route('am.permission.recycle-bin') }}",
-                order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3,4],
-                model: 'Permission',
-            };
-            // initializeDataTable(details);
-
-            initializeDataTable(details);
+            initializeDataTable(
+                table_columns,
+                '.datatable',
+                10,
+                [0, 1, 2, 3, 4],
+                "{{ route('am.permission.recycle-bin') }}",
+                "{{ route('update.sort.order') }}",
+                'Permission'
+            );
         })
     </script>
 @endpush

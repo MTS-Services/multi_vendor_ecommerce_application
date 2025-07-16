@@ -22,7 +22,14 @@ class StaffRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+        'hub_id' => ['required', 'exists:hubs,id'],
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'username' => 'nullable|string|max:255',
+        'phone' => 'required|numeric',
+        'email' => 'required|email|unique:staffs,email',
+        'password' => 'required|confirmed|min:6',
+        'image' => 'nullable',
         ];
     }
 }

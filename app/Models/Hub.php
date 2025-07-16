@@ -147,5 +147,9 @@ class Hub extends BaseModel
         return $this->belongsTo(OperationSubArea::class, 'operation_sub_area_id','id');
 
     }
+    public function staff(): HasMany
+    {
+        return $this->hasMany(Staff::class);
+    }
 
 }

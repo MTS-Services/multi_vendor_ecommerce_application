@@ -245,14 +245,13 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
         Route::resource('hub', HubController::class);
         Route::get('hub/status/{hub}', [HubController::class, 'status'])->name('hub.status');
 
+        // Staff router
+          Route::resource('staff', AdminStaffController::class);
+        Route::get('staff/status/{staff}', [AdminStaffController::class, 'status'])->name('staff.status');
+        Route::get('staff/recycle/bin', [AdminStaffController::class, 'recycleBin'])->name('staff.recycle-bin');
+        Route::get('staff/restore/{staff}', [AdminStaffController::class, 'restore'])->name('staff.restore');
+        Route::delete('staff/permanent-delete/{staff}', [AdminStaffController::class, 'permanentDelete'])->name('staff.permanent-delete');
 
-        Route::get('hub/staff/', [AdminStaffController::class, 'index'])->name('staff.index');
-        Route::get('hub/staff/create', [AdminStaffController::class, 'create'])->name('staff.create');
-        Route::post('hub/staff', [AdminStaffController::class, 'store'])->name('staff.store');
-        Route::get('hub/staff/{staff}', [AdminStaffController::class, 'show'])->name('staff.show');
-        Route::get('hub/staff/{staff}/edit', [AdminStaffController::class, 'edit'])->name('staff.edit');
-        Route::put('hub/staff/{staff}', [AdminStaffController::class, 'update'])->name('staff.update');
-        Route::delete('hub/staff/{staff}', [AdminStaffController::class, 'destroy'])->name('staff.destroy');
     });
 
     // Product Management

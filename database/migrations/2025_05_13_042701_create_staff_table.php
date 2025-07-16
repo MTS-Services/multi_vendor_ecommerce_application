@@ -17,8 +17,9 @@ return new class extends Migration
     {
         Schema::create('staffs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('hub_id')->nullable();
-            $table->string('first_name');
+             $table->bigInteger("sort_order")->default(0);
+            $table->unsignedBigInteger('hub_id');
+            $table->string('first_name')->nullable();
             $table->string('last_name');
             $table->string('username')->unique()->min(5)->max(20)->nullable();
             $table->string('email')->unique();

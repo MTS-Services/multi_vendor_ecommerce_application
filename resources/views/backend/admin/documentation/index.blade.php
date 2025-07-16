@@ -49,18 +49,15 @@
                 ['created_at', false, false],
                 ['action', false, false],
             ];
-            const details = {
-                table_columns: table_columns,
-                main_class: '.datatable',
-                displayLength: 10,
-                main_route: "{{ route('documentation.index') }}",
-                order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5, 6],
-                model: 'Documentation',
-            };
-            // initializeDataTable(details);
-
-            initializeDataTable(details);
+            initializeDataTable(
+                table_columns,
+                '.datatable',
+                10,
+                [0, 1, 2, 3, 4, 5, 6],
+                "{{ route('documentation.index') }}",
+                "{{ route('update.sort.order') }}",
+                'Documentation'
+            );
         })
     </script>
 @endpush

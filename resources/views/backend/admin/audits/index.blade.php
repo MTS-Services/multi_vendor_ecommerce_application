@@ -42,16 +42,15 @@
                 ['created_at', true, true],
                 ['action', false, false],
             ];
-            const details = {
-                table_columns: table_columns,
-                main_class: '.datatable',
-                displayLength: 10,
-                main_route: "{{ route('audit.index') }}",
-                order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5],
-                model: 'Audit',
-            };
-            initializeDataTable(details);
+            initializeDataTable(
+                table_columns,
+                '.datatable',
+                10,
+                [0, 1, 2, 3, 4, 5],
+                "{{ route('audit.index') }}",
+                "{{ route('update.sort.order') }}",
+                'Audit'
+            );
         })
     </script>
 @endpush

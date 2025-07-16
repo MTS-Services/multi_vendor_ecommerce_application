@@ -65,18 +65,15 @@
                 ['created_at', true, true],
                 ['action', false, false],
             ];
-            const details = {
-                table_columns: table_columns,
-                main_class: '.datatable',
-                displayLength: 10,
-                main_route: "{{ route('am.admin.index') }}",
-                order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5, 6, 7],
-                model: 'Admin',
-            };
-            // initializeDataTable(details);
-
-            initializeDataTable(details);
+            initializeDataTable(
+                table_columns,
+                '.datatable',
+                10,
+                [0, 1, 2, 3, 4, 5, 6, 7],
+                "{{ route('am.admin.index') }}",
+                "{{ route('update.sort.order') }}",
+                'Admin'
+            );
         })
     </script>
 @endpush

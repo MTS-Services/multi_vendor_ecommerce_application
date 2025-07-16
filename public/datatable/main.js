@@ -1,13 +1,13 @@
-function initializeDataTable({
+function initializeDataTable(
+    table_columns = [],
     main_class = ".datatable",
     displayLength = 10,
     export_columns = [],
     main_route = "",
     order_route = "",
     model = "",
-    table_columns = [], // Array for defining table columns
-    row_reorder = false,
-} = {}) {
+    row_reorder = false
+) {
     let row_reorder_settings = false;
     if (row_reorder) {
         row_reorder_settings = {
@@ -83,14 +83,19 @@ function initializeDataTable({
                     },
                 },
                 // Map the rest of the columns from `table_columns`
-                ...table_columns.map(function (item) {
-                    return {
-                        data: item[0], // column data from the dataset
-                        name: item[0], // same as above
-                        orderable: item[1], // is column orderable
-                        searchable: item[2], // is column searchable
-                    };
-                }),
+                ...(Array.isArray(table_columns) ? table_columns
+                    .filter(function (item) {
+                        // Ensure item is not null, undefined, and has at least one element
+                        return Array.isArray(item) && item.length > 0;
+                    })
+                    .map(function (item) {
+                        return {
+                            data: item[0], // column data from the dataset
+                            name: item[0], // same as above
+                            orderable: typeof item[1] === "boolean" ? item[1] : true, // Default to true if not a boolean
+                            searchable: typeof item[2] === "boolean" ? item[2] : true, // Default to true if not a boolean
+                        };
+                    }) : []),
             ],
         });
         if (row_reorder) {
