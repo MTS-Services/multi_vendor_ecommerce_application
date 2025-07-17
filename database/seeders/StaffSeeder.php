@@ -19,6 +19,8 @@ class StaffSeeder extends Seeder
             'username' => 'staff',
             'email' => 'staff@dev.com',
             'password' => 'staff@dev.com',
+            'email_verified_at' => now(),
+            'status' => 1,
         ]);
     }
 }
