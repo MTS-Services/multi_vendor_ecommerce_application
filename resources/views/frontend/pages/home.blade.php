@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app', ['page_slug' => 'home'])
 
-@section('title', 'Home')
+@section('title', 'Home') 
 
 @section('content')
     {{-- ===================== banner Section ===================== --}}
@@ -21,7 +21,7 @@
                                         data-lucide="chevron-right"></i></i></a>
                             </div>
                             <div
-                                class="md:basis-1/2 md:relative absolute z-[1] w-64 top-1/2 md:top-0 -translate-y-1/2 md:translate-y-0 {{ $loop->iteration % 2 == 0 ? '-left-1/3 md:left-0' : '-right-1/3 sm:-right-1/4 md:right-0 flex items-center justify-end' }}">
+                                class="md:basis-1/2 md:relative absolute z-[1] w-64 top-1/2 md:top-0 -translate-y-1/2 md:translate-y-0 {{ $loop->iteration % 2 == 0 ? '-left-2 md:left-0' : '-right-2 sm:-right-1/4 md:right-0 flex items-center justify-end' }}">
                                 <img src="{{ $banner->modified_image }}" alt="{{ $banner->title }}">
                             </div>
                         </div>
@@ -42,7 +42,7 @@
         </div>
     </section>
     {{-- ===================== banner Section end ===================== --}}
-
+     
     {{-- ===================== Arrivals Section ===================== --}}
     @php
         $arivals = [
@@ -107,12 +107,14 @@
             <div class="relative">
                 <div class="swiper categories static">
                     <div class="swiper-wrapper">
+                         
                         @foreach ($categories as $category)
                             <div class="swiper-slide p-2">
                                 <x-frontend.category :category="$category" />
                             </div>
-                        @endforeach
-                    </div>
+                        @endforeach      
+                                                             
+                    </div>              
                     <div class="hidden xl:block">
                         <div class="swiper-pagination z-10 !-bottom-6 lg:!-bottom-8"></div>
                         <!-- Navigation buttons -->
@@ -125,7 +127,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
     {{-- ===================== Categories Section End ===================== --}}

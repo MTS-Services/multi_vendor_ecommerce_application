@@ -57,7 +57,7 @@
                 {{ __('Faq') }}
             </a>
         </div>
-
+        
         <div class="border-t border-t-border-light py-5 mt-5">
 
             {{-- General Settings --}}
