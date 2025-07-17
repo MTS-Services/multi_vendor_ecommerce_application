@@ -120,9 +120,6 @@ class StaffController extends Controller
                 ->editColumn('first_name', function ($staff) {
                     return $staff->full_name . ($staff->username ? " (" . $staff->username . ")" : "");
                 })
-                ->editColumn('role_id', function ($staff) {
-                    return optional($staff->role)->name;
-                })
                 ->editColumn('status', function ($staff) {
                     return "<span class='badge " . $staff->status_color . "'>$staff->status_label</span>";
                 })

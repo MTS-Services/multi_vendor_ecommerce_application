@@ -244,6 +244,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     Route::group(['as' => 'hm.', 'prefix' => 'hm-management'], function () {
         Route::resource('hub', HubController::class);
         Route::get('hub/status/{hub}', [HubController::class, 'status'])->name('hub.status');
+        Route::get('hub/recycle/bin', [HubController::class, 'recycleBin'])->name('hub.recycle-bin');
+        Route::get('hub/restore/{hub}', [HubController::class, 'restore'])->name('hub.restore');
+        Route::delete('hub/permanent-delete/{hub}', [HubController::class, 'permanentDelete'])->name('hub.permanent-delete');
 
         // Staff router
           Route::resource('staff', AdminStaffController::class);

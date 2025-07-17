@@ -3,7 +3,79 @@
 @push('css')
 <link rel="stylesheet" href="{{ asset('custom_litebox/litebox.css') }}">
 @endpush
+
 @section('content')
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="cart-title">{{ __('Product Tag List') }}</h4>
+                    <div class="buttons">
+                         {{-- <x-backend.admin.button :datas="[
+                             'routeName' => 'pm.product-tags.recycle-bin',
+                            'label' => 'Recycle Bin',
+                            'className' => 'btn-danger',
+                            'permissions' => ['product-tag-restore'],
+                        ]" />    --}}
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'pm.product-tags.create',
+                            'label' => 'Add New',
+                            'permissions' => ['product-create'],
+                        ]" />
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-responsive table-striped datatable">
+                        <thead>
+                            <tr>
+                                 <th>{{ __('SL') }}</th>
+                                <th>{{ __('Name') }}</th>
+                                <th>{{ __('Slug') }}</th>
+                                <th>{{ __('Status') }}</th>                            
+                                <th>{{ __('Created By') }}</th>
+                                <th>{{ __('Created Date') }}</th>
+                                <th>{{ __('Action') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- Admin Details Modal  --}}
+    <x-backend.admin.details-modal :datas="['modal_title' => 'Admin Details']" />
+@endsection
+@push('js')
+    <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
+    {{-- Datatable Scripts --}}
+    <script src="{{ asset('datatable/main.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            let table_columns = [
+                //name and data, orderable, searchable  
+                ['name', true, true], 
+                ['slug', true, true],
+                ['status', true, true],
+                ['creater_id', true, true],
+                ['created_at', false, false],
+                ['action', false, false],
+            ];
+            initializeDataTable(
+                table_columns,
+                '.datatable',
+                10,
+                [0, 1,2,3,4,5,6],
+                "{{ route('pm.product-tags.index') }}",
+                "{{ route('update.sort.order') }}",
+                'ProductTag'
+            );
+            initializeDataTable(details);
+        })
+    </script>
+@endpush
+{{-- @section('content')
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -37,7 +109,7 @@
     </div>
 </div>
 {{-- Admin Details Modal  --}}
-<x-backend.admin.details-modal :datas="['modal_title' => 'Product Tag Details']" />
+{{-- <x-backend.admin.details-modal :datas="['modal_title' => 'Product Tag Details']" />
 @endsection
 @push('js')
 <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
@@ -65,7 +137,7 @@
         initializeDataTable(details);
     })
 </script>
-@endpush
+@endpush  --}}
 @push('js')
 {{-- Show details scripts --}}
 <script src="{{ asset('modal/details_modal.js') }}"></script>

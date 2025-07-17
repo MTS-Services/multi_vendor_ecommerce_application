@@ -1,7 +1,79 @@
 @extends('backend.admin.layouts.master', ['page_slug' => 'city'])
 @section('title', 'City List')
 @section('content')
-    <div class="row">
+<div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="cart-title">{{ __('City List') }}</h4>
+                    <div class="buttons">
+                         <x-backend.admin.button :datas="[
+                             'routeName' => 'setup.city.recycle-bin',
+                            'label' => 'Recycle Bin',
+                            'className' => 'btn-danger',
+                            'permissions' => ['city-restore'],
+                        ]" />   
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'setup.city.create',
+                            'label' => 'Add New',
+                            'permissions' => ['city-create'],
+                        ]" />
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-responsive table-striped datatable">
+                        <thead>
+                            <tr>
+                                <th>{{ __('SL') }}</th>
+                                <th>{{ __('Country') }}</th>
+                                <th>{{ __('Name') }}</th>
+                                <th>{{ __('Status') }}</th>
+                                <th>{{ __('Created By') }}</th>
+                                <th>{{ __('Created Date') }}</th>
+                                <th>{{ __('Action') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- Admin Details Modal  --}}
+    <x-backend.admin.details-modal :datas="['modal_title' => 'Admin Details']" />
+@endsection
+@push('js')
+    <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
+    {{-- Datatable Scripts --}}
+    <script src="{{ asset('datatable/main.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            let table_columns = [
+                //name and data, orderable, searchable 
+             
+                   ['country_id', true, true],
+                ['name', true, true],
+                ['status', true, true],
+                ['created_by', true, true],
+                ['created_at', false, false],
+                ['action', false, false],
+            ];
+            initializeDataTable(
+                table_columns,
+                '.datatable',
+                10,
+                [0, 1,2,3,4,5,6],
+                "{{ route('setup.city.index') }}",
+                "{{ route('update.sort.order') }}",
+                'City'
+            );
+            initializeDataTable(details);
+        })
+    </script>
+@endpush
+
+    {{-- <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -40,9 +112,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     {{-- Admin Details Modal  --}}
-    <x-backend.admin.details-modal :datas="['modal_title' => 'City Details']" />
+    {{-- <x-backend.admin.details-modal :datas="['modal_title' => 'City Details']" />
 @endsection
 @push('js')
     <script src="{{ asset('datatable/main.js') }}"></script>
@@ -68,7 +140,7 @@
             initializeDataTable(details);
         })
     </script>
-@endpush
+@endpush --}}
 @push('js')
     {{-- Show details scripts --}}
     <script src="{{ asset('modal/details_modal.js') }}"></script>

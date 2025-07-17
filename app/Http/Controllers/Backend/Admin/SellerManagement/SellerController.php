@@ -49,7 +49,7 @@ class SellerController extends Controller
                 ->editColumn('is_verify', function ($seller) {
                     return "<span class='badge " . $seller->verify_color . "'>" . $seller->verify_label . "</span>";
                 })
-                ->editColumn('creater_id', function ($seller) {
+                ->editColumn('creater_by', function ($seller) {
                     return $seller->creater_name;
                 })
                 ->editColumn('created_at', function ($seller) {

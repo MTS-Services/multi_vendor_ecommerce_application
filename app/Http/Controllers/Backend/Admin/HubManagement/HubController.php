@@ -97,7 +97,69 @@ class HubController extends Controller
 
         ];
     }
+public function recycleBin(Request $request)
+    {
 
+        if ($request->ajax()) {
+
+ $query = Hub::with(['creater_admin','city','country','state','operationArea'])
+            ->orderBy('sort_order', 'asc')
+                ->latest();
+                return DataTables::eloquent($query)
+                ->editColumn('country_id', function ($hub) {
+                    return $hub->country?->name . ($hub->state ? "(". $hub->state?->name .")": "");
+                })
+                ->editColumn('city_id', function ($hub) {
+                    return  $hub->city?->name;
+                })
+
+                ->editColumn('operation_area_id', function ($hub) {
+                    return  $hub->operationArea?->name . ($hub->operationSubArea ? "(". $hub->operationSubArea?->name .")": "");;
+                })
+                ->editColumn('first_name', function ($staff) {
+                    
+                })
+            
+                ->editColumn('status', function ($staff) {
+                    return "<span class='badge " . $staff->status_color . "'>$staff->status_label</span>";
+                })
+                ->editColumn('is_verify', function ($staff) {
+                    return "<span class='badge " . $staff->verify_color . "'>" . $staff->verify_label . "</span>";
+                })
+                ->editColumn('deleted_by', function ($staff) {
+                    return $staff->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($staff) {
+                    return $staff->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($staff) {
+                    $menuItems = $this->trashedMenuItems($staff);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['country_id','city_id','operation_area_id', 'name', 'status', 'is_verify', 'deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        }
+        return view('backend.admin.hub_management.hub.recycle');
+    }
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'hm.hub.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['hub-restore']
+            ],
+            [
+                'routeName' => 'hm.hub.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['hub-permanent-delete']
+            ]
+
+        ];
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -185,5 +247,31 @@ class HubController extends Controller
         $seller->update(['status' => !$seller->status, 'updater_id'=> admin()->id,'updater_type'=> get_class(admin())]);
         session()->flash('success', 'Hub status updated successfully!');
         return redirect()->route('hm.hub.index');
+    }
+
+      public function restore(string $id): RedirectResponse
+    {
+        $hub = Hub::onlyTrashed()->findOrFail(decrypt($id));
+        $hub->update(['updated_by' => admin()->id]);
+        $hub->restore();
+        session()->flash('success', 'Hub restored successfully!');
+        return redirect()->route('hm.hub.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $hub = Hub::onlyTrashed()->findOrFail(decrypt($id));
+        if($hub->image){
+            $this->fileDelete($hub->image);
+        }
+        $hub->forceDelete();
+        session()->flash('success', 'Hub permanently deleted successfully!');
+        return redirect()->route('hm.hub.recycle-bin');
     }
 }

@@ -1,7 +1,81 @@
 @extends('backend.admin.layouts.master', ['page_slug' => 'product_attribute_value'])
 @section('title', 'Product Attribute Value List')
 @section('content')
+
+@section('content')
     <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="cart-title">{{ __('Product Attribute Value List') }}</h4>
+                    <div class="buttons">
+                         <x-backend.admin.button :datas="[
+                             'routeName' => 'pm.product-attribute-value.recycle-bin',
+                            'label' => 'Recycle Bin',
+                            'className' => 'btn-danger',
+                            'permissions' => ['product-attribute-value-restore'],
+                        ]" />   
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'pm.product-attribute-value.create',
+                            'label' => 'Add New',
+                            'permissions' => ['product_attribute_value-create'],
+                        ]" />
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-responsive table-striped datatable">
+                        <thead>
+                            <tr>
+                                 <th>{{ __('SL') }}</th>
+                                 <th>{{ __('Attribute Name') }}</th>
+                                <th>{{ __('Value') }}</th>
+                                <th>{{ __('Status') }}</th>
+                                <th>{{ __('Created By') }}</th>
+                                <th>{{ __('Created Date') }}</th>
+                                <th>{{ __('Action') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- Admin Details Modal  --}}
+    <x-backend.admin.details-modal :datas="['modal_title' => 'Admin Details']" />
+@endsection
+@push('js')
+    <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
+    {{-- Datatable Scripts --}}
+    <script src="{{ asset('datatable/main.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            let table_columns = [
+                //name and data, orderable, searchable 
+             
+                  ['product_attribute_id', true, true],
+                ['value', true, true], 
+                ['status', true, true],
+               
+                ['creater_id', true, true],
+                ['created_at', false, false],
+                ['action', false, false],
+            ];
+            initializeDataTable(
+                table_columns,
+                '.datatable',
+                10,
+                [0, 1,2,3,4,5,6],
+                "{{ route('pm.product-attribute-value.index') }}",
+                "{{ route('update.sort.order') }}",
+                'Product Attribute Value'
+            );
+            initializeDataTable(details);
+        })
+    </script>
+@endpush
+  {{--}}  <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -39,9 +113,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     {{-- Details Modal  --}}
-    <x-backend.admin.details-modal :datas="['modal_title' => 'Product Attribute Value Details']" />
+    {{-- <x-backend.admin.details-modal :datas="['modal_title' => 'Product Attribute Value Details']" />
 @endsection
 @push('js')
     <script src="{{ asset('datatable/main.js') }}"></script>
@@ -68,7 +142,7 @@
             initializeDataTable(details);
         })
     </script>
-@endpush
+@endpush --}}
 @push('js')
     {{-- Show details scripts --}}
     <script src="{{ asset('modal/details_modal.js') }}"></script>
