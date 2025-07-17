@@ -22,6 +22,8 @@
 
     <!--begin::Required Plugin(AdminLTE)-->
     <link rel="stylesheet" href="{{ asset('backend/staff/dist/css/adminlte.css') }}" />
+    
+    <link rel="stylesheet" href="{{ asset('backend/admin/assets/css/kaiadmin.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('backend/admin/css/custom.css') }}">
 
      <!-- Fonts and icons -->
