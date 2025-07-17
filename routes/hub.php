@@ -60,7 +60,7 @@ Route::group(['prefix' => 'hub'], function () {
             });
         });
     });
-    Route::group(['middleware' => ['auth:staff', 'staff.verify'], 'prefix' => 'hub'], function () {
+    Route::group(['middleware' => ['auth:staff', 'staff.verify']], function () {
         Route::get('/staff/dashboard', [StaffDashboardController::class, 'dashboard'])->name('staff.dashboard');
 
 
