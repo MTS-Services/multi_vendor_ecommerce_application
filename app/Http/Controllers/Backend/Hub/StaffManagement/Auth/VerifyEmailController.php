@@ -3,25 +3,36 @@
 namespace App\Http\Controllers\Backend\Hub\StaffManagement\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Hub\Auth\StaffEmailVerificationRequest;
 use Illuminate\Auth\Events\Verified;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 
 class VerifyEmailController extends Controller
 {
-     /**
-     * Mark the authenticated user's email address as verified.
+    /**
+     * Handle the incoming staff email verification request.
+     *
+     * @param  \App\Http\Requests\Auth\StaffEmailVerificationRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function __invoke(EmailVerificationRequest $request): RedirectResponse
+    public function __invoke(StaffEmailVerificationRequest $request): RedirectResponse
     {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('staff.dashboard', absolute: false).'?verified=1');
+        $staff = $request->user('staff'); // Explicitly use 'staff' guard
+
+        if (! $staff) {
+            abort(403, 'Staff Unauthorized action.');
         }
 
-        if ($request->user()->markEmailAsVerified()) {
-        event(new Verified($request->user()));
+        if ($staff->hasVerifiedEmail()) {
+            return redirect()->route('staff.dashboard')->with('verified', true);
         }
 
-        return redirect()->intended(route('staff.dashboard', absolute: false).'?verified=1');
+        if ($staff->markEmailAsVerified()) {
+            event(new Verified($staff));
+        }
+
+        return redirect()->route('staff.dashboard')->with('verified', true);
     }
 }
+
+

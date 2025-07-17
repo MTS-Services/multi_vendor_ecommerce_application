@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::group(['as' => 'staff.', 'prefix' => 'staff'], function() {
+Route::group(['as' => 'staff.', 'prefix' => 'staff'], function () {
 
     // The page that says "Please check your email"
     Route::get('verify-email', StaffEmailVerificationPromptController::class)
@@ -24,10 +24,10 @@ Route::group(['as' => 'staff.', 'prefix' => 'staff'], function() {
         ->name('verification.notice');
 
     // The link the user clicks in their email
-    Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
-        ->middleware(['signed', 'throttle:6,1']) // No 'auth:staff' here!
+    Route::get('/staff/verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
+        ->middleware([ 'signed', 'throttle:6,1'])
         ->name('verification.verify');
-         Route::get('/verify-email', [StaffVerificationController::class, 'show'])->name('verification.notice');
+    Route::get('/verify-email', [StaffVerificationController::class, 'show'])->name('verification.notice');
 
     // The route to resend the verification email link
     Route::post('/email/verification-notification', [StaffEmailVerificationNotificationController::class, 'store'])
