@@ -26,4 +26,8 @@ Route::group(['middleware' => ['auth:web', 'verified'], 'as' => 'user.', 'prefix
 
   Route::get('/profile', [UserDashboardController::class, 'profile'])->name('profile');
 
+  Route::get('/my-profile', [UserDashboardController::class, 'myProfile'])->name('my-profile');
+
+  Route::get('/address', [UserDashboardController::class, 'address'])->name('address');
+
 });
