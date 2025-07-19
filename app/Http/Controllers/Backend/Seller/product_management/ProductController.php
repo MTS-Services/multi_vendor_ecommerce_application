@@ -88,10 +88,10 @@ class ProductController extends Controller
     public function recycleBin(Request $request)
     {
         if ($request->ajax()) {
-            $query = Product::with(['creater', 'seller', 'brand', 'category', 'taxClass'])
-               ->onlyTrashed()
-            ->orderBy('sort_order', 'asc')
-            ->latest();
+            $query = Product::with(['deleter', 'seller', 'brand', 'category', 'taxClass'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
             return DataTables::eloquent($query)
                 ->editColumn('seller_id', fn($product) => $product->seller?->name)
                 ->editColumn('brand_id', fn($product) => $product->brand?->name)
@@ -102,7 +102,7 @@ class ProductController extends Controller
                 ->editColumn('is_published', fn($product) => "<span class='badge {$product->published_color}'>{$product->published_label}</span>")
                 ->editColumn('deleted_id', fn($product) => $product->creater_name)
                 ->editColumn('deleted_at', fn($product) => $product->created_at_formatted)
-                ->editColumn('action', fn($product) => view('components.backend.seller.action-buttons', ['menuItems' => $this->menuItems($product)])->render())
+                ->editColumn('action', fn($product) => view('components.backend.seller.action-buttons', ['menuItems' => $this->trashedMenuItems($product)])->render())
                 ->rawColumns(['status', 'is_featured', 'deleted_id', 'deleted_at', 'action', 'is_published', 'seller_id', 'brand_id', 'category_id', 'tax_class_id'])
                 ->make(true);
         }
@@ -209,7 +209,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-  public function destroy(string $id): RedirectResponse
+    public function destroy(string $id): RedirectResponse
     {
         $seller = Product::findOrFail(decrypt($id));
         $seller->update(['deleter_id' => seller()->id, 'deleter_type' => get_class(seller())]);
@@ -217,26 +217,26 @@ class ProductController extends Controller
         session()->flash('success', 'Product deleted successfully!');
         return redirect()->route('seller.pm.product.index');
     }
-   public function toggle(string $id, string $field): RedirectResponse
-{
-    $product = Product::findOrFail(decrypt($id));
+    public function toggle(string $id, string $field): RedirectResponse
+    {
+        $product = Product::findOrFail(decrypt($id));
 
-    // Allowed fields to toggle
-    $toggleFields = ['status', 'is_featured', 'is_published'];
+        // Allowed fields to toggle
+        $toggleFields = ['status', 'is_featured', 'is_published'];
 
-    if (!in_array($field, $toggleFields)) {
-        abort(400, 'Invalid field');
+        if (!in_array($field, $toggleFields)) {
+            abort(400, 'Invalid field');
+        }
+
+        $product->update([
+            $field => !$product->$field,
+            'updater_id' => seller()->id,
+            'updater_type' => get_class(seller()),
+        ]);
+
+        session()->flash('success', "Product {$field} updated successfully!");
+        return redirect()->route('seller.pm.product.index');
     }
-
-    $product->update([
-        $field => !$product->$field,
-        'updater_id' => seller()->id,
-        'updater_type' => get_class(seller()),
-    ]);
-
-    session()->flash('success', "Product {$field} updated successfully!");
-    return redirect()->route('seller.pm.product.index');
-}
 
 
     public function restore(string $id): RedirectResponse

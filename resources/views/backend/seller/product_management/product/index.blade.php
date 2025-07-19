@@ -2,10 +2,6 @@
 
 @section('title', 'Product List')
 
-@push('css')
-    <link rel="stylesheet" href="{{ asset('custom_litebox/litebox.css') }}">
-@endpush
-
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -55,7 +51,6 @@
 @endsection
 
 @push('js')
-    <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
     <script src="{{ asset('datatable/main.js') }}"></script>
     <script>
         $(document).ready(function() {
