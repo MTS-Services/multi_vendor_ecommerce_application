@@ -1,0 +1,77 @@
+@extends('backend.seller.layouts.app', ['page_slug' => 'product'])
+@section('title', 'Product Recycle Bin')
+@section('content')
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="cart-title">{{ __('Product Recycle Bin') }}</h4>
+                    <div class="buttons">
+                        <x-backend.seller.button :datas="[
+                            'routeName' => 'seller.pm.product.index',
+                            'label' => 'Back',
+                        ]" />
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped datatable">
+                            <thead class="w-100">
+                                <tr>
+                                    <th>{{ __('SL') }}</th>
+                                    <th>{{ __('Name') }}</th>
+                                    <th>{{ __('Seller') }}</th>
+                                    <th>{{ __('Brand') }}</th>
+                                    <th>{{ __('Category') }}</th>
+                                    <th>{{ __('Tax Class') }}</th>
+                                    <th>{{ __('Status') }}</th>
+                                    <th>{{ __('Featured') }}</th>
+                                    <th>{{ __('Published') }}</th>
+                                    <th>{{ __('Created By') }}</th>
+                                    <th>{{ __('Created Date') }}</th>
+                                    <th>{{ __('Action') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+@push('js')
+    {{-- Datatable Scripts --}}
+    <script src="{{ asset('datatable/main.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            let table_columns = [
+                //name and data, orderable, searchable
+                ['name', true, true],
+                ['seller_id', true, true],
+                ['brand_id', true, true],
+                ['category_id', true, true],
+                ['tax_class_id', true, true],
+                ['status', true, true],
+                ['is_featured', true, true],
+                ['is_published', true, true],
+                ['deleter_id', true, true],
+                ['deleted_at', true, true],
+                ['action', false, false],
+            ];
+            const details = {
+                table_columns: table_columns,
+                main_class: '.datatable',
+                displayLength: 10,
+                main_route: "{{ route('seller.pm.product.recycle-bin') }}",
+                order_route: "{{ route('update.sort.order') }}",
+                export_columns: [0, 1, 2, 3, 4, 5],
+                model: 'Brand',
+            };
+            // initializeDataTable(details);
+
+            initializeDataTable(details);
+        })
+    </script>
+@endpush

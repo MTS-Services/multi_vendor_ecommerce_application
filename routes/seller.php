@@ -59,9 +59,8 @@ Route::group(['middleware' => 'auth:seller', 'prefix' => 'seller', 'as' => 'sell
         Route::delete('brand/permanent-delete/{brand}', [BrandController::class, 'permanentDelete'])->name('brand.permanent-delete');
 
         Route::resource('product', ProductController::class);
-        Route::get('product/status/{product}', [ProductController::class, 'status'])->name('product.status');
-        Route::get('product/feature/{product}', [ProductController::class, 'feature'])->name('product.feature');
-        Route::get('product/published/{product}', [ProductController::class, 'published'])->name('product.published');
+      Route::get('product/toggle/{id}/{field}', [ProductController::class, 'toggle'])
+    ->name('product.toggle');
         Route::get('product/recycle/bin', [ProductController::class, 'recycleBin'])->name('product.recycle-bin');
         Route::get('product/restore/{product}', [ProductController::class, 'restore'])->name('product.restore');
         Route::delete('product/permanent-delete/{product}', [ProductController::class, 'permanentDelete'])->name('product.permanent-delete');

@@ -28,8 +28,7 @@
                     <div class="table-responsive">
                         <table class="table table-striped datatable">
                             <thead class="w-100">
-                                <tr>
-                                    <th>{{ __('SL') }}</th>
+                                <tr>  <th>{{ __('SL') }}</th>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Seller') }}</th>
                                     <th>{{ __('Brand') }}</th>

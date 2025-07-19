@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\Seller\ProductRequest;
+use Illuminate\Http\RedirectResponse;
 
 class ProductController extends Controller
 {
@@ -30,7 +31,7 @@ class ProductController extends Controller
                 ->orderBy('sort_order', 'asc')
                 ->latest();
             return DataTables::eloquent($query)
-                ->editColumn('seller_id', fn($product) => $product->seller?->name)
+                ->editColumn('seller_id', fn($product) => $product->seller?->first_name)
                 ->editColumn('brand_id', fn($product) => $product->brand?->name)
                 ->editColumn('category_id', fn($product) => $product->category?->name)
                 ->editColumn('tax_class_id', fn($product) => $product->taxClass?->name)
@@ -61,18 +62,18 @@ class ProductController extends Controller
                 'label' => 'Edit',
             ],
             [
-                'routeName' => 'seller.pm.product.status',
-                'params' => [encrypt($model->id)],
+                'routeName' => 'seller.pm.product.toggle',
+                'params' => [encrypt($model->id), 'status'],
                 'label' => $model->status_btn_label,
             ],
             [
-                'routeName' => 'seller.pm.product.feature',
-                'params' => [encrypt($model->id)],
+                'routeName' => 'seller.pm.product.toggle',
+                'params' => [encrypt($model->id), 'is_featured'],
                 'label' => $model->featured_btn_label,
             ],
             [
-                'routeName' => 'seller.pm.product.feature',
-                'params' => [encrypt($model->id)],
+                'routeName' => 'seller.pm.product.toggle',
+                'params' => [encrypt($model->id), 'is_published'],
                 'label' => $model->published_btn_label,
             ],
             [
@@ -88,9 +89,9 @@ class ProductController extends Controller
     {
         if ($request->ajax()) {
             $query = Product::with(['creater', 'seller', 'brand', 'category', 'taxClass'])
-                ->onlyTrashed()
-                ->orderBy('sort_order', 'asc')
-                ->latest();
+               ->onlyTrashed()
+            ->orderBy('sort_order', 'asc')
+            ->latest();
             return DataTables::eloquent($query)
                 ->editColumn('seller_id', fn($product) => $product->seller?->name)
                 ->editColumn('brand_id', fn($product) => $product->brand?->name)
@@ -163,7 +164,7 @@ class ProductController extends Controller
     public function show(string $id)
     {
         $data = Product::with(['creater', 'seller', 'brand', 'category', 'taxClass'])->findOrFail(decrypt($id));
-        $data['seller_name'] = $data->seller?->name;
+        $data['seller_name'] = $data->seller?->first_name;
         $data['brand_name'] = $data->brand?->name;
         $data['category_name'] = $data->category?->name;
         $data['tax_class_name'] = $data->taxClass?->name;
@@ -208,8 +209,56 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+  public function destroy(string $id): RedirectResponse
     {
-        //
+        $seller = Product::findOrFail(decrypt($id));
+        $seller->update(['deleter_id' => seller()->id, 'deleter_type' => get_class(seller())]);
+        $seller->delete();
+        session()->flash('success', 'Product deleted successfully!');
+        return redirect()->route('seller.pm.product.index');
+    }
+   public function toggle(string $id, string $field): RedirectResponse
+{
+    $product = Product::findOrFail(decrypt($id));
+
+    // Allowed fields to toggle
+    $toggleFields = ['status', 'is_featured', 'is_published'];
+
+    if (!in_array($field, $toggleFields)) {
+        abort(400, 'Invalid field');
+    }
+
+    $product->update([
+        $field => !$product->$field,
+        'updater_id' => seller()->id,
+        'updater_type' => get_class(seller()),
+    ]);
+
+    session()->flash('success', "Product {$field} updated successfully!");
+    return redirect()->route('seller.pm.product.index');
+}
+
+
+    public function restore(string $id): RedirectResponse
+    {
+        $seller = Product::onlyTrashed()->findOrFail(decrypt($id));
+        $seller->update(['updater_id' => seller()->id, 'updater_type' => get_class(seller())]);
+        $seller->restore();
+        session()->flash('success', 'Product restored successfully!');
+        return redirect()->route('seller.pm.product.recycle-bin');
+    }
+
+    /**
+     * Remove the specified resource from storage permanently.
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function permanentDelete(string $id): RedirectResponse
+    {
+        $seller = product::onlyTrashed()->findOrFail(decrypt($id));
+        $seller->forceDelete();
+        session()->flash('success', 'Product permanently deleted successfully!');
+        return redirect()->route('seller.pm.product.recycle-bin');
     }
 }
