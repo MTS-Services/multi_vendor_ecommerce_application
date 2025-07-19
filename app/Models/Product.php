@@ -33,6 +33,26 @@ class Product extends BaseModel
         'deleter_id',
     ];
 
+    // relation
+    public function seller()
+    {
+        return $this->belongsTo(Seller::class, 'seller_id');
+    }
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'brand_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function taxClass()
+    {
+        return $this->belongsTo(TaxClass::class, 'tax_class_id');
+    }
+
      public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);

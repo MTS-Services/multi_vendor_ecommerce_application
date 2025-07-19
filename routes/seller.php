@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\Seller\Auth\LoginController as SellerLoginContr
 use App\Http\Controllers\Backend\Seller\Auth\ResetPasswordController;
 use App\Http\Controllers\Backend\Seller\DashboardController as SellerDashboardController;
 use App\Http\Controllers\Backend\Seller\product_management\BrandController;
+use App\Http\Controllers\Backend\Seller\product_management\ProductController;
 use App\Http\Controllers\Backend\Seller\seller_management\SellerController;
 use App\Http\Controllers\Backend\Seller\SellerProfileController;
 use App\Models\Seller;
@@ -56,15 +57,16 @@ Route::group(['middleware' => 'auth:seller', 'prefix' => 'seller', 'as' => 'sell
         Route::get('brand/recycle/bin', [BrandController::class, 'recycleBin'])->name('brand.recycle-bin');
         Route::get('brand/restore/{brand}', [BrandController::class, 'restore'])->name('brand.restore');
         Route::delete('brand/permanent-delete/{brand}', [BrandController::class, 'permanentDelete'])->name('brand.permanent-delete');
+
+        Route::resource('product', ProductController::class);
+        Route::get('product/status/{product}', [ProductController::class, 'status'])->name('product.status');
+        Route::get('product/feature/{product}', [ProductController::class, 'feature'])->name('product.feature');
+        Route::get('product/published/{product}', [ProductController::class, 'published'])->name('product.published');
+        Route::get('product/recycle/bin', [ProductController::class, 'recycleBin'])->name('product.recycle-bin');
+        Route::get('product/restore/{product}', [ProductController::class, 'restore'])->name('product.restore');
+        Route::delete('product/permanent-delete/{product}', [ProductController::class, 'permanentDelete'])->name('product.permanent-delete');
     });
 
-    // Seller Management
-    Route::group(['as' => 'sm.', 'prefix' => 'seller-management'], function () {
-        Route::resource('seller', SellerController::class);
-        Route::get('seller/status/{seller}', [SellerController::class, 'status'])->name('seller.status');
-        Route::get('seller/recycle/bin', [SellerController::class, 'recycleBin'])->name('seller.recycle-bin');
-        Route::get('seller/restore/{seller}', [SellerController::class, 'restore'])->name('seller.restore');
-        Route::delete('seller/permanent-delete/{seller}', [SellerController::class, 'permanentDelete'])->name('seller.permanent-delete');
-    });
+
 });
 
