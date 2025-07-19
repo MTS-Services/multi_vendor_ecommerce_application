@@ -8,6 +8,7 @@
         "php": "^8.2",
         "barryvdh/laravel-debugbar": "^3.13",
         "binafy/laravel-stub": "^1.0",
+        "illuminate/support": "*",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",

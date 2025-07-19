@@ -12,7 +12,6 @@ use Illuminate\Notifications\Notifiable;
 class Seller extends AuthBaseModel
 {
     use HasFactory, Notifiable;
-
     protected $table = 'sellers';
     protected $guard = 'seller';
 

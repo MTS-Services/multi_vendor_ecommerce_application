@@ -3104,6 +3104,7 @@ label.error {
 /* table-responsive */
 .table-responsive {
   width: 100% !important;
+  height: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar; }

@@ -1925,41 +1925,47 @@ progress {
   border-color: var(--bs-table-border-color);
 }
 
-.table-responsive, .datatable-wrapper .datatable-container {
+.table-responsive,
+.datatable-wrapper .datatable-container {
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: visible !important;
 }
 
 @media (max-width: 575.98px) {
   .table-responsive-sm {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible !important;
   }
 }
+
 @media (max-width: 767.98px) {
   .table-responsive-md {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible !important;
   }
 }
+
 @media (max-width: 991.98px) {
   .table-responsive-lg {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible !important;
   }
 }
+
 @media (max-width: 1199.98px) {
   .table-responsive-xl {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible !important;
   }
 }
+
 @media (max-width: 1399.98px) {
   .table-responsive-xxl {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible !important;
   }
 }
+
 .form-label {
   margin-bottom: 0.5rem;
 }
@@ -3870,7 +3876,7 @@ textarea.form-control-lg {
 
 .navbar-nav-scroll {
   max-height: var(--bs-scroll-height, 75vh);
-  overflow-y: auto;
+  overflow: auto;
 }
 
 @media (min-width: 576px) {
@@ -3917,7 +3923,7 @@ textarea.form-control-lg {
     display: flex;
     flex-grow: 0;
     padding: 0;
-    overflow-y: visible;
+    overflow: visible;
   }
 }
 @media (min-width: 768px) {
@@ -3964,7 +3970,7 @@ textarea.form-control-lg {
     display: flex;
     flex-grow: 0;
     padding: 0;
-    overflow-y: visible;
+    overflow: visible;
   }
 }
 @media (min-width: 992px) {
@@ -4011,7 +4017,7 @@ textarea.form-control-lg {
     display: flex;
     flex-grow: 0;
     padding: 0;
-    overflow-y: visible;
+    overflow: visible;
   }
 }
 @media (min-width: 1200px) {
@@ -4058,7 +4064,7 @@ textarea.form-control-lg {
     display: flex;
     flex-grow: 0;
     padding: 0;
-    overflow-y: visible;
+    overflow: visible;
   }
 }
 @media (min-width: 1400px) {
@@ -4105,7 +4111,7 @@ textarea.form-control-lg {
     display: flex;
     flex-grow: 0;
     padding: 0;
-    overflow-y: visible;
+    overflow: visible;
   }
 }
 .navbar-expand {
@@ -4151,7 +4157,7 @@ textarea.form-control-lg {
   display: flex;
   flex-grow: 0;
   padding: 0;
-  overflow-y: visible;
+  overflow: visible;
 }
 
 .navbar-dark {
@@ -5279,7 +5285,7 @@ textarea.form-control-lg {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow: auto;
   outline: 0;
 }
 
@@ -5313,7 +5319,7 @@ textarea.form-control-lg {
   overflow: hidden;
 }
 .modal-dialog-scrollable .modal-body {
-  overflow-y: auto;
+  overflow: auto;
 }
 
 .modal-dialog-centered {
@@ -5438,7 +5444,7 @@ textarea.form-control-lg {
   border-radius: 0;
 }
 .modal-fullscreen .modal-body {
-  overflow-y: auto;
+  overflow: auto;
 }
 
 @media (max-width: 575.98px) {
@@ -5458,7 +5464,7 @@ textarea.form-control-lg {
     border-radius: 0;
   }
   .modal-fullscreen-sm-down .modal-body {
-    overflow-y: auto;
+    overflow: auto;
   }
 }
 @media (max-width: 767.98px) {
@@ -5478,7 +5484,7 @@ textarea.form-control-lg {
     border-radius: 0;
   }
   .modal-fullscreen-md-down .modal-body {
-    overflow-y: auto;
+    overflow: auto;
   }
 }
 @media (max-width: 991.98px) {
@@ -5498,7 +5504,7 @@ textarea.form-control-lg {
     border-radius: 0;
   }
   .modal-fullscreen-lg-down .modal-body {
-    overflow-y: auto;
+    overflow: auto;
   }
 }
 @media (max-width: 1199.98px) {
@@ -5518,7 +5524,7 @@ textarea.form-control-lg {
     border-radius: 0;
   }
   .modal-fullscreen-xl-down .modal-body {
-    overflow-y: auto;
+    overflow: auto;
   }
 }
 @media (max-width: 1399.98px) {
@@ -5538,7 +5544,7 @@ textarea.form-control-lg {
     border-radius: 0;
   }
   .modal-fullscreen-xxl-down .modal-body {
-    overflow-y: auto;
+    overflow: auto;
   }
 }
 .tooltip {
@@ -6163,7 +6169,7 @@ textarea.form-control-lg {
     display: flex;
     flex-grow: 0;
     padding: 0;
-    overflow-y: visible;
+    overflow: visible;
     background-color: transparent !important;
   }
 }
@@ -6251,7 +6257,7 @@ textarea.form-control-lg {
     display: flex;
     flex-grow: 0;
     padding: 0;
-    overflow-y: visible;
+    overflow: visible;
     background-color: transparent !important;
   }
 }
@@ -6339,7 +6345,7 @@ textarea.form-control-lg {
     display: flex;
     flex-grow: 0;
     padding: 0;
-    overflow-y: visible;
+    overflow: visible;
     background-color: transparent !important;
   }
 }
@@ -6427,7 +6433,7 @@ textarea.form-control-lg {
     display: flex;
     flex-grow: 0;
     padding: 0;
-    overflow-y: visible;
+    overflow: visible;
     background-color: transparent !important;
   }
 }
@@ -6515,7 +6521,7 @@ textarea.form-control-lg {
     display: flex;
     flex-grow: 0;
     padding: 0;
-    overflow-y: visible;
+    overflow: visible;
     background-color: transparent !important;
   }
 }
@@ -6614,7 +6620,7 @@ textarea.form-control-lg {
 .offcanvas-body {
   flex-grow: 1;
   padding: var(--bs-offcanvas-padding-y) var(--bs-offcanvas-padding-x);
-  overflow-y: auto;
+  overflow: auto;
 }
 
 .placeholder {
@@ -10927,7 +10933,7 @@ body {
   padding-top: 56px;
 }
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu {
-  overflow-y: auto;
+  overflow: auto;
 }
 .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
   padding-left: 225px;

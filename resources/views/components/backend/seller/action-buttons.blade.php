@@ -1,6 +1,6 @@
-<div class="btn-group d-flex align-items-center gap-3 flex-wrap justify-content-center">
+<div class="btn-group d-flex align-items-center gap-3 flex-wrap justify-content-center ">
     <i class="icon-grid reorder fs-4 float-left" style="cursor: move;"></i>
-    <a href="javascript:void(0)" class="text-dark d-flex action-btn align-items-center justify-content-center"
+    <a href="javascript:void(0)" class="text-dark d-flex action-btn text-decoration-none align-items-center justify-content-center"
         data-bs-toggle="dropdown" aria-expanded="false">
         <i class="icon-settings fs-3"></i>
     </a>

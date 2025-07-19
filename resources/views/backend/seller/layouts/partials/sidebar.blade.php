@@ -11,9 +11,13 @@
                     <div class="sb-nav-link-icon"><i class='bx bxs-grid-alt'></i></div>
                     {{ __('Dashboard') }}
                 </a>
+                <a class="nav-link @if (isset($page_slug) && $page_slug == 'seller'|| $page_slug == 'seller') active @endif" href="{{ route('seller.sm.seller.index') }}">
+                    <div class="sb-nav-link-icon"><i class='bx bxs-grid-alt'></i></div>
+                    {{ __('Seller') }}
+                </a>
                 <a class="nav-link @if (isset($page_slug) && $page_slug == 'brand'|| $page_slug == 'brand') active @endif" href="{{ route('seller.pm.brand.index') }}">
                     <div class="sb-nav-link-icon"><i class='bx bxs-grid-alt'></i></div>
-                    {{ __('brand') }}
+                    {{ __('Brand') }}
                 </a>
 
                 {{-- Single Item --}}
