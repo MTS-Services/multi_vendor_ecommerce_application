@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <div class="card m-4">
+            <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Seller List') }}</h4>
                     <div class="buttons">
@@ -11,10 +11,12 @@
                             'routeName' => 'seller.sm.seller.recycle-bin',
                             'label' => 'Recycle Bin',
                             'className' => 'btn-danger',
+                            'permissions' => ['permission-restore'],
                         ]" />
                         <x-backend.seller.button :datas="[
                             'routeName' => 'seller.sm.seller.create',
                             'label' => 'Add New',
+                            'permissions' => ['seller-create'],
                         ]" />
                     </div>
                 </div>
@@ -25,7 +27,10 @@
                                 <tr>
                                     <th>{{ __('SL') }}</th>
                                     <th>{{ __('Name') }}</th>
-                                    <th>{{ __('Email') }}</th>
+                                    <th>{{ __('Country') }}</th>
+                                    <th>{{ __('City') }}</th>
+                                    <th>{{ __('Operation') }}</th>
+                                    <th>{{ __('Hub') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Verify Status') }}</th>
                                     <th>{{ __('Created By') }}</th>
@@ -42,8 +47,8 @@
             </div>
         </div>
     </div>
-    {{-- Admin Details Modal  --}}
-    <x-backend.admin.details-modal :datas="['modal_title' => 'Seller Details']" />
+    {{-- Seller Details Modal  --}}
+    <x-backend.seller.details-modal :datas="['modal_title' => 'Seller Details']" />
 @endsection
 @push('js')
     {{-- Datatable Scripts --}}
@@ -53,7 +58,10 @@
             let table_columns = [
 
                 ['first_name', true, true],
-                ['email', true, true],
+                ['country_id', true, true],
+                ['city_id', true, true],
+                ['operation_area_id', true, true],
+                ['hub_id', true, true],
                 ['status', true, true],
                 ['email_verified_at', true, true],
                 ['creater_id', true, true],
@@ -66,7 +74,7 @@
                 displayLength: 10,
                 main_route: "{{ route('seller.sm.seller.index') }}",
                 order_route: "{{ route('update.sort.order') }}",
-                export_columns: [0, 1, 2, 3, 4, 5, 6],
+                export_columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
                 model: 'Seller',
             };
             initializeDataTable(details);
@@ -86,6 +94,30 @@
             let route = "{{ route('seller.sm.seller.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
             const headers = [{
+                    label: "Country",
+                    key: "country_name"
+                },
+                {
+                    label: "State",
+                    key: "state_name"
+                },
+                {
+                    label: "City",
+                    key: "city_name"
+                },
+                {
+                    label: "Operation Area",
+                    key: "operation_area_name"
+                },
+                {
+                    label: "Operation Sub Area",
+                    key: "operation_sub_area_name"
+                },
+                {
+                    label: "Hub",
+                    key: "hub_name"
+                },
+                {
                     label: "First Name",
                     key: "first_name"
                 },

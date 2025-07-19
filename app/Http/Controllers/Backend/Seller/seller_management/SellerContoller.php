@@ -16,21 +16,13 @@ class SellerController extends Controller
     use FileManagementTrait, DetailsCommonDataTrait;
     public function __construct()
     {
-        $this->middleware('admin');
-        $this->middleware('permission:seller-list', ['only' => ['index']]);
-        $this->middleware('permission:seller-details', ['only' => ['show']]);
-        $this->middleware('permission:seller-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:seller-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:seller-delete', ['only' => ['destroy']]);
-        $this->middleware('permission:seller-status', ['only' => ['status']]);
-        $this->middleware('permission:seller-recycle-bin', ['only' => ['recycleBin']]);
-        $this->middleware('permission:seller-restore', ['only' => ['restore']]);
-        $this->middleware('permission:seller-permanent-delete', ['only' => ['permanentDelete']]);
+        $this->middleware('seller');
     }
 
     /**
      * Display a listing of the resource.
      */
+    
     public function index(Request $request)
     {
 
@@ -57,12 +49,12 @@ class SellerController extends Controller
                 })
                 ->editColumn('action', function ($seller) {
                     $menuItems = $this->menuItems($seller);
-                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                    return view('components.backend.seller.action-buttons', compact('menuItems'))->render();
                 })
                 ->rawColumns(['status', 'email_verified_at', 'creater_id', 'created_at', 'action'])
                 ->make(true);
         }
-        return view('backend.admin.seller_management.seller.index');
+        return view('backend.seller.seller_management.seller.index');
     }
 
     protected function menuItems($model): array
@@ -76,21 +68,21 @@ class SellerController extends Controller
                 'permissions' => ['seller-details']
             ],
             [
-                'routeName' => 'sl.seller.status',
+                'routeName' => 'seller.sm.seller.status',
                 'params' => [encrypt($model->id)],
                 'label' => $model->status_btn_label,
                 'permissions' => ['seller-status']
             ],
 
             [
-                'routeName' => 'sl.seller.edit',
+                'routeName' => 'seller.sm.seller.edit',
                 'params' => [encrypt($model->id)],
                 'label' => 'Edit',
                 'permissions' => ['seller-edit']
             ],
 
             [
-                'routeName' => 'sl.seller.destroy',
+                'routeName' => 'seller.sm.seller.destroy',
                 'params' => [encrypt($model->id)],
                 'label' => 'Delete',
                 'delete' => true,
@@ -131,20 +123,20 @@ class SellerController extends Controller
                 ->rawColumns(['status', 'email_verified_at', 'deleter_id', 'deleted_at', 'action'])
                 ->make(true);
         }
-        return view('backend.admin.seller_management.seller.recycle-bin');
+        return view('backend.seller.seller_management.seller.recycle-bin');
     }
 
     protected function trashedMenuItems($model): array
     {
         return [
             [
-                'routeName' => 'sl.seller.restore',
+                'routeName' => 'seller.sm.seller.restore',
                 'params' => [encrypt($model->id)],
                 'label' => 'Restore',
                 'permissions' => ['role-restore']
             ],
             [
-                'routeName' => 'sl.seller.permanent-delete',
+                'routeName' => 'seller.sm.seller.permanent-delete',
                 'params' => [encrypt($model->id)],
                 'label' => 'Permanent Delete',
                 'p-delete' => true,
@@ -159,7 +151,7 @@ class SellerController extends Controller
      */
     public function create()
     {
-        return view('backend.admin.seller_management.seller.create');
+        return view('backend.seller.seller_management.seller.create');
     }
 
     /**
@@ -168,11 +160,11 @@ class SellerController extends Controller
     public function store(SellerRequest $request)
     {
         $validated = $request->validated();
-        $validated['creater_id'] = admin()->id;
-        $validated['creater_type'] = get_class(admin());
+        $validated['creater_id'] = seller()->id;
+        $validated['creater_type'] = get_class(seller());
         Seller::create($validated);
         session()->flash('success', 'Seller created successfully!');
-        return redirect()->route('sl.seller.index');
+        return redirect()->route('seller.sm.seller.index');
     }
 
     /**
@@ -190,7 +182,7 @@ class SellerController extends Controller
     public function edit(string $id)
     {
         $data['seller'] = Seller::findOrFail(decrypt($id));
-        return view('backend.admin.seller_management.seller.edit', $data);
+        return view('backend.seller.seller_management.seller.edit', $data);
     }
 
     /**
@@ -201,12 +193,12 @@ class SellerController extends Controller
         $seller = Seller::findOrFail(decrypt($id));
         $validated = $request->validated();
         $validated['password'] = ($request->password ? $request->password : $seller->password);
-        $validated['updater_id'] = admin()->id;
-        $validated['updater_type'] = get_class(admin());
+        $validated['updater_id'] = seller()->id;
+        $validated['updater_type'] = get_class(seller());
         $validated['password'] = ($request->password ? $request->password : $seller->password);
         $seller->update($validated);
         session()->flash('success', 'Seller updated successfully!');
-        return redirect()->route('sl.seller.index');
+        return redirect()->route('seller.sm.seller.index');
     }
 
     /**
@@ -215,27 +207,27 @@ class SellerController extends Controller
     public function destroy(string $id): RedirectResponse
     {
         $seller = Seller::findOrFail(decrypt($id));
-        $seller->update(['deleter_id' => admin()->id, 'deleter_type' => get_class(admin())]);
+        $seller->update(['deleter_id' => seller()->id, 'deleter_type' => get_class(seller())]);
         $seller->delete();
         session()->flash('success', 'Seller deleted successfully!');
-        return redirect()->route('sl.seller.index');
+        return redirect()->route('seller.sm.seller.index');
     }
 
     public function status(string $id): RedirectResponse
     {
         $seller = Seller::findOrFail(decrypt($id));
-        $seller->update(['status' => !$seller->status, 'updater_id' => admin()->id, 'updater_type' => get_class(admin())]);
+        $seller->update(['status' => !$seller->status, 'updater_id' => seller()->id, 'updater_type' => get_class(seller())]);
         session()->flash('success', 'Seller status updated successfully!');
-        return redirect()->route('sl.seller.index');
+        return redirect()->route('seller.sm.seller.index');
     }
 
        public function restore(string $id): RedirectResponse
     {
         $seller = Seller::onlyTrashed()->findOrFail(decrypt($id));
-        $seller->update(['updated_by' => admin()->id]);
+        $seller->update(['updated_by' => seller()->id]);
         $seller->restore();
         session()->flash('success', 'Seller restored successfully!');
-        return redirect()->route('sl.seller.recycle-bin');
+        return redirect()->route('seller.sm.seller.recycle-bin');
     }
 
     /**
@@ -252,6 +244,6 @@ class SellerController extends Controller
             $this->fileDelete($seller->image);
         }
         session()->flash('success', 'Seller permanently deleted successfully!');
-        return redirect()->route('sl.seller.recycle-bin');
+        return redirect()->route('seller.sm.seller.recycle-bin');
     }
 }

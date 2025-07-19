@@ -123,8 +123,20 @@ class SellerController extends Controller
                 ->orderBy('sort_order', 'asc')
                 ->latest();
             return DataTables::eloquent($query)
-                ->editColumn('first_name', function ($seller) {
+                 ->editColumn('first_name', function ($seller) {
                     return $seller->full_name . ($seller->username ? " (" . $seller->username . ")" : "");
+                })
+                ->editColumn('country_id', function ($seller) {
+                    return $seller->country?->name . ($seller->state ? "(" . $seller->state?->name . ")" : "");
+                })
+                ->editColumn('city_id', function ($seller) {
+                    return  $seller->city?->name;
+                })
+                ->editColumn('operation_area_id', function ($seller) {
+                    return  $seller->operationArea?->name . ($seller->operationSubArea ? "(" . $seller->operationSubArea?->name . ")" : "");;
+                })
+                ->editColumn('hub_id', function ($seller) {
+                    return  $seller->hub?->name;
                 })
                 ->editColumn('status', function ($seller) {
                     return "<span class='badge " . $seller->status_color . "'>$seller->status_label</span>";

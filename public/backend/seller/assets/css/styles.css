@@ -1929,12 +1929,14 @@ progress {
 .datatable-wrapper .datatable-container {
   overflow-x: auto;
   overflow: visible !important;
+   -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 575.98px) {
   .table-responsive-sm {
     overflow-x: auto;
     overflow: visible !important;
+     -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -1942,6 +1944,7 @@ progress {
   .table-responsive-md {
     overflow-x: auto;
     overflow: visible !important;
+     -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -1949,6 +1952,7 @@ progress {
   .table-responsive-lg {
     overflow-x: auto;
     overflow: visible !important;
+     -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -1956,6 +1960,7 @@ progress {
   .table-responsive-xl {
     overflow-x: auto;
     overflow: visible !important;
+     -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -1963,6 +1968,7 @@ progress {
   .table-responsive-xxl {
     overflow-x: auto;
     overflow: visible !important;
+     -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -7012,6 +7018,7 @@ textarea.form-control-lg {
 
 .overflow-visible {
   overflow: visible !important;
+   -webkit-overflow-scrolling: touch;
 }
 
 .overflow-scroll {

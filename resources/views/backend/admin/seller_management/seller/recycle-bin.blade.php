@@ -19,12 +19,15 @@
                         <thead>
                             <tr>
                                 <th>{{ __('SL') }}</th>
-                               <th>{{ __('Name') }}</th>
-                                <th>{{ __('Email') }}</th>
+                                <th>{{ __('Name') }}</th>
+                                <th>{{ __('Country') }}</th>
+                                <th>{{ __('City') }}</th>
+                                <th>{{ __('Operation') }}</th>
+                                <th>{{ __('Hub') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Verify Status') }}</th>
-                                <th>{{ __('Deleted By') }}</th>
-                                <th>{{ __('Deleted Date') }}</th>
+                                <th>{{ __('Created By') }}</th>
+                                <th>{{ __('Created Date') }}</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -44,9 +47,12 @@
             let table_columns = [
                 //name and data, orderable, searchable
                 ['first_name', true, true],
-                ['email', true, true],
+                ['country_id', true, true],
+                ['city_id', true, true],
+                ['operation_area_id', true, true],
+                ['hub_id', true, true],
                 ['status', true, true],
-                ['is_verify', true, true],
+                ['email_verified_at', true, true],
                 ['deleter_id', true, true],
                 ['deleted_at', true, true],
                 ['action', false, false],
