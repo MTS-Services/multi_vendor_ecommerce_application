@@ -89,20 +89,18 @@ class SellerController extends Controller
                 'label' => 'Details',
                 'permissions' => ['seller-details']
             ],
+              [
+                'routeName' => 'sl.seller.edit',
+                'params' => [encrypt($model->id)],
+                'label' => 'Edit',
+                'permissions' => ['seller-edit']
+            ],
             [
                 'routeName' => 'sl.seller.status',
                 'params' => [encrypt($model->id)],
                 'label' => $model->status_btn_label,
                 'permissions' => ['seller-status']
             ],
-
-            [
-                'routeName' => 'sl.seller.edit',
-                'params' => [encrypt($model->id)],
-                'label' => 'Edit',
-                'permissions' => ['seller-edit']
-            ],
-
             [
                 'routeName' => 'sl.seller.destroy',
                 'params' => [encrypt($model->id)],
@@ -200,6 +198,7 @@ class SellerController extends Controller
         $validated['state_id'] = $request->state;
         $validated['city_id'] = $request->city;
         $validated['operation_area_id'] = $request->operation_area;
+        $validated['operation_sub_area_id'] = $request->operation_sub_area;
         $validated['hub_id'] = $request->hub;
         $validated['creater_id'] = admin()->id;
         $validated['creater_type'] = get_class(admin());
@@ -246,6 +245,7 @@ class SellerController extends Controller
         $validated['state_id'] = $request->state;
         $validated['city_id'] = $request->city;
         $validated['operation_area_id'] = $request->operation_area;
+        $validated['operation_sub_area_id'] = $request->operation_sub_area;
         $validated['hub_id'] = $request->hub;
         $validated['password'] = ($request->password ? $request->password : $seller->password);
         $validated['updater_id'] = admin()->id;
