@@ -2,23 +2,31 @@
 
 namespace App\Models;
 
-use App\Models\BaseModel;
+
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\StaffPasswoedResetNotification;
+use App\Notifications\StaffVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Staff extends AuthBaseModel
+class Staff extends AuthBaseModel implements MustVerifyEmail
 {
-    use Notifiable;
+    use HasFactory, Notifiable;
 
      public function sendPasswordResetNotification($token)
     {
         $this->notify(new StaffPasswoedResetNotification($token));
     }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new StaffVerifyEmail());
+    }
     use HasFactory;
     protected $table = 'staffs';
     protected $guard = 'staff';
     protected $fillable = [
+        'sort_order',
         'hub_id',
         'first_name',
         'last_name',
@@ -28,8 +36,6 @@ class Staff extends AuthBaseModel
         'phone',
         'image',
         'status',
-        'is_verify',
-        'otp_send_at',
         'remember_token',
 
         'creater_id',
@@ -48,7 +54,6 @@ class Staff extends AuthBaseModel
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
         'status' => 'integer',
-        'is_verify' => 'integer',
         'creater_id' => 'integer',
         'updater_id' => 'integer',
         'deleter_id' => 'integer',
@@ -64,5 +69,10 @@ class Staff extends AuthBaseModel
     public function getModifiedImageAttribute()
     {
         return storage_url($this->image);
+    }
+
+    public function hub()
+    {
+        return $this->belongsTo(Hub::class);
     }
 }

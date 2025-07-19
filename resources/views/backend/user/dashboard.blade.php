@@ -1,5 +1,9 @@
-@extends('layouts.app')
+@extends('frontend.layouts.app')
 
 @section('content')
     <h1>User Dashboard</h1>
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <button type="submit">Logout</button>
+    </form>
 @endsection

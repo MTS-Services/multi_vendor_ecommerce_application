@@ -9,9 +9,15 @@
                 <p>{{ __('Before proceeding, please check your email for a verification link.') }}</p>
                 <div class="flex items-center justify-center gap-5 mt-8">
                     <p>{{ __('If you did not receive the email') }}</p>
-                    <form action="{{ route('verification.resend') }}" method="POST">
+                    <form method="POST" action="{{ route('staff.verification.send') }}">
+                            @csrf
                         <button type="submit" class="btn-primary">
                             {{ __('Resend Verification Link') }}
+                        </button>
+                    </form>
+                    <form action="logout">
+                        <button type="submit" class="btn-primary">
+                            {{ __('Logout') }}
                         </button>
                     </form>
                 </div>

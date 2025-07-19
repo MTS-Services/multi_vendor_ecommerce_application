@@ -4439,6 +4439,9 @@ textarea.form-control-lg {
   margin-right: 0;
   margin-left: 0;
 }
+.card{
+  margin: 1rem 2rem;
+}
 .card > .list-group {
   border-top: inherit;
   border-bottom: inherit;
@@ -4457,7 +4460,9 @@ textarea.form-control-lg {
 .card > .list-group + .card-footer {
   border-top: 0;
 }
-
+.form-group{
+  padding: 0.5rem;
+}
 .card-body {
   flex: 1 1 auto;
   padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
@@ -4484,13 +4489,14 @@ textarea.form-control-lg {
 }
 
 .card-header {
-  padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
+  padding: 1rem 2rem;
   margin-bottom: 0;
   color: var(--bs-card-cap-color);
   background-color: var(--bs-card-cap-bg);
   border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
 }
 .card-header:first-child {
+  padding:1rem;
   border-radius: var(--bs-card-inner-border-radius) var(--bs-card-inner-border-radius) 0 0;
 }
 
@@ -14393,13 +14399,9 @@ html.maximized-card {
   overflow: hidden;
 }
 
-.card-header::after,
-.card-body::after,
-.card-footer::after {
-  display: block;
-  clear: both;
-  content: "";
-}
+
+
+
 
 .card-header {
   position: relative;

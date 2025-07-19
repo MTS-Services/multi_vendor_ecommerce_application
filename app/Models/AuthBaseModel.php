@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -167,14 +168,25 @@ class AuthBaseModel extends Authenticatable
         ];
     }
     // Accessor for Varify label
-    public function getVerifyLabelAttribute(): string
+      // Verify Accessors
+    public function getVerifyLabelAttribute()
     {
-        return self::getVerifyLabels()[$this->is_verify] ?? 'Unknown';
+        return $this->email_verified_at ? 'Verified' : 'Unverified';
     }
-    // Accessor for Varify color
-    public function getVerifyColorAttribute(): string
+
+    public function getVerifyColorAttribute()
     {
-        return self::getVerifyColors()[$this->is_verify] ?? 'bg-secondary';
+        return $this->email_verified_at ? 'badge-success' : 'badge-danger';
+    }
+
+    // Verified scope
+    public function scopeVerified(Builder $query): Builder
+    {
+        return $query->whereNotNull('email_verified_at');
+    }
+    public function scopeUnverified(Builder $query): Builder
+    {
+        return $query->whereNull('email_verified_at');
     }
     // =======================================================================
 
@@ -229,15 +241,7 @@ class AuthBaseModel extends Authenticatable
         return $query->where('status', self::STATUS_DEACTIVE);
     }
 
-    // Verified scope
-    public function scopeVerified($query)
-    {
-        return $query->where('verified', self::VERIFIED);
-    }
-    public function scopeUnverified($query)
-    {
-        return $query->where('verified', self::UNVERIFIED);
-    }
+
 
     // Gender scope
     public function scopeGender($query, $gender)

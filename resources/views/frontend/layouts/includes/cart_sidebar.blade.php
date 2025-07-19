@@ -1,13 +1,13 @@
 <!-- Sidebar -->
 <div
-    class="cartSidebar fixed top-0 right-0 min-h-screen h-full w-1/4 translate-x-full transition-all duration-300 ease-in-out bg-bg-light dark:bg-bg-darkTertiary shadow-lg z-[99999999999]">
+    class="cartSidebar fixed top-0 right-0 min-h-screen h-full sm:w-200 md:w-1/3 translate-x-full transition-all duration-300 ease-in-out bg-bg-light dark:bg-bg-darkTertiary shadow-lg z-[99999999999]">
 
-    <div class="h-screen overflow-auto py-5">
-        <div class="h-100 overflow-auto">
+    <div class="h-screen overflow-auto py-5"> 
+        <div class="h-100 overflow-auto">     
             <div class="flex justify-between items-center border-b border-b-border-light pt-0 p-5">
                 <h4 class="text-xl font-medium">Shopping cart</h4>
                 <button class="closeCartSidebar" title="Close Sidebar">
-                    <span
+                    <span                   
                         class="w-10 h-10 flex items-center justify-center bg-bg-secondary rounded-full text-text-white">
                         <i data-lucide="x" class="text-lg"></i>
                     </span>

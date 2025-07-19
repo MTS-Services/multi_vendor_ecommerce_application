@@ -60,7 +60,7 @@ class SellerController extends Controller
                 ->editColumn('status', function ($seller) {
                     return "<span class='badge " . $seller->status_color . "'>$seller->status_label</span>";
                 })
-                ->editColumn('is_verify', function ($seller) {
+                ->editColumn('email_verified_at', function ($seller) {
                     return "<span class='badge " . $seller->verify_color . "'>" . $seller->verify_label . "</span>";
                 })
                 ->editColumn('creater_id', function ($seller) {
@@ -73,7 +73,7 @@ class SellerController extends Controller
                     $menuItems = $this->menuItems($seller);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'is_verify', 'creater_id', 'country_id','hub_id', 'city_id', 'operation_area_id', 'created_at', 'action'])
+                ->rawColumns(['status', 'email_verified_at', 'creater_id', 'country_id','hub_id', 'city_id', 'operation_area_id', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.seller_management.seller.index');
@@ -129,7 +129,7 @@ class SellerController extends Controller
                 ->editColumn('status', function ($seller) {
                     return "<span class='badge " . $seller->status_color . "'>$seller->status_label</span>";
                 })
-                ->editColumn('is_verify', function ($seller) {
+                ->editColumn('email_verified_at', function ($seller) {
                     return "<span class='badge " . $seller->verify_color . "'>" . $seller->verify_label . "</span>";
                 })
                 ->editColumn('deleter_id', function ($seller) {
@@ -142,7 +142,7 @@ class SellerController extends Controller
                     $menuItems = $this->trashedMenuItems($seller);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['status', 'is_verify', 'deleter_id', 'deleted_at', 'action'])
+                ->rawColumns(['status', 'email_verified_at', 'deleter_id', 'deleted_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.seller_management.seller.recycle-bin');

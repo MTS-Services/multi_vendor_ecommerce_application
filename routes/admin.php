@@ -42,6 +42,7 @@ use App\Http\Controllers\Backend\Admin\Auth\ResetPasswordController as AdminRese
 use App\Http\Controllers\Backend\Admin\Auth\VerificationController as AdminVerificationController;
 use App\Http\Controllers\Backend\Admin\SiteSettingController;
 use App\Models\ProductTag;
+use App\Http\Controllers\Backend\Admin\HubManagement\StaffController;
 
 // Admin Auth Routes
 Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
@@ -253,6 +254,14 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin'], function () {
     Route::group(['as' => 'hm.', 'prefix' => 'hm-management'], function () {
         Route::resource('hub', HubController::class);
         Route::get('hub/status/{hub}', [HubController::class, 'status'])->name('hub.status');
+
+        Route::resource('staff', StaffController::class);
+        Route::controller(StaffController::class)->group(function () {
+            Route::get('staff/status/{staff}', 'status')->name('staff.status');
+            Route::get('staff/recycle/bin', 'recycleBin')->name('staff.recycle-bin');
+            Route::get('staff/restore/{staff}', 'restore')->name('staff.restore');
+            Route::delete('staff/permanent-delete/{staff}', 'permanentDelete')->name('staff.permanent-delete');
+        });
     });
 
     // Product Management
