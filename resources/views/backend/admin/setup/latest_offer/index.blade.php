@@ -1,16 +1,28 @@
 @extends('backend.admin.layouts.master', ['page_slug' => 'latest_offer'])
 @section('title', 'Latest Offer List')
+@push('css')
+    <link rel="stylesheet" href="{{ asset('custom_litebox/litebox.css') }}">
+@endpush
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Latest Offer List') }}</h4>
-                    <x-backend.admin.button :datas="[
-                        'routeName' => 'setup.latest-offer.create',
-                        'label' => 'Add New',
-                        'permissions' => ['latest_offer-create'],
-                    ]" />
+
+                    <div class="buttons">
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'setup.latest-offer.recycle-bin',
+                            'label' => 'Recycle Bin',
+                            'className' => 'btn-danger',
+                            'permissions' => ['product-tags-restore'],
+                        ]" />
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'setup.latest-offer.create',
+                            'label' => 'Add New',
+                            'permissions' => ['latest_offer-create'],
+                        ]" />
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-striped datatable">
@@ -36,13 +48,14 @@
 @endsection
 @push('js')
     <script src="{{ asset('datatable/main.js') }}"></script>
+    <script src="{{ asset('custom_litebox/litebox.js') }}"></script>
     <script>
         $(document).ready(function() {
             let table_columns = [
                 //name and data, orderable, searchable
                 ['title', true, true],
                 ['status', true, true],
-                ['creater_id', true, true],
+                ['created_by', true, true],
                 ['created_at', false, false],
                 ['action', false, false],
             ];
@@ -75,6 +88,7 @@
                 {
                     label: "Image",
                     key: "modified_image",
+                    type: "image"
                 },
                 {
                     label: "Url ",
@@ -99,4 +113,3 @@
         });
     </script>
 @endpush
-

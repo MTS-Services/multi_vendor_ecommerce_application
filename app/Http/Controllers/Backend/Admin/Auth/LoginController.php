@@ -30,6 +30,17 @@ class LoginController extends Controller
     /**
      * Show the admin login form.
      */
+     protected function authenticated(Request $request, $user)
+    {
+        // If the admin's email is not verified, log them out and redirect to the verification page
+        if (!$user->hasVerifiedEmail()) {
+            Auth::guard('admin')->logout(); // Log the admin out
+            return redirect()->route('admin.login')->with('error', 'You need to verify your email address before logging in.');
+        }
+
+        // If the email is verified, proceed to the admin dashboard
+        return redirect()->route('admin.dashboard');
+    }
 
     public function showLoginForm()
     {

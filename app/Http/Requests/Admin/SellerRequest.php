@@ -25,6 +25,12 @@ class SellerRequest extends FormRequest
         return [
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
+            'country' => 'required|exists:countries,id',
+            'state' => 'nullable|exists:states,id',
+            'city' => 'required|exists:cities,id',
+            'operation_area' => 'nullable|exists:operation_areas,id',
+            'operation_sub_area'=> 'nullable|exists:operation_sub_areas,id',
+            'hub' => 'required|exists:hubs,id',
             ]
             +
             ($this->isMethod('POST') ? $this->store() : $this->update());

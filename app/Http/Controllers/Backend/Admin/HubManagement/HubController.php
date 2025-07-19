@@ -29,22 +29,22 @@ class HubController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index( Request $request)
+    public function index(Request $request)
     {
         if ($request->ajax()) {
-            $query = Hub::with(['creater_admin','city','country','state','operationArea'])
-            ->orderBy('sort_order', 'asc')
+            $query = Hub::with(['creater_admin', 'city', 'country', 'state', 'operationArea'])
+                ->orderBy('sort_order', 'asc')
                 ->latest();
-                return DataTables::eloquent($query)
+            return DataTables::eloquent($query)
                 ->editColumn('country_id', function ($hub) {
-                    return $hub->country?->name . ($hub->state ? "(". $hub->state?->name .")": "");
+                    return $hub->country?->name . ($hub->state ? "(" . $hub->state?->name . ")" : "");
                 })
                 ->editColumn('city_id', function ($hub) {
                     return  $hub->city?->name;
                 })
 
                 ->editColumn('operation_area_id', function ($hub) {
-                    return  $hub->operationArea?->name . ($hub->operationSubArea ? "(". $hub->operationSubArea?->name .")": "");;
+                    return  $hub->operationArea?->name . ($hub->operationSubArea ? "(" . $hub->operationSubArea?->name . ")" : "");;
                 })
                 ->editColumn('status', function ($hub) {
                     return "<span class='badge " . $hub->status_color . "'>$hub->status_label</span>";
@@ -59,7 +59,7 @@ class HubController extends Controller
                     $menuItems = $this->menuItems($hub);
                     return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
                 })
-                ->rawColumns(['country_id','city_id','operation_area_id','status', 'created_by', 'created_at', 'action'])
+                ->rawColumns(['country_id', 'city_id', 'operation_area_id', 'status', 'created_by', 'created_at', 'action'])
                 ->make(true);
         }
         return view('backend.admin.hub_management.hub.index');
@@ -97,6 +97,64 @@ class HubController extends Controller
 
         ];
     }
+    public function recycleBin(Request $request)
+    {
+
+        if ($request->ajax()) {
+
+
+            $query = Hub::with(['deleter_admin'])
+                ->onlyTrashed()
+                ->orderBy('sort_order', 'asc')
+                ->latest();
+            return DataTables::eloquent($query)
+                ->editColumn('country_id', function ($hub) {
+                    return $hub->country?->name . ($hub->state ? "(" . $hub->state?->name . ")" : "");
+                })
+                ->editColumn('city_id', function ($hub) {
+                    return  $hub->city?->name;
+                })
+
+                ->editColumn('operation_area_id', function ($hub) {
+                    return  $hub->operationArea?->name . ($hub->operationSubArea ? "(" . $hub->operationSubArea?->name . ")" : "");;
+                })
+                ->editColumn('status', function ($hub) {
+                    return "<span class='badge " . $hub->status_color . "'>$hub->status_label</span>";
+                })
+                ->editColumn('deleted_by', function ($hub) {
+                    return $hub->deleter_name;
+                })
+                ->editColumn('deleted_at', function ($hub) {
+                    return $hub->deleted_at_formatted;
+                })
+                ->editColumn('action', function ($hub) {
+                    $menuItems = $this->trashedMenuItems($hub);
+                    return view('components.backend.admin.action-buttons', compact('menuItems'))->render();
+                })
+                ->rawColumns(['country_id', 'city_id', 'operation_area_id', 'status', 'deleted_by', 'deleted_at', 'action'])
+                ->make(true);
+        };
+        return view('backend.admin.hub_management.hub.recycle-bin');
+    }
+    protected function trashedMenuItems($model): array
+    {
+        return [
+            [
+                'routeName' => 'hm.hub.restore',
+                'params' => [encrypt($model->id)],
+                'label' => 'Restore',
+                'permissions' => ['offer-banner-restore']
+            ],
+            [
+                'routeName' => 'hm.hub.permanent-delete',
+                'params' => [encrypt($model->id)],
+                'label' => 'Permanent Delete',
+                'p-delete' => true,
+                'permissions' => ['hub-permanent-delete']
+            ]
+
+        ];
+    }
 
 
     /**
@@ -104,8 +162,8 @@ class HubController extends Controller
      */
     public function create()
     {
-        $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
-        return view('backend.admin.hub_management.hub.create',$data);
+        $data['countries'] = Country::active()->select('id', 'name', 'slug')->orderBy('name')->get();
+        return view('backend.admin.hub_management.hub.create', $data);
     }
 
     /**
@@ -121,7 +179,7 @@ class HubController extends Controller
         $validated['created_by'] = admin()->id;
 
         Hub::create($validated);
-        session()->flash('success','hub created successfully!');
+        session()->flash('success', 'hub created successfully!');
         return redirect()->route('hm.hub.index');
     }
 
@@ -131,7 +189,7 @@ class HubController extends Controller
      */
     public function show(string $id)
     {
-        $data = Hub::with(['creater_admin', 'updater_admin', 'city','country','state','operationArea'])->findOrFail(decrypt($id));
+        $data = Hub::with(['creater_admin', 'updater_admin', 'city', 'country', 'state', 'operationArea'])->findOrFail(decrypt($id));
         $data['country_name'] = $data->country?->name;
         $data['state_name'] = $data->state?->name;
         $data['city_name'] = $data->city?->name;
@@ -145,8 +203,8 @@ class HubController extends Controller
     public function edit(string $id)
     {
         $data['hub'] = Hub::findOrFail(decrypt($id));
-        $data['countries'] = Country::active()->select('id','name','slug')->orderBy('name')->get();
-        return view('backend.admin.hub_management.hub.edit',$data);
+        $data['countries'] = Country::active()->select('id', 'name', 'slug')->orderBy('name')->get();
+        return view('backend.admin.hub_management.hub.edit', $data);
     }
 
     /**
@@ -162,18 +220,17 @@ class HubController extends Controller
         $validated['operation_area_id'] = $request->operation_area;
         $validated['updated_by'] = admin()->id;
         $hub->update($validated);
-        session()->flash('success','hub created successfully!');
+        session()->flash('success', 'hub created successfully!');
         return redirect()->route('hm.hub.index');
-
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id) : RedirectResponse
+    public function destroy(string $id): RedirectResponse
     {
         $seller = Hub::findOrFail(decrypt($id));
-        $seller->update(['deleter_id' => admin()->id, 'deleter_type'=> get_class(admin())]);
+        $seller->update(['deleter_id' => admin()->id, 'deleter_type' => get_class(admin())]);
         $seller->delete();
         session()->flash('success', 'Hub deleted successfully!');
         return redirect()->route('hm.hub.index');
@@ -182,7 +239,7 @@ class HubController extends Controller
     public function status(string $id): RedirectResponse
     {
         $seller = Hub::findOrFail(decrypt($id));
-        $seller->update(['status' => !$seller->status, 'updater_id'=> admin()->id,'updater_type'=> get_class(admin())]);
+        $seller->update(['status' => !$seller->status, 'updater_id' => admin()->id, 'updater_type' => get_class(admin())]);
         session()->flash('success', 'Hub status updated successfully!');
         return redirect()->route('hm.hub.index');
     }

@@ -16,13 +16,9 @@ protected $fillable = [
         'description',
         'status',
 
-        'creater_id',
-        'updater_id',
-        'deleter_id',
-
-        'creater_type',
-        'updater_type',
-        'deleter_type',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     public function productAttribute()
@@ -40,6 +36,8 @@ protected $fillable = [
             'status_btn_label',
             'status_btn_color',
             'status_labels',
+
+            'modified_image',
         ]);
     }
     public const STATUS_ACTIVE = 1;
@@ -109,6 +107,10 @@ protected $fillable = [
     public function getStatusBtnColorAttribute(): string
     {
         return self::getStatusBtnColors()[$this->status] ?? 'btn btn-secondary';
+    }
+     public function getModifiedImageAttribute()
+    {
+        return storage_url($this->image);
     }
 
 }
