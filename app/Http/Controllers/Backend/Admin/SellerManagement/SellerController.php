@@ -35,9 +35,9 @@ class SellerController extends Controller
      */
     public function index(Request $request)
     {
-
+        
         if ($request->ajax()) {
-            $query = Seller::with(['creater', 'country', 'city', 'operationArea', 'oparationSubArea', 'state','hub'])
+            $query = Seller::with(['creater', 'country', 'city', 'operationArea', 'operationSubArea', 'state','hub'])
                 ->orderBy('sort_order', 'asc')
                 ->latest();
             return DataTables::eloquent($query)
@@ -213,12 +213,12 @@ class SellerController extends Controller
      */
     public function show(string $id)
     {
-        $data = Seller::with(['creater', 'updater','city','country','state','operationArea','hub','oparationSubArea',])->findOrFail(decrypt($id));
+        $data = Seller::with(['creater', 'updater','city','country','state','operationArea','hub','operationSubArea',])->findOrFail(decrypt($id));
         $data['country_name'] = $data->country?->name;
         $data['state_name'] = $data->state?->name;
         $data['city_name'] = $data->city?->name;
         $data['operation_area_name'] = $data->operationArea?->name;
-        $data['operation_sub_area_name'] = $data->oparationSubArea?->name;
+        $data['operation_sub_area_name'] = $data->operationSubArea?->name;
         $data['hub_name'] = $data->hub?->name;
         return response()->json($data);
     }
