@@ -12,6 +12,7 @@ class TaxClass extends BaseModel
         'sort_order',
         'name',
         'description',
+        'status',
 
         'created_by',
         'updated_by',

@@ -6,11 +6,19 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="cart-title">{{ __('Hub List') }}</h4>
-                    <x-backend.admin.button :datas="[
-                        'routeName' => 'hm.hub.create',
-                        'label' => 'Add New',
-                        'permissions' => ['hub-create'],
-                    ]" />
+                    <div class="buttons">
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'hm.hub.recycle-bin',
+                            'label' => 'Recycle Bin',
+                            'className' => 'btn-danger',
+                            'permissions' => ['hub.restore'],
+                        ]" />
+                        <x-backend.admin.button :datas="[
+                            'routeName' => 'hm.hub.create',
+                            'label' => 'Add New',
+                            'permissions' => ['hub-create'],
+                        ]" />
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive table-striped datatable">
@@ -66,68 +74,66 @@
 @push('js')
     {{-- Show details scripts --}}
     <script src="{{ asset('modal/details_modal.js') }}"></script>
-     <script>
-
+    <script>
         $(document).on("click", ".view", function() {
             let id = $(this).data("id");
             let route = "{{ route('hm.hub.show', ['id']) }}";
             const detailsUrl = route.replace("id", id);
-            const headers = [
-                    {
-                        label: "Country",
-                        key: "country_name"
-                    },
-                    {
-                        label: "State",
-                        key: "state_name"
-                    },
-                    {
-                        label: "City",
-                        key: "city_name"
-                    },
-                    {
-                        label:"Operation Area",
-                        key: "operation_area_name"
-                    },
+            const headers = [{
+                    label: "Country",
+                    key: "country_name"
+                },
+                {
+                    label: "State",
+                    key: "state_name"
+                },
+                {
+                    label: "City",
+                    key: "city_name"
+                },
+                {
+                    label: "Operation Area",
+                    key: "operation_area_name"
+                },
 
-                    {
-                        label: "Name",
-                        key: "name"
-                    },
-                    {
-                        label: "Slug",
-                        key: "slug"
-                    },
-                    {
-                        label:"Address",
-                        key: "address",
-                    },
-                    {
-                        label: "Status",
-                        key: "status_label",
-                        color: "status_color",
-                    },
-                    {
-                        label:"Description",
-                        key: "description",
-                    },
-                    {
-                        label: "Latitude",
-                        key: "latitude"
-                    },
-                    {
-                        label:"Longitude",
-                        key: "longitude",
-                    },
-                    {
-                        label:"Meta Title",
-                        key: "meta_title",
+                {
+                    label: "Name",
+                    key: "name"
+                },
+                {
+                    label: "Slug",
+                    key: "slug"
+                },
+                {
+                    label: "Address",
+                    key: "address",
+                },
+                {
+                    label: "Status",
+                    key: "status_label",
+                    color: "status_color",
+                },
+                {
+                    label: "Description",
+                    key: "description",
+                },
+                {
+                    label: "Latitude",
+                    key: "latitude"
+                },
+                {
+                    label: "Longitude",
+                    key: "longitude",
+                },
+                {
+                    label: "Meta Title",
+                    key: "meta_title",
 
-                    },
-                    {
-                        label:"Meta Description",
-                        key: "meta_description",
-                    },
+                },
+                {
+                    label: "Meta Description",
+                    key: "meta_description",
+                },
 
 
 

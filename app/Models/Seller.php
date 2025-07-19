@@ -40,6 +40,13 @@ class Seller extends AuthBaseModel
         'shop_description',
         'business_phone',
 
+        'country_id',
+        'state_id',
+        'city_id',
+        'operation_area_id',
+        'operation_sub_area_id',
+        'hub_id',
+
         'creater_id',
         'updater_id',
         'deleter_id',
@@ -90,6 +97,10 @@ class Seller extends AuthBaseModel
     {
         return $this->belongsTo(Country::class, 'country_id');
     }
+    public function state (): BelongsTo
+    {
+        return $this->belongsTo(State::class, 'state_id');
+    }
     public function city (): BelongsTo
     {
         return $this->belongsTo(City::class, 'city_id');
@@ -97,5 +108,13 @@ class Seller extends AuthBaseModel
     public function hub (): BelongsTo
     {
         return $this->belongsTo(Hub::class, 'hub_id');
+    }
+    public function operationArea (): BelongsTo
+    {
+        return $this->belongsTo(OperationArea::class, 'operation_area_id');
+    }
+    public function oparationSubArea (): BelongsTo
+    {
+        return $this->belongsTo(OperationSubArea::class, 'operation_sub_area_id');
     }
 }

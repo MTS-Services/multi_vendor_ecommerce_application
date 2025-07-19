@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <form action="{{ route('setup.operation-area.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group">
+                         <div class="form-group">
                             <label>{{ __('Country') }} <span class="text-danger">*</span></label>
                             <select name="country" id="country" class="form-control">
                                 <option value="" selected hidden>{{__('Select Country')}}</option>
@@ -73,13 +73,17 @@
     <script>
          // Get Country States By Axios
         $(document).ready(function() {
-            $('#country').on('change', function () {
-                let route1 = "{{ route('axios.get-cities') }}";
+              $('#country').on('change', function () {
+                let route1 = "{{ route('axios.get-states-or-cities') }}";
                 getStatesOrCity($(this).val(), route1);
             });
             $('#state').on('change', function () {
-                let route2 = "{{ route('axios.get-states-or-cities') }}";
+                let route2 = "{{ route('axios.get-cities') }}";
                 getCities($(this).val(), route2);
+            });
+            $('#city').on('change', function () {
+                let route3 ="{{ route('axios.get-operation-areas') }}";
+                getOperationAreas($(this).val(), route3);
             });
         });
     </script>
