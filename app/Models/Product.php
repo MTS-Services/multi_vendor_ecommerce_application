@@ -31,7 +31,30 @@ class Product extends BaseModel
         'creater_id',
         'updater_id',
         'deleter_id',
+        'creater_type',
+        'updater_type',
+        'deleter_type',
     ];
+
+    // relation
+    public function seller()
+    {
+        return $this->belongsTo(Seller::class, 'seller_id');
+    }
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'brand_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function taxClass()
+    {
+        return $this->belongsTo(TaxClass::class, 'tax_class_id');
+    }
 
      public function __construct(array $attributes = [])
     {
@@ -165,7 +188,7 @@ class Product extends BaseModel
     public static function getFeaturedBtnLabels(): array
     {
         return [
-            self::FEATURED => 'Remove From Featured',
+            self::FEATURED => 'Not Featured',
             self::NOT_FEATURED => 'Make Featured',
         ];
     }
@@ -246,7 +269,7 @@ class Product extends BaseModel
     public static function getPublishedBtnLabels(): array
     {
         return [
-            self::PUBLISHED => 'Remove From Published',
+            self::PUBLISHED => 'Not Published',
             self::NOT_PUBLISHED => 'Make Published',
         ];
     }
