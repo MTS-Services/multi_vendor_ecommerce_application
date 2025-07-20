@@ -7,15 +7,17 @@ use App\Models\Seller;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\TaxClass;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\Seller\ProductRequest;
+use App\Http\Traits\DetailsCommonDataTrait;
+use App\Http\Traits\FileManagementTrait;
 use Illuminate\Http\RedirectResponse;
 
 class ProductController extends Controller
 {
+    use FileManagementTrait, DetailsCommonDataTrait;
     public function __construct()
     {
         $this->middleware('auth:seller');
@@ -100,8 +102,8 @@ class ProductController extends Controller
                 ->editColumn('status', fn($product) => "<span class='badge {$product->status_color}'>{$product->status_label}</span>")
                 ->editColumn('is_featured', fn($product) => "<span class='badge {$product->featured_color}'>{$product->featured_label}</span>")
                 ->editColumn('is_published', fn($product) => "<span class='badge {$product->published_color}'>{$product->published_label}</span>")
-                ->editColumn('deleted_id', fn($product) => $product->creater_name)
-                ->editColumn('deleted_at', fn($product) => $product->created_at_formatted)
+                ->editColumn('deleted_id', fn($product) => $product->deleter_name)
+                ->editColumn('deleted_at', fn($product) => $product->deleted_at_formatted)
                 ->editColumn('action', fn($product) => view('components.backend.seller.action-buttons', ['menuItems' => $this->trashedMenuItems($product)])->render())
                 ->rawColumns(['status', 'is_featured', 'deleted_id', 'deleted_at', 'action', 'is_published', 'seller_id', 'brand_id', 'category_id', 'tax_class_id'])
                 ->make(true);

@@ -31,6 +31,9 @@ class Product extends BaseModel
         'creater_id',
         'updater_id',
         'deleter_id',
+        'creater_type',
+        'updater_type',
+        'deleter_type',
     ];
 
     // relation
@@ -185,7 +188,7 @@ class Product extends BaseModel
     public static function getFeaturedBtnLabels(): array
     {
         return [
-            self::FEATURED => 'Remove From Featured',
+            self::FEATURED => 'Not Featured',
             self::NOT_FEATURED => 'Make Featured',
         ];
     }
@@ -266,7 +269,7 @@ class Product extends BaseModel
     public static function getPublishedBtnLabels(): array
     {
         return [
-            self::PUBLISHED => 'Remove From Published',
+            self::PUBLISHED => 'Not Published',
             self::NOT_PUBLISHED => 'Make Published',
         ];
     }

@@ -27,8 +27,8 @@
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Featured') }}</th>
                                     <th>{{ __('Published') }}</th>
-                                    <th>{{ __('Created By') }}</th>
-                                    <th>{{ __('Created Date') }}</th>
+                                    <th>{{ __('Deleted By') }}</th>
+                                    <th>{{ __('Deleted Date') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>
