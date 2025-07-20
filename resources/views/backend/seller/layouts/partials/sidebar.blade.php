@@ -16,6 +16,10 @@
                     <div class="sb-nav-link-icon"><i class='bx bxs-grid-alt'></i></div>
                     {{ __('Brand') }}
                 </a>
+                <a class="nav-link @if (isset($page_slug) && $page_slug == 'product'|| $page_slug == 'product') active @endif" href="{{ route('seller.pm.product.index') }}">
+                    <div class="sb-nav-link-icon"><i class='bx bxs-grid-alt'></i></div>
+                    {{ __('Product') }}
+                </a>
 
                 {{-- Single Item --}}
                 {{-- <a class="nav-link @if (isset($page_slug) && $page_slug == '') active @endif"
