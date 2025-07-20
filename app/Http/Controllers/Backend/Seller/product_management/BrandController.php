@@ -30,12 +30,14 @@ class BrandController extends Controller
                 ->orderBy('sort_order', 'asc')
                 ->latest();
             return DataTables::eloquent($query)
+
                 ->editColumn('status', function ($brand) {
                     return "<span class='badge " . $brand->status_color . "'>$brand->status_label</span>";
                 })
                 ->editColumn('is_featured', function ($brand) {
                     return "<span class='badge " . $brand->featured_color . "'>$brand->featured_label</span>";
                 })
+                
                 ->editColumn('creater_id', function ($brand) {
                     return $brand->creater_name;
                 })
