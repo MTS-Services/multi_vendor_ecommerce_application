@@ -113,8 +113,17 @@ class Seller extends AuthBaseModel
     {
         return $this->belongsTo(OperationArea::class, 'operation_area_id');
     }
-    public function operationSubArea (): BelongsTo
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function oparationSubArea (): BelongsTo
     {
         return $this->belongsTo(OperationSubArea::class, 'operation_sub_area_id');
+    }
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
     }
 }
