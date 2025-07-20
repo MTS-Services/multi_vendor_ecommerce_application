@@ -9,7 +9,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card m-3">
                 <div class="card-header">
                     <h4>{{ __('Edit Product Information') }}</h4>
                 </div>

@@ -12,7 +12,7 @@
         <div class="row">
             {{-- Left: Product Info --}}
             <div class="col-md-12">
-                <div class="card">
+                <div class="card m-3">
                     <div class="card-header">
                         <h4>{{ __('Product Information') }}</h4>
                     </div>

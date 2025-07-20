@@ -102,10 +102,10 @@ class ProductController extends Controller
                 ->editColumn('status', fn($product) => "<span class='badge {$product->status_color}'>{$product->status_label}</span>")
                 ->editColumn('is_featured', fn($product) => "<span class='badge {$product->featured_color}'>{$product->featured_label}</span>")
                 ->editColumn('is_published', fn($product) => "<span class='badge {$product->published_color}'>{$product->published_label}</span>")
-                ->editColumn('deleted_id', fn($product) => $product->deleter_name)
+                ->editColumn('deleter_id', fn($product) => $product->deleter_name)
                 ->editColumn('deleted_at', fn($product) => $product->deleted_at_formatted)
                 ->editColumn('action', fn($product) => view('components.backend.seller.action-buttons', ['menuItems' => $this->trashedMenuItems($product)])->render())
-                ->rawColumns(['status', 'is_featured', 'deleted_id', 'deleted_at', 'action', 'is_published', 'seller_id', 'brand_id', 'category_id', 'tax_class_id'])
+                ->rawColumns(['status', 'is_featured', 'deleter_id', 'deleted_at', 'action', 'is_published', 'seller_id', 'brand_id', 'category_id', 'tax_class_id'])
                 ->make(true);
         }
         return view('backend.seller.product_management.product.recycle-bin');
