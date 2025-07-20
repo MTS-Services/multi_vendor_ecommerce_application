@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Product;
 use App\Models\Seller;
 use App\Models\TaxClass;
 use Illuminate\Database\Seeder;
@@ -52,6 +53,7 @@ class DatabaseSeeder extends Seeder
             SellerSeeder::class,
             StaffSeeder::class,
             PersonalInformationSedder::class,
+            ProductSeeder::class,
         ]);
     }
 }
